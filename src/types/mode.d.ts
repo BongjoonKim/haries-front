@@ -1,3 +1,5 @@
+import {ComponentClass, FunctionComponent, JSXElementConstructor, ReactElement} from "react";
+
 declare namespace ModeComponent {
     type ModeStatusOptions = {
         dependent ?: Record<string, ModeComponent.DependentContent>;
@@ -76,7 +78,7 @@ declare namespace ModeComponent {
         name : N;
         title ?: string;
         status : ModeComponent.ModeStatus<N>;
-        onCLoseMode : ModeComponent.onCloseMode<N>;
+        onCloseMode : ModeComponent.onCloseMode<N>;
         taskItems ?: ModeTaskItems<N>;
         onAddTaskItem ?: onAddTaskItem<N>;
         onRemoveTaskItem : onRemoveTaskItem<N>;
@@ -86,5 +88,94 @@ declare namespace ModeComponent {
         size ?: ModeComponent.BoxSize;
         dependent ?: boolean;
         children : React.ReactNode;
+    }
+
+    interface ModeBoxProps<T = string, N = string> {
+        type : T;
+        name : N;
+        title ?: string;
+        status : ModeComponent.ModeStatus<N>;
+        onCloseMode : ModeComponent.handleCloseMode;
+        onAddTaskItem ?: ModeComponent.onAddTaskItem<N>;
+        onActiveSequenceMode ?: onActiveSequenceMode<N>;
+        taskItems ?: ModeTaskItems<N>;
+        showTimeCount ?: number;
+        children : React.ReactNode;
+        size ?: ModeComponent.BoxSize;
+        dependent ?: boolean;
+    }
+
+    interface ModeOverlayProps<T = string, N = string> {
+        type : T;
+        name : N;
+        status : ModeComponent.ModeStatus<N>;
+        onCloseMode : ModeComponent.handleCloseMode;
+    }
+}
+
+declare namespace ModeFrame {
+    interface DialogConstruct {
+        title ?: string;
+        aside ?: ReactElement<any, string | JSXElementConstructor<any>>;
+        body ?: ReactElement<any, string | JSXElementConstructor<any>>;
+        footer ?: ReactElement<any, string | JSXElementConstructor<any>>;
+    }
+
+    interface DialogProps<T = string, N = string> extends ModeComponent.ModeProps<T, N> {
+        showTimeCount ?: number;
+        children ?: ReactElement<any, string | JSXElementConstructor<any>>;
+        construct ?: DialogConstruct;
+        onCloseDependentMode ?: ModeComponent.onCloseDependentMode<N>;
+    }
+
+    interface DialogContent<N> {
+        children ?: ReactElement<any, string | JSXElementConstructor<any>>;
+        construct ?: DialogConstruct;
+        onCloseDependentMode ?: ModeComponent.onCloseDependentMode<N>;
+        name : N;
+        status : ModeComponent.ModeStatus<N>;
+    }
+
+    interface DialogDependentMode<N> {
+        onCloseDependentMode ?: ModeComponent.onCloseDependentMode<N>;
+        name : N;
+        status : ModeComponent.ModeStatus<N>;
+    }
+}
+
+declare namespace ModeRouterComponent {
+    interface ModeRouterProps<T = string, N = string > {
+        status : ModeComponent.ModeStatus<N>;
+        onCloseMode : (name : N) => void;
+        onShowMode : ModeComponent.onShowMode<N>;
+        taskItems ?: ModeComponent.ModeTaskItems<N>;
+        onAddTaskItem ?: ModeComponent.onAddTaskItem<N>;
+        onRemoveTaskItem ?: ModeComponent.onRemoveTaskItem<N>;
+        onActiveSequenceMode ?: ModeComponent.onActiveSequenceMode<N>;
+        onShowDependentMode ?: ModeComponent.onShowDependentMode<N>;
+        onCloseDependentMode ?: ModeComponent.onCloseDependentMode<N>;
+        activeSequence ?: N[];
+        action ?: {type : string};
+        children : JSX.Element[];
+    }
+
+    interface ModeRouterProps<T = string, N = string> {
+        component : FunctionComponent | ComponentClass;
+        title ?: string;
+        name : N;
+        type : T;
+    }
+}
+
+declare namespace ModeContent {
+    interface ModeExtendContentProps {
+        mode ?: {
+            type : string;
+            status : ModeComponent.ModeStatus<N>;
+            statusItem : ModeComponent.ModeStatusItem<N>;
+            onCloseMode : (name?: N) => void;
+            onShowMode : ModeComponent.onShowMode<N>;
+            action ?: { type : string };
+        }
     }
 }
