@@ -1,7 +1,12 @@
 import {ModeComponent, ModeContent} from "../../../types/mode";
 import {useMemo} from "react";
 import {ModeTypes} from "./router/generate";
+import MemoGeneralize from "../../renderers/MemoGeneralize";
 import styled from "styled-components";
+import converter from "../../../utilities/converter";
+import ModeBox from "./ModeBox/ModeBox";
+import ModeOverlay from "./ModeOverlay";
+import ModeTaskBar from "./ModeTaskBar";
 
 function Mode<T, N>({
     type,
@@ -26,7 +31,7 @@ function Mode<T, N>({
         return initialActiveIndex;
     }, [activeSequence, name, type]);
 
-    const handleClose = () => onCloseMode?.(name);
+    const handleCloseMode = () => onCloseMode?.(name);
 
     const handleActiveSequenceMode = (name:N) => {
         if (String(type)?.includes(ModeTypes.MODELESS) && activeSequence?.indexOf(name) !== 0) {
@@ -35,10 +40,44 @@ function Mode<T, N>({
     };
 
     return (
-        <ModeWrapper>
-
+        <ModeWrapper
+            tabIndex={-1}
+            className={converter.classNames([
+                "mode",
+                String(type)?.includes(ModeTypes.MODELESS) ? "modeless" : "modal",
+            ])}
+            activeIndex={activeIndex}
+            active={String(name) in status}
+            dependent={dependent}
+            onMouseDown={() => handleActiveSequenceMode?.(name)}
+        >
+            {String(type)?.includes(ModeTypes.MODAL) && (
+                <ModeOverlay<T, N> type={type} name={name} status={status} onCloseMode={handleCloseMode} />
+            )}
+            <ModeBox<T, N>
+                type={type}
+                name={name}
+                title={title}
+                status={status}
+                onCloseMode={handleCloseMode}
+                onAddTaskItem={onAddTaskItem}
+                onActiveSequenceMode={onActiveSequenceMode}
+                taskItems={taskItems}
+                showTimeCount={showTimeCount}
+                dependent={dependent}
+                size={size}
+            >
+                {children}
+            </ModeBox>
+            {String(type)?.includes(ModeTypes.MODELESS) && taskItems && onRemoveTaskItem && (
+                <ModeTaskBar
+                    taskItems={taskItems}
+                    onRemoveTaskItem={onRemoveTaskItem}
+                    onCloseMode={handleCloseMode}
+                />
+            )}
         </ModeWrapper>
-    )
+    );
 }
 
 const ModeWapper = styled.div<{

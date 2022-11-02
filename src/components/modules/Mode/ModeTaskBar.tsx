@@ -1,0 +1,71 @@
+import {ModeComponent} from "../../../types/mode";
+import styled from "styled-components";
+
+interface ModeTaskBarProps<N> {
+    taskItems : ModeComponent.ModeTaskItems<N>;
+    onRemoveTaskItem: ModeComponent.onRemoveTaskItem<N>;
+    onCloseMode: ModeComponent.onCloseMode<N>;
+}
+
+interface ModeTaskItemProps<N> {
+    item: ModeComponent.ModeTaskItem<N>;
+    onRemoveTaskItem: ModeComponent.onRemoveTaskItem<N>;
+    onCloseMode: ModeComponent.onCloseMode<N>;
+}
+
+function ModeTaskItem<N>({
+    item,
+     onRemoveTaskItem,
+}: ModeTaskItemProps<N>) {
+    return(
+        <StyledModeTaskItem
+            className="mode-task-item"
+            onClick={() => onRemoveTaskItem(item.name)}
+        >
+            {item.title}
+        </StyledModeTaskItem>
+    )
+}
+
+function ModeTaskBar<N>({
+    taskItems,
+    onRemoveTaskItem,
+    onCloseMode,
+}: ModeTaskBarProps<N>) {
+    return (
+        <StyledModeBar>
+            {Object.keys(taskItems).map(key => (
+                <ModeTaskItem<N>
+                    key={key}
+                    item={taskItems[key as keyof ModeComponent.ModeTaskItems<N>]}
+                    onRemoveTaskItem={onRemoveTaskItem}
+                    onCloseMode={onCloseMode}
+                />
+            ))}
+        </StyledModeBar>
+    )
+}
+
+export default { ModeTaskItem, ModeTaskBar };
+
+const StyledModeTaskItem = styled.button`
+    width: 100px;
+  height: 30px;
+  background: #f0f0f0;
+  border: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: #888;
+`;
+
+const StyledModeBar = styled.div`
+    display: flex;
+  flex-direction: row;
+  position: fixed;
+  bottom: 5px;
+  left: 5px;
+  .mode-task-time ~ .mode-task-item {
+    margin-left: 3px;
+  }`;
