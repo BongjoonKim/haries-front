@@ -1,8 +1,9 @@
-import {createElement} from "react";
+import {createElement, MouseEvent} from "react";
 import {ModeFrame} from "../../../../../types/mode";
 import GlobalModeNames from "../../../../../constants/modes/global-mode.const";
 import Dialog from "./Dialog";
 import {ModeTypes} from "../../router/generate";
+import styled from "styled-components";
 
 function DialogDependentMode<N>({
     status,
@@ -33,3 +34,66 @@ function DialogDependentMode<N>({
         )
     );
 }
+
+function DialogContent<N=string>({
+    children,
+    construct,
+    status,
+    name,
+    onCloseDependentMode,
+} : ModeFrame.DialogContent<N>) {
+    return (
+        <Wrapper onClick={(e : MouseEvent<HTMLDivElement>) => e.stopPropagation()}>
+            {children || (
+                <>
+                    <aside className="dialog-aside">{construct?.aside}</aside>
+                    <header className="dialog-header">{construct?.title}</header>
+                    <div className="dialog-body">{construct?.body}</div>
+                    <footer className="dialog-footer">{construct?.footer}</footer>
+                </>
+            )}
+            <DialogDependentMode name={name} status={status} onCloseDependentMode={onCloseDependentMode} />
+        </Wrapper>
+    )
+}
+
+export default DialogDependentMode;
+
+const Wrapper = styled.div`
+  box-sizing: border-box;
+  height: 100%;
+  .dialog {
+    &-header {
+      font-size: 24px;
+      font-family: inter;
+      font-weight: normal;
+      margin-bottom: 15px;
+    }
+    &-body {
+      padding-bottom: 80px;
+      max-height: 680px;
+      overflow: auto;
+      
+      ::-webkit-scrollbar{
+        width: 5px;
+        height: 5px;
+        position: absolute;
+      }
+      ::-webkit-scrollbar-button:start:decrement,
+      ::-webkit-scrollbar-button:end:increment {
+        display: block;
+        width : 0;
+        heigh : 0;
+        background: url() rgba(0, 0, 0, 0.05);
+      }
+      ::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.07);
+        border-radius: 15px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+      }
+    }
+  }
+`;
