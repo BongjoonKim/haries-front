@@ -7,7 +7,7 @@ interface useDraggableRefProps {
 
 interface useDraggableOptionsProps {
     dragStyle ?: "translate" | "margin";
-    maximaze ?: boolean;
+    maximize ?: boolean;
 }
 
 function useDraggable(
@@ -55,9 +55,9 @@ function useDraggable(
 
     useEffect(() => {
         if (ref.target.current) {
-            const nextDy = options?.maximaze ? 0 : dy;
-            const nextDx = options?.maximaze ? 0 : dx;
-            const nextTransform = options?.maximaze ? "initial" : `translate3d(${dx}px, ${dy}px, 0)`;
+            const nextDy = options?.maximize ? 0 : dy;
+            const nextDx = options?.maximize ? 0 : dx;
+            const nextTransform = options?.maximize ? "initial" : `translate3d(${dx}px, ${dy}px, 0)`;
 
             if (options?.dragStyle !== "margin" ) {
                 ref.target.current.style.transform = nextTransform;
@@ -66,7 +66,7 @@ function useDraggable(
                 ref.target.current.style.marginLeft = `${nextDx}px`;
             }
         }
-    }, [dx, dy, ref.target, options?.dragStyle, options?.maximaze]);
+    }, [dx, dy, ref.target, options?.dragStyle, options?.maximize]);
 }
 
 export default useDraggable;
