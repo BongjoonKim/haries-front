@@ -80,7 +80,7 @@ function Mode<T, N>({
     );
 }
 
-const ModeWapper = styled.div<{
+const ModeWrapper = styled.div<{
     activeIndex?: number;
     dependent?: boolean;
     active?: boolean;
