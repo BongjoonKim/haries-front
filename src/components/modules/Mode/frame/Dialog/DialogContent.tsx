@@ -1,8 +1,8 @@
 import {createElement, MouseEvent} from "react";
 import {ModeFrame} from "../../../../../types/mode";
 import GlobalModeNames from "../../../../../constants/modes/global-mode.const";
-import Dialog from "./Dialog";
-import {ModeTypes} from "../../router/generate";
+import {ModeTypes, Dialog } from "../../index";
+
 import styled from "styled-components";
 
 function DialogDependentMode<N>({
@@ -16,7 +16,7 @@ function DialogDependentMode<N>({
 
     return (
         dependent?.[GlobalModeNames.DEPENDENT_MODE] && (
-            <Dialog <ModeTypes, GlobalModeNames>
+            <Dialog<ModeTypes, GlobalModeNames>
                 type = {ModeTypes.MODAL}
                 name = {GlobalModeNames.DEPENDENT_MODE}
                 children={
@@ -35,7 +35,7 @@ function DialogDependentMode<N>({
     );
 }
 
-function DialogContent<N=string>({
+export default function DialogContent<N=string>({
     children,
     construct,
     status,
@@ -57,15 +57,13 @@ function DialogContent<N=string>({
     )
 }
 
-export default DialogDependentMode;
-
 const Wrapper = styled.div`
   box-sizing: border-box;
   height: 100%;
   .dialog {
     &-header {
       font-size: 24px;
-      font-family: inter;
+      font-family: inherit;
       font-weight: normal;
       margin-bottom: 15px;
     }
@@ -83,8 +81,8 @@ const Wrapper = styled.div`
       ::-webkit-scrollbar-button:end:increment {
         display: block;
         width : 0;
-        heigh : 0;
-        background: url() rgba(0, 0, 0, 0.05);
+        height : 0;
+        background: rgba(0, 0, 0, 0.05);
       }
       ::-webkit-scrollbar-track {
         background: rgba(0, 0, 0, 0.07);

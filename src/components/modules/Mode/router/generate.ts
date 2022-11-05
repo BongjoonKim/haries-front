@@ -1,5 +1,5 @@
 import {Schema} from "inspector";
-import React, {createElement, JSXElementConstructor, ReactElement} from "react";
+import {createElement, JSXElementConstructor, ReactElement} from "react";
 import Dialog from "../frame/Dialog";
 
 export type Schema =
@@ -24,9 +24,8 @@ export default function generate<T, N>(
         onAddTaskItem,
         onRemoveTaskItem,
         onActiveSequenceMode,
-        activeSequenceMode,
         activeSequence,
-        onShwoDependentMode,
+        onShowDependentMode,
         onCloseDependentMode
     } = action.payload;
 
@@ -57,7 +56,7 @@ export default function generate<T, N>(
                                 (typeof name === "string" && name) || item.props.name
                             ),
                         onShowMode,
-                        onShwoDependentMode,
+                        onShowDependentMode,
                         onCloseDependentMode
                     },
                     ...status?.[name]?.props
@@ -68,7 +67,7 @@ export default function generate<T, N>(
                 case ModeTypes.MODAL:
                     return list.concat(
                         createElement(
-                            Dialog<T, N>,
+                            Dialog,
                             {
                                 ...commonProps.dialog
                             },
@@ -79,7 +78,7 @@ export default function generate<T, N>(
                     );
                 case ModeTypes.MODELESS:
                     return list.concat(
-                        Dialog<T, N>,
+                        Dialog,
                         {
                             title,
                             ...commonProps.dialog,

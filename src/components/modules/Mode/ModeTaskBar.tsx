@@ -27,7 +27,7 @@ function ModeTaskItem<N>({
     )
 }
 
-function ModeTaskBar<N>({
+export default function ModeTaskBar<N>({
     taskItems,
     onRemoveTaskItem,
     onCloseMode,
@@ -45,8 +45,6 @@ function ModeTaskBar<N>({
         </StyledModeBar>
     )
 }
-
-export default { ModeTaskItem, ModeTaskBar };
 
 const StyledModeTaskItem = styled.button`
     width: 100px;

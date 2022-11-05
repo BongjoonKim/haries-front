@@ -129,7 +129,7 @@ const ModeWrapper = styled.div<{
         display: block;
         width: 0;
         height: 0;
-        background: url() rgba(0, 0, 0, 0.05);
+        background: rgba(0, 0, 0, 0.05);
       }
       ::-webkit-scrollbar-track {
         background: rgba(0, 0, 0, 0.07);

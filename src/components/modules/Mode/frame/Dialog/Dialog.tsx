@@ -1,5 +1,6 @@
 import {ModeFrame} from "../../../../../types/mode";
 import DialogContent from "./DialogContent";
+import Mode from "../../index";
 
 export default function Dialog<T = string, N = string>({
     type,
@@ -26,7 +27,7 @@ export default function Dialog<T = string, N = string>({
             title={title}
             status={status}
             onCloseMode={onCloseMode}
-            taskItem={taskItems}
+            taskItems={taskItems}
             onAddTaskItem={onAddTaskItem}
             onRemoveTaskItem={onRemoveTaskItem}
             onActiveSequenceMode={onActiveSequenceMode}

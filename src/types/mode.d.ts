@@ -1,4 +1,5 @@
 import {ComponentClass, FunctionComponent, JSXElementConstructor, ReactElement} from "react";
+import {ModeTypes} from "../components/modules/Mode/router/generate";
 
 declare namespace ModeComponent {
     type ModeStatusOptions = {
@@ -81,8 +82,8 @@ declare namespace ModeComponent {
         onCloseMode : ModeComponent.onCloseMode<N>;
         taskItems ?: ModeTaskItems<N>;
         onAddTaskItem ?: onAddTaskItem<N>;
-        onRemoveTaskItem : onRemoveTaskItem<N>;
-        onActiveSequenceMode : onActiveSequenceMode<N>;
+        onRemoveTaskItem ?: onRemoveTaskItem<N>;
+        onActiveSequenceMode ?: onActiveSequenceMode<N>;
         activeSequence ?: N[];
         showTimeCount ?: number;
         size ?: ModeComponent.BoxSize;
@@ -144,7 +145,7 @@ declare namespace ModeFrame {
 }
 
 declare namespace ModeRouterComponent {
-    interface ModeRouterProps<T = string, N = string > {
+    interface ModeRouterProps<N = string > {
         status : ModeComponent.ModeStatus<N>;
         onCloseMode : (name : N) => void;
         onShowMode : ModeComponent.onShowMode<N>;
@@ -159,8 +160,8 @@ declare namespace ModeRouterComponent {
         children : JSX.Element[];
     }
 
-    interface ModeRouterProps<T = string, N = string> {
-        component : FunctionComponent | ComponentClass;
+    interface ModeRouteProps<T = ModeTypes, N = string> {
+        component : any;
         title ?: string;
         name : N;
         type : T;
