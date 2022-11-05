@@ -1,8 +1,7 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import IntroPage from "./pages/IntroPage";
-import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import {BrowserRouter, BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import UniversalContainer from "./containers/universal/UniversalContainer";
 
 function App() {
@@ -10,9 +9,9 @@ function App() {
       <Router>
           <UniversalContainer>
               <Routes>
-                  <Route path="/main" element={<IntroPage />} />
+                  <Route path="/" element={<IntroPage />} />
               </Routes>
-          </UniversalContainer>
+          </ UniversalContainer>
       </Router>
   );
 }

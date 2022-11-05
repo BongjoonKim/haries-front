@@ -1,4 +1,4 @@
-import {ReactNode, useEffect} from "react";
+import {ReactNode, useCallback, useEffect, useLayoutEffect} from "react";
 import {useNavigate, useLocation} from "react-router-dom";
 import useUser from "../../hooks/users/useUser";
 import classNames from "classnames";
@@ -6,6 +6,7 @@ import styled from "styled-components";
 import {ModeProvider, ModeTypes} from "../../components/modules/Mode";
 import useGlobalMode from "../mode/useGlobalMode";
 import GlobalModeNames from "../../constants/modes/global-mode.const";
+import extractorUtil from "../../utilities/extractorUtil";
 
 function UniversalContainer(props : {children : ReactNode}) {
     const navigate = useNavigate();
@@ -26,24 +27,36 @@ function UniversalContainer(props : {children : ReactNode}) {
     //     }
     // })
 
-    const { getGlobalModeProps } = useGlobalMode<GlobalModeNames>()
+    const { getGlobalModeProps } = useGlobalMode<GlobalModeNames>();
+    const handleGetConnectExplorerID = useCallback(() => {
+        if (location.search) {
+            const searchParams = new URLSearchParams(location.search);
+            if (searchParams.get("types")) {
+                document.body.style.minWidth = "initial";
+            }
+        }
+    }, [location.search]);
+
+    useLayoutEffect(() => handleGetConnectExplorerID(), [handleGetConnectExplorerID, location]);
+
 
     return (
         <>
             <Universal
                 id="universal-container"
+                independent={extractorUtil.getQueryParameterValue("type") === "independent"}
             >
-                <ModeProvider value={{...getGlobalModeProps()}}>
-                </ModeProvider>
+                {props.children}
             </Universal>
         </>
+
     )
 
 }
 
 export default UniversalContainer;
 
-const Universal = styled.div`
+const Universal = styled.div<{independent?: boolean}>`
   height: 100%;
   width: 100%;
 `;
