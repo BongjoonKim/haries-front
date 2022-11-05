@@ -17,7 +17,10 @@ root.render(
       {/*        <App />*/}
       {/*    </RecoilRoot>*/}
       {/*</Provider>*/}
-      <App />
+      <RecoilRoot>
+          <App />
+      </RecoilRoot>
+
   </React.StrictMode>
 );
 

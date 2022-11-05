@@ -7,6 +7,19 @@ import {ModeProvider, ModeTypes} from "../../components/modules/Mode";
 import useGlobalMode from "../mode/useGlobalMode";
 import GlobalModeNames from "../../constants/modes/global-mode.const";
 import extractorUtil from "../../utilities/extractorUtil";
+import ExtractorUtil from "../../utilities/extractorUtil";
+import GlobalContainer from "../global/Global/GlobalContainer";
+
+function UniversalBranch(props: {children: ReactNode}) {
+    return (() => {
+        switch (ExtractorUtil.getQueryParameterValue("type")) {
+            case "independent":
+                return <></>
+            default:
+                return <GlobalContainer>{props.children}</GlobalContainer>
+        }
+    })();
+}
 
 function UniversalContainer(props : {children : ReactNode}) {
     const navigate = useNavigate();
@@ -40,15 +53,21 @@ function UniversalContainer(props : {children : ReactNode}) {
     useLayoutEffect(() => handleGetConnectExplorerID(), [handleGetConnectExplorerID, location]);
 
 
+
     return (
         <>
-            <Universal
-                id="universal-container"
-                independent={extractorUtil.getQueryParameterValue("type") === "independent"}
-            >
-                {props.children}
-            </Universal>
+            {/*<Universal*/}
+            {/*    id="universal-container"*/}
+            {/*    independent={extractorUtil.getQueryParameterValue("type") === "independent"}*/}
+            {/*>*/}
+            {/*    <UniversalBranch children={props.children} />*/}
+
+            {/*</Universal>*/}
+            {props.children}
+
+
         </>
+
 
     )
 
