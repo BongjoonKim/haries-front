@@ -2,8 +2,9 @@ import {Dispatch, SetStateAction, MutableRefObject} from "react";
 import styled from "styled-components";
 import Button from "../../../elements/Button/Button";
 import {ModeComponent} from "../../../../types/mode";
-import {AiOutlineLine, VscChromeClose, VscChromeMaximize} from "react-icons/all";
-import {BiWindows} from "react-icons/all";
+import { VscChromeClose, VscChromeMaximize} from "react-icons/vsc";
+import {AiOutlineLine} from "react-icons/ai";
+import {BiWindows} from "react-icons/bi";
 
 interface ModeBoxHeaderProps<N> {
     onCloseMode: ModeComponent.handleCloseMode;

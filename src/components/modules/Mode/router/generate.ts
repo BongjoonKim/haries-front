@@ -1,4 +1,3 @@
-import {Schema} from "inspector";
 import {createElement, JSXElementConstructor, ReactElement} from "react";
 import Dialog from "../frame/Dialog";
 

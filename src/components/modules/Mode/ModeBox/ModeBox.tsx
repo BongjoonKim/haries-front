@@ -5,7 +5,7 @@ import styled, { css } from "styled-components";
 import converter from "../../../../utilities/converter";
 import {ModeTypes} from "../router/generate";
 import Button from "../../../elements/Button/Button";
-import {VscChromeClose} from "react-icons/all";
+import {VscChromeClose} from "react-icons/vsc";
 import ModeBoxHeader from "./ModeBoxHeader";
 import ModeResizer from "./ModeResizer";
 

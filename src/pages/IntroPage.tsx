@@ -6,6 +6,7 @@ function IntroPage() {
     return (
         <header>
             <Navbar />
+            안녕
             <MainPage />
         </header>
     );
