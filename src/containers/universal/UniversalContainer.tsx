@@ -9,6 +9,7 @@ import GlobalModeNames from "../../constants/modes/global-mode.const";
 import extractorUtil from "../../utilities/extractorUtil";
 import ExtractorUtil from "../../utilities/extractorUtil";
 import GlobalContainer from "../global/Global/GlobalContainer";
+import messengerUtil from "../../utilities/messengerUtil";
 
 function UniversalBranch(props: {children: ReactNode}) {
     return (() => {
@@ -34,11 +35,19 @@ function UniversalContainer(props : {children : ReactNode}) {
     });
 
     // 로그인 여부 effect
-    // useEffect(() => {
-    //     if (!isLoginExcludePath && !isLogin) {
-    //
-    //     }
-    // })
+    useEffect(() => {
+        if (!isLoginExcludePath && !isLogin) {
+            messengerUtil.showMessageBox({
+                text: "인증되지 않은 접근입니다.",
+                visible: true
+            });
+
+            setTimeout(() => {
+                // 로그인 사용자 페이지 보여주기;
+                alert("로그인 페이지 개발 예정")
+            }, 250)
+        }
+    }, [isLogin, isLoginExcludePath]);
 
     const { getGlobalModeProps } = useGlobalMode<GlobalModeNames>();
     const handleGetConnectExplorerID = useCallback(() => {
@@ -55,20 +64,9 @@ function UniversalContainer(props : {children : ReactNode}) {
 
 
     return (
-        <>
-            {/*<Universal*/}
-            {/*    id="universal-container"*/}
-            {/*    independent={extractorUtil.getQueryParameterValue("type") === "independent"}*/}
-            {/*>*/}
-            {/*    <UniversalBranch children={props.children} />*/}
-
-            {/*</Universal>*/}
-            {props.children}
-
-
-        </>
-
-
+        <Universal>
+            <UniversalBranch children={props.children} />
+        </Universal>
     )
 
 }

@@ -3,3 +3,5 @@ interface StoreAction<T> {
     payload ?: T["payload"] | any;
     error ?: boolean;
 }
+
+type locale = 'en' | 'ko';
