@@ -23,3 +23,16 @@ export const enum ItemKeys {
     options = "options",
     children = "children"
 }
+
+export const degree = [
+    "primary",
+    "secondary",
+    "tertiary",
+    "quaternary",
+    "quinary",
+    "senary",
+    "septenary",
+    "octonary",
+    "nonary",
+    "denary"
+]
