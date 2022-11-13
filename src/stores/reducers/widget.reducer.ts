@@ -1,4 +1,4 @@
-import {widget, ActionTypes } from "../widget.action";
+import {widget, ActionTypes } from "../actions/widget.action";
 
 const initialState = {
     message : {

@@ -7,16 +7,16 @@ export const portal = {
 
 // action creators
 export const portalActions = {
-    initialize() {
+    initialize: () => {
         return { type : portal.INITIALIZE };
     },
-    setDialogStatus(params: Modal.status) {
+    setDialogStatus: (params: Modal.status) => {
         return { type : portal.SET_DIALOG, payload : params }
     },
-    addPopupStatus(params : Popup.statusParams) {
+    addPopupStatus: (params : Popup.statusParams) => {
         return { type : portal.ADD_POPUP, payload : params }
     },
-    removePopupStatus(params : Popup.statusParams) {
+    removePopupStatus: (params : Popup.statusParams) => {
         return {type: portal.REMOVE_POPUP, payload: params}
     }
 };
@@ -25,4 +25,4 @@ export type ActionTypes =
     | ReturnType<typeof portalActions.initialize>
     | ReturnType<typeof portalActions.setDialogStatus>
     | ReturnType<typeof portalActions.addPopupStatus>
-    | ReturnType<typeof portalActions.removePopupStatus>
+    | ReturnType<typeof portalActions.removePopupStatus>;

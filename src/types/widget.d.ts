@@ -53,7 +53,7 @@ declare namespace Popup {
 
     type boxSize = {
         width ?: number | string;
-        heigh ?: number | string;
+        height ?: number | string;
     };
 }
 

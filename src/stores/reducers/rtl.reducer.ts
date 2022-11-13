@@ -1,4 +1,4 @@
-import {CHANGE_DIRECTION_TO_RTL, CHANGE_DIRECTION_TO_LTR } from "../rtlActions";
+import {CHANGE_DIRECTION_TO_RTL, CHANGE_DIRECTION_TO_LTR } from "../actions/rtlActions";
 
 const initialState = {
     direction : "ltr"

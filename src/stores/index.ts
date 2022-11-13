@@ -1,11 +1,13 @@
 import {configureStore} from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
-import logger from "redux";
-import * as rootReducers from "./actions/reducers"
+import {widget} from "./reducers";
+import {portal} from "./reducers";
 
+// @ts-ignore
 const store = configureStore({
     reducer: {
-        ...rootReducers
+        widget,
+        portal
     },
     devTools: process.env.NODE_ENV !== "production",
     middleware: [thunk]

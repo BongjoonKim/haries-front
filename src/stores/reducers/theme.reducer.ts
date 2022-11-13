@@ -1,4 +1,4 @@
-import {CHANGE_THEME_TO_DARK, CHANGE_THEME_TO_LIGHT} from "../themeActions";
+import {CHANGE_THEME_TO_DARK, CHANGE_THEME_TO_LIGHT} from "../actions/themeActions";
 
 const initialState = {
     className: "light"

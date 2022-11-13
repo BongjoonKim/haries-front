@@ -1,7 +1,7 @@
-import { portal, ActionTypes } from "../portal.action";
-import {actionType as mode} from "../../../components/modules/Mode";
-import {ModeComponent} from "../../../types/mode";
-import converter from "../../../utilities/converter";
+import { portal, ActionTypes } from "../actions/portal.action";
+import {actionType as mode} from "../../components/modules/Mode";
+import {ModeComponent} from "../../types/mode";
+import converter from "../../utilities/converter";
 
 type InitialState = {
     dialog : {
@@ -12,13 +12,13 @@ type InitialState = {
     };
     popup : Popup.status;
     mode : {
-        activeSequence : never[] | string[];
+        activeSequence : any[];
         taskItems : ModeComponent.ModeTaskItems;
     }
 }
 
 // initial state
-const initialState : InitialState = {
+const initialState : any = {
     dialog : {
         id : "",
         options : {}
@@ -58,7 +58,7 @@ export default function portalReducers(
                 mode: {
                     ...state.mode,
                     activeSequence: state.mode.activeSequence.filter(
-                        val => val !== action.payload.name
+                        (val: any) => val !== action.payload.name
                     )
                 }
             }
