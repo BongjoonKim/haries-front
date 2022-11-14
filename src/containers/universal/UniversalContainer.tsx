@@ -29,10 +29,6 @@ function UniversalContainer(props : {children : ReactNode}) {
     // 사용자 정보 hook
     const {isLogin, isLoginExcludePath} = useUser();
 
-    // universal-container class 설정
-    const userversalClass = classNames({
-        "sidbar-enable" : true,
-    });
 
     // 로그인 여부 effect
     useEffect(() => {
