@@ -1,10 +1,12 @@
 import {NavigatorCommonProps, NavigatorItemProps} from "./types";
 import {useUserMainMenu} from "../../../../hooks/users/useUserMainMenu";
-import {useCallback, useMemo} from "react";
+import {createElement, useCallback, useMemo} from "react";
 import useClickOutside from "../../../../hooks/sensor/useClickOutside";
 import {useTransition} from "react-spring";
 import converter from "../../../../utilities/converter";
 import styled from "styled-components";
+import {BsDot, MdKeyboardArrowRight} from "react-icons/all";
+import {animated} from "react-spring";
 
 function NavigatorItem(props: NavigatorItemProps) {
     const {activeMenuItemVO, linkMenu} = useUserMainMenu();
@@ -77,8 +79,59 @@ function NavigatorItem(props: NavigatorItemProps) {
     }, [props.type])
 
     return (
-        <StyledNavigator>
-
+        <StyledNavigator
+            onClick={() => Promise.resolve(props.onSetStatus(props.type, props.item.id as string)).then(() => {
+                if (props.item.children?.length === 0) props.onResetStatus();
+            })}
+            className={handleClassNames()}
+        >
+            <div
+                role="button"
+                onClick={() => linkMenu(props.item)}
+                className={converter.classNames(["nav-link",props.type, menuActiveClass])}
+            >
+                <div className = "nav-link-start">
+                    {props.type !== "primary" &&
+                        (Array.isArray(props.item.children) && props.item.children.length < 0 ? (
+                            <StyledDot>
+                                <BsDot />
+                            </StyledDot>
+                        ): (
+                            <span>사용자 마이 메뉴 등록하는 곳</span>
+                        ))}
+                    <span className={"nav-link-title"}>{props.item.menuLabel}</span>
+                </div>
+                <div className="nav-link-end">
+                    {props.type !== "primary" &&
+                        Array.isArray(props.item.children) &&
+                        props.item.children.length > 0 && <MdKeyboardArrowRight />
+                    }
+                </div>
+            </div>
+            {transitions(
+                ({opacity}, item) =>
+                    item && (
+                        <animated.div
+                            style={{
+                                opacity: opacity.to({range: [0.0, 0.1], output: [0, 1]})
+                            }}
+                        >
+                            {createElement(StyledNavigatorList, {
+                                className: converter.classNames([
+                                    "nav-list",
+                                    props.type,
+                                    handleRecursiveItemType()
+                                ]),
+                                children: RecursiveMenuItem({
+                                    type: handleRecursiveItemType(),
+                                    status: props.status,
+                                    onSetStatus: props.onSetStatus,
+                                    onResetStatus: props.onResetStatus
+                                })
+                            })}
+                        </animated.div>
+                    ),
+            )}
         </StyledNavigator>
     )
 }
@@ -90,5 +143,21 @@ const StyledNavigator = styled.li`
   .nav-link {
     display: flex;
     align-items: center;
+  }
+`;
+
+const StyledFavorite = styled.span`
+    line-height: 20px;
+    height: 20px;
+`;
+
+const StyledNavigatorList = styled.ul`
+    padding: 12px 0;
+`;
+
+const StyledDot = styled.div`
+    padding: 0 2px;
+  & > svg {
+    margin: -2px 0;
   }
 `;
