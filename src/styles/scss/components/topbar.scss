@@ -1,0 +1,26 @@
+.topbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
+  min-width: 1680px;
+  max-width: 1920px;
+  height: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease-out;
+  z-index: 101;
+  @media screen and (min-width: 1920px) {
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 1px solid #cfd2d4;
+    border-right: 1px solid #cfd2d4;
+  }
+}
+
+.topbar__left {
+  position: absolute;
+  display: flex;
+  height: 100%;
+
+}

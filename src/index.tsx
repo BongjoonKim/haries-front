@@ -12,15 +12,11 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-      {/*<Provider store={stores}>*/}
-      {/*    <RecoilRoot>*/}
-      {/*        <App />*/}
-      {/*    </RecoilRoot>*/}
-      {/*</Provider>*/}
-      <RecoilRoot>
-          <App />
-      </RecoilRoot>
-
+      <Provider store={stores}>
+          <RecoilRoot>
+              <App />
+          </RecoilRoot>
+      </Provider>
   </React.StrictMode>
 );
 

@@ -3,6 +3,9 @@ import {useLayout} from "../../../hooks/layout/useLayout";
 import useUser from "../../../hooks/users/useUser";
 import {useUserMainMenu} from "../../../hooks/users/useUserMainMenu";
 import {Link} from "react-router-dom";
+import Navigator from "../../../components/widgets/Navigator";
+import {useMenuData} from "./useMenuData";
+import "../../../styles/scss/components/topbar.scss"
 
 function GlobalHeader() {
     // 메인 메뉴 로딩 상태
@@ -17,6 +20,8 @@ function GlobalHeader() {
     // 사용자 메인 메뉴 hook
     const { userMainMenuList, initialUserMainMenuList} = useUserMainMenu();
 
+    const menuData = useMenuData;
+
     useEffect(() => {
         if (isLogin) {
             setMainMenuLoading(true);
@@ -29,6 +34,7 @@ function GlobalHeader() {
             <div className="topbar__left">
                 <Link className="tobpar__logo" to="/" />
             </div>
+            {Navigator({items: menuData})}
         </div>
     )
 

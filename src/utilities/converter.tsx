@@ -66,8 +66,57 @@ const objectRemoveKey = (object: Record<PropertyKey, any>, removeKey: Array<stri
     return Object.fromEntries(Object.entries(object).filter(el => el[0] !== removeKey));
 }
 
+function changeObjectValue<T>(state: T, name: string, value: any) {
+    const splitName: string[] | undefined = name?.split(".");
+    if (name?.includes(".") && splitName) {
+        return {
+            ...state,
+            [splitName[0] as keyof T] : {
+                ...(state as Record<PropertyKey, any>)?.[splitName[0]],
+                [splitName[1]]:
+                    splitName.length > 2
+                    ? {
+                        ...(state as Record<PropertyKey, any>)?.[splitName[0]]?.[splitName[1]],
+                        [splitName[2]]: value
+                    }
+                    : value,
+            }
+        }
+    }
+    return state;
+}
+
+function removeObjectKey<T extends {[x: string]: any}>(prevState: T, name: string) {
+    const tempPrevState: T = prevState;
+    if (name?.includes(".")) {
+        const splitName: string[] | undefined = name?.split(".");
+        splitName.reduce((acc: any, cur: string, currentIndex: number) => {
+            if (currentIndex + 1 === splitName.length) delete tempPrevState[acc[cur]];
+            return tempPrevState[acc[cur]];
+        }, {});
+        return tempPrevState;
+    }
+    if (tempPrevState?.[name]) delete tempPrevState[name];
+    return tempPrevState;
+}
+
+function stringObjectKeysToValue<T = {[x: string]:any}, K = string> (
+    object: T,
+    path: keyof T | K,
+) {
+    if (String(path)?.includes(".")) {
+        return String(path)
+            .split(".")
+            .reduce((prev:any, key: string | number) => prev?.[key], object)
+    }
+    return undefined;
+}
+
 export default {
     classNames,
     changeDynamicObjectValue,
-    objectRemoveKey
+    objectRemoveKey,
+    changeObjectValue,
+    removeObjectKey,
+    stringObjectKeysToValue
 }

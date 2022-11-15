@@ -5,7 +5,8 @@ import useClickOutside from "../../../../hooks/sensor/useClickOutside";
 import {useTransition} from "react-spring";
 import converter from "../../../../utilities/converter";
 import styled from "styled-components";
-import {BsDot, MdKeyboardArrowRight} from "react-icons/all";
+import {BsDot} from "react-icons/bs";
+import {MdOutlineArrowRight} from "react-icons/md";
 import {animated} from "react-spring";
 
 function NavigatorItem(props: NavigatorItemProps) {
@@ -97,14 +98,16 @@ function NavigatorItem(props: NavigatorItemProps) {
                                 <BsDot />
                             </StyledDot>
                         ): (
-                            <span>사용자 마이 메뉴 등록하는 곳</span>
+                            <StyledFavorite>
+                                <span>사용자 마이 메뉴 등록하는 곳</span>
+                            </StyledFavorite>
                         ))}
-                    <span className={"nav-link-title"}>{props.item.menuLabel}</span>
+                    <span className="nav-link-title">{props.item.menuLabel}</span>
                 </div>
                 <div className="nav-link-end">
                     {props.type !== "primary" &&
                         Array.isArray(props.item.children) &&
-                        props.item.children.length > 0 && <MdKeyboardArrowRight />
+                        props.item.children.length > 0 && <MdOutlineArrowRight />
                     }
                 </div>
             </div>
@@ -143,6 +146,48 @@ const StyledNavigator = styled.li`
   .nav-link {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    width: 400px;
+    height: 50px;
+    padding: 0 15px;
+    border: 0;
+    outline: none;
+    background-color: #cfd2d4;
+    cursor: pointer;
+    color: #444;
+    font-size: 13px;
+    text-align: left;
+    font-family: "NotoSansCJKkr", "Roboto", "Montserrat", sans-serif;
+    font-weight: 600;
+    box-sizing: border-box;
+    border-radius: 3px;
+    letter-spacing: -0.05rem;
+    &:hover {
+     color: #a50034;
+      background-color: #f4f6f8;
+    }
+    &.is-active,
+    &:active {
+      color: #a50034;
+      background-color: #ffecfa;
+    }
+    &-start,
+    &-end {
+      display: flex;
+      align-items: center;
+    }
+    &-title {
+      margin: 0 50px;
+      font-size: 30px;
+    }
+  }
+  .nav-link.primary {
+    font-size: 0.9357rem;
+    background-color: transparent;
+    overflow: hidden;
+    padding: 0 100px;
+    margin: 0 10px;
+    display: flex;
   }
 `;
 
@@ -152,7 +197,41 @@ const StyledFavorite = styled.span`
 `;
 
 const StyledNavigatorList = styled.ul`
-    padding: 12px 0;
+  padding: 12px 0;
+  display: block;
+  background: #fff;
+  min-width: 200px;
+  position: absolute;
+  width: max-content;
+  box-sizing: border-box;
+  box-shadow: rgb(0 0 0 / 15%) 0 0 30px 0;
+  & .nav-item {
+    padding: 0;
+  }
+  &:empty {
+    display: none;
+  }
+  &.secondary {
+    & > li {
+      position: relative;
+      display: flex;
+      justify-content: flex-end;
+      .nav-link {
+        font-size: 13px;
+        font-weight: initial;
+      }
+    }
+  }
+  &.tertiary,
+  &.quanternary {
+    position: absolute;
+    top: 0px;
+    & > li {
+      position: relative;
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
 `;
 
 const StyledDot = styled.div`
