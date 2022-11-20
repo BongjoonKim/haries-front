@@ -11,3 +11,33 @@ interface ReducerAction<T = string, V = any, K = string> {
     readonly options ?: string;
     readonly error?: boolean;
 }
+
+interface ReducerDispatch<T = string, V = any, K = string> {
+    type: T;
+    value?: V;
+    name?: K | string;
+    payload?: V;
+    checked?: boolean;
+    option?: string;
+}
+
+interface ConnectDispatch<T, K> {
+    handler: (params: ReducerDispatch<T, any, K>) => void;
+}
+
+type DispatchProps<T = string, K = string> = {
+    actionType: T;
+    name: K;
+    value: any;
+    checked?: boolean;
+    actionOptions?: string;
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    dispatch?: React.Dispatch<ReducerAction<T, any, K>>;
+}
+
+type getDispatchProps<T = string, K = string> = (parameters: {
+    name: K;
+    type: T;
+    options?: string;
+    mode?: {checked?: booleand; widget?: boolean};
+}) => DispatchProps<T, K>;

@@ -58,3 +58,10 @@ declare namespace Popup {
 }
 
 type ReturnType<T extends (...args : any ) => any> = T extends  (...args : any ) => infer R ? R : any;
+
+declare namespace Select {
+    type Option<T extends Record<string, any> = {value: string & number; label: string}> = T;
+    type selected<T = Option> = SingleValue<T> | MultiValue<T>;
+    type onChange<T = Option> = (newValue: selected, actionMeta: ActionMeta<T>) => void;
+    type ActionsMeta<T = Option> = ActionMeta<T>
+}
