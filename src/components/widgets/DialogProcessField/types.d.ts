@@ -3,7 +3,7 @@ import {currentStatus} from "../../../constants/types/status.const";
 import React, {Dispatch, SetStateAction} from "react";
 
 export enum DialogProcessType {
-    List_BOX = "DialogProcess/LIST_BOX",
+    LIST_BOX = "DialogProcess/LIST_BOX",
     TEXT_BOX = "DialogProcess/TEXT_BOX"
 }
 
@@ -47,7 +47,7 @@ export interface DialogProcessListProps extends ItemsProps {
     onKeyDown: (index: number) => (event: KeyboardEvent<HTMLLIElement>) => void;
     setSelectedThenCloseDropdown: (index: number) => void;
     isOptionsOpen: boolean;
-    setIsOptionsOpen: boolean;
+    setIsOptionsOpen: Dispatch<SetStateAction<boolean>>;
     selected: number;
     setSelected: Dispatch<SetStateAction<number>>;
 }

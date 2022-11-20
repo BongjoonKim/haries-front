@@ -1,6 +1,7 @@
 import {DialogProcessType, ReturnValue, useDialogProcessFieldProps} from "./types";
 import {useState} from "react";
 import {FormActionTypes} from "../../../reducers/form.reducer";
+import {MouseEvent} from "react";
 
 function useDialogProcessField<T>(props: useDialogProcessFieldProps<T>) {
     const [dialogStatus, setDialogStatus] = useState<Modal.status>({
@@ -44,7 +45,7 @@ function useDialogProcessField<T>(props: useDialogProcessFieldProps<T>) {
     const handleSubmit = (value: ReturnValue) => {
         const name = props.returnName || props.name;
         let type;
-        if (DialogProcessType.List_BOX !== props.type) {
+        if (DialogProcessType.LIST_BOX !== props.type) {
             if (name.includes("=")) type = FormActionTypes.RETURN_CHANGE_SPECIFIED_OBJECT_VALUES;
             else if (name.includes(".")) type = FormActionTypes.CHANGE_OBJECT_VALUE;
             else type = FormActionTypes.REPLACE_ITEM_VALUE;
@@ -59,10 +60,10 @@ function useDialogProcessField<T>(props: useDialogProcessFieldProps<T>) {
     }
 
     const handleRemoveItem =
-        (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => (index: number) => {
+        (event: MouseEvent<HTMLButtonElement, MouseEvent>) => (index: number) => {
             Promise.resolve(
                 handleDispatch({
-                    type: FormActionTypes.ADD_ARRAY_ITEM,
+                    type: FormActionTypes.REMOVE_ARRAY_ITEM,
                     name: `${props.name}.${index}`
                 }),
             ).then(() => {

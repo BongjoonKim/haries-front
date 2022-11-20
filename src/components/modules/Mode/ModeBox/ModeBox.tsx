@@ -9,7 +9,7 @@ import {VscChromeClose} from "react-icons/vsc";
 import ModeBoxHeader from "./ModeBoxHeader";
 import ModeResizer from "./ModeResizer";
 
-function ModalBax<T, N>({
+function ModalBox<T, N>({
     type,
     status,
     name,
@@ -107,7 +107,7 @@ function ModalBax<T, N>({
     )
 }
 
-export default ModalBax;
+export default ModalBox;
 
 const StyledModeBox = styled.div<{
     minimize?: boolean;
