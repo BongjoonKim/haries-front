@@ -1,12 +1,12 @@
 import {ReactNode} from "react";
 import GlobalHeader from "../Header/GlobalHeader";
+import styled from "styled-components";
 
 function GlobalContainer(props: {children: ReactNode}) {
     return (
-        <div id="global-container">
+        <StyledGlobalContainer>
             <GlobalHeader />
-            <span>상단 메뉴</span>
-            <div className="global-body">
+            <StyledGlobalBody>
                 <div className="global-aside">
                     {/*<MyMenu />*/}
                     {/*<QuickSingleSearch />*/}
@@ -21,9 +21,24 @@ function GlobalContainer(props: {children: ReactNode}) {
                         <div className="content-container-body">{props.children}</div>
                     </div>
                 </main>
-            </div>
-        </div>
+            </StyledGlobalBody>
+        </StyledGlobalContainer>
     )
 }
 
 export default GlobalContainer;
+
+const StyledGlobalContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledGlobalBody = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  height: calc(100% - 50px);
+  overflow-y: auth;
+`;

@@ -11,13 +11,13 @@ function ModalBox(props : {
     size?: Modal.boxSize;
     closeStyle?: CSSProperties
 }) {
-    const transtion = useTransition(props.statusId === props.id, {
+    const transition = useTransition(props.statusId === props.id, {
         from: {opacity: 0},
         enter: {opacity: 1},
         leave: {opacity: 0},
     });
 
-    return transtion(
+    return transition(
         ({opacity}, item) => item && (
             <animated.div
                 className="modal-area"

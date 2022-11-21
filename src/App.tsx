@@ -9,11 +9,11 @@ function App() {
       <Router>
           <UniversalContainer>
 
-                  {/*<Routes>*/}
-                  {/*    <Route path="/" element={<IntroPage />} />*/}
-                  {/*</Routes>*/}
+                  <Routes>
+                      <Route path="/" element={<IntroPage />} />
+                  </Routes>
 
-              <IntroPage />
+              {/*<IntroPage />*/}
           </ UniversalContainer>
       </Router>
 
