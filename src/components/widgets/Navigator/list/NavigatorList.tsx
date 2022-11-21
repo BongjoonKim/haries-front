@@ -39,5 +39,4 @@ const StyledNavigatorList = styled.ul`
     display: flex;
   }
   line-height: 28px;
-  position: absolute;
 `;

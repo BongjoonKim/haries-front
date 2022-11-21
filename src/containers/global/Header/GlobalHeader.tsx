@@ -6,13 +6,15 @@ import {Link} from "react-router-dom";
 import Navigator from "../../../components/widgets/Navigator";
 import {useMenuData} from "./useMenuData";
 import "../../../styles/scss/components/topbar.scss"
+import styled from "styled-components";
+import {StyledTreeList} from "../../../components/modules/TreeView/list/TreeList";
 
 function GlobalHeader() {
     // 메인 메뉴 로딩 상태
     const [mainMenuLoading, setMainMenuLoading] = useState<boolean>(false);
 
     // 사이드바 보임 여부
-    const { toggleSidebarEnable } = useLayout();
+    const { isAsideCollapsed } = useLayout();
 
     // 로그인 사용자 여부
     const { isLogin, userAuth } = useUser();
@@ -30,14 +32,53 @@ function GlobalHeader() {
     }, [isLogin, userAuth.frontUsersVO?.userId]);
 
     return (
-        <div className="topbar" id="global-header">
-            <div className="topbar__left">
-                <Link className="tobpar__logo" to="/" />
-            </div>
-            {Navigator({items: menuData})}
-        </div>
+        <StyledGlobalHeader>
+            <StyledHeaderLeft>
+                {Navigator({items: menuData})}
+            </StyledHeaderLeft>
+        </StyledGlobalHeader>
     )
 
 }
 
 export default GlobalHeader;
+
+const StyledGlobalHeader = styled.div`
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 1px solid #cfd2d4;
+  border-left: 1px solid #e8eaeb;
+  background-color: #fff;
+  box-shadow: 0 0 10px #0000000d;
+  transition: all 0.2s ease-out;
+  z-index: 5;
+`;
+
+const StyledHeaderLeft = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const StyledHeaderRight = styled.div`
+  padding-right: 10px;
+`;
+
+const StyledSideBarToggleButton = styled.button`
+  width: 50px;
+  height: 49px;
+  background-color: unset;
+  cursor: pointer;
+  border: none;
+  &:hover {
+    background: #f4f6f8;
+  }
+`;
+
+const StyledHomeLink = styled(Link)`
+  display: block;
+  width: 60px;
+  height: 20px;
+  margin: auto;
+`;

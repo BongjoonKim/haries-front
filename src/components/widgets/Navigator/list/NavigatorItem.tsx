@@ -147,8 +147,8 @@ const StyledNavigator = styled.li`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 400px;
-    height: 50px;
+    width: 100%;
+    height: 100%;
     padding: 0 15px;
     border: 0;
     outline: none;

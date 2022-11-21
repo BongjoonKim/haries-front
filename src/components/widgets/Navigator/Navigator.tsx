@@ -23,4 +23,5 @@ export default  Navigator;
 
 const StyledNavigator = styled.nav`
   min-width: 780px !important;
+  height: 100%;
 `;

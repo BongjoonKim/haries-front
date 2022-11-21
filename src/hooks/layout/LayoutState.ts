@@ -32,8 +32,8 @@ export const LayoutState = {
     }),
 
     // 사이드바 보임 여부 state
-    sidebarEnable: atom<boolean>({
-        key: `${LAYOUT_STATE_GROUP}/sidebarEnable`,
+    isAsideCollapsed: atom<boolean>({
+        key: `${LAYOUT_STATE_GROUP}/isAsideCollapsed`,
         default: true
     }),
 

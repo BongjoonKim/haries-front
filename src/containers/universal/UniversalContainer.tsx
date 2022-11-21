@@ -10,6 +10,7 @@ import extractorUtil from "../../utilities/extractorUtil";
 import ExtractorUtil from "../../utilities/extractorUtil";
 import GlobalContainer from "../global/Global/GlobalContainer";
 import messengerUtil from "../../utilities/messengerUtil";
+import ModeContainer from "../mode/ModeContainer";
 
 function UniversalBranch(props: {children: ReactNode}) {
     return (() => {
@@ -31,19 +32,19 @@ function UniversalContainer(props : {children : ReactNode}) {
 
 
     // 로그인 여부 effect
-    useEffect(() => {
-        if (!isLoginExcludePath && !isLogin) {
-            messengerUtil.showMessageBox({
-                text: "인증되지 않은 접근입니다.",
-                visible: true
-            });
-
-            setTimeout(() => {
-                // 로그인 사용자 페이지 보여주기;
-                alert("로그인 페이지 개발 예정")
-            }, 250)
-        }
-    }, [isLogin, isLoginExcludePath]);
+    // useEffect(() => {
+    //     if (!isLoginExcludePath && !isLogin) {
+    //         messengerUtil.showMessageBox({
+    //             text: "인증되지 않은 접근입니다.",
+    //             visible: true
+    //         });
+    //
+    //         setTimeout(() => {
+    //             // 로그인 사용자 페이지 보여주기;
+    //             alert("로그인 페이지 개발 예정")
+    //         }, 250)
+    //     }
+    // }, [isLogin, isLoginExcludePath]);
 
     const { getGlobalModeProps } = useGlobalMode<GlobalModeNames>();
     const handleGetConnectExplorerID = useCallback(() => {
@@ -61,7 +62,14 @@ function UniversalContainer(props : {children : ReactNode}) {
 
     return (
         <Universal>
-            <UniversalBranch children={props.children} />
+            <ModeProvider value={{...getGlobalModeProps()}}>
+
+                <UniversalBranch children={props.children} />
+
+            </ModeProvider>
+            {/*  오류 발견  */}
+            {/*<ModeContainer />*/}
+
         </Universal>
     )
 
@@ -70,7 +78,7 @@ function UniversalContainer(props : {children : ReactNode}) {
 export default UniversalContainer;
 
 const Universal = styled.div<{independent?: boolean}>`
-  height: 100%;
+  height: 100vh;
   width: 100%;
 `;
 
