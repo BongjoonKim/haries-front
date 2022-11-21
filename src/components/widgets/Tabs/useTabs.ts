@@ -11,7 +11,7 @@ interface useTabsProps {
 
 function useTabs(props: useTabsProps) {
     const [tabId, setTabId] = useState<string>("");
-    const [items, setItems] = useState<TabsComponent.ChildrenItem[]>([]);
+    const [items, setItems] = useState<any>([]);
     const [activeTab, setActiveTab] = useState<string>("");
 
     const handleSetMountedState = () => {

@@ -36,8 +36,8 @@ export declare namespace TabsComponent {
         reRender?: boolean;
         activeTab?: string;
         removeTab?: Set<string>;
-        onActiveTab?: (parameter: {tabId?: string; tab: string}) => void;
-        onRemoveTable?: (status: string, event?: MouseEvent<SVGElement, MouseEvent>) => void;
+        onActiveTab: (parameter: {tabId?: string; tab: string}) => void;
+        onRemoveTab?: (status: string, event?: MouseEvent<SVGElement, MouseEvent>) => void;
         name?: string;
         img?: string;
     };
