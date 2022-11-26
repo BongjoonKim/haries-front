@@ -40,7 +40,7 @@ function changeDynamicObjectValue<T>(
     return object;
 }
 
-const objectRemoveKey = (object: Record<PropertyKey, any>, removeKey: Array<string> | PropertyKey) => {
+const objectRemoveKey = (object: Record<PropertyKey, any>, removeKey: Array<string> | PropertyKey | string) => {
     if (typeof removeKey === "string" && removeKey?.includes(".")) {
         const splitName: string[] | undefined = removeKey.split(".");
         return splitName?.reduce((acc: any, cur: string | number, inx) => {

@@ -5,18 +5,22 @@ declare namespace ModeComponent {
     type ModeStatusOptions = {
         dependent ?: Record<string, ModeComponent.DependentContent>;
         active ?: boolean;
+        isMulti?: boolean;
+        showTimeCount?: number;
+        onCallbackCloseMode?: ModeComponent.onCallbackCloseMode;
         [x : string] : any;
     };
 
     type ModeStatus<N=string> = Record<N, ModeStatusItem<N>> | object;
     type ModeStatusItem<N=string> = {
+        id?: string;
         name : N;
         props ?: Record<string, any>;
-        options ?: Record<string, ModeStatusOptions>;
+        options ?: ModeStatusOptions;
     };
 
     type ModeTaskItems<N=string> = Record<N, ModeTaskItem<N>> | Record<N, ModeTaskItem<N>>[] | object;
-    type ModeTaskItem<N=string> = {name:N; title : string}
+    type ModeTaskItem<N=string> = {key:N | string; title : string}
 
     type BoxSize = {
         width?: number | string;

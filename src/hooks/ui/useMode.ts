@@ -1,64 +1,146 @@
 import {useCallback, useState} from "react";
+import {ModeComponent} from "../../types/mode";
+import useInherentModeless from "./useInherentModeless";
 import converter from "../../utilities/converter";
 import {dependentOptionsPath} from "../../components/modules/Mode";
-import {ModeComponent} from "../../types/mode";
+import GlobalModeNames from "../../constants/modes/global-mode.const";
+import generatorUtil from "../../utilities/generatorUtil";
 
-function useMode<N = string>() {
-    const [status, setStatus] = useState<ModeComponent.ModeStatus<N>>({});
+function useMode<T = string>() {
+    const [status, setStatus] = useState<ModeComponent.ModeStatus<T>>({});
+    const {
+        taskItems,
+        activeSequence,
+        handleClearAllModeless,
+        handleAddTaskItem,
+        handleRemoveSequenceMode,
+        handleRemoveTaskItem,
+        handleActiveSequenceMode
+    } = useInherentModeless<T>();
 
-    const handleActiveSequenceMode = (name: N) => {
-        setActiveSequence((prevState: N[]) => [name, ...prevState.filter((val:N) => val !== name)]);
-    }
+    const handleShowDependentMode = useCallback(
+        (name: T, content: ModeComponent.DependentContent) => {
+            setStatus((prevState: ModeComponent.ModeStatus<T>) =>
+                converter.changeDynamicObjectValue(
+                    prevState,
+                    [name, dependentOptionsPath, GlobalModeNames.DEPENDENT_MODE].join("."),
+                    content
+                )
+            );
+            return false;
+        },[]);
 
-    const handleShowDependentMode = (name: N, content: ModeComponent.DependentContent) => {
-        setStatus((prevState : ModeComponent.ModeStatus<N>) =>
-            converter.changeDynamicObjectValue(
+    const handleCloseDependentMode = useCallback((name: T) => {
+        setStatus((prevState: ModeComponent.ModeStatus<T>) =>
+            converter.objectRemoveKey(
                 prevState,
-                [name, dependentOptionsPath, "global/DEPENDENT_MODE"].join("."),
-                content
+                [name, dependentOptionsPath, GlobalModeNames.DEPENDENT_MODE].join(".")
             )
         )
         return false;
-    }
-
-    const handleCloseDependentMode = (name: N) => {
-        setStatus((prevState: ModeComponent.ModeStatus<N>) =>
-            converter.objectRemoveKey(
-                prevState,
-                [name, dependentOptionsPath, "global/DEPENDENT_MODE"].join("."),
-            )
-        );
-        return false;
-    }
+    },[]);
 
     const handleShowMode = useCallback(
-        name: N,
-        props?: Record<string, any>,
-        options?: ModeComponent.ModeStatusOptions) => {
+        (name: T, props?: Record<string, any>, options?: ModeComponent.ModeStatusOptions) => {
+            const addValue: Record<PropertyKey, any> = {
+                name, props, options:{...options},
+            }
+            let nextValue: typeof addValue;
+            let id: undefined | string;
+            setStatus((prevState: ModeComponent.ModeStatus<T>) => {
+                if (options?.isMulti) {
+                    id = generatorUtil.uuid();
+                    addValue.id = id;
+                    addValue.options.showTimeCount =
+                        Object.keys(status).length +
+                        ((status[name as keyof ModeComponent.ModeStatus<T>] as Array<any>)?.length - 1);
+                    const prevModeNameValue = prevState[name as keyof ModeComponent.ModeStatus<T>];
+                    nextValue = ([prevModeNameValue] as Record<PropertyKey , any>[])
+                        ?.flat()
+                        ?.concat(addValue)
+                        ?.filter(x => x);
+                }else {
+                    addValue.options.showTimeCount = Object.keys(status).length - 1;
+                    nextValue = addValue;
+                }
+                return {
+                    ...prevState,
+                    [name as keyof ModeComponent.ModeStatus<T>]: nextValue
+                }
+            });
+            handleActiveSequenceMode(id || name);
+            return {name, id};
+        },[handleActiveSequenceMode, status, generatorUtil.uuid()]);
 
-    }
+    const handleVisibleStatus = useCallback(
+        (name: T, id?: string): boolean => {
+            if (id && Array.isArray(status[name as keyof ModeComponent.ModeStatus<T>])) {
+                return (
+                    status[name as keyof ModeComponent.ModeStatus<T>] as Array<ModeComponent.ModeStatusItem<T>>
+                )?.some((item: ModeComponent.ModeStatusItem<T>) => item?.id === id);
+            }
+            return String(name) in status;
+        },[status]);
 
-    const handleCloseMode = (name : N) => {
-        const nextState = converter.objectRemoveKey(status, name as any);
-        setStatus(nextState);
-    }
+    const handleCallbackCloseMode = useCallback((name: T, id?: string) => {
+            const modeNameItem = status[name as keyof ModeComponent.ModeStatus<T>];
+            if (Array.isArray(modeNameItem) && id) {
+                (modeNameItem as Array<ModeComponent.ModeStatusItem<T>>).forEach(
+                    item => item?.id === id && item?.options?.onCallbackCloseMode?.()
+                );
+            } else if ((modeNameItem as ModeComponent.ModeStatusItem<T>)?.options?.onCallCloseMode) {
+                (modeNameItem as ModeComponent.ModeStatusItem<T>)?.options?.onCallbackCloseMode?.();
+            }
+        },[status]);
 
-    const handleAddTaskItem = ({name, title} : ModeComponent.ModeTaskItem<N>) => {
-        setTaskItems((prevState: ModeComponent.ModeTaskItem<N>) => ({
-            ...prevState,
-            [name as unknown as any]: {name, title}
-        }));
-    }
+    const handleCloseAllMode = useCallback(() => {
+        setStatus({});
+        handleClearAllModeless();
+    }, [handleClearAllModeless]);
 
-    const handleRemoveTaskItem = (name: N) => {
-        const nextState = converter.objectRemoveKey(taskItems, name as any);
-        setTaskItems(nextState);
-        setActiveSequence(prevState => prevState.filter(val => val !== name));
-    }
+    const setCloseMode = useCallback((name: T, id?: string) => {
+        const modeNameItem = status[name as keyof ModeComponent.ModeStatus<T>];
+        if (Array.isArray(modeNameItem) && id) {
+            setStatus(prevState => {
+                return {
+                    ...prevState,
+                    [name as keyof ModeComponent.ModeStatus<T>]: (
+                        modeNameItem as Array<ModeComponent.ModeStatusItem<T>>
+                    ).filter(item => item?.id !== id)
+                }
+            })
+        } else {
+            const nextState = converter.objectRemoveKey(status, name as keyof T);
+            setStatus(nextState);
+        }
+        handleCallbackCloseMode(name, id);
+        handleRemoveTaskItem(id || name);
+        handleRemoveSequenceMode(id || name);
+    },[handleCallbackCloseMode, handleRemoveSequenceMode, handleRemoveTaskItem, status])
 
-    const handleCloseAllMode = () => setStatus({});
+    const handleCloseMode = useCallback(
+        (parameter: ModeComponent.onCloseModeParameter<T> | ModeComponent.onCloseModeParameter<T>[]) => {
+            const helperCloseMode = (item: ModeComponent.onCloseModeParameter<T>) => {
+                if (typeof item === "string") setCloseMode(item);
+                else setCloseMode(item.name, item.id);
+            }
+            if (parameter instanceof Array) {
+                parameter.forEach(item => helperCloseMode(item));
+            } else {
+                helperCloseMode(parameter);
+            }
+            return parameter;
+        },[setCloseMode]
+    )
 
-    const getModeProps = () => ({
+    const handleActiveEffect = useCallback(
+        ({active, name, id} : {active: boolean; name: T; id?: string}) => {
+            if (active) handleCloseMode({name, id});
+            else handleShowMode(name);
+        }, [handleCloseMode, handleShowMode]
+    );
+
+    const getModeProps = useCallback(() => ({
         status,
         taskItems,
         activeSequence,
@@ -69,9 +151,24 @@ function useMode<N = string>() {
         onActiveSequenceMode: handleActiveSequenceMode,
         onShowDependentMode: handleShowDependentMode,
         onCloseDependentMode: handleCloseDependentMode,
+        onVisibleStatus: handleVisibleStatus,
+        onActiveEffect: handleActiveEffect,
         getModeRouterProps: getModeProps,
         getModeProps
-    });
+    }),[
+        activeSequence,
+        handleActiveSequenceMode,
+        handleAddTaskItem,
+        handleCloseDependentMode,
+        handleCloseMode,
+        handleRemoveTaskItem,
+        handleRemoveSequenceMode,
+        handleShowDependentMode,
+        handleShowMode,
+        handleVisibleStatus,
+        status,
+        taskItems
+    ]);
 
     return {
         status,
