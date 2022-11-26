@@ -1,19 +1,21 @@
-import {RefObject, useEffect} from "react";
+import {RefObject, useEffect, useMemo} from "react";
 
 function useClickOutside(
     ref: RefObject<HTMLInputElement | HTMLAreaElement>,
-    callback: () => void
+    callback: () => void,
+    prevent?: boolean
 ) {
+    const preventFlag = useMemo(() => (prevent !== undefined ? prevent : false), [prevent]);
     const handleClick = (e: MouseEvent) => {
-        if (!ref?.current?.contains(e.target as HTMLDivElement)) {
+        if (!preventFlag && !ref?.current?.contains(e.target as HTMLDivElement)) {
             callback();
         }
     }
 
     useEffect(() => {
-        globalThis.addEventListener("click", handleClick, true);
+        if (!preventFlag) globalThis.addEventListener("click", handleClick, true);
         return () => {
-            globalThis.removeEventListener("click", handleClick, true)
+            if (!preventFlag) globalThis.removeEventListener("click", handleClick, true)
         }
     })
 }

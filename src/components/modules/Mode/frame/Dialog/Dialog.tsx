@@ -18,7 +18,12 @@ export default function Dialog<T = string, N = string>({
     construct,
     children,
     dependent,
-    onCloseDependentMode
+    onCloseDependentMode,
+    onVisibleStatus,
+    onShowMode,
+    onShowDependentMode,
+    isActiveEffect,
+    onActiveEffect
 } : ModeFrame.DialogProps<T, N>) : JSX.Element {
     return (
         <Mode

@@ -1,20 +1,18 @@
-import {DialogProcessType, ReturnValue, useDialogProcessFieldProps} from "./types";
-import {useState} from "react";
+import {DialogProcessCommon, DialogProcessField, DialogProcessModeType, DialogProcessType} from "./types";
+import {ChangeEvent, MouseEvent} from "react";
 import {FormActionTypes} from "../../../reducers/form.reducer";
-import {MouseEvent} from "react";
+import useMode from "../../../hooks/ui/useMode";
+import {useDialogProcessList} from "./items";
+import ReturnValue = DialogProcessCommon.ReturnValue;
+import generatorUtil from "../../../utilities/generatorUtil";
 
-function useDialogProcessField<T>(props: useDialogProcessFieldProps<T>) {
-    const [dialogStatus, setDialogStatus] = useState<Modal.status>({
-        id : "",
-        options: {}
+function useDialogProcessField<T>(props: DialogProcessField.MainProps<T>) {
+    const {getModeProps, handleShowMode, handleCloseMode} = useMode();
+    const {getDialogProcessListProps, selected, setSelected} = useDialogProcessList({
+        type: props.type || DialogProcessType.LIST_BOX,
+        value: props.value,
+        dispatch: props.dispatch
     });
-
-    const handleChangeStatus = (parameter: Modal.status) => {
-        setDialogStatus({
-            id: parameter.id,
-            options: parameter.options || {}
-        })
-    }
 
     const handleDispatch = (parameter: {
         name?: string;
@@ -28,7 +26,7 @@ function useDialogProcessField<T>(props: useDialogProcessFieldProps<T>) {
         })
     }
 
-    const handleReset = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => () => {
+    const handleReset = (event: MouseEvent<HTMLButtonElement, MouseEvent>) => () => {
         Promise.resolve(handleDispatch({name: props.name, value: ""}))
             .then(() => {
                 if (props.returnName) {
@@ -42,20 +40,33 @@ function useDialogProcessField<T>(props: useDialogProcessFieldProps<T>) {
             }).then(() => props.onAfterRequestOfRemove?.(event));
     }
 
-    const handleSubmit = (value: ReturnValue) => {
-        const name = props.returnName || props.name;
-        let type;
-        if (DialogProcessType.LIST_BOX !== props.type) {
-            if (name.includes("=")) type = FormActionTypes.RETURN_CHANGE_SPECIFIED_OBJECT_VALUES;
-            else if (name.includes(".")) type = FormActionTypes.CHANGE_OBJECT_VALUE;
-            else type = FormActionTypes.REPLACE_ITEM_VALUE;
-        } else {
-            type = FormActionTypes.ADD_ARRAY_ITEM;
+    const getBranchType = (name: string) => {
+        switch (props.type) {
+            case DialogProcessType.LIST_BOX:
+                return FormActionTypes.ADD_ARRAY_ITEM;
+            default:
+                if (name.includes("=")) return FormActionTypes.RETURN_CHANGE_SPECIFIED_OBJECT_VALUES;
+                else if (name.includes(".")) return FormActionTypes.CHANGE_OBJECT_VALUE;
+                else return FormActionTypes.REPLACE_ITEM_VALUE;
         }
+    }
+
+    const handleAfterCloseMode = (parameter?: {flag?: string; mode?: boolean}) => {
+        if (parameter?.mode !== false) {
+            handleCloseMode(
+                !parameter?.flag
+                    ? DialogProcessModeType.DIALOG_PROCESS_FIELD
+                    : generatorUtil.flagWithID(DialogProcessModeType.DIALOG_PROCESS_FIELD, String(parameter?.flag))
+            )
+        }
+    }
+
+    const handleSubmit = (parameter?: {flag?: string; mode?: boolean}) => (value: ReturnValue) => {
+        const name = props.returnName || props.name;
 
         Promise.resolve(
-            handleDispatch({name, type, value})
-        ).then(() => handleChangeStatus({id: ""}));
+            handleDispatch({name, type: getBranchType(name), value})
+        ).then(() => handleAfterCloseMode({flag: parameter?.flag, mode: parameter?.mode}));
         if (props.onCallback) props.onCallback(value);
     }
 
@@ -67,17 +78,34 @@ function useDialogProcessField<T>(props: useDialogProcessFieldProps<T>) {
                     name: `${props.name}.${index}`
                 }),
             ).then(() => {
-                props.setSelected(-1);
+                setSelected(-1);
                 props.onAfterRequestOfRemove?.(event)
             });
-        }
+    }
+
+    const getDialogProcessTextProps = () => ({
+        actionType: props.actionType,
+        value: props.value || "",
+        name: props.name,
+        disabled: props.disabled?.baseField || props.disabled?.textInput,
+        onChange: (event: ChangeEvent<HTMLInputElement>) =>
+            handleDispatch({
+                name: props.name,
+                value: String(event.target.value)
+            })
+    });
+
     return {
-        dialogStatus,
         handleSubmit,
-        handleChangeStatus,
-        handleDispatch,
         handleReset,
-        handleRemoveItem
+        handleRemoveItem,
+        getDialogProcessTextProps,
+        getDialogProcessListProps,
+        getModeProps,
+        handleShowMode,
+        handleCloseMode,
+        selected,
+        setSelected
     }
 }
 

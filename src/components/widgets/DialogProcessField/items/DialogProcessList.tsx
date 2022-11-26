@@ -1,22 +1,22 @@
 import styled from "styled-components";
-import {DialogProcessListProps} from "./types";
+import {DialogProcessItems} from "../types";
 
 function DialogProcessList({
-    value,
+    value: items,
     onListKeyDown,
     selected,
     setSelectedThenCloseDropdown,
     onKeyDown
-}: DialogProcessListProps) {
+}: DialogProcessItems.DialogProcessListBoxProps) {
     return (
         <StyledDialogProcessContainer>
             <StyledDialogProcessList
                 role="listbox"
-                aria-activedescendant={value[selected]}
+                aria-activedescendant={items[selected]}
                 tabIndex={-1}
                 onKeyDown={onListKeyDown}
             >
-                {value.map((item: DialogProcessListProps["value"], index: number) => (
+                {items.map((item: DialogProcessItems.DialogProcessListBoxProps["value"], index: number) => (
                     <StyledDialogProcessItem
                         key={String(item.id || item.value)}
                         id={String(item.id || item.value)}
@@ -37,11 +37,11 @@ function DialogProcessList({
 export default DialogProcessList;
 
 const StyledDialogProcessList = styled.ul`
-    width: 100%;
+  width: 100%;
 `;
 
 const StyledDialogProcessItem = styled.li<{"aria-selected" ?: boolean }>`
-    width: 100%;
+  width: 100%;
   padding: 5px;
   background-color: ${props => (props["aria-selected"] ? "#ec008d" : "transparent")};
   color: ${props => (props["aria-selected"] ? "#fff" : "444")};

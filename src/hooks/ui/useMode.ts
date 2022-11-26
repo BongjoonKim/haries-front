@@ -1,12 +1,10 @@
-import {useState} from "react";
+import {useCallback, useState} from "react";
 import converter from "../../utilities/converter";
 import {dependentOptionsPath} from "../../components/modules/Mode";
 import {ModeComponent} from "../../types/mode";
 
 function useMode<N = string>() {
     const [status, setStatus] = useState<ModeComponent.ModeStatus<N>>({});
-    const [taskItems, setTaskItems] = useState<ModeComponent.ModeTaskItems<N>>({});
-    const [activeSequence, setActiveSequence] = useState<N[]>([]);
 
     const handleActiveSequenceMode = (name: N) => {
         setActiveSequence((prevState: N[]) => [name, ...prevState.filter((val:N) => val !== name)]);
@@ -33,25 +31,11 @@ function useMode<N = string>() {
         return false;
     }
 
-    const handleShowMode = (
+    const handleShowMode = useCallback(
         name: N,
         props?: Record<string, any>,
-        options?: Record<string, ModeComponent.ModeStatusOptions>
-    ) => {
-        setStatus((prevState: ModeComponent.ModeStatus<N>) => ({
-            ...prevState,
-            [name as unknown as any] : {
-                name,
-                props,
-                options : {
-                    dependent: {},
-                    ...options,
-                    showTimeCount: Object.keys(status).length - 1
-                }
-            }
-        }));
-        handleActiveSequenceMode(name);
-        return false;
+        options?: ModeComponent.ModeStatusOptions) => {
+
     }
 
     const handleCloseMode = (name : N) => {

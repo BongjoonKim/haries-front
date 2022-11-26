@@ -1,102 +1,56 @@
 import styled from "styled-components";
-import {DialogProcessFieldProps, DialogProcessType, ReturnValue} from "./types";
-import useDialogProcessList from "./useDialogProcessList";
+import {DialogProcessCommon, DialogProcessField as DialogProcessFieldType, DialogProcessType} from "./types";
 import useDialogProcessField from "./useDialogProcessField";
-import TextInput from "../../elements/TextInput";
-import {dialogConstants} from "../../../constants/modal/dialog.const";
-import {ChangeEvent, MouseEvent} from "react";
-import DialogProcessList from "./DialogProcessList";
-import Injector from "../../elements/Injector";
-import Button from "../../elements/Button/Button";
-import {BsEraserFill, BsSearch} from "react-icons/bs";
-import {AiOutlineMinus, AiOutlinePlus} from "react-icons/ai";
-import FieldMessage from "../../elements/FieldMessage";
+import {DialogProcessCombo, DialogProcessList, DialogProcessText} from "./items";
+import {DialogProcessHandler, DialogProcessMode} from "./views";
 import {currentStatus} from "../../../constants/types/status.const";
-import DialogProcessFieldDialog from "./DialogProcessFieldDialog";
+import ReturnValue = DialogProcessCommon.ReturnValue;
+import FieldMessage from "../../elements/FieldMessage";
 
-function DialogProcessField<T = ReturnValue>(props: DialogProcessFieldProps<T>) {
-    const {getDialogProcessListProps, selected, setSelected} = useDialogProcessList({
-        value: props.value,
-        dispatch: props.dispatch
-    });
+function DialogProcessField<T = ReturnValue>(props: DialogProcessFieldType.ContentMapProps<T>) : JSX.Element {
     const {
-        dialogStatus,
-        handleRemoveItem,
         handleSubmit,
         handleReset,
-        handleDispatch,
-        handleChangeStatus
-    } = useDialogProcessField<T>({...props, setSelected})
+        handleRemoveItem,
+        getDialogProcessTextProps,
+        getDialogProcessListProps,
+        getModeProps,
+        handleShowMode,
+        handleCloseMode,
+        selected
+    } = useDialogProcessField<T>({...props});
+
     return(
         <StyledDialogProcessFiled>
             <StyledDialogProcessControlField>
-                {DialogProcessType.LIST_BOX !== props.type ? (
-                    <TextInput
-                        actionType={props.actionType}
-                        value={props.value || ""}
-                        name={props.name}
-                        onKeyDown={event => {
-                            if (event.key === "Enter") {
-                                handleChangeStatus({id: dialogConstants.DIALOG_PROCESS_FIELD});
-                            }
-                        }}
-                        onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                            handleDispatch({name: props.name, value: String(event.target.value)})
-                        }
-                        width="160px"
-                        disabled={props.disabled?.textInput}
-                    />
-                ) : (
-                    <DialogProcessList {...getDialogProcessListProps()} />
-                )}
-                {DialogProcessType.LIST_BOX !== props.type ? (
-                    <Injector
-                        InjectTarget={Button}
-                        injectProps={[
-                            {
-                                children: <BsSearch size={13} />,
-                                onClick: (event: MouseEvent<HTMLButtonElement, MouseEvent>) => {
-                                    props.onBeforeRequestOfDialog?.(event);
-                                    handleChangeStatus({id: dialogConstants.DIALOG_PROCESS_FIELD});
-                                },
-                                disabled: props.disabled?.button?.[0]
-                            },
-                            {
-                                children: <BsEraserFill size={13} />,
-                                onClick: (event: MouseEvent<HTMLButtonElement, MouseEvent>) => handleReset(event)(),
-                                disabled: props.disabled?.button?.[1]
-                            }
-                        ]}
-                    />
-                ) : (
-                    <Injector
-                        flexDirection="column"
-                        InjectTarget={Button}
-                        injectProps={[
-                            {
-                                children: <AiOutlinePlus/>,
-                                onClick: (event: MouseEvent<HTMLButtonElement, MouseEvent>) => {
-                                    props.onBeforeRequestOfDialog?.(event);
-                                    handleChangeStatus({id: dialogConstants.DIALOG_PROCESS_FIELD});
-                                },
-                                styles: {margin: "0 2px 2px 2px"}
-                            },
-                            {
-                                children: <AiOutlineMinus/>,
-                                onClick: (event: MouseEvent<HTMLButtonElement, MouseEvent>) => handleRemoveItem(event)(selected),
-                            }
-                        ]}
-                    />
-                )}
+                {
+                    {
+                        [DialogProcessType.LIST_BOX] : <DialogProcessList {...getDialogProcessListProps()} />,
+                        [DialogProcessType.TEXT_BOX] : <DialogProcessText {...getDialogProcessTextProps()} />,
+                        [DialogProcessType.COMBO_BOX] : <DialogProcessCombo options={props.options || []} />
+                    }[props.type || DialogProcessType.TEXT_BOX]
+                }
+                <DialogProcessHandler
+                    onShowMode={handleShowMode}
+                    onReset={handleReset}
+                    onRemoveItem={handleRemoveItem}
+                    contentMaps={props.contentMaps}
+                    type={props.type || DialogProcessType.TEXT_BOX}
+                    selected={selected}
+                    onSubmit={handleSubmit}
+                    value={props.value}
+                    disabledSet={props.disabled?.handlers || props.disabled?.button}
+                />
             </StyledDialogProcessControlField>
             <FieldMessage<currentStatus> message={props.message} status={props.messageStatus} />
-            <DialogProcessFieldDialog
+            <DialogProcessMode
                 value={props.value}
-                status={dialogStatus}
-                onChangeStatus={handleChangeStatus}
                 onSubmit={handleSubmit}
-                size={props.size}
                 ConnectContent={props.ConnectContent}
+                contentMaps={props.contentMaps}
+                getModeProps={getModeProps as never}
+                onCloseMode={handleCloseMode}
+                size={props.size}
             />
         </StyledDialogProcessFiled>
     )
