@@ -1,20 +1,22 @@
-import {ModeComponent} from "../../../types/mode";
-import {createContext, useContext} from "react";
+import {createContext, ReactNode, useContext} from "react";
 
-interface ModeProviderProps<N = string> {
-    children : React.ReactNode;
-    value : ModeComponent.ModeContextValue<N>;
+// interface ModeStatus {
+//     id: string;
+//     options: {};
+// }
+
+interface ModeProviderProps {
+    children : ReactNode;
+    value : any;
 }
 
-const ModeContext = createContext<
-    ModeProviderProps["value"] | Record<PropertyKey, any>
->({});
+const ModeContext = createContext<Record<PropertyKey, any>>({});
 
 function useModeContext() {
     return useContext(ModeContext);
 }
 
-function ModeProvider<N>({children, value} : ModeProviderProps<N>) {
+function ModeProvider({children, value} : ModeProviderProps) {
     return <ModeContext.Provider value={value}>{children}</ModeContext.Provider>;
 }
 

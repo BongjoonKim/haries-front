@@ -6,9 +6,7 @@ function useModeRouter<T, N>({
     schema,
     action
 }: GenerateParams<Schema, ModeTypes>) {
-    const [modes, dispatch, isLoading] = useGenerate<GenerateType<Schema>>(
-        (generate<T, N>), []
-    );
+    const [modes, dispatch, isLoading] = useGenerate<GenerateType<Schema>>((generate<T, N>), []);
 
     const getDynamicGenerate = useCallback(() => {
         dispatch({schema, action}, []);

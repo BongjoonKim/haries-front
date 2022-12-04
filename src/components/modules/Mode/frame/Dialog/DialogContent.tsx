@@ -9,6 +9,7 @@ function DialogDependentMode<N>({
     status,
     name,
     onCloseDependentMode,
+    onVisibleStatus
 } : ModeFrame.DialogDependentMode<N>) {
     const dependent = (status as Record<string, any>)?.[
         String(name) as unknown as string
@@ -30,6 +31,7 @@ function DialogDependentMode<N>({
                 status={dependent || {}}
                 onCloseMode={() => onCloseDependentMode?.(name)}
                 dependent
+                onVisibleStatus={onVisibleStatus}
             />
         )
     );
@@ -41,6 +43,7 @@ export default function DialogContent<N=string>({
     status,
     name,
     onCloseDependentMode,
+    onVisibleStatus
 } : ModeFrame.DialogContent<N>) {
     return (
         <Wrapper onClick={(e : MouseEvent<HTMLDivElement>) => e.stopPropagation()}>
@@ -52,7 +55,7 @@ export default function DialogContent<N=string>({
                     <footer className="dialog-footer">{construct?.footer}</footer>
                 </>
             )}
-            <DialogDependentMode name={name} status={status} onCloseDependentMode={onCloseDependentMode} />
+            <DialogDependentMode name={name} status={status} onCloseDependentMode={onCloseDependentMode} onVisibleStatus={onVisibleStatus} />
         </Wrapper>
     )
 }

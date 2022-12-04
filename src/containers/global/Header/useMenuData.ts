@@ -17,6 +17,12 @@ const useMenuData : MenuItemVO[] = [
         menuHref : "backEnd",
         menuLabel : "BackEnd",
     },
+    {
+        id: "4",
+        menuName : "Example",
+        menuHref : "example",
+        menuLabel : "Example",
+    },
 
 ]
 

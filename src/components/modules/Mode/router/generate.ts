@@ -25,7 +25,8 @@ export default function generate<T, N>(
         onActiveSequenceMode,
         activeSequence,
         onShowDependentMode,
-        onCloseDependentMode
+        onCloseDependentMode,
+        onVisibleStatus
     } = action.payload;
 
     return  (Array.isArray(schema) ? schema : new Array(schema))?.map(
@@ -41,7 +42,7 @@ export default function generate<T, N>(
                     onCloseMode,
                     onShowMode,
                     onCloseDependentMode,
-                    ...status?.[name]?.options,
+                    onVisibleStatus
                 },
                 component : {
                     key: name,
@@ -50,10 +51,8 @@ export default function generate<T, N>(
                         name,
                         status,
                         statusItem: status[name],
-                        onCloseMode: (name ?: N) =>
-                            onCloseMode(
-                                (typeof name === "string" && name) || item.props.name
-                            ),
+                        onCloseMode: (name ?: N, id?: string) =>
+                        onCloseMode((typeof name === "string" && name) || item.props.name, id),
                         onShowMode,
                         onShowDependentMode,
                         onCloseDependentMode
@@ -68,28 +67,41 @@ export default function generate<T, N>(
                         createElement(
                             Dialog,
                             {
-                                ...commonProps.dialog
+                                id: name,
+                                ...commonProps.dialog,
+                                ...status?.[name]?.options
                             },
                             createElement(component, {
-                                ...commonProps.component
+                                key: name,
+                                ...commonProps.component,
+                                ...status?.[name]?.props
                             })
                         )
                     );
                 case ModeTypes.MODELESS:
+                    const newModeElementProps = {
+                      title,
+                      ...commonProps.dialog,
+                      taskItems,
+                      onAddTaskItem,
+                      onRemoveTaskItem,
+                      onActiveSequenceMode,
+                      activeSequence
+                    };
                     return list.concat(
-                        Dialog,
-                        {
-                            title,
-                            ...commonProps.dialog,
-                            taskItems,
-                            onAddTaskItem,
-                            onRemoveTaskItem,
-                            onActiveSequenceMode,
-                            activeSequence
-                        },
-                        createElement(component, {
-                            ...commonProps.component,
-                        })
+                        createElement(
+                            Dialog,
+                            {
+                                id: name,
+                                ...commonProps.dialog,
+                                ...status?.[name]?.options
+                            },
+                            createElement(component, {
+                                key: name,
+                                ...commonProps.component,
+                                ...status?.[name]?.props
+                            })
+                        )
                     )
                 default:
                     return list;

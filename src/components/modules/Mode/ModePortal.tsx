@@ -1,15 +1,15 @@
-import {useEffect, useRef} from "react";
+import {ReactNode, ReactPortal, useEffect, useRef} from "react";
 import {createPortal} from "react-dom";
 
-const modalRoot = document.querySelector("#mode-root") as HTMLElement;
+const modeRoot = document.querySelector("#mode-root") as HTMLElement;
 
-function ModePortal(props : { children : React.ReactNode }) : React.ReactPortal {
+function ModePortal(props : { children : ReactNode }) : ReactPortal {
     const el = useRef(document.createElement("div"));
 
     useEffect(() => {
         const { current } = el;
-        modalRoot?.appendChild(current);
-        return () => void modalRoot?.removeChild(current);
+        modeRoot?.appendChild(current);
+        return () => void modeRoot?.removeChild(current);
     }, []);
 
     return createPortal(props.children, el.current);

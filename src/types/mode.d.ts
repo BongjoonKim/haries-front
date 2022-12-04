@@ -3,7 +3,7 @@ import {ModeTypes} from "../components/modules/Mode/router/generate";
 
 declare namespace ModeComponent {
     type ModeStatusOptions = {
-        dependent ?: Record<string, ModeComponent.DependentContent>;
+        dependentMap ?: Record<string, ModeComponent.DependentContent>;
         active ?: boolean;
         isMulti?: boolean;
         showTimeCount?: number;
@@ -11,7 +11,7 @@ declare namespace ModeComponent {
         [x : string] : any;
     };
 
-    type ModeStatus<N=string> = Record<N, ModeStatusItem<N>> | object;
+    type ModeStatus<N=string> = Record<N, ModeStatusItem<N>> | ModeStatusItem<N>[] | object;
     type ModeStatusItem<N=string> = {
         id?: string;
         name : N;
@@ -19,7 +19,7 @@ declare namespace ModeComponent {
         options ?: ModeStatusOptions;
     };
 
-    type ModeTaskItems<N=string> = Record<N, ModeTaskItem<N>> | Record<N, ModeTaskItem<N>>[] | object;
+    type ModeTaskItems<N=string> = | Record<N, ModeTaskItem<N>> | Record<N, ModeTaskItem<N>>[] | object;
     type ModeTaskItem<N=string> = {key:N | string; title : string}
 
     type BoxSize = {
@@ -39,25 +39,28 @@ declare namespace ModeComponent {
         options ?: Record<string, ModeStatusOptions>,
     ) => Record<PropertyKey, any>;
 
-    type onCloseMode<N = string> = (name:N) => void;
     type onCloseModeParameter<N = string> = (string & N) | {name: N; id?: string};
+
+    type onCloseMode<N = string> = (
+        parameter: onCloseModeParameter<N> | onCloseModeParameter<N>[]
+    ) => Record<PropertyKey, any> | void | string;
+
     type onDependCloseMode = (name?: N & string, id?: string) => void;
-    type handleCloseMode = () => void;
 
     type onAddTaskItem<N = string> =({
-        name,
+        key,
         title,
     } : ModeComponent.ModeTaskItem<N>) => void;
 
-    type onRemoveTaskItem<N = string> = (name:N) => void;
-    type onActiveSequenceMode<N = string> = (name : N) => void;
+    type onRemoveTaskItem<N = string> = (key:N | string) => void;
+    type onActiveSequenceMode<N = string> = (key : N | string) => void;
 
     type onShowDependentMode<N = string> = (
         name : N,
         component : ModeComponent.DependentContent,
-    ) => void;
+    ) => boolean | Record<PropertyKey, any>;
 
-    type onCloseDependentMode<N=string> = (name:N) => void;
+    type onCloseDependentMode<N = string> = (name:N) => void;
 
     type onActiveEffect<N = string> = (parameter: {active: boolean; name: N; id?: string}) => void;
 
@@ -73,6 +76,7 @@ declare namespace ModeComponent {
             Record<string, any> | undefined,
             ModeComponent.DependentContent | undefined,
         ];
+    type handleCloseMode = () => void;
 
     interface ModeContextValue<N = string> {
         status : ModeComponent.ModeStatus<N>;
@@ -96,7 +100,7 @@ declare namespace ModeComponent {
         name : N;
         title ?: string;
         status : ModeComponent.ModeStatus<N>;
-        onCloseMode :
+        onCloseMode ?:
             | ModeComponent.onCloseMode<N>
             | ModeComponent.onDependCloseMode<N>
             | ((name?: string) => void);
@@ -106,11 +110,11 @@ declare namespace ModeComponent {
         onAddTaskItem ?: onAddTaskItem<N>;
         onRemoveTaskItem ?: onRemoveTaskItem<N>;
         onActiveSequenceMode ?: onActiveSequenceMode<N>;
-        activeSequence ?: N[];
+        activeSequence ?: (N | string)[];
         showTimeCount ?: number;
         size ?: ModeComponent.BoxSize;
         dependent ?: boolean;
-        children : ReactNode;
+        children : any;
         overlayClose?: boolean;
         onCallbackCloseMode?: ModeComponent.onCallbackCloseMode;
         onVisibleStatus: onVisibleStatus<N>;
@@ -120,9 +124,8 @@ declare namespace ModeComponent {
 
     interface ModeBoxProps<T = string, N = string> {
         type : T;
-        name ?: N;
         title ?: string;
-        status ?: ModeComponent.ModeStatus<N>;
+        visibleStatus ?: boolean;
         onCloseMode : ModeComponent.handleCloseMode<N>;
         onAddTaskItem ?: ModeComponent.onAddTaskItem<N>;
         onActiveSequenceMode ?: onActiveSequenceMode<N>;
@@ -136,9 +139,7 @@ declare namespace ModeComponent {
 
     interface ModeOverlayProps<T = string, N = string> {
         type : T;
-        name ?: N;
-        visibleStatus: boolean;
-        status ?: ModeComponent.ModeStatus<N>;
+        visibleStatus ?: boolean;
         onCloseMode : ModeComponent.handleCloseMode;
         overlayClose?: boolean;
     }
@@ -154,6 +155,7 @@ declare namespace ModeComponent {
         onActiveSequenceMode: ModeComponent.onActiveSequenceMode<N>;
         onShowDependentMode: ModeComponent.onShowDependentMode<string>;
         onVisibleStatus: ModeComponent.onVisibleStatus<N>;
+        onActiveEffect?: onActiveEffect<N>;
         getModeProps?: getModeProps<N>;
         getModeRouterProps?: getModeProps<N>;
     }
@@ -167,16 +169,16 @@ declare namespace ModeFrame {
         footer ?: ReactElement<any, string | JSXElementConstructor<any>>;
     }
 
-    interface DialogProps<T = string, N = string> extends ModeComponent.ModeProps<T, N> {
-        showTimeCount ?: number;
-        children ?: ReactElement;
+    interface DialogProps<T = string, N = string> extends ModeComponent.ModeProps<T, N>, ModeComponent.ModeStatusOptions {
+        dependent?: boolean;
+        children ?: any;
         construct ?: DialogConstruct;
         onCloseDependentMode ?: ModeComponent.onCloseDependentMode<N>;
         isActiveEffect?: boolean;
     }
 
-    interface DialogContent<N> {
-        children ?: ReactElement<any, string | JSXElementConstructor<any>>;
+    interface DialogContent<N = string> {
+        children ?: any;
         construct ?: DialogConstruct;
         onCloseDependentMode ?: ModeComponent.onCloseDependentMode<N>;
         name : N;
@@ -184,7 +186,7 @@ declare namespace ModeFrame {
         onVisibleStatus: ModeComponent.onVisibleStatus<N>;
     }
 
-    interface DialogDependentMode<N> {
+    interface DialogDependentMode<N = string> {
         onCloseDependentMode ?: ModeComponent.onCloseDependentMode<N>;
         name : N;
         status : ModeComponent.ModeStatus<N>;
@@ -209,11 +211,11 @@ declare namespace ModeRouterComponent {
         onVisibleStatus: ModeComponent.onVisibleStatus<N>
     }
 
-    interface ModeRouteProps<T = ModeTypes, N = string> {
+    interface ModeRouteProps {
         component : FunctionComponent | ComponentClass;
         title ?: string;
-        name : N;
-        type : T;
+        name : any;
+        type : any;
     }
 }
 
@@ -223,7 +225,7 @@ declare namespace ModeContent {
             type : string;
             status : ModeComponent.ModeStatus<N>;
             statusItem : ModeComponent.ModeStatusItem<N>;
-            onCloseMode : (name?: N) => void;
+            onCloseMode : (name?: N, id?: string) => void;
             onShowMode : ModeComponent.onShowMode<N>;
             action ?: { type : string };
         }

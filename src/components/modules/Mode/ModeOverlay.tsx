@@ -4,21 +4,25 @@ import styled from "styled-components";
 
 function ModeOverlay<T, N>({
     type,
-    status,
-    name,
-    onCloseMode
+    visibleStatus,
+    onCloseMode,
+    overlayClose
 } : ModeComponent.ModeOverlayProps<T, N>) {
-    const transitions = useTransition(String(name) in status, {
+    const transitions = useTransition(visibleStatus, {
         from : {opacity: 0},
         enter : {opacity: 1},
         leave : {opacity: 0},
     });
 
+    const handleCloseMode = () => {
+        if (typeof overlayClose === "boolean" && overlayClose) onCloseMode();
+    }
+
     return transitions(
         ({ opacity }, item) =>
             item && (
                 <animated.div
-                    onClick={() => onCloseMode()}
+                    onClick={handleCloseMode}
                     style={{
                         opacity : opacity.to({ range : [0.0, 1.0], output: [0, 1]}),
                     }}
@@ -34,4 +38,5 @@ export default ModeOverlay;
 const StyleModeOverlay = styled.div`
     background-color: rgba(0, 0, 0, 0.3);
   z-index: 9998;
+  pointer-events: auto;
 `;

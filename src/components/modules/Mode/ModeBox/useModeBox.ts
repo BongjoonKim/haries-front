@@ -5,9 +5,8 @@ import useToggle from "../../../../hooks/state/useToggle";
 import {ModeComponent} from "../../../../types/mode";
 
 interface useModalBoxProps<N> {
-    status : ModeComponent.ModeStatus<N>;
+    visibleStatus?: boolean;
     showTimeCount?: number;
-    name : N;
     size ?: ModeComponent.BoxSize;
 }
 
@@ -20,9 +19,8 @@ type BoxSize = {
 type BoxPosition = { y : number; x: number }
 
 function useModeBox<N>({
-    status,
+    visibleStatus,
     showTimeCount,
-    name,
     size
 } : useModalBoxProps<N>) {
     const boxRef = useRef(null);
@@ -63,13 +61,12 @@ function useModeBox<N>({
         if (boxRef.current && !boxSize.width && !boxSize.height) {
             const { clientWidth, clientHeight, children  } = boxRef.current;
             const width =
-                (size?.width && parseFloat(String(size.width))) || clientWidth - 6;
+                (size?.width && parseFloat(String(size.width))) || clientWidth;
             const height =
-                (size?.height && parseFloat(String(size.height))) || clientHeight - 6;
+                (size?.height && parseFloat(String(size.height))) || clientHeight;
             let { diff } = boxSize;
             if (children?.[1]) {
-                const { clientWidth : bodyClientWidth, clientHeight: bodyClientHeight } =
-                children[1];
+                const { clientWidth : bodyClientWidth, clientHeight: bodyClientHeight } = children[1];
                 diff = {
                     width: width - bodyClientWidth,
                     height: height - bodyClientHeight,
@@ -83,14 +80,14 @@ function useModeBox<N>({
         }
     };
 
-    const transitions = useTransition(String(name) in status, {
+    const transitions = useTransition(visibleStatus, {
         from: {opacity: 0},
         enter: {opacity: 1},
         leave: {opacity: 0}
     });
 
     useLayoutEffect(handleSetBoxPosition, [boxPosition, boxSize, showTimeCount]);
-    useLayoutEffect(handleSetBoxSize, [boxRef, boxSize, status, size]);
+    useLayoutEffect(handleSetBoxSize, [boxRef, boxSize, visibleStatus, size]);
     useDraggable(
         { target : boxRef, control : dragControlRef },
         {dragStyle: "margin", maximize },

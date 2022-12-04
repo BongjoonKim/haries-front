@@ -55,12 +55,12 @@ export default ModeResizer;
 
 const StyledMoveResizer = styled.div`
     position: absolute;
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   right: 0;
   bottom: 0;
   cursor: se-resize;
   margin: 7px;
-  border-bottom: solid 2px #999;
-  border-right: solid 2px #999;
+  border-bottom: solid 2px #bbb;
+  border-right: solid 2px #bbb;
 `;

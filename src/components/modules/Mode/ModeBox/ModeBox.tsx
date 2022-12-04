@@ -11,8 +11,6 @@ import ModeResizer from "./ModeResizer";
 
 function ModalBox<T, N>({
     type,
-    status,
-    name,
     title,
     size,
     onCloseMode,
@@ -21,6 +19,8 @@ function ModalBox<T, N>({
     showTimeCount,
     children,
     dependent,
+    uniqueKey,
+    visibleStatus
 } : ModeComponent.ModeBoxProps<T, N>) {
     const {
         boxRef,
@@ -36,10 +36,10 @@ function ModalBox<T, N>({
         maximize,
         onMaximize,
     } = useModeBox({
-        status,
+        visibleStatus,
         showTimeCount,
-        name,
-        size
+        size,
+
     });
 
     return transitions(
@@ -55,21 +55,21 @@ function ModalBox<T, N>({
                     <StyledModeBox
                         ref={boxRef}
                         maximize={maximize}
-                        minimize={taskItems && String(name) in taskItems}
+                        minimize={taskItems && String(uniqueKey) in taskItems}
                         size={{width: boxSize.width, height: boxSize.height}}
                         position={{x: boxPosition.x, y: boxPosition.y}}
                         type={String(type)}
                         resized={resized}
+                        isVisible={visibleStatus}
                         className={converter.classNames([
                             "mode-box",
                             String(type)?.includes(ModeTypes.MODELESS) ? "modeless" : "modal",
                         ])}
                     >
                         {String(type)?.includes(ModeTypes.MODAL) && !dependent && (
-                            <Button
-                                className="all clear modal-close-button"
+                            <StyledCloseButton
+                                className="clear"
                                 onClick={onCloseMode}
-                                styles={{padding: "0px"}}
                                 children={<VscChromeClose color="#fff" size={25} />}
                             />
                         )}
@@ -82,7 +82,7 @@ function ModalBox<T, N>({
                                 maximize={maximize}
                                 onMaximize={onMaximize}
                                 title={title}
-                                name={name}
+                                uniqueKey={uniqueKey}
                             />
                         )}
                         <StyledModeBoxBody
@@ -99,7 +99,6 @@ function ModalBox<T, N>({
                             {String(type)?.includes(ModeTypes.MODELESS) && (
                                 <ModeResizer size={boxSize} setSize={setBoxSize} resized={resized} setResized={setResized} />
                             )}
-
                         </StyledModeBoxBody>
                     </StyledModeBox>
                 </animated.div>
@@ -116,38 +115,34 @@ const StyledModeBox = styled.div<{
     maximize?: boolean;
     resized?: boolean;
     type?: string;
+    isVisible?: boolean;
 }>`
-    overflow: ${props => (!props.type?.includes(ModeTypes.MODAL) ? "hidden" : "initial")};
-    display: ${props => (props.minimize ? "none" : "block")};
-    position: relative;
-    .modal {
-        &-close-button {
-          position: absolute;
-          top: -35px;
-          right: 0;
-        }
-    }
-    &.modal {
-        top : 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-    &-modeless {
-        top: ${props => (props.position ? `${props.position.y}px` : "50%")};
-        left: ${props => (props.position ? `${props.position.x}px` : "50%")};
-    }
-    ${props => {
-        if (props.maximize) {
-            return css`
-              width: 100%;
-              height: 100% !important;
-              top: 0 !important;
-              left: 0 !important;
-            `;
-        }
+  pointer-events: ${props => (props.isVisible ? "auto" : "none")};
+  overflow: ${props => (!props.type?.includes(ModeTypes.MODAL) ? "initial" : "hidden")};
+  display: ${props => (props.minimize ? "none" : "block")};
+  flex-direction: column;
+  &.modal {
+    position: fixed;
+    top : 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  &-modeless {
+    top: ${props => (props.position ? `${props.position.y}px` : "50%")};
+    left: ${props => (props.position ? `${props.position.x}px` : "50%")};
+  }
+  ${props => {
+    if (props.maximize) {
         return css`
-          max-width: ${props.maximize || props?.resized ? "100%" : "1200px"};
-          width: ${props.size?.width ? `${props.size?.width}px` : "max-content"};
+          width: 100%;
+          height: 100% !important;
+          top: 0 !important;
+          left: 0 !important;
+        `;
+    }
+    return css`
+      max-width: ${props?.resized ? "100%" : "1200px"};
+      width: ${props.size?.width ? `${props.size?.width}px` : "max-content"};
         `;
     }}
   ${props => {
@@ -157,11 +152,10 @@ const StyledModeBox = styled.div<{
         `;
     }
     return css`
-      max-height: ${props.minimize || props?.resized ? "100%" : "700px"};
+      max-height: ${props.maximize || props?.resized ? "100%" : "980px"};
       height: ${props.size?.height ? `${props.size?.height}px` : "auto"};
     `;
   }}
-  background: #fff;
   border-radius: 8px;
   z-index: 9998;
   position: fixed;
@@ -196,4 +190,11 @@ const StyledModeBoxBody = styled.div<{
       height: inherit;
     `;
   }}
+`;
+
+const StyledCloseButton = styled(Button)`
+  padding: 0;
+  position: absolute;
+  top: -35px;
+  right: 0;
 `;

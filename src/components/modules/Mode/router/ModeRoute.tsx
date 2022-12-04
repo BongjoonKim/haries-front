@@ -1,14 +1,14 @@
-import {ModeTypes} from "./generate";
 import {createElement} from "react";
 import {ModeRouterComponent} from "../../../../types/mode";
+import {ModeTypes} from "./generate";
 
 function ModeRoute<T = ModeTypes, N = string>({
     component,
     name,
     title,
-    type
-}: ModeRouterComponent.ModeRouteProps<T, N>) {
-    return createElement(component, {name, title, type});
+    type,
+}: ModeRouterComponent.ModeRouteProps) {
+    return createElement(component);
 }
 
 export default ModeRoute;

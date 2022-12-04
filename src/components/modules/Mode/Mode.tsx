@@ -7,37 +7,24 @@ import converter from "../../../utilities/converter";
 import ModeBox from "./ModeBox/ModeBox";
 import ModeOverlay from "./ModeOverlay";
 import ModeTaskBar from "./ModeTaskBar";
+import useMode from "./useMode";
 
 function Mode<T, N>({
-    type,
-    name,
-    title,
-    status,
-    onCloseMode,
-    taskItems,
-    onAddTaskItem,
-    onRemoveTaskItem,
-    onActiveSequenceMode,
-    activeSequence,
-    size,
-    showTimeCount,
-    children,
-    dependent,
+    type, name, id, title,
+    onCloseMode, taskItems,
+    onAddTaskItem, onRemoveTaskItem,
+    onActiveSequenceMode, activeSequence,
+    size, showTimeCount, children,
+    dependent,overlayClose, onVisibleStatus,
+    isActiveEffect, onActiveEffect
 } : ModeComponent.ModeProps<T, N>) {
-    const activeIndex = useMemo(() => {
-        const initialActiveIndex : number = String(type)?.includes(ModeTypes.MODAL) ? 9998 : 9899
-        if (activeSequence?.includes(name))
-            return initialActiveIndex - (activeSequence?.indexOf(name) || 0);
-        return initialActiveIndex;
-    }, [activeSequence, name, type]);
-
-    const handleCloseMode = () => onCloseMode?.(name);
-
-    const handleActiveSequenceMode = (name:N) => {
-        if (String(type)?.includes(ModeTypes.MODELESS) && activeSequence?.indexOf(name) !== 0) {
-            onActiveSequenceMode?.(name)
-        }
-    };
+    const {
+        uniqueKey, visibleStatus, activeSequenceIndex,
+        handleCloseMode, handleActiveSequenceMode
+    } = useMode({
+        type, name, id, onCloseMode, onActiveSequenceMode, activeSequence,
+        onVisibleStatus, isActiveEffect, onActiveEffect
+    });
 
     return (
         <ModeWrapper
@@ -46,19 +33,17 @@ function Mode<T, N>({
                 "mode",
                 String(type)?.includes(ModeTypes.MODELESS) ? "modeless" : "modal",
             ])}
-            activeIndex={activeIndex}
-            active={String(name) in status}
+            activeSequenceIndex={activeSequenceIndex}
             dependent={dependent}
-            onMouseDown={() => handleActiveSequenceMode?.(name)}
+            onMouseDown={() => handleActiveSequenceMode?.(uniqueKey)}
         >
             {String(type)?.includes(ModeTypes.MODAL) && (
-                <ModeOverlay<T, N> type={type} name={name} status={status} onCloseMode={handleCloseMode} />
+                <ModeOverlay<T, N> type={type} visibleStatus={visibleStatus} overlayClose={overlayClose} onCloseMode={handleCloseMode} />
             )}
             <ModeBox<T, N>
                 type={type}
-                name={name}
                 title={title}
-                status={status}
+                visibleStatus = {visibleStatus}
                 onCloseMode={handleCloseMode}
                 onAddTaskItem={onAddTaskItem}
                 onActiveSequenceMode={onActiveSequenceMode}
@@ -66,6 +51,7 @@ function Mode<T, N>({
                 showTimeCount={showTimeCount}
                 dependent={dependent}
                 size={size}
+                uniqueKey={uniqueKey}
             >
                 {children}
             </ModeBox>
@@ -81,14 +67,13 @@ function Mode<T, N>({
 }
 
 const ModeWrapper = styled.div<{
-    activeIndex?: number;
+    activeSequenceIndex?: number;
     dependent?: boolean;
-    active?: boolean;
 }>`
-  display: ${props => (props.active ? "block" : "none")};
+  pointer-events: none;
   transition-duration: 0.5s;
   text-align: initial;
-  z-index: ${props => props.activeIndex};
+  z-index: ${props => props.activeSequenceIndex};
   position: ${props => (!props.dependent ? "fixed" : "initial")};
   &.modeless {
     width: 0;
@@ -106,11 +91,6 @@ const ModeWrapper = styled.div<{
       position: ${props => (!props.dependent ? "fixed" : "absolute")};
       top : 0;
       left : 0;
-    }
-    &-close-button {
-      position: absolute;
-      top: -20px;
-      right: 0;
     }
     &-header {
       font-size: 20px;

@@ -1,6 +1,9 @@
-import {ModeFrame} from "../../../../../types/mode";
+import {ModeComponent, ModeFrame} from "../../../../../types/mode";
 import DialogContent from "./DialogContent";
-import Mode from "../../index";
+import Mode, {ModeTypes} from "../../index";
+import {ModeFrameProps} from "../../useMode";
+import {cloneElement, Fragment, isValidElement} from "react";
+import DialogItem from "./DialogItem";
 
 export default function Dialog<T = string, N = string>({
     type,
@@ -14,7 +17,6 @@ export default function Dialog<T = string, N = string>({
     onActiveSequenceMode,
     activeSequence,
     size,
-    showTimeCount,
     construct,
     children,
     dependent,
@@ -24,32 +26,60 @@ export default function Dialog<T = string, N = string>({
     onShowDependentMode,
     isActiveEffect,
     onActiveEffect
-} : ModeFrame.DialogProps<T, N>) : JSX.Element {
+} : ModeFrameProps<T, N>) {
+    const commonProps = {
+        dialog : {
+            type, name, title, status, onCloseMode,
+            taskItems, onAddTaskItem, onRemoveTaskItem,
+            onActiveSequenceMode, activeSequence,
+            size, construct, dependent, onCloseDependentMode,
+            onVisibleStatus, isActiveEffect, onActiveEffect
+        },
+        component: {
+            mode: children?.props?.mode || {
+                type, name, status,
+                statusItem : status[name as keyof ModeComponent.ModeStatus<N>],
+                onCloseMode: (name?: N, id?: string) => onCloseMode((typeof name === "string" && name) || name, id),
+                onCloseDependentMode,
+                onShowMode,
+                onShowDependentMode
+            }
+        }
+    }
+    if (String(type)?.includes(ModeTypes.MODELESS) && Array.isArray(status[name as keyof ModeComponent.ModeStatus<N>])) {
+        return (
+            <Fragment>
+                {(
+                    status[name as keyof ModeComponent.ModeStatus<N>] as Array<ModeComponent.ModeStatusItem<N>>
+                )?.map((item: ModeComponent.ModeStatusItem<N>) => {
+                    commonProps.component.mode.id = item.id;
+                    commonProps.component.mode.onClose = (name?: N, id?: string) =>
+                        onCloseMode({id: id || item.id, name: name || item.name});
+                    return (
+                        <DialogItem<T, string> key={item.id} id={item.id} {...commonProps.dialog} {...item?.options}>
+                            {
+                                isValidElement(children) && cloneElement(children, {
+                                    key: item.id,
+                                    ...commonProps.component,
+                                    ...item?.props
+                                })
+                            }
+                        </DialogItem>
+                    )
+                })}
+            </Fragment>
+        )
+    }
+    const statusItem: ModeComponent.ModeStatusItem<N> = status?.[name as keyof ModeComponent.ModeStatus<N>];
     return (
-        <Mode
-            type={type}
-            name={name}
-            title={title}
-            status={status}
-            onCloseMode={onCloseMode}
-            taskItems={taskItems}
-            onAddTaskItem={onAddTaskItem}
-            onRemoveTaskItem={onRemoveTaskItem}
-            onActiveSequenceMode={onActiveSequenceMode}
-            activeSequence={activeSequence}
-            showTimeCount={showTimeCount}
-            dependent={dependent}
-            size={size}
-        >
-            {String(name) in status && (
-                <DialogContent<N>
-                    name={name}
-                    status={status}
-                    construct={construct}
-                    children={children}
-                    onCloseDependentMode={onCloseDependentMode}
-                />
-            )}
-        </Mode>
+        <DialogItem<T, string> {...commonProps.dialog} {...statusItem?.options}>
+            {isValidElement(children) &&
+                cloneElement(children, {
+                    ...commonProps.component,
+                    ...statusItem?.props
+                })
+            }
+        </DialogItem>
     )
+
 }

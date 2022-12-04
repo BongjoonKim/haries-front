@@ -13,7 +13,8 @@ function ModeRouter<T, N>({
     onActiveSequenceMode,
     activeSequence,
     onShowDependentMode,
-    onCloseDependentMode
+    onCloseDependentMode,
+    onVisibleStatus,
 }: ModeRouterComponent.ModeRouterProps<N>) {
     const {modes} = useModeRouter<T, N>({
         schema: children,
@@ -28,8 +29,8 @@ function ModeRouter<T, N>({
                 onActiveSequenceMode,
                 activeSequence,
                 onShowDependentMode,
-                onCloseDependentMode
-
+                onCloseDependentMode,
+                onVisibleStatus
             }
         }
     });

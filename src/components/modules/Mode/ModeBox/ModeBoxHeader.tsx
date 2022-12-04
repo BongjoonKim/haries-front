@@ -12,9 +12,9 @@ interface ModeBoxHeaderProps<N> {
     onAddTaskItem ?: ModeComponent.onAddTaskItem<N>;
     dragControlRef: MutableRefObject<HTMLHeadElement | null>;
     title?: string;
-    name: N;
     maximize ?: boolean;
     onMaximize ?: () => void;
+    uniqueKey: N | string;
 }
 
 function ModeBoxHeader<N>({
@@ -22,13 +22,14 @@ function ModeBoxHeader<N>({
     onAddTaskItem,
     dragControlRef,
     title,
-    name,
     maximize,
-    onMaximize
+    onMaximize,
+    uniqueKey
 } : ModeBoxHeaderProps<N>) {
     return (
     <StyledModeBoxHeader
         ref={dragControlRef}
+        className="mode-box-header"
         onDoubleClick={e => {
             e?.preventDefault?.();
             e?.stopPropagation?.();
@@ -40,7 +41,7 @@ function ModeBoxHeader<N>({
             <Button
                 className="clear"
                 onClick={
-                    () => onAddTaskItem?.({title: String(title || "Not Title"), name})
+                    () => onAddTaskItem?.({title: String(title || "Not Title"), key: uniqueKey})
                 }
                 styles={{padding : "5px"}}
                 children={<AiOutlineLine size="15px" color="#333" />}
@@ -72,7 +73,7 @@ function ModeBoxHeader<N>({
 export default ModeBoxHeader;
 
 const StyledModeBoxHeader = styled.header`
-    height: 40px;
+  height: 40px;
   border-bottom: solid 1px #ddd;
   margin: 0 5px 5px 5px;
   display: flex;
