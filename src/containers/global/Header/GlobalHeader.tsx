@@ -7,6 +7,7 @@ import Navigator from "../../../components/widgets/Navigator";
 import {useMenuData} from "./useMenuData";
 import "../../../styles/scss/components/topbar.scss"
 import styled from "styled-components";
+import {useNavigate} from "react-router-dom";
 import {StyledTreeList} from "../../../components/modules/TreeView/list/TreeList";
 
 function GlobalHeader() {
@@ -24,6 +25,8 @@ function GlobalHeader() {
 
     const menuData = useMenuData;
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         if (isLogin) {
             setMainMenuLoading(true);
@@ -34,7 +37,16 @@ function GlobalHeader() {
     return (
         <StyledGlobalHeader>
             <StyledHeaderLeft>
-                {Navigator({items: menuData})}
+                <StyledLogoContainer isCollapsed={isAsideCollapsed}>
+                    <StyledLogo
+                        onClick={() => {
+                            navigate("/");
+                        }}
+                    >
+                        Home
+                    </StyledLogo>
+                </StyledLogoContainer>
+                <Navigator items={menuData} loading={mainMenuLoading} />
             </StyledHeaderLeft>
         </StyledGlobalHeader>
     )
@@ -76,9 +88,18 @@ const StyledSideBarToggleButton = styled.button`
   }
 `;
 
-const StyledHomeLink = styled(Link)`
+const StyledLogoContainer = styled.div<{isCollapsed: boolean}>`
+  width: ${props => (props.isCollapsed ? "0px" : "250px")}
+  min-width: ${props => (props.isCollapsed ? "0px" : "250px")};
+  transition: all 0.2s ease-out;
+  padding-left: 20px;
+  overflow: hidden;
+`;
+
+const StyledLogo = styled.div`
   display: block;
-  width: 60px;
+  width: 63px;
   height: 20px;
-  margin: auto;
+  margin: auto 0;
+  cursor: pointer;
 `;

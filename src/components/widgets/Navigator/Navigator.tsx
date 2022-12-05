@@ -4,6 +4,7 @@ import NavigatorList from "./list/NavigatorList";
 
 type NavigatorProps = {
     items: MenuItemVO[];
+    loading?: boolean;
 };
 
 function Navigator(props: NavigatorProps) {
@@ -15,6 +16,7 @@ function Navigator(props: NavigatorProps) {
                 items: props.items,
                 ...getNavigatorProps()
             })}
+        {/*    로딩 아이콘 보여주기   */}
         </StyledNavigator>
     )
 }
