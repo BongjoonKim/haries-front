@@ -34,7 +34,7 @@ function ContentHeaderHandlers(props: Content.HandlerProps) {
                         default:
                             return undefined;
                     }
-                }). filter(x => x);
+                }).filter(x => x);
         }
         return undefined;
     }
