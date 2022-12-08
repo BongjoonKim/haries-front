@@ -1,6 +1,6 @@
 import {DialogProcessHandlerIconType} from "../types";
 import {BsEraserFill, BsSearch} from "react-icons/bs";
-import {IoMdCreate} from "react-icons/all";
+import {IoMdCreate} from "react-icons/io";
 import {AiOutlineMinus, AiOutlinePlus} from "react-icons/ai";
 
 const icons = {

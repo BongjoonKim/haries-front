@@ -3,7 +3,7 @@ import {Content} from "../index";
 import useClipboard from "../../../../hooks/state/useClipboard";
 import messengerUtil from "../../../../utilities/messengerUtil";
 import Button from "../../../elements/Button/Button";
-import {AiOutlineLink} from "react-icons/all";
+import {AiOutlineLink} from "react-icons/ai";
 import {useDialogContext} from "../../../modules/Mode/frame/Dialog/DialogContext";
 import {useModalContext} from "../../../widgets/Modal";
 

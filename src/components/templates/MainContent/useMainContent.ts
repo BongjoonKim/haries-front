@@ -9,13 +9,12 @@ export interface UseMainContentHook {
 
 export const useMainContent = (id?: string) => {
     let retObj: UseMainContentHook | undefined = undefined;
-    if (id) {
-        const [mainContentLoading, setMainContentLoading] = useRecoilState(LayoutState.mainContentLoading(id))
-        retObj = {
-            mainContentLoading,
-            setMainContentLoading
-        }
+    const [mainContentLoading, setMainContentLoading] = useRecoilState(LayoutState.mainContentLoading(id!))
+    retObj = {
+        mainContentLoading,
+        setMainContentLoading
     }
+
     return retObj;
 }
 
