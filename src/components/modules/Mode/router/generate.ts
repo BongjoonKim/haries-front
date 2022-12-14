@@ -45,19 +45,17 @@ export default function generate<T, N>(
                     onVisibleStatus
                 },
                 component : {
-                    key: name,
                     mode: {
                         type,
                         name,
                         status,
                         statusItem: status[name],
                         onCloseMode: (name ?: N, id?: string) =>
-                        onCloseMode((typeof name === "string" && name) || item.props.name, id),
+                            onCloseMode((typeof name === "string" && name) || item.props.name, id),
                         onShowMode,
                         onShowDependentMode,
                         onCloseDependentMode
                     },
-                    ...status?.[name]?.props
                 }
             };
 

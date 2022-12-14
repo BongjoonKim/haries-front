@@ -2,10 +2,7 @@ import generate, {Schema, ModeTypes} from "./generate";
 import useGenerate from "../../../../hooks/state/useGenerate";
 import {useCallback, useLayoutEffect} from "react";
 
-function useModeRouter<T, N>({
-    schema,
-    action
-}: GenerateParams<Schema, ModeTypes>) {
+function useModeRouter<T, N>({schema, action}: GenerateParams<Schema, ModeTypes>) {
     const [modes, dispatch, isLoading] = useGenerate<GenerateType<Schema>>((generate<T, N>), []);
 
     const getDynamicGenerate = useCallback(() => {
@@ -14,7 +11,7 @@ function useModeRouter<T, N>({
 
     useLayoutEffect(() => {
         getDynamicGenerate();
-    }, [schema, action?.payload?.status, action?.payload?.activeSequence]);
+    }, [schema, action.payload.status, action.payload.activeSequence]);
 
     return {
         modes,

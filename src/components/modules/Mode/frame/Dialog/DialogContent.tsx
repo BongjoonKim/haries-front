@@ -72,29 +72,8 @@ const Wrapper = styled.div`
     }
     &-body {
       padding-bottom: 80px;
-      max-height: 680px;
+      max-height: 100%;
       overflow: auto;
-      
-      ::-webkit-scrollbar{
-        width: 5px;
-        height: 5px;
-        position: absolute;
-      }
-      ::-webkit-scrollbar-button:start:decrement,
-      ::-webkit-scrollbar-button:end:increment {
-        display: block;
-        width : 0;
-        height : 0;
-        background: rgba(0, 0, 0, 0.05);
-      }
-      ::-webkit-scrollbar-track {
-        background: rgba(0, 0, 0, 0.07);
-        border-radius: 15px;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: rgba(0, 0, 0, 0.1);
-        border-radius: 15px;
-      }
     }
   }
 `;

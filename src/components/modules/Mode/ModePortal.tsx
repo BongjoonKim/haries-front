@@ -4,15 +4,15 @@ import {createPortal} from "react-dom";
 const modeRoot = document.querySelector("#mode-root") as HTMLElement;
 
 function ModePortal(props : { children : ReactNode }) : ReactPortal {
-    const el = useRef(document.createElement("div"));
+    const element = useRef(document.createElement("div"));
 
     useEffect(() => {
-        const { current } = el;
+        const { current } = element;
         modeRoot?.appendChild(current);
         return () => void modeRoot?.removeChild(current);
     }, []);
 
-    return createPortal(props.children, el.current);
+    return createPortal(props.children, element.current);
 
 }
 

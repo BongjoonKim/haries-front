@@ -4,8 +4,9 @@ import Mode, {ModeTypes} from "../../index";
 import {ModeFrameProps} from "../../useMode";
 import {cloneElement, Fragment, isValidElement} from "react";
 import DialogItem from "./DialogItem";
+import MemoGeneralize from "../../../../renderers/MemoGeneralize";
 
-export default function Dialog<T = string, N = string>({
+function Dialog<T = string, N = string>({
     type,
     name,
     title,
@@ -83,3 +84,5 @@ export default function Dialog<T = string, N = string>({
     )
 
 }
+
+export default MemoGeneralize(Dialog);

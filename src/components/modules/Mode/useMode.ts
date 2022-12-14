@@ -1,6 +1,7 @@
 import {ModeComponent, ModeContent, ModeFrame} from "../../../types/mode";
 import {useEffect, useMemo} from "react";
 import {ModeTypes} from "./router";
+import usePrevious from "../../../hooks/state/usePrevious";
 
 export interface useModeProps<T = string, N = string> {
     type: T;
@@ -40,12 +41,17 @@ function useMode<T, N>({
         onCloseMode?.({name, id});
     };
     const handleActiveSequenceMode = (key: N | string) => {
-        if (String(type)?.includes(ModeTypes.MODELESS) && activeSequence?.indexOf(key) !== 0) {
+        if (String(type)?.includes(ModeTypes.MODELESS) &&
+            activeSequence?.indexOf(key) !== 0 &&
+            activeSequence?.[0] !== key) {
             onActiveSequenceMode?.(key);
         }
     };
+
+    const prevIsActiveEffect = usePrevious(isActiveEffect);
     useEffect(() => {
-        if (typeof isActiveEffect === "boolean") onActiveEffect?.({active: isActiveEffect, name, id});
+        if (typeof isActiveEffect === "boolean" && isActiveEffect !== prevIsActiveEffect)
+            onActiveEffect?.({active: isActiveEffect, name, id});
     },[id, isActiveEffect, name, onActiveEffect]);
 
     return {

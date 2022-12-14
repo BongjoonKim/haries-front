@@ -83,7 +83,7 @@ export default function ContentSection(props: ContentSectionProps) {
                 </StyledSectionToggleButton>
             )}
             {/* isBackdrop 로직 추가 */}
-            <CircularProgress/>
+            {/*<CircularProgress/>*/}
         </StyledContentSection>
     )
 }

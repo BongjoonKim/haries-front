@@ -10,7 +10,7 @@ interface ModeProviderProps {
     value : any;
 }
 
-const ModeContext = createContext<Record<PropertyKey, any>>({});
+const ModeContext = createContext<ModeProviderProps["value"]>({});
 
 function useModeContext() {
     return useContext(ModeContext);

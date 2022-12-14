@@ -2,6 +2,7 @@ import {ModeFrame} from "../../../../../types/mode";
 import DialogContent from "./DialogContent";
 import Mode from "../../index";
 import MemoGeneralize from "../../../../renderers/MemoGeneralize";
+import {DialogProvider} from "./DialogContext";
 
 function DialogItem<T = string, N = string>({
     type, name, id, title, status,
@@ -31,16 +32,18 @@ function DialogItem<T = string, N = string>({
             isActiveEffect={isActiveEffect}
             onActiveEffect={onActiveEffect}
         >
-            {onVisibleStatus(name, id) && (
-                <DialogContent<N>
-                    name={name}
-                    status={status}
-                    construct={construct}
-                    children={children}
-                    onCloseDependentMode={onCloseDependentMode}
-                    onVisibleStatus={onVisibleStatus}
-                />
-            )}
+            <DialogProvider value={{name, id, onCloseMode}}>
+                {onVisibleStatus(name, id) && (
+                    <DialogContent<N>
+                        name={name}
+                        status={status}
+                        construct={construct}
+                        children={children}
+                        onCloseDependentMode={onCloseDependentMode}
+                        onVisibleStatus={onVisibleStatus}
+                    />
+                )}
+            </DialogProvider>
         </Mode>
     )
 }

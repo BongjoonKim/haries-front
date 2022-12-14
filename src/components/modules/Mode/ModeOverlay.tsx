@@ -36,7 +36,8 @@ function ModeOverlay<T, N>({
 export default ModeOverlay;
 
 const StyleModeOverlay = styled.div`
-    background-color: rgba(0, 0, 0, 0.3);
+  pointer-events: auto;
+  background-color: rgba(0, 0, 0, 0.3);
   z-index: 9998;
   pointer-events: auto;
 `;

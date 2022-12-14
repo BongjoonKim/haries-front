@@ -4,8 +4,8 @@ import useDraggable from "../../../../hooks/sensor/useDraggable";
 import useToggle from "../../../../hooks/state/useToggle";
 import {ModeComponent} from "../../../../types/mode";
 
-interface useModalBoxProps<N> {
-    visibleStatus?: boolean;
+interface useModalBoxProps {
+    visibleStatus: boolean;
     showTimeCount?: number;
     size ?: ModeComponent.BoxSize;
 }
@@ -18,11 +18,11 @@ type BoxSize = {
 
 type BoxPosition = { y : number; x: number }
 
-function useModeBox<N>({
+function useModeBox({
     visibleStatus,
     showTimeCount,
     size
-} : useModalBoxProps<N>) {
+} : useModalBoxProps) {
     const boxRef = useRef(null);
     const dragControlRef = useRef(null);
 
@@ -50,9 +50,11 @@ function useModeBox<N>({
             !boxPosition.x
         ) {
             const adjustPosition = (showTimeCount || 0) * 20;
+            const XPosition = innerWidth / 2 - width / 2 + adjustPosition;
+            const YPosition = innerHeight / 2 - height / 2 + adjustPosition;
             setBoxPosition({
-                x : innerWidth / 2 - width / 2 + adjustPosition,
-                y : innerHeight / 2 - height / 2 + adjustPosition
+                x : XPosition < 0 ? 0 : XPosition,
+                y : YPosition < 0 ? 0 : YPosition
             });
         }
     };

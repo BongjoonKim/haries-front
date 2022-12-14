@@ -47,7 +47,8 @@ export default function ModeTaskBar<N>({
 }
 
 const StyledModeTaskItem = styled.button`
-  width: 100px;
+  min-width: 100px;
+  width: max-content;
   height: 30px;
   background: #f0f0f0;
   border: 1px solid #ddd;
