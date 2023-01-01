@@ -47,7 +47,9 @@ function Dialog<T = string, N = string>({
             }
         }
     }
+    
     if (String(type)?.includes(ModeTypes.MODELESS) && Array.isArray(status[name as keyof ModeComponent.ModeStatus<N>])) {
+        
         return (
             <Fragment>
                 {(
@@ -72,8 +74,9 @@ function Dialog<T = string, N = string>({
         )
     }
     const statusItem: ModeComponent.ModeStatusItem<N> = status?.[name as keyof ModeComponent.ModeStatus<N>];
+    console.log("타입",children);
     return (
-        <DialogItem<T, string> {...commonProps.dialog} {...statusItem?.options}>
+        <DialogItem<T, string> {...commonProps.dialog}>
             {isValidElement(children) &&
                 cloneElement(children, {
                     ...commonProps.component,

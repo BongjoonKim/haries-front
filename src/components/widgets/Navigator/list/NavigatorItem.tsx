@@ -142,6 +142,7 @@ function NavigatorItem(props: NavigatorItemProps) {
 export default NavigatorItem;
 
 const StyledNavigator = styled.li`
+  list-style: none;
   position: relative;
   .nav-link {
     display: flex;

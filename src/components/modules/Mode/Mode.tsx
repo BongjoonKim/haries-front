@@ -20,7 +20,8 @@ function Mode<T, N>({
 } : ModeComponent.ModeProps<T, N>) {
     const {
         uniqueKey, visibleStatus, activeSequenceIndex,
-        handleCloseMode, handleActiveSequenceMode
+        handleCloseMode, handleActiveSequenceMode,
+      isModeless, isActive
     } = useMode({
         type, name, id, onCloseMode, onActiveSequenceMode, activeSequence,
         onVisibleStatus, isActiveEffect, onActiveEffect
@@ -31,7 +32,7 @@ function Mode<T, N>({
             tabIndex={-1}
             className={converter.classNames([
                 "mode",
-                String(type)?.includes(ModeTypes.MODELESS) ? "modeless" : "modal",
+                isModeless ? "modeless" : "modal",
             ])}
             activeSequenceIndex={activeSequenceIndex}
             dependent={dependent}
@@ -40,7 +41,7 @@ function Mode<T, N>({
                 handleActiveSequenceMode?.(uniqueKey);
             }}
         >
-            {String(type)?.includes(ModeTypes.MODAL) && (
+            {!isModeless && (
                 <ModeOverlay<T, N> type={type} visibleStatus={visibleStatus} overlayClose={overlayClose} onCloseMode={handleCloseMode} />
             )}
             <ModeBox<T, N>
@@ -55,10 +56,12 @@ function Mode<T, N>({
                 dependent={dependent}
                 size={size}
                 uniqueKey={uniqueKey}
+                isModeless={isModeless}
+                isActive={isActive}
             >
                 {children}
             </ModeBox>
-            {String(type)?.includes(ModeTypes.MODELESS) && taskItems && onRemoveTaskItem && (
+            {isModeless && taskItems && onRemoveTaskItem && (
                 <ModeTaskBar
                     taskItems={taskItems}
                     onRemoveTaskItem={onRemoveTaskItem}

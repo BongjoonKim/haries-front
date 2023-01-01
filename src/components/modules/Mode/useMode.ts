@@ -29,6 +29,8 @@ function useMode<T, N>({
     onActiveEffect
 }: useModeProps<T, N>) {
     const uniqueKey = useMemo(() => String(id || name), [name, id]);
+    const isModeless = useMemo(() => String(type)?.includes(ModeTypes.MODELESS), [type]);
+    const isActive = useMemo(() => activeSequence?.[0] === uniqueKey, [uniqueKey, activeSequence]);
     const visibleStatus = useMemo(() => onVisibleStatus(name, id), [onVisibleStatus, name, id]);
     const activeSequenceIndex = useMemo(() => {
         const initialActiveIndex: number = String(type)?.includes(ModeTypes.MODAL) ? 9998: 9898;
@@ -58,6 +60,8 @@ function useMode<T, N>({
         uniqueKey,
         activeSequenceIndex,
         visibleStatus,
+        isModeless,
+        isActive,
         handleCloseMode,
         handleActiveSequenceMode
     }

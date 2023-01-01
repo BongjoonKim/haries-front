@@ -1,6 +1,7 @@
 import {ModeComponent} from "../../../types/mode";
 import {animated, useTransition} from "react-spring";
 import styled from "styled-components";
+import MemoGeneralize from "../../renderers/MemoGeneralize";
 
 function ModeOverlay<T, N>({
     type,
@@ -33,7 +34,7 @@ function ModeOverlay<T, N>({
         )
 }
 
-export default ModeOverlay;
+export default MemoGeneralize(ModeOverlay);
 
 const StyleModeOverlay = styled.div`
   pointer-events: auto;

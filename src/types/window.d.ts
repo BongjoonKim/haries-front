@@ -10,9 +10,14 @@ declare namespace NSWindow {
         width?: number;
         height?: number;
         left?: number;
+        leftShift?: number;
         top?: number;
+        topShift?: number;
+        isCenter?: boolean;
     }
     export interface IOpenWindowOptions extends IOpenWindowFeatures {
         target?: string;
+        supressWindowOpenFailPopup?: boolean;
+        windowOpenFailPopupMessage?: string;
     }
 }

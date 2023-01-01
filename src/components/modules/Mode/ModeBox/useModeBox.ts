@@ -5,7 +5,7 @@ import useToggle from "../../../../hooks/state/useToggle";
 import {ModeComponent} from "../../../../types/mode";
 
 interface useModalBoxProps {
-    visibleStatus: boolean;
+    visibleStatus?: boolean;
     showTimeCount?: number;
     size ?: ModeComponent.BoxSize;
 }

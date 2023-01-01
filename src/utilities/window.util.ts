@@ -21,7 +21,19 @@ function getPositionSizeOfName(name: TWindowPositionSizeName) {
 }
 
 function getFeatureStringFromPositionSize(positionSize: NSLayout.positionSize) {
-    return Object.entries(positionSize)
+    let {width, height, left, leftShift = 0, top, topShift = 0} = positionSize;
+
+    if (left === "center") {
+        left = window.screen.width / 2 - width / 2;
+    }
+    if (top === "center") {
+        top = window.screen.height / 2 - height / 2;
+    }
+    const finalLeft = left + leftShift;
+    const finalTop = top + topShift;
+
+
+    return Object.entries({width, height, left: finalLeft, top: finalTop})
         .map(keyValue => {
             const [key, value] = keyValue;
             return `${key}=${value}`;
@@ -50,7 +62,7 @@ setupWindowPositionSize(WindowPositionSizeDictionary);
 function openWindow(
     url: string | URL,
     options?: NSWindow.IOpenWindowOptions
-): Window | null {
+): WindowProxy | null {
     const _url = typeof url === "string" ? new URL(url, window.location.origin) : url;
     {
         _url.searchParams.set("type", "independent");
@@ -68,6 +80,17 @@ function openWindow(
     const _positionSize = positionSize ?? positionSizeOfName;
 
     if (_positionSize !== undefined) {
+        if (options?.isCenter) {
+            _positionSize.left = "center";
+            _positionSize.top = "center";
+        }
+        if (options?.leftShift !== undefined) {
+            _positionSize.leftShift = options?.leftShift;
+        }
+        if (options?.topShift !== undefined) {
+            _positionSize.topShift = options?.topShift;
+        }
+
         const featureString = getFeatureStringFromPositionSize(_positionSize);
         return window.open(_url, _target, featureString);
     }
@@ -76,10 +99,19 @@ function openWindow(
     const height = options?.height ?? 600;
     const left = options?.left ?? 0;
     const top = options?.top ?? 0;
+    const leftShift = options?.leftShift ?? 0;
+    const topShift = options?.topShift ?? 0;
 
-    const finalFeatureString = getFeatureStringFromPositionSize({height, width, left, top});
+    const finalFeatureString = getFeatureStringFromPositionSize({height, width, left, top, leftShift, topShift});
 
-    return window.open(_url, _target, finalFeatureString);
+    const handle = window.open(_url, _target, finalFeatureString);
+
+    const suppressWindowOpenFailPopup = options?.supressWindowOpenFailPopup ?? false;
+    if (!handle && !suppressWindowOpenFailPopup) {
+        const message = options?.windowOpenFailPopupMessage ?? "Popup open failed";
+        window.alert(message);
+    }
+    return handle;
 
 }
 

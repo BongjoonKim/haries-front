@@ -1,7 +1,7 @@
 import Mode from "./Mode";
 import ModePortal from "./ModePortal";
 import {ModeProvider, ModeContext, useModeContext} from "./ModeContext";
-import Dialog from "./frame/Dialog";
+import Dialog, {DialogContext, useDialogContext} from "./frame/Dialog";
 import ModeRouter from "./router";
 import ModeRoute from "./router/ModeRoute";
 import {ModeTypes} from "./router";
@@ -17,7 +17,9 @@ export {
     useModeContext,
     Dialog,
     actionType,
-    dependentOptionsPath
+    dependentOptionsPath,
+  DialogContext,
+    useDialogContext
 };
 
 export default Mode;

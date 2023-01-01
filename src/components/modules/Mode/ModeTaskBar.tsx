@@ -19,6 +19,7 @@ function ModeTaskItem<N>({
 }: ModeTaskItemProps<N>) {
     return(
         <StyledModeTaskItem
+            role="button"
             className="mode-task-item"
             onClick={() => onRemoveTaskItem(item.key)}
         >
@@ -46,15 +47,17 @@ export default function ModeTaskBar<N>({
     )
 }
 
-const StyledModeTaskItem = styled.button`
+const StyledModeTaskItem = styled.div`
   min-width: 100px;
   width: max-content;
   height: 30px;
   background: #f0f0f0;
+  display: flex;
+  align-items: center;
   border: 1px solid #ddd;
   display: flex;
   align-items: center;
-  justify-content: center;
+  cursor: pointer;
   font-size: 11px;
   color: #888;
 `;

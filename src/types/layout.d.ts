@@ -1,8 +1,10 @@
 declare namespace NSLayout {
     type get = {code?: string};
     type position = {
-        left: number;
-        top: number;
+        left: number | "center";
+        top: number | "center";
+        leftShift?: number;
+        topShift?: number;
     }
     type size = {
         width: number;

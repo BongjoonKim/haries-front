@@ -20,7 +20,9 @@ function ModalBox<T, N>({
     children,
     dependent,
     uniqueKey,
-    visibleStatus
+    visibleStatus,
+  isModeless,
+  isActive
 } : ModeComponent.ModeBoxProps<T, N>) {
     const {
         boxRef,
@@ -36,6 +38,7 @@ function ModalBox<T, N>({
         maximize,
         onMaximize,
     } = useModeBox({
+      isModeless,
         visibleStatus,
         showTimeCount,
         size,
@@ -83,12 +86,14 @@ function ModalBox<T, N>({
                                 onMaximize={onMaximize}
                                 title={title}
                                 uniqueKey={uniqueKey}
+                                isActive={isActive}
                             />
                         )}
                         <StyledModeBoxBody
                             className="mode-box-body"
                             minimize={minimize}
                             maximize={maximize}
+                            isModeless={isModeless}
                             resized={{
                                 height: String(type)?.includes(ModeTypes.MODELESS)
                                     ? boxSize.height - boxSize.diff.height
@@ -96,10 +101,12 @@ function ModalBox<T, N>({
                             }}
                         >
                             {children}
-                            {String(type)?.includes(ModeTypes.MODELESS) && (
-                                <ModeResizer size={boxSize} setSize={setBoxSize} resized={resized} setResized={setResized} />
-                            )}
                         </StyledModeBoxBody>
+                      <StyledModeBoxFooter>
+                        {String(type)?.includes(ModeTypes.MODELESS) && !maximize && (
+                          <ModeResizer size={boxSize} setSize={setBoxSize} resized={resized} setResized={setResized} />
+                        )}
+                      </StyledModeBoxFooter>
                     </StyledModeBox>
                 </animated.div>
             )
@@ -107,6 +114,10 @@ function ModalBox<T, N>({
 }
 
 export default ModalBox;
+
+const StyledModeBoxFooter = styled.footer`
+  position: relative;
+`;
 
 const StyledModeBox = styled.div<{
     minimize?: boolean;
@@ -116,6 +127,8 @@ const StyledModeBox = styled.div<{
     resized?: boolean;
     type?: string;
     isVisible?: boolean;
+    isModeless: boolean;
+    isAc
 }>`
   pointer-events: ${props => (props.isVisible ? "auto" : "none")};
   overflow: ${props => (!props.type?.includes(ModeTypes.MODAL) ? "initial" : "hidden")};
@@ -168,13 +181,15 @@ const StyledModeBoxBody = styled.div<{
    minimize?: boolean;
    maximize?: boolean;
    resized?: { width?: number; height?: number }
+  isModeless: boolean;
 }>`
-  padding: 5px;
+  padding: 12px;
   display: ${props => (props.minimize ? "none" : "block")};
+  cursor: auto;
   overflow-y: auto;
   flex: 1;
   width: auto;
-  margin-bottom: 5px;
+  position: relative;
   ${props => {
     if (props.maximize) {
         return css`

@@ -1,22 +1,28 @@
-import {useState, useCallback} from "react";
+import {useState, useCallback, useMemo, useRef, startTransition} from "react";
 
 function useGenerate<G extends Generate<any, any>>(
     generate: G,
     initialState: GenerateState<G>
 ) : [GenerateState<G>, GenerateDispatch<GenerateAction<G>>, boolean] {
-    const [state, setState] = useState<GenerateState<G>>(initialState);
-    const [isLoading, setLoading] = useState<boolean>(false);
+  const nextGenerate = useMemo(() => generate, [generate]);
+  const {current : nextInitialState} = useRef(initialState);
+    const [state, setState] = useState<GenerateState<G>>(nextInitialState);
+    const [isLoaded, setLoaded] = useState<boolean>(false);
 
+    const handleSetState = useCallback((state: GenerateState<G>) => {
+      startTransition(() => setState(state));
+    }, []);
     const dispatch = useCallback(
         ({ schema, action}: GenerateAction<G>, initialValue: GenerateState<G>) => {
-            setLoading(true);
+          const generate = nextGenerate({action, schema}, initialValue);
+            setLoaded(true);
             const nextState = generate({action, schema}, initialValue);
-            const closeLoading = () => setLoading(false);
-            Promise.resolve(nextState).then(setState).finally(closeLoading);
+            const closeLoading = () => setLoaded(false);
+            Promise.resolve(generate).then(handleSetState).finally(closeLoading);
         }
-        ,[generate]
+        ,[handleSetState, isLoaded, nextGenerate]
     );
-    return [state, dispatch, isLoading];
+    return [state, dispatch, isLoaded];
 }
 
 export default useGenerate;

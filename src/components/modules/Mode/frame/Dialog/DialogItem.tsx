@@ -12,6 +12,7 @@ function DialogItem<T = string, N = string>({
     construct, children, dependent, onCloseDependentMode,
     onVisibleStatus, isActiveEffect, onActiveEffect
 }: ModeFrame.DialogProps<T, N>): JSX.Element {
+    console.log("children DialogItem", children)
     return (
         <Mode
             type={type}

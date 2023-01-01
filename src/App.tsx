@@ -9,21 +9,13 @@ function App() {
   return (
       <Router>
           <UniversalContainer>
-
                   <Routes>
                       <Route path="/" element={<IntroPage />} />
                       <Route path="/introduce" element={<Examples />} />
                   </Routes>
-
               {/*<IntroPage />*/}
           </ UniversalContainer>
       </Router>
-
-
-
-
-
-
   );
 }
 
