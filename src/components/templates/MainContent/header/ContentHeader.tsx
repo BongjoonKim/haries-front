@@ -13,7 +13,7 @@ interface ContentHeaderProps extends Content.HandlerProps {
 export default function ContentHeader(props: ContentHeaderProps) {
     return (
         <StyledContentHeader className="content-header" contentHeaderTheme={props.contentHeaderTheme}>
-            <Column flexDirection="row" alignItems="center" flex={1}>
+            <Column flexdirection="row" alignitems="center" flex={1}>
                 <h3 className="content-header-title">{props.title}</h3>
             </Column>
             <ContentHeaderHandlers

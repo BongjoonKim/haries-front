@@ -1,4 +1,5 @@
 import {useEffect, useState, useCallback, MutableRefObject} from "react";
+import {MouseEvent} from "react";
 
 interface useDraggableRefProps {
     target : MutableRefObject<any>;
@@ -8,6 +9,7 @@ interface useDraggableRefProps {
 interface useDraggableOptionsProps {
     dragStyle ?: "translate" | "margin";
     maximize ?: boolean;
+    onPreventMouseDown ?: (event: MouseEvent<HTMLElement>) => unknown;
 }
 
 function useDraggable(
@@ -19,22 +21,23 @@ function useDraggable(
         dy : 0
     });
 
-    const handleMouseDown = useCallback((e : { pageX: number; pageY: number }) => {
-        const startX = e.pageX - dx;
-        const startY = e.pageY - dy;
+    const handleMouseDown = useCallback((event : MouseEvent<HTMLElement>) => {
+        if (options?.onPreventMouseDown?.(event) === false) return false;
+        const startX = event.pageX - dx;
+        const startY = event.pageY - dy;
 
-        const handleMouseMove = (e : {
+        const handleMouseMove = (event : {
             preventDefault() : unknown;
             stopPropagation() : unknown;
             pageX : number;
             pageY : number;
         }) => {
-            if (e) {
-                e.stopPropagation();
-                e.preventDefault();
+            if (event) {
+                event.stopPropagation();
+                event.preventDefault();
             }
-            const newDx = e.pageX - startX;
-            const newDy = e.pageY - startY;
+            const newDx = event.pageX - startX;
+            const newDy = event.pageY - startY;
             setOffSet({ dx : newDx, dy : newDy });
         };
         document.addEventListener("mousemove", handleMouseMove);

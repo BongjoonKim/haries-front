@@ -9,9 +9,9 @@ interface ColumnProps extends HTMLAttributes<HTMLDivElement> {
     type?: "div" | "article" | "section" | "footer" | "header";
     width?: string;
     flex?: number | string;
-    alignItems?: string;
-    flexDirection?: string;
-    justifyContent?: string;
+    alignitems?: string;
+    flexdirection?: string;
+    justifycontent?: string;
     height?: string;
 }
 
@@ -22,9 +22,9 @@ function Column(props: ColumnProps) {
         width: props.width,
         height: props.height,
         flex: props.flex,
-        alignItems: props.alignItems,
-        flexDirection: props.flexDirection,
-        justifyContent: props.justifyContent,
+        alignitems: props.alignitems,
+        flexdirection: props.flexdirection,
+        justifycontent: props.justifycontent,
         children: props.children,
     });
 }
@@ -33,17 +33,17 @@ const Wrapper = styled(Column)<{
     width?: string;
     height?: string;
     flex?: number | string;
-    alignItems?: string;
+    alignitems?: string;
     flexDirection?: string;
-    justifyContent?: string;
+    justifycontent?: string;
 }>`
   display: flex;
-  flex-direction: ${props => props.flexDirection || "column"};
-  align-items: ${props => props.alignItems || "stretch"};
+  flex-direction: ${props => props.flexdirection || "column"};
+  align-items: ${props => props.alignitems || "stretch"};
   width: ${props => props.width || "initial"};
   height: ${props => props.height || "auto"};
   flex: ${props => props.flex || "initial"};
-  justify-content: ${props => props.justifyContent || "initial"};
+  justify-content: ${props => props.justifycontent || "initial"};
 `;
 
 export default Wrapper;

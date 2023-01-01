@@ -8,6 +8,7 @@ import Button from "../../../elements/Button/Button";
 import {VscChromeClose} from "react-icons/vsc";
 import ModeBoxHeader from "./ModeBoxHeader";
 import ModeResizer from "./ModeResizer";
+import MemoGeneralize from "../../../renderers/MemoGeneralize";
 
 function ModalBox<T, N>({
     type,
@@ -61,6 +62,8 @@ function ModalBox<T, N>({
                         minimize={taskItems && String(uniqueKey) in taskItems}
                         size={{width: boxSize.width, height: boxSize.height}}
                         position={{x: boxPosition.x, y: boxPosition.y}}
+                        isActive={isActive}
+                        isModeless={isModeless}
                         type={String(type)}
                         resized={resized}
                         isVisible={visibleStatus}
@@ -113,7 +116,7 @@ function ModalBox<T, N>({
     )
 }
 
-export default ModalBox;
+export default MemoGeneralize(ModalBox);
 
 const StyledModeBoxFooter = styled.footer`
   position: relative;
@@ -128,7 +131,7 @@ const StyledModeBox = styled.div<{
     type?: string;
     isVisible?: boolean;
     isModeless: boolean;
-    isAc
+    isActive: boolean;
 }>`
   pointer-events: ${props => (props.isVisible ? "auto" : "none")};
   overflow: ${props => (!props.type?.includes(ModeTypes.MODAL) ? "initial" : "hidden")};

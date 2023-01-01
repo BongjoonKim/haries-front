@@ -2,7 +2,7 @@ import {ModeComponent, ModeFrame} from "../../../../../types/mode";
 import DialogContent from "./DialogContent";
 import Mode, {ModeTypes} from "../../index";
 import {ModeFrameProps} from "../../useMode";
-import {cloneElement, Fragment, isValidElement} from "react";
+import {cloneElement, Fragment, isValidElement, useMemo} from "react";
 import DialogItem from "./DialogItem";
 import MemoGeneralize from "../../../../renderers/MemoGeneralize";
 
@@ -28,6 +28,10 @@ function Dialog<T = string, N = string>({
     isActiveEffect,
     onActiveEffect
 } : ModeFrameProps<T, N>) {
+    const statusItem: ModeComponent.ModeStatusItem<N> = useMemo(
+      () => status?.[name as keyof ModeComponent.ModeStatus<N>],
+    [name, status]
+    );
     const commonProps = {
         dialog : {
             type, name, title, status, onCloseMode,
@@ -39,7 +43,7 @@ function Dialog<T = string, N = string>({
         component: {
             mode: children?.props?.mode || {
                 type, name, status,
-                statusItem : status[name as keyof ModeComponent.ModeStatus<N>],
+                statusItem,
                 onCloseMode: (name?: N, id?: string) => onCloseMode((typeof name === "string" && name) || name, id),
                 onCloseDependentMode,
                 onShowMode,
@@ -60,8 +64,7 @@ function Dialog<T = string, N = string>({
                         onCloseMode({id: id || item.id, name: name || item.name});
                     return (
                         <DialogItem<T, string> key={item.id} id={item.id} {...commonProps.dialog} {...item?.options}>
-                            {
-                                isValidElement(children) && cloneElement(children, {
+                            {cloneElement(children, {
                                     key: item.id,
                                     ...commonProps.component,
                                     ...item?.props
@@ -73,11 +76,10 @@ function Dialog<T = string, N = string>({
             </Fragment>
         )
     }
-    const statusItem: ModeComponent.ModeStatusItem<N> = status?.[name as keyof ModeComponent.ModeStatus<N>];
     console.log("타입",children);
     return (
         <DialogItem<T, string> {...commonProps.dialog}>
-            {isValidElement(children) &&
+            {
                 cloneElement(children, {
                     ...commonProps.component,
                     ...statusItem?.props

@@ -2,6 +2,7 @@ import {createElement, MouseEvent} from "react";
 import {ModeFrame} from "../../../../../types/mode";
 import GlobalModeNames from "../../../../../constants/modes/global-mode.const";
 import {ModeTypes, Dialog } from "../../index";
+import MemoGeneralize from "../../../../renderers/MemoGeneralize";
 
 import styled from "styled-components";
 
@@ -37,7 +38,7 @@ function DialogDependentMode<N>({
     );
 }
 
-export default function DialogContent<N=string>({
+function DialogContent<N=string>({
     children,
     construct,
     status,
@@ -59,6 +60,8 @@ export default function DialogContent<N=string>({
         </Wrapper>
     )
 }
+
+export default MemoGeneralize(DialogContent);
 
 const Wrapper = styled.div`
   box-sizing: border-box;

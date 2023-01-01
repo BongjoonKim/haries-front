@@ -11,7 +11,7 @@ interface RowProps extends HTMLAttributes<HTMLDivElement> {
     padding?: string;
     width?: string;
     height?: string;
-    alignItems?: string;
+    alignitems?: string;
     onClick?: (...args: any[]) => void;
     type?: "div" | "article" | "section" | "footer" | "header";
     justifyContent?: string;
@@ -25,7 +25,7 @@ function Row(props: RowProps) {
         itemMargin: props.itemMargin,
         width: props.width,
         height: props.height,
-        alignItems: props.alignItems,
+        alignItems: props.alignitems,
         justifyContent: props.justifyContent,
         margin: props.margin,
         padding: props.padding,

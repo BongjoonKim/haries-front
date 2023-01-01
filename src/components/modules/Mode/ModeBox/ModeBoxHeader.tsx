@@ -15,6 +15,7 @@ interface ModeBoxHeaderProps<N> {
     maximize ?: boolean;
     onMaximize ?: () => void;
     uniqueKey: N | string;
+    isActive: boolean;
 }
 
 function ModeBoxHeader<N>({
@@ -24,12 +25,14 @@ function ModeBoxHeader<N>({
     title,
     maximize,
     onMaximize,
-    uniqueKey
+    uniqueKey,
+  isActive
 } : ModeBoxHeaderProps<N>) {
     return (
     <StyledModeBoxHeader
         ref={dragControlRef}
         className="mode-box-header"
+        isActive={isActive}
         onDoubleClick={e => {
             e?.preventDefault?.();
             e?.stopPropagation?.();
@@ -72,13 +75,14 @@ function ModeBoxHeader<N>({
 
 export default ModeBoxHeader;
 
-const StyledModeBoxHeader = styled.header`
+const StyledModeBoxHeader = styled.header<{isActive : boolean}>`
   height: 40px;
   border-bottom: solid 1px #ddd;
   margin: 0 5px 5px 5px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: ${props => !props.isActive ? "#ebebeb" : "#ebebeb"};
   .mode-box-header {
     &.start {
       font-weight: bold;

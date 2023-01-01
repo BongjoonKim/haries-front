@@ -176,7 +176,7 @@ declare namespace ModeFrame {
 
     interface DialogProps<T = string, N = string> extends ModeComponent.ModeProps<T, N>, ModeComponent.ModeStatusOptions {
         dependent?: boolean;
-        children ?: ReactElement;
+        children : ReactElement;
         construct ?: DialogConstruct;
         onCloseDependentMode ?: ModeComponent.onCloseDependentMode<N>;
         isActiveEffect?: boolean;

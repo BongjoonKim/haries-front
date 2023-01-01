@@ -4,7 +4,7 @@ import styled from "styled-components";
 interface InjectorProps<T> {
     InjectTarget: FunctionComponent<any> | ComponentClass<T, any>;
     injectProps: T[];
-    flexDirection?: string;
+    flexdirection?: string;
 }
 
 function Injector<T>(props: InjectorProps<T>) {
@@ -23,7 +23,7 @@ function Injector<T>(props: InjectorProps<T>) {
 
 export default Injector;
 
-const StyledInjector = styled.div<{flexDirection ?: string}>`
+const StyledInjector = styled.div<{flexdirection ?: string}>`
     display: flex;
-    flex-direction: ${props => props.flexDirection || "initial"}   
+    flex-direction: ${props => props.flexdirection || "initial"}
 `;

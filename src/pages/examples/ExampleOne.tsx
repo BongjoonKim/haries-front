@@ -3,10 +3,10 @@ import {Dialog, ModeTypes} from "../../components/modules/Mode";
 import exampleTwo from "./ExampleTwo";
 import useMode from "../../hooks/ui/useMode";
 import Button from "../../components/elements/Button/Button";
+import openWindow from "../../utilities/window.util";
 
 function ExampleOne() {
     const {getModeProps : getLocalModeProps, handleShowMode, handleCloseMode} = useMode();
-
     return (
         <MainContent
             title="test"
@@ -14,7 +14,7 @@ function ExampleOne() {
             <MainContent.Section mainContentTheme="light" id="test">
                 <span>안녕</span>
                 <Button onClick={() => handleShowMode("TEST")} />
-                <Dialog type={ModeTypes.MODELESS} name="TEST" children={exampleTwo} {...getLocalModeProps()} />
+                <Dialog type={ModeTypes.MODELESS} name="TEST" children={exampleTwo()} {...getLocalModeProps()} />
 
             </MainContent.Section>
         </MainContent>

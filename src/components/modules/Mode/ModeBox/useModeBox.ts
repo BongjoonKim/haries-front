@@ -1,13 +1,15 @@
-import { useRef, useState, useLayoutEffect } from "react";
+import {useRef, useState, useLayoutEffect, useCallback, useMemo} from "react";
 import {useTransition} from "react-spring";
 import useDraggable from "../../../../hooks/sensor/useDraggable";
 import useToggle from "../../../../hooks/state/useToggle";
 import {ModeComponent} from "../../../../types/mode";
+import {MouseEvent} from "react";
 
 interface useModalBoxProps {
     visibleStatus?: boolean;
     showTimeCount?: number;
     size ?: ModeComponent.BoxSize;
+    isModeless: boolean;
 }
 
 type BoxSize = {
@@ -21,8 +23,10 @@ type BoxPosition = { y : number; x: number }
 function useModeBox({
     visibleStatus,
     showTimeCount,
-    size
+    size,
+  isModeless
 } : useModalBoxProps) {
+    const nextSize = useMemo(() => size, [size])
     const boxRef = useRef(null);
     const dragControlRef = useRef(null);
 
@@ -38,9 +42,8 @@ function useModeBox({
         x: 0, y: 0
     });
 
-    const handleSetBoxPosition = () => {
+    const handleSetBoxPosition = useCallback(({width, height} : {width: number; height: number}) => {
         const { innerWidth, innerHeight } = window;
-        const { width, height } = boxSize;
         if (
             innerWidth &&
             innerHeight &&
@@ -57,15 +60,15 @@ function useModeBox({
                 y : YPosition < 0 ? 0 : YPosition
             });
         }
-    };
+    },[boxPosition, showTimeCount]);
 
-    const handleSetBoxSize = () => {
+    const handleSetBoxSize = useCallback(() => {
         if (boxRef.current && !boxSize.width && !boxSize.height) {
             const { clientWidth, clientHeight, children  } = boxRef.current;
             const width =
-                (size?.width && parseFloat(String(size.width))) || clientWidth;
+                (nextSize?.width && parseFloat(String(nextSize.width))) || clientWidth;
             const height =
-                (size?.height && parseFloat(String(size.height))) || clientHeight;
+                (nextSize?.height && parseFloat(String(nextSize.height))) || clientHeight;
             let { diff } = boxSize;
             if (children?.[1]) {
                 const { clientWidth : bodyClientWidth, clientHeight: bodyClientHeight } = children[1];
@@ -79,20 +82,26 @@ function useModeBox({
                 height,
                 diff
             });
+            handleSetBoxPosition({width, height});
         }
-    };
+    }, [boxRef.current, boxSize, nextSize, handleSetBoxPosition]);
+    
+    const handlePreventMouseDown = (event : MouseEvent<HTMLElement>) => {
+        if (!isModeless && !String((event as Record<PropertyKey, any>)?.srcElement?.classList?.value).includes("mode-box")) {
+            return false;
+        }
+    }
 
     const transitions = useTransition(visibleStatus, {
         from: {opacity: 0},
         enter: {opacity: 1},
         leave: {opacity: 0}
     });
-
-    useLayoutEffect(handleSetBoxPosition, [boxPosition, boxSize, showTimeCount]);
-    useLayoutEffect(handleSetBoxSize, [boxRef, boxSize, visibleStatus, size]);
+    
+    useLayoutEffect(handleSetBoxSize, [handleSetBoxSize]);
     useDraggable(
-        { target : boxRef, control : dragControlRef },
-        {dragStyle: "margin", maximize },
+        { target : boxRef, control : isModeless ? dragControlRef : undefined },
+        {dragStyle: "margin", maximize, onPreventMouseDown: handlePreventMouseDown },
     );
 
     return {

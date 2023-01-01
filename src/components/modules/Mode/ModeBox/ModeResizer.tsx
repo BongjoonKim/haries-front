@@ -60,7 +60,4 @@ const StyledMoveResizer = styled.div`
   right: 0;
   bottom: 0;
   cursor: se-resize;
-  margin: 7px;
-  border-bottom: solid 2px #bbb;
-  border-right: solid 2px #bbb;
 `;
