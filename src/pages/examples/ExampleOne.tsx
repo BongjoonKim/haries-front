@@ -4,9 +4,14 @@ import exampleTwo from "./ExampleTwo";
 import useMode from "../../hooks/ui/useMode";
 import Button from "../../components/elements/Button/Button";
 import openWindow from "../../utilities/window.util";
+import {useEffect} from "react";
+import {retrieveMainMenu} from "../../endpoints/common-endpoints";
+import useExampleOne from "./useExampleOne";
 
 function ExampleOne() {
     const {getModeProps : getLocalModeProps, handleShowMode, handleCloseMode} = useMode();
+    const data = useExampleOne();
+    
     return (
         <MainContent
             title="test"

@@ -3,7 +3,7 @@ import request from "../services/request-response-service";
 import {AxiosResponse} from "axios";
 
 export async function retrieveMainMenu() {
-    return (await request.get("/menu-item")) as AxiosResponse<any>;
+    return (await request.get("/test")) as AxiosResponse<any>;
 }
 
 export async function getPropjectTreeStructureList(params: {searchPath:string}) {
