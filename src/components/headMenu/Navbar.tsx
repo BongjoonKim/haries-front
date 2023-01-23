@@ -1,5 +1,5 @@
 import React, {Component, useCallback, useState} from 'react';
-import styles from './Navbar.module.css';
+// import styles from './Navbar.module.css';
 import {FaSearch} from "react-icons/fa";
 import {GoTasklist} from "react-icons/go";
 

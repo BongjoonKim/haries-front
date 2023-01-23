@@ -9,21 +9,21 @@ const showMessageBox = (params: messageItem) => {
     )
 }
 
-function clientMessage(params : {type: string; key: string}) {
-    try {
-        const locale: locale = 'ko';
-        import(`src/constants/messages/message-${locale}.const.json`).then(
-            message => {
-                showMessageBox({
-                    text: message[params.type][params.key],
-                    visible: true
-                })
-            }
-        )
-    } catch (error) {
-        serverMessage("fail to Show Error Messsage");
-    }
-}
+// function clientMessage(params : {type: string; key: string}) {
+//     try {
+//         const locale: locale = 'ko';
+//         import(`src/constants/messages/message-${locale}.const.json`).then(
+//             message => {
+//                 showMessageBox({
+//                     text: message[params.type][params.key],
+//                     visible: true
+//                 })
+//             }
+//         )
+//     } catch (error) {
+//         serverMessage("fail to Show Error Messsage");
+//     }
+// }
 
 function serverMessage(statusText: string) {
     if (statusText) {
@@ -32,12 +32,15 @@ function serverMessage(statusText: string) {
             visible: true
         })
     } else {
-        clientMessage({type: "error", key: "fail_load"});
+            showMessageBox({
+            text: "fail_load",
+            visible: true
+        })
     }
 }
 
-export default {
-    clientMessage,
+const messageData = {
     serverMessage,
     showMessageBox
 }
+export default messageData;
