@@ -1,6 +1,6 @@
-import {degree} from "../../modules/TreeView/constants";
+import {degree} from "../../../../components/modules/TreeView/constants";
 import {MutableRefObject, useEffect, useRef, useState} from "react";
-import useClickOutside from "../../../hooks/sensor/useClickOutside";
+import useClickOutside from "../../../../hooks/sensor/useClickOutside";
 
 type depth = 0 | number;
 

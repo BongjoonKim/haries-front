@@ -3,12 +3,13 @@ import {useLayout} from "../../../hooks/layout/useLayout";
 import useUser from "../../../hooks/users/useUser";
 import {useUserMainMenu} from "../../../hooks/users/useUserMainMenu";
 import {Link} from "react-router-dom";
-import Navigator from "../../../components/widgets/Navigator";
+import Navigator from "./Navigator";
 import "../../../styles/scss/components/topbar.scss"
 import styled from "styled-components";
 import {useNavigate} from "react-router-dom";
 import {StyledTreeList} from "../../../components/modules/TreeView/list/TreeList";
 import useGlobalHeader from "./useGlobalHeader";
+import RightNavigator from "./RightNavigator";
 
 function GlobalHeader() {
     // 메인 메뉴 로딩 상태
@@ -25,8 +26,6 @@ function GlobalHeader() {
 
     const {menuList} = useGlobalHeader();
     
-    // const menuData = useMenuData;
-
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -50,6 +49,9 @@ function GlobalHeader() {
                 </StyledLogoContainer>
                 <Navigator items={menuList} loading={mainMenuLoading} />
             </StyledHeaderLeft>
+            <StyledHeaderRight>
+                <RightNavigator />
+            </StyledHeaderRight>
         </StyledGlobalHeader>
     )
 
@@ -58,7 +60,7 @@ function GlobalHeader() {
 export default GlobalHeader;
 
 const StyledGlobalHeader = styled.div`
-  height: 50px;
+  height: 80px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -67,7 +69,7 @@ const StyledGlobalHeader = styled.div`
   background-color: #fff;
   box-shadow: 0 0 10px #0000000d;
   transition: all 0.2s ease-out;
-  z-index: 5;
+  z-index: 9999;
 `;
 
 const StyledHeaderLeft = styled.div`
@@ -81,7 +83,7 @@ const StyledHeaderRight = styled.div`
 
 const StyledSideBarToggleButton = styled.button`
   width: 50px;
-  height: 49px;
+  height: 50px;
   background-color: unset;
   cursor: pointer;
   border: none;
@@ -91,7 +93,8 @@ const StyledSideBarToggleButton = styled.button`
 `;
 
 const StyledLogoContainer = styled.div<{isCollapsed: boolean}>`
-  width: ${props => (props.isCollapsed ? "0px" : "250px")}
+  //width: ${props => (props.isCollapsed ? "0px" : "200px")};
+  width: 230px;
   min-width: ${props => (props.isCollapsed ? "0px" : "250px")};
   transition: all 0.2s ease-out;
   padding-left: 20px;
@@ -100,7 +103,7 @@ const StyledLogoContainer = styled.div<{isCollapsed: boolean}>`
 
 const StyledLogo = styled.div`
   display: block;
-  width: 63px;
+  width: 80px;
   height: 20px;
   margin: auto 0;
   cursor: pointer;

@@ -1,7 +1,7 @@
 import useNavigator from "./useNavigator";
 import styled from "styled-components";
 import NavigatorList from "./list/NavigatorList";
-import {MenuType} from "../../../model/common/common-model";
+import {MenuType} from "../../../../model/common/common-model";
 
 type NavigatorProps = {
     items: MenuType[];
@@ -25,6 +25,6 @@ function Navigator(props: NavigatorProps) {
 export default  Navigator;
 
 const StyledNavigator = styled.nav`
-  min-width: 780px !important;
+  width: 200px !important;
   height: 100%;
 `;

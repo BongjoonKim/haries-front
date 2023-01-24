@@ -1,9 +1,9 @@
 import {NavigatorCommonProps, NavigatorItemProps} from "./types";
-import {useUserMainMenu} from "../../../../hooks/users/useUserMainMenu";
+import {useUserMainMenu} from "../../../../../hooks/users/useUserMainMenu";
 import {createElement, useCallback, useMemo} from "react";
-import useClickOutside from "../../../../hooks/sensor/useClickOutside";
+import useClickOutside from "../../../../../hooks/sensor/useClickOutside";
 import {useTransition} from "react-spring";
-import converter from "../../../../utilities/converter";
+import converter from "../../../../../utilities/converter";
 import styled from "styled-components";
 import {BsDot} from "react-icons/bs";
 import {MdOutlineArrowRight} from "react-icons/md";
@@ -150,7 +150,7 @@ const StyledNavigator = styled.li`
     justify-content: space-between;
     width: 100%;
     height: 100%;
-    padding: 0 15px;
+    //padding: 0 15px;
     border: 0;
     outline: none;
     background-color: #cfd2d4;
@@ -161,7 +161,6 @@ const StyledNavigator = styled.li`
     font-family: "NotoSansCJKkr", "Roboto", "Montserrat", sans-serif;
     font-weight: 600;
     box-sizing: border-box;
-    border-radius: 3px;
     letter-spacing: -0.05rem;
     &:hover {
      color: #a50034;
@@ -186,8 +185,6 @@ const StyledNavigator = styled.li`
     font-size: 0.9357rem;
     background-color: transparent;
     overflow: hidden;
-    padding: 0 100px;
-    margin: 0 10px;
     display: flex;
   }
 `;
@@ -198,10 +195,10 @@ const StyledFavorite = styled.span`
 `;
 
 const StyledNavigatorList = styled.ul`
-  padding: 12px 0;
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;
   display: block;
   background: #fff;
-  min-width: 200px;
   position: absolute;
   width: max-content;
   box-sizing: border-box;

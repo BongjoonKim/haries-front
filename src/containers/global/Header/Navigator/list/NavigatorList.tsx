@@ -30,6 +30,7 @@ function NavigatorList(props: NavigatorListProps) {
 export default NavigatorList;
 
 const StyledNavigatorList = styled.ul`
+  margin: 0 0 0 0;
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -38,5 +39,4 @@ const StyledNavigatorList = styled.ul`
     height: 100%;
     display: flex;
   }
-  line-height: 28px;
 `;

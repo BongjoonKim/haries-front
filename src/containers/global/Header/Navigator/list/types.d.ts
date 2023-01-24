@@ -1,6 +1,6 @@
-import {degree} from "../../../modules/TreeView/constants";
+import {degree} from "../../../../../components/modules/TreeView/constants";
 import {FunctionComponent} from "react";
-import {MenuType} from "../../../../model/common/common-model";
+import {MenuType} from "../../../../../model/common/common-model";
 
 type depth = 0 | number;
 
