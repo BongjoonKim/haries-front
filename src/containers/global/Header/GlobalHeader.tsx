@@ -4,11 +4,11 @@ import useUser from "../../../hooks/users/useUser";
 import {useUserMainMenu} from "../../../hooks/users/useUserMainMenu";
 import {Link} from "react-router-dom";
 import Navigator from "../../../components/widgets/Navigator";
-import {useMenuData} from "./useMenuData";
 import "../../../styles/scss/components/topbar.scss"
 import styled from "styled-components";
 import {useNavigate} from "react-router-dom";
 import {StyledTreeList} from "../../../components/modules/TreeView/list/TreeList";
+import useGlobalHeader from "./useGlobalHeader";
 
 function GlobalHeader() {
     // 메인 메뉴 로딩 상태
@@ -23,7 +23,9 @@ function GlobalHeader() {
     // 사용자 메인 메뉴 hook
     const { userMainMenuList, initialUserMainMenuList} = useUserMainMenu();
 
-    const menuData = useMenuData;
+    const {menuList} = useGlobalHeader();
+    
+    // const menuData = useMenuData;
 
     const navigate = useNavigate();
 
@@ -46,7 +48,7 @@ function GlobalHeader() {
                         Home
                     </StyledLogo>
                 </StyledLogoContainer>
-                <Navigator items={menuData} loading={mainMenuLoading} />
+                <Navigator items={menuList} loading={mainMenuLoading} />
             </StyledHeaderLeft>
         </StyledGlobalHeader>
     )

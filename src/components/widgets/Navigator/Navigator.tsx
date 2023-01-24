@@ -1,9 +1,10 @@
 import useNavigator from "./useNavigator";
 import styled from "styled-components";
 import NavigatorList from "./list/NavigatorList";
+import {MenuType} from "../../../model/common/common-model";
 
 type NavigatorProps = {
-    items: MenuItemVO[];
+    items: MenuType[];
     loading?: boolean;
 };
 

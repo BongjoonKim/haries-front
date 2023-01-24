@@ -2,7 +2,7 @@ import {useNavigate} from "react-router-dom";
 import {useRecoilState} from "recoil";
 import UserMenuState from "./state/UserMenuState";
 import {useCallback} from "react";
-import {retrieveMainMenu} from "../../endpoints/common-endpoints";
+import {retrieveMenus} from "../../endpoints/common-endpoints";
 import messengerUtil from "../../utilities/messengerUtil";
 import {UI_CALLING_TYPE} from "../../constants/modes/global-no.const";
 
@@ -18,7 +18,7 @@ export const useUserMainMenu = () => {
     // 사용자 메인 메뉴 초기화(불러오기)
     const initialUserMainMenuList = useCallback(async () => {
         try {
-            const response =  await retrieveMainMenu();
+            const response =  await retrieveMenus();
             setUserMainMenuList(response.data);
         } catch (error) {
             messengerUtil.serverMessage("Server Error");

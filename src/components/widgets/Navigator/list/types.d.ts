@@ -1,5 +1,6 @@
 import {degree} from "../../../modules/TreeView/constants";
 import {FunctionComponent} from "react";
+import {MenuType} from "../../../../model/common/common-model";
 
 type depth = 0 | number;
 
@@ -18,6 +19,6 @@ export interface NavigatorItemProps extends NavigatorCommonProps {
 }
 
 export interface NavigatorListProps extends NavigatorCommonProps {
-    items: MenuItemVO[];
+    items: MenuType[];
     PanelComponent?: FunctionComponent<{children: JSX.Element[] | JSX.Element}>
 }

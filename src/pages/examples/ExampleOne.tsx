@@ -3,9 +3,6 @@ import {Dialog, ModeTypes} from "../../components/modules/Mode";
 import exampleTwo from "./ExampleTwo";
 import useMode from "../../hooks/ui/useMode";
 import Button from "../../components/elements/Button/Button";
-import openWindow from "../../utilities/window.util";
-import {useEffect} from "react";
-import {retrieveMainMenu} from "../../endpoints/common-endpoints";
 import useExampleOne from "./useExampleOne";
 
 function ExampleOne() {

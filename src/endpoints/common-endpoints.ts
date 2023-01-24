@@ -1,9 +1,10 @@
 // 사용자 메인 메뉴 목록 요청
 import request from "../services/request-response-service";
 import {AxiosResponse} from "axios";
+import {MenuType} from "../model/common/common-model";
 
-export async function retrieveMainMenu() {
-    return (await request.get("/test")) as AxiosResponse<any>;
+export async function retrieveMenus() {
+    return (await request.get("/common/menu")) as AxiosResponse<MenuType[]>;
 }
 
 export async function getPropjectTreeStructureList(params: {searchPath:string}) {

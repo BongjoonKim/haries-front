@@ -1,11 +1,11 @@
 import {useCallback, useEffect, useState} from "react";
-import {retrieveMainMenu} from "../../endpoints/common-endpoints";
+import {retrieveMenus} from "../../endpoints/common-endpoints";
 
 function useExampleOne() {
   const [data, setData] = useState<any>("");
   console.log()
   const getData = useCallback(async () => {
-    const aa = await retrieveMainMenu();
+    const aa = await retrieveMenus();
     setData(aa);
     console.log("aa", aa);
   }, [data]);
