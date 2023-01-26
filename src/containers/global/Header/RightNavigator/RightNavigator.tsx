@@ -6,12 +6,9 @@ import styled from "styled-components";
 function RightNavigator() {
   return (
     <StyledRightHeader>
-      <SearchRounded />
+      <SearchRounded style={{padding: 10}}/>
       <MailOutlineRounded />
-      <a>Contact Developer</a>
-      <span> | </span>
-      <VpnKeyRounded />
-      <a>Login</a>
+      <VpnKeyRounded style={{padding: 10}}/>
     </StyledRightHeader>
   )
 }
@@ -19,12 +16,11 @@ function RightNavigator() {
 export default RightNavigator;
 
 const StyledRightHeader = styled.div`
-  font-size: 26px;
+  font-size: 20px;
   font-weight: 600;
   font-family: sans-serif;
   letter-spacing: -0.05rem;
   display: flex;
   align-items: center;
   padding-right: 50px;
-  flex-direction: ;
 `;

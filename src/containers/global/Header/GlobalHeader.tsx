@@ -79,6 +79,8 @@ const StyledHeaderLeft = styled.div`
 
 const StyledHeaderRight = styled.div`
   padding-right: 10px;
+  padding-left: inherit;
+
 `;
 
 const StyledSideBarToggleButton = styled.button`
