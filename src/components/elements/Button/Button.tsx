@@ -63,6 +63,7 @@ function Button({
                 {...(to && { as : LinkButton})}
                 {...rest}
             >
+              {children}
             </StyledButton>
         </Wrapper>
     );
