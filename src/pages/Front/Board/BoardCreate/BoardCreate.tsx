@@ -14,6 +14,7 @@ function BoardCreate() {
   
   return (
     <Editor
+      titles="타이틀"
       quillRef={quillRef}
       htmlContent={htmlContent}
       setHtmlContent={setHtmlConent}
