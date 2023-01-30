@@ -1,4 +1,4 @@
-import ReactQuill from "react-quill";
+import ReactQuill, {Quill} from "react-quill";
 import {MutableRefObject, useMemo} from "react";
 import useEditor from "./useEditor";
 
@@ -20,10 +20,36 @@ function Editor(props: EditorProps) {
   const modules = useMemo<any>(() => ({
     toolbar: {
       container: [
-        ["bold", "italic", "underline", "strike", "blockquote"]
+        [{ header: [1, 2, 3, false] }],
+        ["bold", "italic", "underline", "strike"],
+        [{ list: "ordered" }, { list: "bullet" }],
+        [{ color: [] }, { background: [] }],
+        [{ align: [] }],["bold", "italic", "underline", "strike", "blockquote"],
+          ["link", "image", "video"]
       ]
     }
   }), []);
+  
+  const formats = [
+    "header",
+    "font",
+    "size",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "align",
+    "blockquote",
+    "list",
+    "bullet",
+    "indent",
+    "background",
+    "color",
+    "link",
+    "image",
+    "video",
+    "width",
+  ];
   return (
     <table className="editor-table">
       <tbody>
@@ -35,7 +61,7 @@ function Editor(props: EditorProps) {
         </tr>
         <tr>
           <th>상세내용</th>
-          <td>
+          <td width="1000px">
             <ReactQuill
               ref={(elements) => {
                 if (elements !== null) {
@@ -44,7 +70,9 @@ function Editor(props: EditorProps) {
               }}
               value={props.htmlContent}
               onChange={props.setHtmlContent}
+              modules={modules}
               theme="snow"
+              formats={formats}
             />
           </td>
         </tr>
