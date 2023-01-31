@@ -1,4 +1,5 @@
 import ReactQuill, {Quill} from "react-quill";
+import Parchment from 'parchment';
 import {MutableRefObject, useMemo} from "react";
 import useEditor from "./useEditor";
 
@@ -30,6 +31,8 @@ function Editor(props: EditorProps) {
     }
   }), []);
   
+  
+  
   const formats = [
     "header",
     "font",
@@ -60,8 +63,7 @@ function Editor(props: EditorProps) {
           </td>
         </tr>
         <tr>
-          <th>상세내용</th>
-          <td width="1000px">
+          <td width="1000px" colSpan={2}>
             <ReactQuill
               ref={(elements) => {
                 if (elements !== null) {
