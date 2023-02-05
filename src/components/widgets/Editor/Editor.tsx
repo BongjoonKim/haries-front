@@ -2,6 +2,7 @@ import ReactQuill, {Quill} from "react-quill";
 import Parchment from 'parchment';
 import {MutableRefObject, useMemo} from "react";
 import useEditor from "./useEditor";
+import styled from "styled-components";
 
 export interface EditorProps{
   titles: string;
@@ -54,12 +55,14 @@ function Editor(props: EditorProps) {
     "width",
   ];
   return (
-    <table className="editor-table">
-      <tbody>
+    <StyledEditor>
+      <table className="editor-table">
+        <tbody>
         <tr>
-          <th>제목</th>
           <td>
-            <span>제목 적을 곳</span>
+            <th>
+              <textarea placeholder="제목을 입력하세요" />
+            </th>
           </td>
         </tr>
         <tr>
@@ -82,11 +85,19 @@ function Editor(props: EditorProps) {
           <th>첨부파일</th>
           <td>
             <input type="file" id="fileUpload" onChange={addFiles} />
+      
           </td>
         </tr>
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </StyledEditor>
+    
   )
 }
 
 export default Editor;
+
+const StyledEditor = styled.table`
+  display: flex;
+  align-items: center;
+`;
