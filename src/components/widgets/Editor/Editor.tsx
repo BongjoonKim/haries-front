@@ -58,36 +58,35 @@ function Editor(props: EditorProps) {
     <StyledEditor>
       <table className="editor-table">
         <tbody>
-        <tr>
-          <td>
-            <th>
-              <textarea placeholder="제목을 입력하세요" />
-            </th>
-          </td>
-        </tr>
-        <tr>
-          <td width="1000px" colSpan={2}>
-            <ReactQuill
-              ref={(elements) => {
-                if (elements !== null) {
-                  props.quillRef.current = elements
-                }
-              }}
-              value={props.htmlContent}
-              onChange={props.setHtmlContent}
-              modules={modules}
-              theme="snow"
-              formats={formats}
-            />
-          </td>
-        </tr>
-        <tr>
-          <th>첨부파일</th>
-          <td>
-            <input type="file" id="fileUpload" onChange={addFiles} />
-      
-          </td>
-        </tr>
+          <tr>
+            <td colSpan={2}>
+              <th>
+                <textarea id="editor-table-title" placeholder="제목을 입력하세요" />
+              </th>
+            </td>
+          </tr>
+          <tr>
+            <td className="react-quill-area" colSpan={2}>
+              <ReactQuill
+                ref={(elements) => {
+                  if (elements !== null) {
+                    props.quillRef.current = elements
+                  }
+                }}
+                value={props.htmlContent}
+                onChange={props.setHtmlContent}
+                modules={modules}
+                theme="snow"
+                formats={formats}
+              />
+            </td>
+          </tr>
+          <tr>
+            <th>첨부파일</th>
+            <td>
+              <input type="file" id="fileUpload" onChange={addFiles} />
+            </td>
+          </tr>
         </tbody>
       </table>
     </StyledEditor>
@@ -97,7 +96,22 @@ function Editor(props: EditorProps) {
 
 export default Editor;
 
-const StyledEditor = styled.table`
+const StyledEditor = styled.div`
   display: flex;
-  align-items: center;
+  border-left: 0px;
+  .editor-table{
+    textarea {
+      border: none;
+      width: 1000px;
+    }
+    .react-quill-area {
+      width: 100%;
+    }
+    .ql-container {
+      min-height: 40rem;
+    }
+  }
+
+
+
 `;
