@@ -3,6 +3,7 @@ import Parchment from 'parchment';
 import {MutableRefObject, useMemo} from "react";
 import useEditor from "./useEditor";
 import styled from "styled-components";
+import Button from "../../elements/Button/Button";
 
 export interface EditorProps{
   titles: string;
@@ -89,6 +90,15 @@ function Editor(props: EditorProps) {
           </tr>
         </tbody>
       </table>
+      <StyledEditorBottom>
+        <Button >
+          임시저장
+        </Button>
+        <Button >
+          발행
+        </Button>
+      </StyledEditorBottom>
+
     </StyledEditor>
     
   )
@@ -98,20 +108,29 @@ export default Editor;
 
 const StyledEditor = styled.div`
   display: flex;
-  border-left: 0px;
-  .editor-table{
+  justify-content: center;
+  align-items: center;
+  .editor-table {
     textarea {
       border: none;
-      width: 1000px;
+      width: 80rem;
     }
+
     .react-quill-area {
       width: 100%;
     }
+
     .ql-container {
       min-height: 40rem;
+
     }
   }
+`;
 
-
-
+const StyledEditorBottom = styled.div`
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  justify-content: center !important;
+  align-items: center;
 `;
