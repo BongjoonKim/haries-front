@@ -1,6 +1,6 @@
 import {Dispatch, SetStateAction, MutableRefObject} from "react";
 import styled from "styled-components";
-import Button from "../../../elements/Button/Button";
+import Button from "../../../elements/Button/CustomButton";
 import {ModeComponent} from "../../../../types/mode";
 import { VscChromeClose, VscChromeMaximize} from "react-icons/vsc";
 import {AiOutlineLine} from "react-icons/ai";

@@ -1,7 +1,7 @@
 import {MutableRefObject, useMemo, useRef} from "react";
 import useEditor from "./useEditor";
 import styled from "styled-components";
-import Button from "../../elements/Button/Button";
+import Button from "../../elements/Button";
 import { Editor as ToastUi } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
@@ -78,15 +78,16 @@ function Editor(props: EditorProps) {
           </tr>
         </tbody>
       </table>
-      <StyledEditorBottom>
-        <Button >
-          임시저장
-        </Button>
-        <Button >
-          발행
-        </Button>
-      </StyledEditorBottom>
-
+      <StyledEditorButton>
+        <StyledLeftEditorButton>
+          <Button variant="contained" color="secondary" children="나가기" />
+        </StyledLeftEditorButton>
+        <StyledRightEditorButton>
+          <Button variant="contained" color="primary" children="미리보기" />
+          <Button variant="contained" color="primary" children="임시저장" />
+          <Button variant="contained" color="secondary" children="발행" />
+        </StyledRightEditorButton>
+      </StyledEditorButton>
     </StyledEditor>
     
   )
@@ -95,30 +96,33 @@ function Editor(props: EditorProps) {
 export default Editor;
 
 const StyledEditor = styled.div`
-  display: flex;
+  display: inherit;
   justify-content: center;
   align-items: center;
   .editor-table {
     textarea {
       border: none;
       width: 80rem;
-    }
-
-    .react-quill-area {
-      width: 100%;
-    }
-
-    .ql-container {
-      min-height: 40rem;
-
+      display: flex;
     }
   }
 `;
 
-const StyledEditorBottom = styled.div`
+const StyledEditorButton = styled.div`
   display: flex;
-  position: absolute;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const StyledRightEditorButton = styled.div`
+  display: flex;
   bottom: 0;
-  justify-content: center !important;
+  justify-content: right !important;
+  align-items: center;
+`;
+const StyledLeftEditorButton = styled.div`
+  display: flex;
+  bottom: 0;
+  justify-content: left !important;
   align-items: center;
 `;

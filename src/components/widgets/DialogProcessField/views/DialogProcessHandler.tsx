@@ -3,7 +3,7 @@ import {BsEraser, BsSearch} from "react-icons/bs";
 import {dialogConstants} from "../../../../constants/modal/dialog.const";
 import {DialogProcessBaseKey, DialogProcessType, DialogProcessViews} from "../types";
 import Injector from "../../../elements/Injector";
-import Button from "../../../elements/Button/Button";
+import Button from "../../../elements/Button/CustomButton";
 import {createElement} from "react";
 import useDialogProcessHandler from "./useDialogProcessHandler";
 import styled from "styled-components";

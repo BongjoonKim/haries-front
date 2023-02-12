@@ -1,4 +1,4 @@
-import Button from "../../../elements/Button/Button";
+import Button from "../../../elements/Button/CustomButton";
 import {Content} from "../index";
 
 interface ContentCustomHandlerProps {

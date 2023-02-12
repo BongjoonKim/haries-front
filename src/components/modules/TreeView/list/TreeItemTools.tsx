@@ -2,7 +2,7 @@ import {Attributes, ComponentClass, createElement, FunctionComponent, ReactNode}
 import {TreeViewComponent} from "../type";
 import styled from "styled-components";
 import {VscEdit, VscTrash} from "react-icons/vsc";
-import Button from "../../../elements/Button/Button";
+import Button from "../../../elements/Button/CustomButton";
 import validator from "../../../../utilities/validatorUtil";
 
 type CreateElementTypes = [
