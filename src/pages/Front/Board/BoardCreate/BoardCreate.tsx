@@ -1,6 +1,8 @@
 import ReactQuill from "react-quill";
 import {useEffect, useRef, useState} from "react";
 import 'react-quill/dist/quill.snow.css';
+// import Editor from "../../../../components/widgets/Editor";
+import MarkDown from "../../../../components/widgets/MarkDown";
 import Editor from "../../../../components/widgets/Editor";
 
 function BoardCreate() {
@@ -13,12 +15,7 @@ function BoardCreate() {
   }, [htmlContent])
   
   return (
-    <Editor
-      titles="타이틀"
-      quillRef={quillRef}
-      htmlContent={htmlContent}
-      setHtmlContent={setHtmlConent}
-    />
+    <Editor />
   )
 }
 

@@ -10,14 +10,14 @@ function GlobalContainer(props: {children: ReactNode}) {
         <StyledGlobalContainer>
             <GlobalHeader />
             <StyledGlobalBody>
-                <StyledGlobalLeftAside isCollapsed={false}>
-                    <p>
-                        <span>system-time</span>
-                    </p>
-                </StyledGlobalLeftAside>
-                <StyledGlobalMain isAsideCollapsed={false}>
-                    {props.children}
-                </StyledGlobalMain>
+              <StyledGlobalLeftAside isCollapsed={isAsideCollapsed}>
+                <p>
+                  <span>system-time</span>
+                </p>
+              </StyledGlobalLeftAside>
+              <StyledGlobalMain isAsideCollapsed={false}>
+                  {props.children}
+              </StyledGlobalMain>
             </StyledGlobalBody>
         </StyledGlobalContainer>
     )
@@ -37,7 +37,7 @@ const StyledGlobalBody = styled.div`
   flex-direction: row;
   flex-grow: 1;
   height: calc(100% - 50px);
-  overflow-y: auto;
+  overflow-y: hidden;
 `;
 
 const StyledGlobalLeftAside = styled.div<{isCollapsed: boolean}>`
@@ -48,10 +48,12 @@ const StyledGlobalLeftAside = styled.div<{isCollapsed: boolean}>`
   border-left: 1px solid #e8eaeb;
   background: #fff;
   box-shadow: 0 0 10px #00000026;
+  display:  inline-block;
   flex-direction: column;
-  display: inline;
   overflow-x: hidden;
   overflow-y: auto;
+  z-index: 9998;
+  
 `;
 
 const StyledGlobalMain = styled.main<{isAsideCollapsed: boolean}>`
@@ -59,5 +61,5 @@ const StyledGlobalMain = styled.main<{isAsideCollapsed: boolean}>`
   height: 100%;
   width: ${props => (props.isAsideCollapsed ? "1920px" : "1670px")};
   padding: 12px;
-  overflow: auto;
+  overflow-y: auto;
 `;

@@ -10,13 +10,15 @@ import {useNavigate} from "react-router-dom";
 import {StyledTreeList} from "../../../components/modules/TreeView/list/TreeList";
 import useGlobalHeader from "./useGlobalHeader";
 import RightNavigator from "./RightNavigator";
+import {IconButton} from "@material-ui/core";
+import {DehazeRounded} from "@material-ui/icons";
 
 function GlobalHeader() {
     // 메인 메뉴 로딩 상태
     const [mainMenuLoading, setMainMenuLoading] = useState<boolean>(false);
 
     // 사이드바 보임 여부
-    const { isAsideCollapsed } = useLayout();
+    const { isAsideCollapsed, setIsAsideCollapsed } = useLayout();
 
     // 로그인 사용자 여부
     const { isLogin, userAuth } = useUser();
@@ -46,6 +48,21 @@ function GlobalHeader() {
                     >
                         Home
                     </StyledLogo>
+                    <IconButton
+                      edge="start"
+                      color="inherit"
+                      aria-label="open drawer"
+                      onClick={() => {
+                          if (isAsideCollapsed) {
+                              setIsAsideCollapsed(false);
+                          } else {
+                              setIsAsideCollapsed(true);
+                          }
+                          
+                      }}
+                    >
+                        <DehazeRounded/>
+                    </IconButton>
                 </StyledLogoContainer>
                 <Navigator items={menuList} loading={mainMenuLoading} />
             </StyledHeaderLeft>
@@ -101,6 +118,7 @@ const StyledLogoContainer = styled.div<{isCollapsed: boolean}>`
   transition: all 0.2s ease-out;
   padding-left: 20px;
   overflow: hidden;
+  display: flex;
 `;
 
 const StyledLogo = styled.div`

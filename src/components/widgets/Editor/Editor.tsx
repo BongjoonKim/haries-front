@@ -1,60 +1,48 @@
-import ReactQuill, {Quill} from "react-quill";
-import Parchment from 'parchment';
-import {MutableRefObject, useMemo} from "react";
+import {MutableRefObject, useMemo, useRef} from "react";
 import useEditor from "./useEditor";
 import styled from "styled-components";
 import Button from "../../elements/Button/Button";
+import { Editor as ToastUi } from '@toast-ui/react-editor';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
+import 'tui-color-picker/dist/tui-color-picker.css';
+import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
+import '@toast-ui/editor/dist/i18n/ko-kr';
 
 export interface EditorProps{
-  titles: string;
-  quillRef : MutableRefObject<any>;
-  htmlContent : any;
-  setHtmlContent: any;
+  titles?: string;
+  quillRef?: MutableRefObject<any>;
+  htmlContent?: any;
+  setHtmlContent?: any;
   
   attachmentFiles?: any;
 }
 
+export type HookCallback = (url: string, text?: string) => void;
 
+export type HookMap = {
+  addImageBlobHook?: (blob: Blob | File, callback: HookCallback) => void;
+};
 
 function Editor(props: EditorProps) {
   const {addFiles} = useEditor();
   
+  // Ref 설정
+  const editorRef = useRef<any>();
+  
+  // 변경될 떄마다 가져옴
+  const onChange = () => {
+    const data = editorRef.current.getInstance().getHTML();
+    console.log(data);
+  };
+  
+  // 이미지 업로드 처리
+  const onUploadImage = async (blob: any, callback: any) => {
+    console.log("blob", blob);
+    console.log("callback", callback);
+  };
+  
   // 커스텀 하기
-  const modules = useMemo<any>(() => ({
-    toolbar: {
-      container: [
-        [{ header: [1, 2, 3, false] }],
-        ["bold", "italic", "underline", "strike"],
-        [{ list: "ordered" }, { list: "bullet" }],
-        [{ color: [] }, { background: [] }],
-        [{ align: [] }],["bold", "italic", "underline", "strike", "blockquote"],
-          ["link", "image", "video"]
-      ]
-    }
-  }), []);
-  
-  
-  
-  const formats = [
-    "header",
-    "font",
-    "size",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "align",
-    "blockquote",
-    "list",
-    "bullet",
-    "indent",
-    "background",
-    "color",
-    "link",
-    "image",
-    "video",
-    "width",
-  ];
   return (
     <StyledEditor>
       <table className="editor-table">
@@ -68,17 +56,17 @@ function Editor(props: EditorProps) {
           </tr>
           <tr>
             <td className="react-quill-area" colSpan={2}>
-              <ReactQuill
-                ref={(elements) => {
-                  if (elements !== null) {
-                    props.quillRef.current = elements
-                  }
+              <ToastUi
+                initialValue=" "
+                initialEditType="wysiwyg"
+                plugins={[colorSyntax]}
+                ref={editorRef}
+                language="ko-KR"
+                onChange={onChange}
+                height="600px"
+                hooks={{
+                  addImageBlobHook: onUploadImage
                 }}
-                value={props.htmlContent}
-                onChange={props.setHtmlContent}
-                modules={modules}
-                theme="snow"
-                formats={formats}
               />
             </td>
           </tr>
