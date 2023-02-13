@@ -79,7 +79,8 @@ const ModeWrapper = styled.div<{
   pointer-events: none;
   transition-duration: 0.5s;
   text-align: initial;
-  z-index: ${props => props.activeSequenceIndex};
+  //z-index: ${props => props.activeSequenceIndex};
+  z-index: 10000;
   position: ${props => (!props.dependent ? "fixed" : "initial")};
   &.modeless {
     width: 0;

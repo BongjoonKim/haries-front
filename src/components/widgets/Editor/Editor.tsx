@@ -1,4 +1,4 @@
-import {MutableRefObject, useMemo, useRef} from "react";
+import {MutableRefObject, useEffect, useMemo, useRef} from "react";
 import useEditor from "./useEditor";
 import styled from "styled-components";
 import Button from "../../elements/Button";
@@ -37,11 +37,15 @@ function Editor(props: EditorProps) {
   };
   
   // 이미지 업로드 처리
-  const onUploadImage = async (blob: any, callback: any) => {
-    console.log("blob", blob);
-    console.log("callback", callback);
+  const onUploadImage = async (blob: Blob, callback: HookCallback) => {
+    // const url = await uploadImage(blob);
+    // callback(url, 'alt text');
+    console.log("블롭", blob);
+    const objectURL = URL.createObjectURL(blob);
+    console.log("블롭 -> url", objectURL);
+    callback(objectURL);
+    
   };
-  
   // 커스텀 하기
   return (
     <StyledEditor>
@@ -49,9 +53,7 @@ function Editor(props: EditorProps) {
         <tbody>
           <tr>
             <td colSpan={2}>
-              <th>
                 <textarea id="editor-table-title" placeholder="제목을 입력하세요" />
-              </th>
             </td>
           </tr>
           <tr>
@@ -70,7 +72,7 @@ function Editor(props: EditorProps) {
               />
             </td>
           </tr>
-          <tr>
+          <tr className="editor-table-info">
             <th>첨부파일</th>
             <td>
               <input type="file" id="fileUpload" onChange={addFiles} />
@@ -100,10 +102,15 @@ const StyledEditor = styled.div`
   justify-content: center;
   align-items: center;
   .editor-table {
+    margin: auto;
+    width: 100%;
     textarea {
+      width: 100%;
       border: none;
-      width: 80rem;
       display: flex;
+    }
+    .editor-table-info {
+      width: 100%;
     }
   }
 `;
@@ -111,18 +118,19 @@ const StyledEditor = styled.div`
 const StyledEditorButton = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 `;
 
 const StyledRightEditorButton = styled.div`
   display: flex;
   bottom: 0;
-  justify-content: right !important;
+  margin-left: auto;
   align-items: center;
 `;
 const StyledLeftEditorButton = styled.div`
   display: flex;
   bottom: 0;
-  justify-content: left !important;
+  //justify-content: left !important;
+  margin-right: auto;
   align-items: center;
 `;
