@@ -98,7 +98,7 @@ function Editor(props: EditorProps) {
 export default Editor;
 
 const StyledEditor = styled.div`
-  display: inherit;
+  display: block;
   justify-content: center;
   align-items: center;
   .editor-table {

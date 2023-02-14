@@ -1,5 +1,6 @@
 import {Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
+import MemoGeneralize from "../../../renderers/MemoGeneralize";
 
 type TargetSize = {
     width: number;

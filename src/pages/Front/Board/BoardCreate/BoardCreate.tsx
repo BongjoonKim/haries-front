@@ -1,9 +1,12 @@
 import ReactQuill from "react-quill";
-import {useEffect, useRef, useState} from "react";
+import {MouseEventHandler, useEffect, useRef, useState} from "react";
 import 'react-quill/dist/quill.snow.css';
 // import Editor from "../../../../components/widgets/Editor";
 import MarkDown from "../../../../components/widgets/MarkDown";
 import Editor from "../../../../components/widgets/Editor";
+import MainContent from "../../../../components/templates/MainContent/MainContent";
+import Button from "../../../../components/elements/Button";
+import Popper from "../../../../components/widgets/Popper";
 
 function BoardCreate() {
   const quillRef = useRef<ReactQuill>(null);
@@ -12,10 +15,27 @@ function BoardCreate() {
   
   useEffect(() => {
     console.log("변화",htmlContent)
-  }, [htmlContent])
+  }, [htmlContent]);
+  
+  // Popper 관련 로직
+  const [anchor, setAnchor] = useState<any>(null);
+  const openPopper = (event: any) => {
+    setAnchor(event.currentTarget);
+  }
   
   return (
-    <Editor />
+    <MainContent>
+      <Editor />
+      <Button onClick={openPopper}>
+        테스트용 버튼
+      </Button>
+      <Popper open={true} anchorEl={anchor}>
+        짜란
+      </Popper>
+    </MainContent>
+    
+    
+    
   )
 }
 
