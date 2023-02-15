@@ -26,12 +26,6 @@ function BoardCreate() {
   return (
     <MainContent>
       <Editor />
-      <Button onClick={openPopper}>
-        테스트용 버튼
-      </Button>
-      <Popper open={true} anchorEl={anchor}>
-        짜란
-      </Popper>
     </MainContent>
     
     

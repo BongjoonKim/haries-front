@@ -1,4 +1,4 @@
-import {ChangeEvent, ForwardedRef, forwardRef, InputHTMLAttributes} from "react";
+import {ChangeEvent, ForwardedRef, forwardRef, InputHTMLAttributes, useCallback, useState} from "react";
 import {message} from "../../../types/form";
 import {currentStatus} from "../../../constants/types/status.const";
 import styled from "styled-components";
@@ -30,12 +30,17 @@ export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export default forwardRef((props: TextInputProps, ref: ForwardedRef<HTMLInputElement>) => {
-    const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    
+    const [value, setValue] = useState<string | number | readonly string[] | undefined>("");
+    const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>): void => {
         if (props.filter) {
+            console.log("필터 확인", event.target.value, value)
             event.target.value = String(event.target.value)?.replace?.(props.filter, "");
         }
         props.onChange?.(event);
-    }
+        setValue(() => event.target.value)
+    }, [value]);
+    
     return (
         <StyledInput title={props.title} width={props.width} flex={props.flex}>
             {props.label && props.id && (
@@ -48,10 +53,11 @@ export default forwardRef((props: TextInputProps, ref: ForwardedRef<HTMLInputEle
                 ref={ref}
                 type={props.type}
                 id={props.id}
+                value={props.value ? "" : value}
                 data-type={props.actionType}
                 data-option={props.actionOptions}
                 data-names={props.names}
-                value={props.value || ""}
+                defaultValue={value}
                 checked={props.checked}
                 name={props.name}
                 onChange={handleChange}

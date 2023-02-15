@@ -23,6 +23,7 @@ function Popper(props : PopperProps) {
       open={props.open}
       modifiers={props.modifier}
       anchorEl={props.anchorEl}
+      style={{zIndex: 11000}}
     >
       {props.children}
     </PopperMaterialUI>
