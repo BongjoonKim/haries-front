@@ -2,6 +2,7 @@ import {Popper as PopperMaterialUI} from "@material-ui/core";
 import {ReactNode} from "react";
 
 interface PopperProps {
+  className?: string;
   children : ReactNode;
   open: boolean;
   anchorEl : any;
@@ -18,6 +19,7 @@ interface PopperProps {
 function Popper(props : PopperProps) {
   return (
     <PopperMaterialUI
+      className={props.className}
       placement={props.placement}
       disablePortal={props.disablePortal}
       open={props.open}
