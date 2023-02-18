@@ -13,6 +13,7 @@ interface PopperProps {
     "bottom-start" | "bottom" | "bottom-end";
   disablePortal?: boolean;
   modifier?: Object;
+  style?: any
   
 }
 

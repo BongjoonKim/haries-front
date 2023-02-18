@@ -87,6 +87,7 @@ const StyledGlobalHeader = styled.div`
   box-shadow: 0 0 10px #0000000d;
   transition: all 0.2s ease-out;
   z-index: 9999;
+  
 `;
 
 const StyledHeaderLeft = styled.div`
