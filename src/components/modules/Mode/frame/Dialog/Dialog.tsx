@@ -53,7 +53,6 @@ function Dialog<T = string, N = string>({
     }
     
     if (String(type)?.includes(ModeTypes.MODELESS) && Array.isArray(status[name as keyof ModeComponent.ModeStatus<N>])) {
-        
         return (
             <Fragment>
                 {(
@@ -76,7 +75,6 @@ function Dialog<T = string, N = string>({
             </Fragment>
         )
     }
-    console.log("타입",children);
     return (
         <DialogItem<T, string> {...commonProps.dialog}>
             {

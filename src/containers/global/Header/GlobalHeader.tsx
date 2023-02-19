@@ -39,7 +39,7 @@ function GlobalHeader() {
 
     return (
         <StyledGlobalHeader>
-            <StyledHeaderLeft>
+            <StyledHeaderLeft className="header-left">
                 <StyledLogoContainer isCollapsed={isAsideCollapsed}>
                     <StyledLogo
                         onClick={() => {
@@ -48,23 +48,29 @@ function GlobalHeader() {
                     >
                         Home
                     </StyledLogo>
-                    <IconButton
-                      edge="start"
-                      color="inherit"
-                      aria-label="open drawer"
-                      onClick={() => {
+                    <StyledDehaze>
+                      <IconButton
+                        edge="start"
+                        color="inherit"
+                        aria-label="open drawer"
+                        style={{
+                          paddingLeft: "1rem",
+                          paddingRight: "1rem"
+                        }}
+                        onClick={() => {
                           if (isAsideCollapsed) {
-                              setIsAsideCollapsed(false);
+                            setIsAsideCollapsed(false);
                           } else {
-                              setIsAsideCollapsed(true);
+                            setIsAsideCollapsed(true);
                           }
-                          
-                      }}
-                    >
+      
+                        }}
+                      >
                         <DehazeRounded/>
-                    </IconButton>
+                      </IconButton>
+                    </StyledDehaze>
                 </StyledLogoContainer>
-                <Navigator items={menuList} loading={mainMenuLoading} />
+                <Navigator className="header-navigator" items={menuList} loading={mainMenuLoading} />
             </StyledHeaderLeft>
             <StyledHeaderRight>
                 <RightNavigator />
@@ -90,42 +96,41 @@ const StyledGlobalHeader = styled.div`
   
 `;
 
+// 왼쪽 상단바
 const StyledHeaderLeft = styled.div`
   display: flex;
   align-items: center;
-`;
+  width: 15rem;
+  
+`
 
 const StyledHeaderRight = styled.div`
-  padding-right: 10px;
-  padding-left: inherit;
+  padding-left: 1rem;
+  display: flex;
+  background-color: white;
+  z-index: 1000;
 
-`;
-
-const StyledSideBarToggleButton = styled.button`
-  width: 50px;
-  height: 50px;
-  background-color: unset;
-  cursor: pointer;
-  border: none;
-  &:hover {
-    background: #f4f6f8;
-  }
 `;
 
 const StyledLogoContainer = styled.div<{isCollapsed: boolean}>`
   //width: ${props => (props.isCollapsed ? "0px" : "200px")};
-  width: 230px;
+  width: 6rem;
   min-width: ${props => (props.isCollapsed ? "0px" : "250px")};
   transition: all 0.2s ease-out;
-  padding-left: 20px;
+  padding-left: 2rem;
   overflow: hidden;
   display: flex;
+  text-align: center;
+  
 `;
 
 const StyledLogo = styled.div`
   display: block;
-  width: 80px;
-  height: 20px;
+  width: 8rem;
   margin: auto 0;
   cursor: pointer;
+`;
+
+const StyledDehaze = styled.div`
+  display: flex;
 `;

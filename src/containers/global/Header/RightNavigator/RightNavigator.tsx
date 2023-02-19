@@ -6,31 +6,45 @@ import {Box, colors, IconButton} from "@material-ui/core";
 import {MouseEventHandler, useCallback, useRef, useState} from "react";
 import Popper from "../../../../components/widgets/Popper";
 import TextInput from "../../../../components/elements/TextInput";
+import useClickOutside from "../../../../hooks/sensor/useClickOutside";
+import useMode from "../../../../hooks/ui/useMode";
+import {Dialog} from "../../../../components/modules/Mode";
+import {ModeTypes} from "../../../../components/modules/Mode";
+import GlobalModeNames from "../../../../constants/modes/global-mode.const";
+import {dialogConstants} from "../../../../constants/modal/dialog.const";
+import ExampleTwo from "../../../../pages/examples/ExampleTwo";
+import useModal from "../../../../hooks/ui/useModal";
 
 function RightNavigator() {
-  const [anchor, setAnchor] = useState<any>(null);
+  const [anchorSearch, setAnchorSearch] = useState<any>(null);
   const arrowRef = useRef<any>(null);
   const [openSearch, setOpenSearch] = useState<boolean>(false);
+  const {getModeProps : getLocalModeProps, handleShowMode, handleCloseMode} = useMode();
   
-  //
-  const openPopper = useCallback((event:any) => {
-    setAnchor(event.currentTarget);
+  
+  // 검색 Popper
+  const openSearchPopper = useCallback((event:any) => {
+    setAnchorSearch(event.currentTarget);
     openSearch ? setOpenSearch(false) : setOpenSearch(true);
-    console.log("이벤트 확인", event)
-  }, [openSearch,anchor]);
+  }, [openSearch,anchorSearch]);
+  
+  // 메일 Modeless
+  const openMailModal = useCallback((event: any) => {
+    handleShowMode("mailModal");
+  }, []);
   
   return (
     <StyledRightHeader>
       {/*검색 창*/}
-      <IconButton onClick={openPopper}>
-        <SearchRounded style={{padding: 10}}/>
+      <IconButton onClick={openSearchPopper}>
+        <SearchRounded/>
       </IconButton>
       <Popper
         className='search'
         placement="bottom"
         open={openSearch}
         disablePortal={true}
-        anchorEl={anchor}
+        anchorEl={anchorSearch}
         modifier={{
           preventOverflow: {
             enabled: true,
@@ -68,8 +82,21 @@ function RightNavigator() {
           </TextInput>
       </Popper>
       
-      <MailOutlineRounded />
-      <VpnKeyRounded style={{padding: 10}}/>
+      {/*이메일*/}
+      <IconButton onClick={openMailModal}>
+        <MailOutlineRounded />
+      </IconButton>
+      <Dialog
+        type={ModeTypes.MODAL}
+        name="mailModal"
+        children={ExampleTwo()}
+        {...getLocalModeProps()}
+      />
+      
+      {/*로그인*/}
+      <IconButton onClick={openSearchPopper}>
+        <VpnKeyRounded/>
+      </IconButton>
     </StyledRightHeader>
   )
 }

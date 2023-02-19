@@ -4,6 +4,7 @@ import NavigatorList from "./list/NavigatorList";
 import {MenuType} from "../../../../model/common/common-model";
 
 type NavigatorProps = {
+    className: string;
     items: MenuType[];
     loading?: boolean;
 };
@@ -25,6 +26,6 @@ function Navigator(props: NavigatorProps) {
 export default  Navigator;
 
 const StyledNavigator = styled.nav`
-  width: 200px !important;
+  width: 5rem;
   height: 100%;
 `;

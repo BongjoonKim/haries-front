@@ -47,7 +47,7 @@ function Mode<T, N>({
             <ModeBox<T, N>
                 type={type}
                 title={title}
-                visibleStatus = {visibleStatus}
+                visibleStatus={visibleStatus}
                 onCloseMode={handleCloseMode}
                 onAddTaskItem={onAddTaskItem}
                 onActiveSequenceMode={onActiveSequenceMode}
