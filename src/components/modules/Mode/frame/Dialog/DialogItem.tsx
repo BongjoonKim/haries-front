@@ -10,9 +10,9 @@ function DialogItem<T = string, N = string>({
     onRemoveTaskItem, onActiveSequenceMode,
     activeSequence, size, showTimeCount,
     construct, children, dependent, onCloseDependentMode,
-    onVisibleStatus, isActiveEffect, onActiveEffect
+    onVisibleStatus, isActiveEffect, onActiveEffect, overlayClose
 }: ModeFrame.DialogProps<T, N>): JSX.Element {
-    console.log("children DialogItem", children)
+    console.log("children DialogItem", overlayClose)
     return (
         <Mode
             type={type}
@@ -32,6 +32,7 @@ function DialogItem<T = string, N = string>({
             onVisibleStatus={onVisibleStatus}
             isActiveEffect={isActiveEffect}
             onActiveEffect={onActiveEffect}
+            overlayClose={overlayClose}
         >
             <DialogProvider value={{name, id, onCloseMode}}>
                 {onVisibleStatus(name, id) && (

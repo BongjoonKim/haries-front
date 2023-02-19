@@ -16,6 +16,7 @@ function ModeOverlay<T, N>({
     });
 
     const handleCloseMode = () => {
+      console.log("여기여기", overlayClose)
         if (typeof overlayClose === "boolean" && overlayClose) onCloseMode();
     }
 

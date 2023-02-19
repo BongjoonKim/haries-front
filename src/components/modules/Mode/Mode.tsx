@@ -26,7 +26,8 @@ function Mode<T, N>({
         type, name, id, onCloseMode, onActiveSequenceMode, activeSequence,
         onVisibleStatus, isActiveEffect, onActiveEffect
     });
-
+    console.log("오버레이 클로즈", overlayClose)
+    
     return (
         <ModeWrapper
             tabIndex={-1}

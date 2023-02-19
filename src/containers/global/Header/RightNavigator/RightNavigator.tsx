@@ -91,6 +91,7 @@ function RightNavigator() {
         name="mailModal"
         children={ExampleTwo()}
         {...getLocalModeProps()}
+        overlayClose={true}
       />
       
       {/*로그인*/}

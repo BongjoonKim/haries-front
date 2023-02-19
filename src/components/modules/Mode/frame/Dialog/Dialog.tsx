@@ -26,7 +26,8 @@ function Dialog<T = string, N = string>({
     onShowMode,
     onShowDependentMode,
     isActiveEffect,
-    onActiveEffect
+    onActiveEffect,
+    overlayClose
 } : ModeFrameProps<T, N>) {
     const statusItem: ModeComponent.ModeStatusItem<N> = useMemo(
       () => status?.[name as keyof ModeComponent.ModeStatus<N>],
@@ -38,7 +39,7 @@ function Dialog<T = string, N = string>({
             taskItems, onAddTaskItem, onRemoveTaskItem,
             onActiveSequenceMode, activeSequence,
             size, construct, dependent, onCloseDependentMode,
-            onVisibleStatus, isActiveEffect, onActiveEffect
+            onVisibleStatus, isActiveEffect, onActiveEffect, overlayClose
         },
         component: {
             mode: children?.props?.mode || {
@@ -47,7 +48,8 @@ function Dialog<T = string, N = string>({
                 onCloseMode: (name?: N, id?: string) => onCloseMode((typeof name === "string" && name) || name, id),
                 onCloseDependentMode,
                 onShowMode,
-                onShowDependentMode
+                onShowDependentMode,
+                overlayClose
             }
         }
     }
