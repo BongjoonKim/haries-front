@@ -174,6 +174,7 @@ const StyledModeBox = styled.div<{
     `;
   }}
   border-radius: 8px;
+  position: fixed;
   z-index: 10001;
   box-shadow: 0px 5px 16px rgba(0, 00, 0, 0.25);
   background-color: #f4f6f9;
