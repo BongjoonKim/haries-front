@@ -2,4 +2,4 @@
 ## Spec
 Library : React(Typescript)\
 UI : Material UI\
-Storage : Redux + Recoil
+Storage : Redux Thunk + Recoil
