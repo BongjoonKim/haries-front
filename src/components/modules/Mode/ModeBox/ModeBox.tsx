@@ -6,6 +6,7 @@ import converter from "../../../../utilities/converter";
 import {ModeTypes} from "../router/generate";
 import Button from "../../../elements/Button/CustomButton";
 import {VscChromeClose} from "react-icons/vsc";
+import {CloseRounded} from "@material-ui/icons";
 import ModeBoxHeader from "./ModeBoxHeader";
 import ModeResizer from "./ModeResizer";
 import MemoGeneralize from "../../../renderers/MemoGeneralize";
@@ -76,7 +77,7 @@ function ModalBox<T, N>({
                             <StyledCloseButton
                                 className="clear"
                                 onClick={onCloseMode}
-                                children={<VscChromeClose color="#fff" size={25} />}
+                                children={<CloseRounded/>}
                             />
                         )}
                         {String(type)?.includes(ModeTypes.MODELESS) && (
@@ -173,11 +174,10 @@ const StyledModeBox = styled.div<{
     `;
   }}
   border-radius: 8px;
-  z-index: 9998;
-  position: fixed;
+  z-index: 10001;
   box-shadow: 0px 5px 16px rgba(0, 00, 0, 0.25);
   background-color: #f4f6f9;
-  padding: 3px;
+  padding: 5px;
 `;
 
 const StyledModeBoxBody = styled.div<{
@@ -186,7 +186,7 @@ const StyledModeBoxBody = styled.div<{
    resized?: { width?: number; height?: number }
   isModeless: boolean;
 }>`
-  padding: 12px;
+  padding: 2rem 1rem 1rem 1rem;
   display: ${props => (props.minimize ? "none" : "block")};
   cursor: auto;
   overflow-y: auto;
@@ -211,8 +211,9 @@ const StyledModeBoxBody = styled.div<{
 `;
 
 const StyledCloseButton = styled(Button)`
-  padding: 0;
-  position: absolute;
-  top: -35px;
+  position: fixed;
+  display: flex;
+  border: none;
   right: 0;
+  z-index: 10005 !important;
 `;

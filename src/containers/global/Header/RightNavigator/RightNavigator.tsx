@@ -91,7 +91,8 @@ function RightNavigator() {
         name="mailModal"
         children={ExampleTwo()}
         {...getLocalModeProps()}
-        overlayClose={true}
+        overlayClose={false}
+        onRemoveTaskItem={handleCloseMode}
       />
       
       {/*로그인*/}
@@ -113,9 +114,11 @@ const StyledRightHeader = styled.div`
   align-items: center;
   padding-right: 50px;
   .search {
-    background-color: #61dafb;
+    background-color: beige;
+    z-index: 1000 !important;
+    .text-input {
+      z-index: 10;
+    }
   }
-  .text-input {
-    color: blueviolet;
-  }
+
 `;
