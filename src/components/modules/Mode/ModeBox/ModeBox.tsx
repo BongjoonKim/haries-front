@@ -10,6 +10,7 @@ import {CloseRounded} from "@material-ui/icons";
 import ModeBoxHeader from "./ModeBoxHeader";
 import ModeResizer from "./ModeResizer";
 import MemoGeneralize from "../../../renderers/MemoGeneralize";
+import {IconButton} from "@material-ui/core";
 
 function ModalBox<T, N>({
     type,

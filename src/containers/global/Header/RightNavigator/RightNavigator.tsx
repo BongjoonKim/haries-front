@@ -14,6 +14,7 @@ import GlobalModeNames from "../../../../constants/modes/global-mode.const";
 import {dialogConstants} from "../../../../constants/modal/dialog.const";
 import ExampleTwo from "../../../../pages/examples/ExampleTwo";
 import useModal from "../../../../hooks/ui/useModal";
+import LoginPage from "../../../../pages/Login";
 
 function RightNavigator() {
   const [anchorSearch, setAnchorSearch] = useState<any>(null);
@@ -89,7 +90,7 @@ function RightNavigator() {
       <Dialog
         type={ModeTypes.MODAL}
         name="mailModal"
-        children={ExampleTwo()}
+        children={LoginPage()}
         {...getLocalModeProps()}
         overlayClose={false}
         onRemoveTaskItem={handleCloseMode}
