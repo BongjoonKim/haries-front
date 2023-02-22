@@ -3,7 +3,8 @@ import ReactMarkdown from "react-markdown";
 import {MouseEventHandler} from "react";
 
 interface ButtonProps {
-  children : string
+  className ?: string;
+  children : any;
   variant ?: "text" | "outlined" | "contained" | undefined
   color ?: any
   onClick ?: MouseEventHandler;

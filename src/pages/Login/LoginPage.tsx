@@ -4,6 +4,7 @@ import TextInput from "../../components/elements/TextInput";
 import MainContent from "../../components/templates/MainContent/MainContent";
 import {IconButton} from "@material-ui/core";
 import CustomButton from "../../components/elements/Button/CustomButton";
+import Button from "../../components/elements/Button";
 
 function LoginPage() {
   return (
@@ -18,9 +19,24 @@ function LoginPage() {
         </StyleInputs>
         <StyleButtons>
           <IconButton>
-            <CustomButton>로그인</CustomButton>
+            <Button>로그인</Button>
           </IconButton>
         </StyleButtons>
+        <p className="change-password">비밀번호 재설정</p>
+        <p className="change-password">회원가입</p>
+        <StyleSimpleLogin>
+          <span>SNS계정으로 간편 로그인/회원가입</span>
+          <IconButton>
+            <Button className="kakaoTalk">
+              {/*<link rel="icon" href="%PUBLIC_URL%/kakao.jpeg" />*/}
+              <img src={`${process.env.PUBLIC_URL}/kakao.jpeg`}/>
+            </Button>
+          </IconButton>
+          <Button className="naver">
+            <img src={`${process.env.PUBLIC_URL}/naver.jpeg`}/>
+          </Button>
+          
+        </StyleSimpleLogin>
       </Wrapper>
       
     </MainContent>
