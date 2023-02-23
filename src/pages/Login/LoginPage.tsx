@@ -11,29 +11,44 @@ function LoginPage() {
     <MainContent>
       <Wrapper>
         <StyleTitle>
-          <p>Haries</p>
+          <p>⭐️ Haries ⭐</p>
         </StyleTitle>
         <StyleInputs>
           <TextInput name="email" placeholder="Email" />
           <TextInput name="password" placeholder="Password" />
         </StyleInputs>
-        <StyleButtons>
-          <IconButton>
-            <Button>로그인</Button>
-          </IconButton>
-        </StyleButtons>
-        <p className="change-password">비밀번호 재설정</p>
-        <p className="change-password">회원가입</p>
+        {/*로그인 버튼*/}
+        <Button
+          className="login-button"
+          variant="contained"
+          children="로그인"
+          fullWidth={true}
+          color="primary"
+          styles={{
+            padding: "0.5rem 0 0.5rem 0",
+          }}
+        />
+        <StyleLinks>
+          <a className="change-password">비밀번호 재설정</a>
+          <a className="sign-up">회원가입</a>
+        </StyleLinks>
+        <p
+          className="login-explain"
+          style={{
+            textAlign: "center",
+            fontSize: "0.7rem",
+            paddingTop: "5rem"
+          }}
+        >
+          SNS계정으로 간편 로그인 / 회원가입
+        </p>
         <StyleSimpleLogin>
-          <span>SNS계정으로 간편 로그인/회원가입</span>
-          <IconButton>
-            <Button className="kakaoTalk">
-              {/*<link rel="icon" href="%PUBLIC_URL%/kakao.jpeg" />*/}
-              <img src={`${process.env.PUBLIC_URL}/kakao.jpeg`}/>
-            </Button>
-          </IconButton>
+          
+          <Button className="kakaoTalk">
+            <img src={`${process.env.PUBLIC_URL}/kakao_login_large.png`} width={"160rem"}/>
+          </Button>
           <Button className="naver">
-            <img src={`${process.env.PUBLIC_URL}/naver.jpeg`}/>
+            <img src={`${process.env.PUBLIC_URL}/naver_login.png`} width={"140rem"}/>
           </Button>
           
         </StyleSimpleLogin>
@@ -53,10 +68,37 @@ const StyleTitle = styled.div`
 `;
 
 const StyleInputs = styled.div`
+  width : 100%;
 `;
 
 const StyleButtons = styled.div`
+  display: flex;
+  .login-button {
+    margin: 1rem;
+  }
+`;
+
+const StyleLinks = styled.div`
+  display: flex;
+  align-items: center;
+  margin: auto;
+  font-size: 1rem;
+  padding-top: 1rem;
+  .change-password {
+    text-align: center;
+    padding-right: 2rem;
+  }
+  
 `;
 
 const StyleSimpleLogin = styled.div`
+  display: flex;
+  .login-explain {
+  }
+  .kakaoTalk {
+    width: auto;
+  }
+  .naver {
+    width: auto;
+  }
 `;
