@@ -16,7 +16,7 @@ function Mode<T, N>({
     onActiveSequenceMode, activeSequence,
     size, showTimeCount, children,
     dependent,overlayClose, onVisibleStatus,
-    isActiveEffect, onActiveEffect
+    isActiveEffect, onActiveEffect, top, left
 } : ModeComponent.ModeProps<T, N>) {
     const {
         uniqueKey, visibleStatus, activeSequenceIndex,
@@ -26,7 +26,6 @@ function Mode<T, N>({
         type, name, id, onCloseMode, onActiveSequenceMode, activeSequence,
         onVisibleStatus, isActiveEffect, onActiveEffect
     });
-    console.log("오버레이 클로즈", overlayClose)
     
     return (
         <ModeWrapper
@@ -41,6 +40,8 @@ function Mode<T, N>({
                 event?.stopPropagation?.();
                 handleActiveSequenceMode?.(uniqueKey);
             }}
+            top={top}
+            left={left}
         >
             {!isModeless && (
                 <ModeOverlay<T, N> type={type} visibleStatus={visibleStatus} overlayClose={overlayClose} onCloseMode={handleCloseMode} />
@@ -76,6 +77,8 @@ function Mode<T, N>({
 const ModeWrapper = styled.div<{
     activeSequenceIndex?: number;
     dependent?: boolean;
+    top?: string;
+    left?: string;
 }>`
   pointer-events: none;
   transition-duration: 0.5s;
@@ -86,7 +89,9 @@ const ModeWrapper = styled.div<{
   &.modeless {
     width: 0;
     height: 0;
-    position: relative;
+    position: ${props => (props.top || props.left) ? "absolute" : "relative"};
+    top: ${props => props.top ? props.top : "auto"};
+    left : ${props => props.left ? props.left : "auto"};
   }
   &.modal {
     width: 100%;
@@ -97,8 +102,6 @@ const ModeWrapper = styled.div<{
       width: 100%;
       height: 100%;
       position: ${props => (!props.dependent ? "fixed" : "absolute")};
-      top : 0;
-      left : 0;
     }
     &-header {
       font-size: 20px;

@@ -5,6 +5,7 @@ import {ModeFrameProps} from "../../useMode";
 import {cloneElement, Fragment, isValidElement, useMemo} from "react";
 import DialogItem from "./DialogItem";
 import MemoGeneralize from "../../../../renderers/MemoGeneralize";
+import {unmountComponentAtNode} from "react-dom";
 
 function Dialog<T = string, N = string>({
     type,
@@ -27,7 +28,9 @@ function Dialog<T = string, N = string>({
     onShowDependentMode,
     isActiveEffect,
     onActiveEffect,
-    overlayClose
+    overlayClose,
+    top,
+    left,
 } : ModeFrameProps<T, N>) {
     const statusItem: ModeComponent.ModeStatusItem<N> = useMemo(
       () => status?.[name as keyof ModeComponent.ModeStatus<N>],
@@ -39,7 +42,8 @@ function Dialog<T = string, N = string>({
             taskItems, onAddTaskItem, onRemoveTaskItem,
             onActiveSequenceMode, activeSequence,
             size, construct, dependent, onCloseDependentMode,
-            onVisibleStatus, isActiveEffect, onActiveEffect, overlayClose
+            onVisibleStatus, isActiveEffect, onActiveEffect, overlayClose,
+            top, left
         },
         component: {
             mode: children?.props?.mode || {
@@ -53,6 +57,8 @@ function Dialog<T = string, N = string>({
             }
         }
     }
+    
+    console.log("top left", top, left, title)
     
     if (String(type)?.includes(ModeTypes.MODELESS) && Array.isArray(status[name as keyof ModeComponent.ModeStatus<N>])) {
         return (

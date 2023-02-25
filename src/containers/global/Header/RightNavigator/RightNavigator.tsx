@@ -15,6 +15,7 @@ import {dialogConstants} from "../../../../constants/modal/dialog.const";
 import ExampleTwo from "../../../../pages/examples/ExampleTwo";
 import useModal from "../../../../hooks/ui/useModal";
 import LoginPage from "../../../../pages/Login";
+import exampleTwo from "../../../../pages/examples/ExampleTwo";
 
 function RightNavigator() {
   const [anchorSearch, setAnchorSearch] = useState<any>(null);
@@ -29,9 +30,14 @@ function RightNavigator() {
     openSearch ? setOpenSearch(false) : setOpenSearch(true);
   }, [openSearch,anchorSearch]);
   
-  // 메일 Modeless
-  const openMailModal = useCallback((event: any) => {
-    handleShowMode("mailModal");
+  // 로그인 Modeless
+  const openLoginModal = useCallback((event: any) => {
+    handleShowMode("login-modal");
+  }, []);
+  
+  // 개발자 문의 모달
+  const openAskModeless = useCallback((event: any) => {
+  
   }, []);
   
   return (
@@ -84,22 +90,31 @@ function RightNavigator() {
       </Popper>
       
       {/*이메일*/}
-      <IconButton onClick={openMailModal}>
+      <IconButton onClick={() => handleShowMode("ask")}>
         <MailOutlineRounded />
       </IconButton>
       <Dialog
+        type={ModeTypes.MODELESS}
+        name="ask"
+        title="Q&A"
+        top="10%"
+        left="70%"
+        children={exampleTwo()}
+        {...getLocalModeProps()}
+      />
+      
+      {/*로그인*/}
+      <IconButton onClick={openLoginModal}>
+        <VpnKeyRounded/>
+      </IconButton>
+      <Dialog
         type={ModeTypes.MODAL}
-        name="mailModal"
+        name="login-modal"
         children={LoginPage()}
         {...getLocalModeProps()}
         overlayClose={false}
         onRemoveTaskItem={handleCloseMode}
       />
-      
-      {/*로그인*/}
-      <IconButton onClick={openSearchPopper}>
-        <VpnKeyRounded/>
-      </IconButton>
     </StyledRightHeader>
   )
 }

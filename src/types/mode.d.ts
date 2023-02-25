@@ -123,6 +123,8 @@ declare namespace ModeComponent {
         onVisibleStatus: onVisibleStatus<N>;
         onActiveEffect?: onActiveEffect<N>;
         isActiveEffect?: boolean;
+        top?: string;
+        left?: string;
     }
 
     interface ModeBoxProps<T = string, N = string> {
