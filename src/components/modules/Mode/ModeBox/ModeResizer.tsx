@@ -1,6 +1,7 @@
 import {Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
 import MemoGeneralize from "../../../renderers/MemoGeneralize";
+import {MdOutlineSouthEast} from "react-icons/md";
 
 type TargetSize = {
     width: number;
@@ -49,16 +50,21 @@ function ModeResizer({
         document.body.addEventListener("mouseup", onMouseUp, { once: true });
     };
 
-    return <StyledMoveResizer onMouseDown={handleResizer} />
+    return (
+      <StyledMoveResizer onMouseDown={handleResizer}>
+          <MdOutlineSouthEast />
+      </StyledMoveResizer>
+    )
 }
 
 export default ModeResizer;
 
 const StyledMoveResizer = styled.div`
-    position: absolute;
-  width: 6px;
-  height: 6px;
+  position: absolute;
+  width: 0.5rem;
+  height: 0.5rem;
   right: 0;
-  bottom: 0;
+  bottom: 1rem;
   cursor: se-resize;
+  
 `;

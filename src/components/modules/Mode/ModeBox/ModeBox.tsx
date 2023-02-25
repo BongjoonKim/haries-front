@@ -111,6 +111,7 @@ function ModalBox<T, N>({
                         {String(type)?.includes(ModeTypes.MODELESS) && !maximize && (
                           <ModeResizer size={boxSize} setSize={setBoxSize} resized={resized} setResized={setResized} />
                         )}
+                        <ModeResizer size={boxSize} setSize={setBoxSize} resized={resized} setResized={setResized} />
                       </StyledModeBoxFooter>
                     </StyledModeBox>
                 </animated.div>
@@ -176,10 +177,10 @@ const StyledModeBox = styled.div<{
   }}
   border-radius: 8px;
   position: fixed;
-  z-index: 10001;
+  z-index: 10010;
   box-shadow: 0px 5px 16px rgba(0, 00, 0, 0.25);
   background-color: #f4f6f9;
-  padding: 5px;
+  padding: 0.5rem;
 `;
 
 const StyledModeBoxBody = styled.div<{
@@ -188,7 +189,7 @@ const StyledModeBoxBody = styled.div<{
    resized?: { width?: number; height?: number }
   isModeless: boolean;
 }>`
-  padding: 2rem 1rem 1rem 1rem;
+  padding: 2rem 1rem 0rem 1rem;
   display: ${props => (props.minimize ? "none" : "block")};
   cursor: auto;
   overflow-y: auto;
