@@ -40,5 +40,9 @@ export default MemoGeneralize(ModeOverlay);
 const StyleModeOverlay = styled.div`
   pointer-events: auto;
   background-color: rgba(0, 0, 0, 0.3);
-  z-index: 10000;
+  z-index: 10005;
+  top: 0;
+  left: 0;
+  width: fit-content;
+  height: fit-content;
 `;

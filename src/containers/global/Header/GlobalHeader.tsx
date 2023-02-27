@@ -87,12 +87,13 @@ const StyledGlobalHeader = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  border-bottom: 1px solid #cfd2d4;
-  border-left: 1px solid #e8eaeb;
-  background-color: #fff;
-  box-shadow: 0 0 10px #0000000d;
+  //border-bottom: 1px solid #cfd2d4;
+  //border-left: 1px solid #e8eaeb;
+  //background-color: #fff;
+  //box-shadow: 0 0 10px #0000000d;
   transition: all 0.2s ease-out;
   z-index: 9999;
+  background-color: rgba(255, 255, 255, 0);
   
 `;
 
@@ -109,6 +110,7 @@ const StyledHeaderRight = styled.div`
   display: flex;
   background-color: white;
   z-index: 1000;
+  background-color: rgba(255, 255, 255, 0);
 
 `;
 

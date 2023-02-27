@@ -1,7 +1,7 @@
 import {Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
 import MemoGeneralize from "../../../renderers/MemoGeneralize";
-import {MdOutlineSouthEast} from "react-icons/md";
+import {TbChevronDownRight} from "react-icons/tb";
 
 type TargetSize = {
     width: number;
@@ -52,7 +52,7 @@ function ModeResizer({
 
     return (
       <StyledMoveResizer onMouseDown={handleResizer}>
-          <MdOutlineSouthEast />
+          <TbChevronDownRight />
       </StyledMoveResizer>
     )
 }

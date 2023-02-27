@@ -10,12 +10,11 @@ function App() {
   return (
       <Router>
           <UniversalContainer>
-                  <Routes>
-                      <Route path="/*" element={<IntroPage />} />
-                      <Route path="/introduce/*" element={<Examples />} />
-                      <Route path="/frontEnd/*" element={<Front />} />
-                  </Routes>
-              {/*<IntroPage />*/}
+            <Routes>
+              <Route path="/*" element={<IntroPage />} />
+              <Route path="/introduce/*" element={<Examples />} />
+              <Route path="/frontEnd/*" element={<Front />} />
+            </Routes>
           </ UniversalContainer>
       </Router>
   );

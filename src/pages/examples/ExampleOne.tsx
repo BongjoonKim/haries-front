@@ -10,17 +10,14 @@ function ExampleOne() {
     const data = useExampleOne();
     
     return (
-        <MainContent
-            title="test"
-        >
-            <MainContent.Section mainContentTheme="light" id="test">
-                <span>안녕</span>
-                <Button onClick={() => handleShowMode("TEST")} />
-                <Dialog type={ModeTypes.MODELESS} name="TEST" children={exampleTwo()} {...getLocalModeProps()} />
-
-            </MainContent.Section>
-        </MainContent>
-
+        // <MainContent
+        //     title=""
+        // >
+        //     <MainContent.Section mainContentTheme="light" id="test">
+        //     </MainContent.Section>
+        //
+        // </MainContent>
+    <img src={`${process.env.PUBLIC_URL}/mainPage.jpeg`} width={"100px"} style={{top: 1000}}/>
     )
 }
 
