@@ -26,6 +26,6 @@ function Navigator(props: NavigatorProps) {
 export default  Navigator;
 
 const StyledNavigator = styled.nav`
-  width: 2rem;
+  width: 0rem;
   height: 100%;
 `;

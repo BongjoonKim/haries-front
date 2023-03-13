@@ -150,7 +150,6 @@ const StyledNavigator = styled.li`
     justify-content: space-between;
     width: 100%;
     height: 100%;
-    //padding: 0 15px;
     border: 0;
     outline: none;
     background-color: #cfd2d4;

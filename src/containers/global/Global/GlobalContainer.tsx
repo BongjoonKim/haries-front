@@ -41,8 +41,8 @@ const StyledGlobalBody = styled.div`
 `;
 
 const StyledGlobalLeftAside = styled.div<{isCollapsed: boolean}>`
-  width: ${props => (props.isCollapsed ? "0px" : "250px")};
-  min-width: ${props => (props.isCollapsed ? "0px" : "250px")};
+  width: ${props => (props.isCollapsed ? "0px" : "15rem")};
+  min-width: ${props => (props.isCollapsed ? "0px" : "15rem")};
   transition: all 0.2s ease-out;
   border-right: 1px solid #cfd2d4;
   border-left: 1px solid #e8eaeb;

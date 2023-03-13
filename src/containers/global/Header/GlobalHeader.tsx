@@ -12,6 +12,7 @@ import useGlobalHeader from "./useGlobalHeader";
 import RightNavigator from "./RightNavigator";
 import {IconButton} from "@material-ui/core";
 import {DehazeRounded} from "@material-ui/icons";
+import {RxDividerVertical} from "react-icons/rx";
 
 function GlobalHeader() {
     // 메인 메뉴 로딩 상태
@@ -50,6 +51,7 @@ function GlobalHeader() {
                         src={`${process.env.PUBLIC_URL}/haries_logo.png`}
                         width="150em"
                         height="100%"
+                        
                       />
                     </StyledLogo>
                     <StyledDehaze>
@@ -69,6 +71,16 @@ function GlobalHeader() {
                         <DehazeRounded/>
                       </IconButton>
                     </StyledDehaze>
+                    <p
+                      style={{
+                        margin: "0.2rem 0 0 0",
+                        padding: "auto",
+                        fontSize: "2rem",
+                        fontWeight : 100
+                      }}
+                    >|
+                    </p>
+                    {/*<p className="divide-header-bar">|</p>*/}
                 </StyledLogoContainer>
                 <Navigator className="header-navigator" items={menuList} loading={mainMenuLoading} />
             </StyledHeaderLeft>
@@ -83,14 +95,14 @@ function GlobalHeader() {
 export default GlobalHeader;
 
 const StyledGlobalHeader = styled.div`
-  height: 80px;
+  height: 3.5rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  //border-bottom: 1px solid #cfd2d4;
-  //border-left: 1px solid #e8eaeb;
-  //background-color: #fff;
-  //box-shadow: 0 0 10px #0000000d;
+  border-bottom: 1px solid #cfd2d4;
+  border-left: 1px solid #e8eaeb;
+  background-color: #fff;
+  box-shadow: 0 0 10px #0000000d;
   transition: all 0.2s ease-out;
   z-index: 9999;
   background-color: rgba(255, 255, 255, 0);
@@ -101,14 +113,14 @@ const StyledGlobalHeader = styled.div`
 const StyledHeaderLeft = styled.div`
   display: flex;
   align-items: center;
-  width: 18rem;
+  width: 15rem;
   
 `
 
 const StyledHeaderRight = styled.div`
   padding-left: 1rem;
   display: flex;
-  background-color: white;
+  background-color: black;
   z-index: 1000;
   background-color: rgba(255, 255, 255, 0);
 
@@ -116,18 +128,16 @@ const StyledHeaderRight = styled.div`
 
 const StyledLogoContainer = styled.div<{isCollapsed: boolean}>`
   // width: ${props => (props.isCollapsed ? "100px" : "200px")};
-  width: 100rem;
-  min-width: ${props => (props.isCollapsed ? "0" : "0em")};
+  min-width: ${props => (props.isCollapsed ? "0" : "10rem")};
   transition: all 0.2s ease-out;
   padding-left: 2rem;
-  overflow: hidden;
+  //overflow: hidden;
   display: flex;
   text-align: center;
-  
 `;
 
 const StyledLogo = styled.div`
-  display: block;
+  display: flex;
   width: 8rem;
   margin: auto 0;
   cursor: pointer;
@@ -136,6 +146,6 @@ const StyledLogo = styled.div`
 
 const StyledDehaze = styled.div`
   margin: auto;
-  padding-left: 2rem;
-  display: block;
+  padding-left: 2.5rem;
+  display: flex;
 `;
