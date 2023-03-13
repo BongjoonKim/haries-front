@@ -159,7 +159,7 @@ const StyledNavigator = styled.li`
     font-size: 13px;
     text-align: left;
     font-family: "NotoSansCJKkr", "Roboto", "Montserrat", sans-serif;
-    font-weight: 600;
+    font-weight: 200;
     box-sizing: border-box;
     letter-spacing: -0.05rem;
     &:hover {
@@ -176,9 +176,10 @@ const StyledNavigator = styled.li`
       display: flex;
       align-items: center;
     }
+    //  Navigate font 사이즈!!
     &-title {
-      margin: 0 50px;
-      font-size: 30px;
+      margin: 0 1rem;
+      font-size: 1rem;
     }
   }
   .nav-link.primary {

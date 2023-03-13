@@ -46,17 +46,17 @@ function GlobalHeader() {
                             navigate("/");
                         }}
                     >
-                        Home
+                      <img
+                        src={`${process.env.PUBLIC_URL}/haries_logo.png`}
+                        width="150em"
+                        height="100%"
+                      />
                     </StyledLogo>
                     <StyledDehaze>
                       <IconButton
                         edge="start"
                         color="inherit"
                         aria-label="open drawer"
-                        style={{
-                          paddingLeft: "1rem",
-                          paddingRight: "1rem"
-                        }}
                         onClick={() => {
                           if (isAsideCollapsed) {
                             setIsAsideCollapsed(false);
@@ -101,7 +101,7 @@ const StyledGlobalHeader = styled.div`
 const StyledHeaderLeft = styled.div`
   display: flex;
   align-items: center;
-  width: 15rem;
+  width: 18rem;
   
 `
 
@@ -115,9 +115,9 @@ const StyledHeaderRight = styled.div`
 `;
 
 const StyledLogoContainer = styled.div<{isCollapsed: boolean}>`
-  //width: ${props => (props.isCollapsed ? "0px" : "200px")};
-  width: 6rem;
-  min-width: ${props => (props.isCollapsed ? "0px" : "250px")};
+  // width: ${props => (props.isCollapsed ? "100px" : "200px")};
+  width: 100rem;
+  min-width: ${props => (props.isCollapsed ? "0" : "0em")};
   transition: all 0.2s ease-out;
   padding-left: 2rem;
   overflow: hidden;
@@ -131,8 +131,11 @@ const StyledLogo = styled.div`
   width: 8rem;
   margin: auto 0;
   cursor: pointer;
+  
 `;
 
 const StyledDehaze = styled.div`
-  display: flex;
+  margin: auto;
+  padding-left: 2rem;
+  display: block;
 `;
