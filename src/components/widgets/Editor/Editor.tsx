@@ -1,4 +1,4 @@
-import {MutableRefObject, useEffect, useMemo, useRef} from "react";
+import {MutableRefObject, useCallback, useEffect, useMemo, useRef} from "react";
 import useEditor from "./useEditor";
 import styled from "styled-components";
 import Button from "../../elements/Button";
@@ -8,6 +8,8 @@ import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 import '@toast-ui/editor/dist/i18n/ko-kr';
+import {current} from "@reduxjs/toolkit";
+import useClickOutside from "../../../hooks/sensor/useClickOutside";
 
 export interface EditorProps{
   titles?: string;
@@ -25,10 +27,19 @@ export type HookMap = {
 };
 
 function Editor(props: EditorProps) {
-  const {addFiles} = useEditor();
   
   // Ref 설정
   const editorRef = useRef<any>();
+  const titleRef = useRef<any>();
+  
+  const {addFiles} = useEditor(editorRef, titleRef);
+  
+  const handleSave = useCallback(() => {
+    const data = editorRef.current.getInstance().getHTML();
+    console.log("값", data);
+    console.log("제목", titleRef.current.value);
+  }, []);
+
   
   // 변경될 떄마다 가져옴
   const onChange = () => {
@@ -53,7 +64,7 @@ function Editor(props: EditorProps) {
         <tbody>
           <tr>
             <td colSpan={2}>
-                <textarea id="editor-table-title" placeholder="제목을 입력하세요" />
+                <textarea id="editor-table-title" ref={titleRef} placeholder="제목을 입력하세요" />
             </td>
           </tr>
           <tr>
@@ -86,7 +97,7 @@ function Editor(props: EditorProps) {
         </StyledLeftEditorButton>
         <StyledRightEditorButton>
           <Button variant="contained" color="primary" children="미리보기" />
-          <Button variant="contained" color="primary" children="임시저장" />
+          <Button variant="contained" color="primary" children="임시저장" onClick={handleSave} />
           <Button variant="contained" color="secondary" children="발행" />
         </StyledRightEditorButton>
       </StyledEditorButton>

@@ -1,6 +1,7 @@
-import {ChangeEvent} from "react";
+import {ChangeEvent, useCallback} from "react";
+import {current} from "@reduxjs/toolkit";
 
-function useEditor() {
+function useEditor(editorRef : any, titleRef : any) {
   const formData = new FormData();
   
   const addFiles = (event : any): void => {
@@ -16,7 +17,7 @@ function useEditor() {
   }
   
   return {
-    addFiles
+    addFiles,
   }
 }
 
