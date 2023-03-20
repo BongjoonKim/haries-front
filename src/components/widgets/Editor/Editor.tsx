@@ -10,6 +10,7 @@ import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-sy
 import '@toast-ui/editor/dist/i18n/ko-kr';
 import {current} from "@reduxjs/toolkit";
 import useClickOutside from "../../../hooks/sensor/useClickOutside";
+import {createdocuments} from "../../../endpoints/common-endpoints";
 
 export interface EditorProps{
   titles?: string;
@@ -18,6 +19,12 @@ export interface EditorProps{
   setHtmlContent?: any;
   
   attachmentFiles?: any;
+}
+
+export interface CreateEditorProps {
+  titles : string;
+  htmlContents : any;
+  
 }
 
 export type HookCallback = (url: string, text?: string) => void;
@@ -34,10 +41,21 @@ function Editor(props: EditorProps) {
   
   const {addFiles} = useEditor(editorRef, titleRef);
   
-  const handleSave = useCallback(() => {
-    const data = editorRef.current.getInstance().getHTML();
-    console.log("값", data);
+  const handleSave = useCallback(async () => {
+    const contents = editorRef.current.getInstance().getHTML();
+    console.log("값", contents);
     console.log("제목", titleRef.current.value);
+    
+    const data: CreateEditorProps = {
+      titles : titleRef.current.value,
+      htmlContents : contents
+    }
+    try {
+      await createdocuments(data);
+    } catch (e) {
+      console.log(e, "save 실패");
+    }
+    
   }, []);
 
   
