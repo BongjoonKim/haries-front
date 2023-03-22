@@ -8,9 +8,6 @@ import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 import '@toast-ui/editor/dist/i18n/ko-kr';
-import {current} from "@reduxjs/toolkit";
-import useClickOutside from "../../../hooks/sensor/useClickOutside";
-import {createdocuments} from "../../../endpoints/common-endpoints";
 
 export interface EditorProps{
   titles?: string;
@@ -34,36 +31,8 @@ export type HookMap = {
 };
 
 function Editor(props: EditorProps) {
-  
-  // Ref 설정
-  const editorRef = useRef<any>();
-  const titleRef = useRef<any>();
-  
-  const {addFiles} = useEditor(editorRef, titleRef);
-  
-  const handleSave = useCallback(async () => {
-    const contents = editorRef.current.getInstance().getHTML();
-    console.log("값", contents);
-    console.log("제목", titleRef.current.value);
-    
-    const data: CreateEditorProps = {
-      titles : titleRef.current.value,
-      htmlContents : contents
-    }
-    try {
-      await createdocuments(data);
-    } catch (e) {
-      console.log(e, "save 실패");
-    }
-    
-  }, []);
 
-  
-  // 변경될 떄마다 가져옴
-  const onChange = () => {
-    const data = editorRef.current.getInstance().getHTML();
-    console.log(data);
-  };
+  const {addFiles, titleRef, editorRef, handleSave, onChange} = useEditor();
   
   // 이미지 업로드 처리
   const onUploadImage = async (blob: Blob, callback: HookCallback) => {

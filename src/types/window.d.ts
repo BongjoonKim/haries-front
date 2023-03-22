@@ -1,6 +1,6 @@
 export const WindowPositionSizeNameArr = ["testA", "testB"] as const;
 
-declare namespace NSWindow {
+// declare namespace NSWindow {
     export type TWindowPositionSizeName = typeof WindowPositionSizeNameArr[number];
     export interface IOpenWindowFeatures {
         features?: string;
@@ -20,4 +20,4 @@ declare namespace NSWindow {
         supressWindowOpenFailPopup?: boolean;
         windowOpenFailPopupMessage?: string;
     }
-}
+// }

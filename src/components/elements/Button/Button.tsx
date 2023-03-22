@@ -8,7 +8,7 @@ interface ButtonProps {
   children : any;
   variant ?: "text" | "outlined" | "contained" | undefined
   color ?: any
-  onClick ?: MouseEventHandler;
+  onClick ?: any;
   fullWidth?: boolean;
   backgroundColor?: string;
   styles?: {

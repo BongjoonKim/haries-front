@@ -1,5 +1,5 @@
-import {NSWindow, WindowPositionSizeNameArr} from "../types/window";
-import TWindowPositionSizeName = NSWindow.TWindowPositionSizeName;
+import {TWindowPositionSizeName, WindowPositionSizeNameArr, IOpenWindowOptions} from "../types/window.d";
+
 
 export function isWindowPositionSizeName(input: string): input is TWindowPositionSizeName {
     return WindowPositionSizeNameArr.includes(input as TWindowPositionSizeName);
@@ -61,7 +61,7 @@ setupWindowPositionSize(WindowPositionSizeDictionary);
 
 function openWindow(
     url: string | URL,
-    options?: NSWindow.IOpenWindowOptions
+    options?: IOpenWindowOptions
 ): WindowProxy | null {
     const _url = typeof url === "string" ? new URL(url, window.location.origin) : url;
     {

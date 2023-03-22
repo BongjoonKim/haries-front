@@ -7,6 +7,7 @@ import Editor from "../../../../components/widgets/Editor";
 import MainContent from "../../../../components/templates/MainContent/MainContent";
 import Button from "../../../../components/elements/Button";
 import Popper from "../../../../components/widgets/Popper";
+import usePopup from "../../../../hooks/ui/usePopup";
 
 function BoardCreate() {
   const quillRef = useRef<ReactQuill>(null);
@@ -17,11 +18,7 @@ function BoardCreate() {
     console.log("변화",htmlContent)
   }, [htmlContent]);
   
-  // Popper 관련 로직
-  const [anchor, setAnchor] = useState<any>(null);
-  const openPopper = (event: any) => {
-    setAnchor(event.currentTarget);
-  }
+  const {handleAddStatus} = usePopup();
   
   return (
     <MainContent>
