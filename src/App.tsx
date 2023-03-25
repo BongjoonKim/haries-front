@@ -3,7 +3,7 @@ import './App.css';
 import IntroPage from "./pages/IntroPage";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import UniversalContainer from "./containers/universal/UniversalContainer";
-import Examples from "./pages/examples";
+import Examples from "./pages/examples/ExampleOne";
 import Front from "./pages/Front";
 
 function App() {

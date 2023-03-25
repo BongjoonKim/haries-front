@@ -65,3 +65,17 @@ declare namespace Select {
     type onChange<T = Option> = (newValue: selected, actionMeta: ActionMeta<T>) => void;
     type ActionsMeta<T = Option> = ActionMeta<T>
 }
+
+declare namespace Kanban {
+    type Item = {
+        id : string;
+        status : "todo" | "doing";
+        titles : string;
+        contents : string;
+        index : number;
+    }
+    
+    type Items = {
+        [key in "todo" | "doing"] : Item[];
+    }
+}

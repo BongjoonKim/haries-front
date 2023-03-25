@@ -1,6 +1,6 @@
 import {ModeRoute, ModeRouter, ModeTypes, useModeContext} from "../../components/modules/Mode";
 import GlobalModeNames from "../../constants/modes/global-mode.const";
-import ExampleOne from "../../pages/examples/ExampleOne";
+import ExampleOne from "../../pages/examples/ExampleOne/ExampleOne";
 
 export default function ModeContainer() {
     const {getModeRouterProps} = useModeContext();

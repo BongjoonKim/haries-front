@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useState} from "react";
-import {retrieveMenus} from "../../endpoints/common-endpoints";
+import {retrieveMenus} from "../../../endpoints/common-endpoints";
 
 function useExampleOne() {
   const [data, setData] = useState<any>("");
