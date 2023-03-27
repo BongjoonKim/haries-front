@@ -67,15 +67,17 @@ declare namespace Select {
 }
 
 declare namespace Kanban {
+    type Status = "todo" | "doing"
+    
     type Item = {
         id : string;
-        status : "todo" | "doing";
+        status : Status;
         titles : string;
         contents : string;
         index : number;
     }
     
     type Items = {
-        [key in "todo" | "doing"] : Item[];
+        [key in Status] : Item[];
     }
 }

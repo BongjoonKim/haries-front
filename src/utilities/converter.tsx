@@ -2,6 +2,10 @@ function classNames (items : (string | undefined | boolean)[]) : string {
     return items.filter(x => x).join(" ");
 }
 
+function classNamesBit(...classNames: any[]) {
+    return classNames.filter((v) => !!(v)).join(' ');
+}
+
 function changeDynamicObjectValue<T>(
     object: T,
     name: string,
@@ -283,6 +287,7 @@ function objectRemoveItem<T>(object: T, name: string) {
 
 export default {
     classNames,
+    classNamesBit,
     changeDynamicObjectValue,
     dynamicStringToInitialObject,
     objectRemoveKey,
