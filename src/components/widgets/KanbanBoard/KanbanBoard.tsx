@@ -5,6 +5,8 @@ import converter from "../../../utilities/converter";
 interface KanbanProps {
   items : Kanban.Items;
   setItems: (items: Kanban.Items) => void;
+  
+  titles?: string;
 }
 
 function KanbanBoard(props : KanbanProps) {
@@ -109,7 +111,7 @@ function KanbanBoard(props : KanbanProps) {
                                   lineHeight: "1.25rem"
                               }}
                               >
-                                Make the world beatiful
+                                {item.contents}
                               </span>
                             </div>
                           )}

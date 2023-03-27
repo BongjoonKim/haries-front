@@ -12,7 +12,7 @@ function App() {
           <UniversalContainer>
             <Routes>
               <Route path="/*" element={<IntroPage />} />
-              <Route path="/introduce/*" element={<Examples />} />
+              <Route path="/example/*" element={<Examples />} />
               <Route path="/frontEnd/*" element={<Front />} />
             </Routes>
           </ UniversalContainer>
