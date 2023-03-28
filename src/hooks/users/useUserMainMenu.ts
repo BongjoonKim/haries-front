@@ -43,6 +43,7 @@ export const useUserMainMenu = () => {
             );
             break;
         default:
+            console.log("여기", menuItemVO.menuHref)
             setActiveMenuItemVO(menuItemVO);
             navigate(menuItemVO.menuHref!!);
             break;
