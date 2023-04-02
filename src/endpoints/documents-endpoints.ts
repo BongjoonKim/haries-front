@@ -5,3 +5,7 @@ import {AxiosResponse} from "axios";
 export async function createDocuments(params: DocumentsDTO) {
   return (await request.post("documents/create", params)) as AxiosResponse<any>;
 }
+
+export async function getAllDocuments(params: PaginationDTO) {
+  return (await request.get(`documents/get-all?page=${params.page}&size=${params.size}&sort=${params.sort}`)) as AxiosResponse<any>;
+}
