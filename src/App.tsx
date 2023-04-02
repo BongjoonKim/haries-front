@@ -3,8 +3,8 @@ import './App.css';
 import IntroPage from "./pages/IntroPage";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import UniversalContainer from "./containers/universal/UniversalContainer";
-import Examples from "./pages/examples/ExampleOne";
 import Front from "./pages/Front";
+import RoutesTree from "./RoutesTree";
 
 function App() {
   return (
@@ -12,10 +12,10 @@ function App() {
           <UniversalContainer>
             <Routes>
               <Route path="/*" element={<IntroPage />} />
-              <Route path="/example/*" element={<Examples />} />
+              <Route path="/example/*" element={RoutesTree.ExampleRoutes()} />
               <Route path="/frontEnd/*" element={<Front />} />
             </Routes>
-          </ UniversalContainer>
+          </UniversalContainer>
       </Router>
   );
 }

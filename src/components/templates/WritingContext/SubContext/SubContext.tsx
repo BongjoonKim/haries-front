@@ -1,28 +1,20 @@
 import styled from "styled-components";
-
-export interface SubContextProps {
-  img : string;
-  titles : string;
-  contents : string;
-  users : string;
-  created : Date;
-  modified : Date;
-}
+import moment from "moment";
+import {SubContextProps} from "../types";
 
 function SubContext(props : SubContextProps) {
   return (
     <StyledSubContext>
       <img />
-      {props.titles}
-      {props.contents}
-      <StyledExplainPart>
-        <h4>
-          {props.users}
-
-        </h4>
-        {/*{props.modified}*/}
-      </StyledExplainPart>
-      
+      <h4>
+        {props.titles}
+      </h4>
+      <h6>
+        {props.contents}
+      </h6>
+      <h6>
+        {moment(props.modified).format("YYYY-MM-DD")}
+      </h6>
     </StyledSubContext>
   )
 }
