@@ -1,7 +1,9 @@
+import WritingContext from "../../../components/templates/WritingContext";
+
 function ExampleThree() {
   return (
     <>
-      example three 페이지입니다
+      <WritingContext />
     </>
   )
 }

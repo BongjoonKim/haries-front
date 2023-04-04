@@ -1,5 +1,5 @@
 export interface SubContextProps {
-  img : string;
+  img ?: string;
   titles : string;
   contents : string;
   users : string;

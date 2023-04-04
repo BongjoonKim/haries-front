@@ -7,5 +7,5 @@ export async function createDocuments(params: DocumentsDTO) {
 }
 
 export async function getAllDocuments(params: PaginationDTO) {
-  return (await request.get(`documents/get-all?page=${params.page}&size=${params.size}&sort=${params.sort}`)) as AxiosResponse<any>;
+  return (await request.get(`documents/get-all?page=${params.page}&size=${params.size}`)) as AxiosResponse<any>;
 }

@@ -8,7 +8,7 @@ interface DocumentsDTO {
 interface PaginationDTO {
   page : number;
   size : number;
-  sort : any;
+  sort ?: any;
 }
 
 interface PaginationInfoDTO extends PaginationDTO{
