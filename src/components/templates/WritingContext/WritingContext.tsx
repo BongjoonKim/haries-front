@@ -12,7 +12,7 @@ function WritingContext() {
   return (
     <StyledWritingContext>
       {/*<SubContext titles={} contents={} users={} created={} modified={} />*/}
-      <Page totalCount={10} setPage={setPage} page={page} size={5} sort={1} />
+      <Page totalCount={10} setPage={setPage} page={page} size={5} />
     </StyledWritingContext>
   )
 }
