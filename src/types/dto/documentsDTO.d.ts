@@ -1,7 +1,7 @@
 interface DocumentsDTO {
   titles : string;
   htmlContents ?: any;
-  created ?: Date;
+  created ?: Date | LocaleTime;
   initialUser ?: string;
 }
 
