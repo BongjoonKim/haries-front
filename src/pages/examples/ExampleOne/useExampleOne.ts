@@ -1,20 +1,20 @@
 import {useCallback, useEffect, useState} from "react";
 import {retrieveMenus} from "../../../endpoints/common-endpoints";
+import {useNavigate, useLocation} from "react-router-dom";
 
 function useExampleOne() {
-  // const [data, setData] = useState<any>("");
-  // console.log()
-  // const getData = useCallback(async () => {
-  //   const aa = await retrieveMenus();
-  //   setData(aa);
-  //   console.log("aa", aa);
-  // }, [data]);
-  //
-  // useEffect(() => {
-  //   getData();
-  // }, []);
-  //
-  // return data;
+  const navigate = useNavigate();
+  const location = useLocation();
+  const threeOnClick = () => {
+    console.log("location", location);
+    navigate(`${location.pathname}/example-three`);
+  }
+  
+  return {
+    threeOnClick
+  }
+  
+  
 }
 
 export default useExampleOne;

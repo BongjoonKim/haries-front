@@ -1,9 +1,13 @@
 export const DocumentConstants = {
   SAVE : "save",
-  SAVE_AS : "saveAs"
+  SAVE_AS : "saveAs",
+  INITIALIZE : "initialsize",
 }
 
 export const DocumentActions = {
+  initialize() {
+    return {type: DocumentConstants.INITIALIZE}
+  },
   save(params : DocumentsDTO) {
     return {type : DocumentConstants.SAVE, payload: params}
   },

@@ -4,7 +4,7 @@ import {ActionTypes, DocumentConstants} from "../actions/documents.action";
 const initialState: DocumentsDTO= {
   titles : "",
   htmlContents : "",
-  created : moment(now()).format("YYYY-MM-DD"),
+  created : moment().format("YYYY-MM-DD"),
   initialUser : "user"
 }
 
@@ -13,10 +13,14 @@ function DocumentsReducer(
   action : StoreAction<ActionTypes>
 ) {
   switch (action.type) {
+    case DocumentConstants.INITIALIZE:
+      return initialState;
     case DocumentConstants.SAVE:
       console.log("state", state);
       console.log("action", action);
-      return state;
+      return {...state};
+    default:
+      return state
   }
 }
 

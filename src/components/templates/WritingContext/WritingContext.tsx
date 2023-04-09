@@ -7,11 +7,11 @@ import Page from "../../widgets/Page";
 
 function WritingContext() {
   
-  const {getPaginationData, page, setPage} = useWritingContext();
+  const {page, setPage, writings} = useWritingContext();
   
   return (
     <StyledWritingContext>
-      {/*<SubContext titles={} contents={} users={} created={} modified={} />*/}
+      <SubContext data={[...writings]}/>
       <Page totalCount={10} setPage={setPage} page={page} size={5} />
     </StyledWritingContext>
   )
