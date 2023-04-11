@@ -12,11 +12,7 @@ function useWritingContext() {
   
   useEffect(() => {
     console.log("여기보자", setPage)
-    const foo = async () => {
-      await getPaginationData({page : page, size : 5});
-    };
-    
-    foo();
+    getPaginationData({page : page, size : 6})
   }, [page]);
   
   return {

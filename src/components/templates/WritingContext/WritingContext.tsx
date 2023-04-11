@@ -12,7 +12,7 @@ function WritingContext() {
   return (
     <StyledWritingContext>
       <SubContext data={[...writings]}/>
-      <Page totalCount={10} setPage={setPage} page={page} size={5} />
+      <Page totalCount={10} setPage={setPage} page={page} size={3} />
     </StyledWritingContext>
   )
 }
@@ -20,6 +20,8 @@ function WritingContext() {
 export default WritingContext;
 
 const StyledWritingContext = styled.div`
+  justify-content: center;
+  height: 100%;
  .pagination {
    display: flex;
    justify-content: center;

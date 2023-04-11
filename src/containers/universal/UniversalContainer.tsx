@@ -78,7 +78,7 @@ function UniversalContainer(props : {children : ReactNode}) {
 export default UniversalContainer;
 
 const Universal = styled.div<{independent?: boolean}>`
-  height: 100vh;
+  height: 100%;
   width: 100%;
 `;
 
