@@ -15,6 +15,7 @@ function App() {
         <Route path="/*" element={<IntroPage />} />
         <Route path="/example/*" element={RoutesTree.ExampleRoutes()} />
         <Route path="/frontEnd/*" element={<Front />} />
+        <Route path="/blog/*" element={RoutesTree.BlogRoutes()} />
       </Routes>
     </UniversalContainer>
   );

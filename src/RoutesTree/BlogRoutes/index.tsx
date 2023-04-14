@@ -5,7 +5,7 @@ import DocumentListPage from "../../pages/blog/DocumentListPage";
 function BlogRoutes() {
   return (
     <Routes>
-      <Route path="blog/list" element={<DocumentListPage />} />
+      <Route path="*" element={<DocumentListPage />} />
     </Routes>
   )
 }
