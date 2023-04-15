@@ -7,12 +7,12 @@ import Page from "../../widgets/Page";
 
 function WritingContext() {
   
-  const {page, setPage, writings} = useWritingContext();
+  const {page, setPage, writings, totalContents} = useWritingContext();
   
   return (
     <StyledWritingContext>
       <SubContext data={[...writings]}/>
-      <Page totalCount={10} setPage={setPage} page={page} size={3} />
+      <Page totalCount={totalContents} setPage={setPage} page={page} size={4} />
     </StyledWritingContext>
   )
 }
@@ -20,6 +20,9 @@ function WritingContext() {
 export default WritingContext;
 
 const StyledWritingContext = styled.div`
+  &:hover {
+    mso-border-shadow: yes;
+  }
   justify-content: center;
   height: 100%;
  .pagination {

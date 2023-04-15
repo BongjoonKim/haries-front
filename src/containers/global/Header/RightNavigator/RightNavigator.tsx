@@ -1,4 +1,4 @@
-import {SearchRounded} from "@material-ui/icons";
+import {Search, SearchRounded} from "@material-ui/icons";
 import {MailOutlineRounded} from "@material-ui/icons";
 import {VpnKeyRounded} from "@material-ui/icons";
 import styled from "styled-components";
@@ -16,6 +16,8 @@ import ExampleTwo from "../../../../pages/examples/ExampleTwo";
 import useModal from "../../../../hooks/ui/useModal";
 import LoginPage from "../../../../pages/Login";
 import exampleTwo from "../../../../pages/examples/ExampleTwo";
+import SearchIcon from '@mui/icons-material/Search';
+import {InputBase} from "@mui/material";
 
 function RightNavigator() {
   const [anchorSearch, setAnchorSearch] = useState<any>(null);
@@ -43,51 +45,15 @@ function RightNavigator() {
   return (
     <StyledRightHeader>
       {/*검색 창*/}
-      <IconButton onClick={openSearchPopper}>
-        <SearchRounded/>
-      </IconButton>
-      <Popper
-        className='search'
-        placement="bottom"
-        open={openSearch}
-        disablePortal={true}
-        anchorEl={anchorSearch}
-        modifier={{
-          preventOverflow: {
-            enabled: true,
-            boundariesElement: 'scrollParent',
-            options: {
-              altAxis: true,
-              altBoundary: true,
-              tether: true,
-              rootBoundary: 'viewport',
-              padding: 8,
-            }
-          },
-          arrow: {
-            enabled: true,
-            options: {
-              element : arrowRef
-            }
-          },
-          flip: {
-            enabled: true,
-            options: {
-              altBoundary: true,
-              rootBoundary: 'viewport',
-              padding: 8,
-            },
-          },
-        }}
-      >
-          <TextInput
-            className="text-input"
-            width="200px"
-            min-height="300px"
-          >
-            <SearchRounded />
-          </TextInput>
-      </Popper>
+      <StyledSearch>
+        <StyledIconWrapper>
+          <SearchIcon />
+        </StyledIconWrapper>
+        <StyledInputBase
+          placeholder="Search…"
+          inputProps={{ 'aria-label': 'search' }}
+        />
+      </StyledSearch>
       
       {/*이메일*/}
       <IconButton onClick={() => handleShowMode("ask")}>
@@ -129,12 +95,35 @@ const StyledRightHeader = styled.div`
   display: flex;
   align-items: center;
   padding-right: 50px;
-  .search {
-    background-color: beige;
-    z-index: 1000 !important;
-    .text-input {
-      z-index: 10;
-    }
-  }
+  background-color: white;
+`;
 
+const StyledSearch = styled.div`
+  position: relative;
+  display: flex;
+  border-radius: 10px;
+  align-items: center;
+  width: 100%;
+  height: 80%;
+  background-color: white !important;
+  &:hover {
+    background-color: #eee !important;
+  }
+  margin-left: 0;
+`;
+
+const StyledIconWrapper = styled.div`
+  padding: 0rem 1rem;
+  //padding-left: 2rem;
+  display: flex;
+  align-items: center;
+`;
+
+const StyledInputBase = styled(InputBase)<{theme : any}>`
+  color: inherit;
+  width: 10rem;
+  &.MuiInputBase-input {
+    padding: 1rem 1rem;
+    
+  }
 `;

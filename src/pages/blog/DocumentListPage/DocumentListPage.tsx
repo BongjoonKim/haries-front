@@ -6,6 +6,7 @@ function DocumentListPage() {
     <StyledDocumentList>
       <WritingContext />
     </StyledDocumentList>
+    
   )
 }
 

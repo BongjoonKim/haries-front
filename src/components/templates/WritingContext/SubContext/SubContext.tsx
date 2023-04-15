@@ -1,14 +1,16 @@
 import styled from "styled-components";
 import moment from "moment";
 import {createElement} from "react";
+import useSubContext from "./useSubContext";
 
 interface SubContextProps {
-  data : DocumentsDTO[];
+  data : Documents.DocumentsDTO[];
 }
 
 function SubContext(props: SubContextProps) {
   console.log("글 목록 보기", props.data);
   const writings = props.data;
+  const { contentsOnClick } = useSubContext();
   
   return (
     <StyledSubContext>
@@ -18,8 +20,8 @@ function SubContext(props: SubContextProps) {
         console.log("도큐먼츠", documents.body.nodeValue);
         
         return (
-        <StyledContextBox key={index}>
-          <img />
+        <StyledContextBox key={index} id={writing.id} onClick={contentsOnClick}>
+          <img src={`${process.env.PUBLIC_URL}/serrata.jpeg`}/>
           <h4>
             {writing.titles}
           </h4>
@@ -62,6 +64,10 @@ const StyledContextBox = styled.div`
   border: 1px solid black;
   width : 100%;
   height : 40vh;
+  img {
+    width : 100%;
+    height : 60%;
+  }
 `;
 
 const StyledExplainPart = styled.div`

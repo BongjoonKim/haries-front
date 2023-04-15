@@ -1,7 +1,7 @@
 import moment, {now} from "moment";
 import {ActionTypes, DocumentConstants} from "../actions/documents.action";
 
-const initialState: DocumentsDTO= {
+const initialState: Documents.DocumentsDTO= {
   titles : "",
   htmlContents : "",
   created : moment().format("YYYY-MM-DD"),

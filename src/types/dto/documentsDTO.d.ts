@@ -1,9 +1,28 @@
-interface DocumentsDTO {
-  titles : string;
-  htmlContents ?: any;
-  created ?: Date | LocaleTime;
-  initialUser ?: string;
+
+
+declare namespace Documents {
+  interface DocumentsInfo {
+    totalContents : number;
+    totalPages : number;
+    documentsDTO : DocumentsDTO[];
+  }
+
+  
+  interface DocumentsDTO {
+    id ?: string;
+    titles : string;
+    htmlContents ?: any;
+    created ?: Date | LocaleTime;
+    initialUser ?: string;
+  }
 }
+
+// interface DocumentsDTO {
+//   titles : string;
+//   htmlContents ?: any;
+//   created ?: Date | LocaleTime;
+//   initialUser ?: string;
+// }
 
 interface PaginationDTO {
   page : number;
