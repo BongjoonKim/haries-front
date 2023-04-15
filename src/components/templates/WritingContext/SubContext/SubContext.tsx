@@ -4,7 +4,7 @@ import {createElement} from "react";
 import useSubContext from "./useSubContext";
 
 interface SubContextProps {
-  data : Documents.DocumentsDTO[];
+  data : DocumentsDTO[];
 }
 
 function SubContext(props: SubContextProps) {

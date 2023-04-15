@@ -24,7 +24,7 @@ function useEditor() {
     console.log("값", contents);
     console.log("제목", titleRef.current.value);
     
-    const data: Documents.DocumentsDTO = {
+    const data: DocumentsDTO = {
       titles : titleRef.current.value,
       htmlContents : contents
     }

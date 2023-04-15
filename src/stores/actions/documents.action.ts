@@ -8,10 +8,10 @@ export const DocumentActions = {
   initialize() {
     return {type: DocumentConstants.INITIALIZE}
   },
-  save(params : Documents.DocumentsDTO) {
+  save(params : DocumentsDTO) {
     return {type : DocumentConstants.SAVE, payload: params}
   },
-  saveAs(params: Documents.DocumentsDTO) {
+  saveAs(params: DocumentsDTO) {
     return {type: DocumentConstants.SAVE_AS, payload: params}
   }
 }

@@ -4,7 +4,7 @@ import {getAllDocuments} from "../../../endpoints/documents-endpoints";
 function useWritingContext() {
   const [page, setPage] = useState<any>(1);
   const [totalContents, setTotalContents] = useState<number>(0);
-  const [writings, setWritings] = useState<Documents.DocumentsDTO[]>([]);
+  const [writings, setWritings] = useState<DocumentsDTO[]>([]);
   
   const getPaginationData = useCallback(async (props : PaginationDTO) => {
     
