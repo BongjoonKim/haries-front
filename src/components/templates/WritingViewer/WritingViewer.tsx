@@ -18,7 +18,8 @@ function WritingViewer() {
     MessageOpen,
     handleOnClose,
     warningMessage,
-    viewerRef
+    viewerRef,
+    datas
   } = useWritingViewer();
   
   const action = (
@@ -43,7 +44,7 @@ function WritingViewer() {
           <h2>
             {title}
           </h2>
-          <EditorViewer writing={writing} viewerRef={viewerRef} />
+          <EditorViewer writing={datas} viewerRef={viewerRef} />
           <MessageBar open={MessageOpen} onClose={handleOnClose} message={warningMessage} action={action}/>
         </StyledWritingViewer>
       ) : (

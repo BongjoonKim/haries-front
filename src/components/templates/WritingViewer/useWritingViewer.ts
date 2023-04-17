@@ -2,7 +2,7 @@ import {useParams} from "react-router-dom";
 import {SyntheticEvent, useCallback, useEffect, useRef, useState} from "react";
 import {getDocuments} from "../../../endpoints/documents-endpoints";
 
-
+let datas = '';
 function useWritingViewer() {
   const [title, setTitle] = useState("");
   const viewerRef = useRef<any>();
@@ -10,7 +10,7 @@ function useWritingViewer() {
   const [MessageOpen, setMessageOpen] = useState<boolean>(false);
   const [warningMessage, setWarningMessage] = useState("Fail Brought Writing")
   const {id} = useParams();
-  
+
   
   
   
@@ -20,8 +20,11 @@ function useWritingViewer() {
       const response = await getDocuments({id : id!});
       setTitle(response.data.titles);
       setWriting(response.data.htmlContents);
+      datas = response.data.htmlContents;
       viewerRef.current.getInstance().options.initialValue = "dfsdfsdfsd"
-      console.log("ref", viewerRef.current.getInstance().options.initialValue);
+      console.log("ref",datas, viewerRef.current.getInstance());
+      setWriting(response.data.htmlContents);
+      viewerRef.current.getInstance()
       
     } catch (e) {
       setMessageOpen(true);
@@ -47,7 +50,8 @@ function useWritingViewer() {
     MessageOpen,
     handleOnClose,
     warningMessage,
-    viewerRef
+    viewerRef,
+    datas
   }
 }
 
