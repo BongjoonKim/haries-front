@@ -39,7 +39,7 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.6.0",
     "react-js-pagination": "^3.0.3",
-    "react-markdown": "^8.0.5",
+    "react-markdown": "^8.0.7",
     "react-modal": "^3.16.1",
     "react-quill": "^2.0.0",
     "react-redux": "^8.0.4",
@@ -57,7 +57,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "export PORT=2999 && react-scripts start",
+    "start": "export PORT=2999 && react-scripts start && GENERATE_SOURCEMAP=false react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

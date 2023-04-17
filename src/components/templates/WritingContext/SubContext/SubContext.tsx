@@ -17,7 +17,6 @@ function SubContext(props: SubContextProps) {
       {writings.map((writing, index) => {
         let parser = new DOMParser();
         let documents = parser.parseFromString(writing.htmlContents, "text/html");
-        console.log("도큐먼츠", documents.body.nodeValue);
         
         return (
         <StyledContextBox key={index} id={writing.id} onClick={contentsOnClick}>
@@ -26,7 +25,7 @@ function SubContext(props: SubContextProps) {
             {writing.titles}
           </h4>
           <span>
-            {documents?.body?.nodeValue}
+            {documents?.body?.innerText}
           </span>
           <h6>
             {moment(writing.created).format("YYYY-MM-DD")}
@@ -61,12 +60,32 @@ const StyledSubContext = styled.div`
 `;
 
 const StyledContextBox = styled.div`
-  border: 1px solid black;
+  //border: 1px solid black;
   width : 100%;
   height : 40vh;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 16px 0px;
+  overflow: hidden;
+  &:hover {
+    transition: box-shadow 0.25s ease-in 0s, transform 0.25s ease-in 0s;
+    -webkit-transition: margin 0.5s ease-out;
+    -moz-transition: margin 0.5s ease-out;
+    -o-transition: margin 0.5s ease-out;
+    margin-top: -5px;
+    cursor:pointer;
+  }
+
   img {
     width : 100%;
     height : 60%;
+  }
+  span {
+    display: -webkit-box;
+    word-wrap: break-word;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    
   }
 `;
 

@@ -34,7 +34,6 @@ export default forwardRef((props: TextInputProps, ref: ForwardedRef<HTMLInputEle
     const [value, setValue] = useState<string | number | readonly string[] | undefined>("");
     const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>): void => {
         if (props.filter) {
-            console.log("필터 확인", event.target.value, value)
             event.target.value = String(event.target.value)?.replace?.(props.filter, "");
         }
         props.onChange?.(event);

@@ -9,13 +9,11 @@ function useWritingContext() {
   const getPaginationData = useCallback(async (props : PaginationDTO) => {
     
     const response = await getAllDocuments(props);
-    console.log("값 확인", response.data.documentsDTO)
     setWritings(response.data.documentsDTO);
     setTotalContents(response.data.totalContents)
   }, [writings, page,totalContents]);
   
   useEffect(() => {
-    console.log("여기보자", setPage)
     getPaginationData({page : page, size : 6})
   }, [page]);
   

@@ -58,7 +58,7 @@ function Editor(props: EditorProps) {
             <td className="react-quill-area" colSpan={2}>
               <ToastUi
                 initialValue=" "
-                initialEditType="wysiwyg"
+                initialEditType="markdown"
                 plugins={[colorSyntax]}
                 ref={editorRef}
                 language="ko-KR"
