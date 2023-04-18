@@ -20,17 +20,15 @@ function useEditor() {
   }
   
   const handleSave = useCallback(async () => {
+    console.log("마크다운 값 확인", editorRef.current.getInstance());
     const contents = editorRef.current.getInstance().getHTML();
-    console.log("값", contents);
-    console.log("제목", titleRef.current.value);
     
-    const data: DocumentsDTO = {
+    const data: DocumentDTO = {
       titles : titleRef.current.value,
-      htmlContents : contents
+      contents : contents
     }
-    console.log("데이터", data);
     try {
-      await createDocuments(data);
+      // await createDocuments(data);
     } catch (e) {
       console.log(e, "save 실패");
     }

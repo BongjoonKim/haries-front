@@ -4,11 +4,12 @@ import {getAllDocuments} from "../../../endpoints/documents-endpoints";
 function useWritingContext() {
   const [page, setPage] = useState<any>(1);
   const [totalContents, setTotalContents] = useState<number>(0);
-  const [writings, setWritings] = useState<DocumentsDTO[]>([]);
+  const [writings, setWritings] = useState<DocumentDTO[]>([]);
   
   const getPaginationData = useCallback(async (props : PaginationDTO) => {
     
     const response = await getAllDocuments(props);
+    console.log("리스폰스", response.data)
     setWritings(response.data.documentsDTO);
     setTotalContents(response.data.totalContents)
   }, [writings, page,totalContents]);

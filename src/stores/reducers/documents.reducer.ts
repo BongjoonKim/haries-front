@@ -1,9 +1,10 @@
 import moment, {now} from "moment";
 import {ActionTypes, DocumentConstants} from "../actions/documents.action";
 
-const initialState: DocumentsDTO= {
+const initialState: DocumentDTO= {
   titles : "",
-  htmlContents : "",
+  contents : "",
+  contentsType : "markdown",
   created : moment().format("YYYY-MM-DD"),
   initialUser : "user"
 }

@@ -18,6 +18,8 @@ import LoginPage from "../../../../pages/Login";
 import exampleTwo from "../../../../pages/examples/ExampleTwo";
 import SearchIcon from '@mui/icons-material/Search';
 import {InputBase} from "@mui/material";
+import {useNavigate} from "react-router-dom";
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 
 function RightNavigator() {
   const [anchorSearch, setAnchorSearch] = useState<any>(null);
@@ -25,6 +27,8 @@ function RightNavigator() {
   const [openSearch, setOpenSearch] = useState<boolean>(false);
   const {getModeProps : getLocalModeProps, handleShowMode, handleCloseMode} = useMode();
   
+  // 글쓰기
+  const navigate = useNavigate();
   
   // 검색 Popper
   const openSearchPopper = useCallback((event:any) => {
@@ -44,6 +48,10 @@ function RightNavigator() {
   
   return (
     <StyledRightHeader>
+      <IconButton onClick={() => navigate(`/blog/writing`)}>
+        <BorderColorIcon />
+      </IconButton>
+      
       {/*검색 창*/}
       <StyledSearch>
         <StyledIconWrapper>

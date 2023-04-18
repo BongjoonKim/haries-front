@@ -4,7 +4,7 @@ import {createElement} from "react";
 import useSubContext from "./useSubContext";
 
 interface SubContextProps {
-  data : DocumentsDTO[];
+  data : DocumentDTO[];
 }
 
 function SubContext(props: SubContextProps) {
@@ -16,8 +16,8 @@ function SubContext(props: SubContextProps) {
     <StyledSubContext>
       {writings.map((writing, index) => {
         let parser = new DOMParser();
-        let documents = parser.parseFromString(writing.htmlContents, "text/html");
-        
+        let documents = parser.parseFromString(writing.contents!, "text/html");
+        console.log("도큐먼트", documents);
         return (
         <StyledContextBox key={index} id={writing.id} onClick={contentsOnClick}>
           <img src={`${process.env.PUBLIC_URL}/serrata.jpeg`}/>

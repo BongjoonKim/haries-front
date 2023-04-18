@@ -2,7 +2,6 @@ import {useParams} from "react-router-dom";
 import {SyntheticEvent, useCallback, useEffect, useRef, useState} from "react";
 import {getDocuments} from "../../../endpoints/documents-endpoints";
 
-let datas = '';
 function useWritingViewer() {
   const [title, setTitle] = useState("");
   const viewerRef = useRef<any>();
@@ -19,12 +18,7 @@ function useWritingViewer() {
     try {
       const response = await getDocuments({id : id!});
       setTitle(response.data.titles);
-      setWriting(response.data.htmlContents);
-      datas = response.data.htmlContents;
-      viewerRef.current.getInstance().options.initialValue = "dfsdfsdfsd"
-      console.log("ref",datas, viewerRef.current.getInstance());
-      setWriting(response.data.htmlContents);
-      viewerRef.current.getInstance()
+      setWriting(response.data.contents!);
       
     } catch (e) {
       setMessageOpen(true);
@@ -51,7 +45,6 @@ function useWritingViewer() {
     handleOnClose,
     warningMessage,
     viewerRef,
-    datas
   }
 }
 

@@ -2,7 +2,6 @@
 import request from "../services/request-response-service";
 import {AxiosResponse} from "axios";
 import {MenuType} from "../model/common/common-model";
-import {CreateEditorProps} from "../components/widgets/Editor/Editor";
 
 export async function retrieveMenus() {
     return (await request.get("/common/menu")) as AxiosResponse<MenuType[]>;
