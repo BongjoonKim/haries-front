@@ -4,6 +4,7 @@ import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import {useEffect, useRef, useState, Suspense} from "react";
+import styled from "styled-components";
 
 interface EditorViewProps {
   writing : string | undefined;
@@ -15,9 +16,7 @@ function EditorViewer(props : EditorViewProps) {
   
     return (
       (props.writing !== "") ? (
-        <>
-          <Viewer ref={props.viewerRef} initialValue={props.writing} />
-        </>
+        <StyledViewer ref={props.viewerRef} initialValue={props.writing} />
       ) : (
         <></>
       )
@@ -28,3 +27,6 @@ function EditorViewer(props : EditorViewProps) {
 }
 
 export default EditorViewer;
+
+const StyledViewer = styled(Viewer)`
+`;

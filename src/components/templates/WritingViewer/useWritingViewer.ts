@@ -3,9 +3,8 @@ import {SyntheticEvent, useCallback, useEffect, useRef, useState} from "react";
 import {getDocuments} from "../../../endpoints/documents-endpoints";
 
 function useWritingViewer() {
-  const [title, setTitle] = useState("");
   const viewerRef = useRef<any>();
-  const [writing, setWriting] = useState("");
+  const [writing, setWriting] = useState<DocumentDTO>();
   const [MessageOpen, setMessageOpen] = useState<boolean>(false);
   const [warningMessage, setWarningMessage] = useState("Fail Brought Writing")
   const {id} = useParams();
@@ -17,13 +16,13 @@ function useWritingViewer() {
   const getDocumentData = useCallback(async () => {
     try {
       const response = await getDocuments({id : id!});
-      setTitle(response.data.titles);
-      setWriting(response.data.contents!);
+      setWriting(response.data);
+      console.log("글 종류", response.data);
       
     } catch (e) {
       setMessageOpen(true);
     }
-  }, [warningMessage, MessageOpen, title, writing]);
+  }, [warningMessage, MessageOpen, writing]);
   
   const handleOnClose = useCallback((event: SyntheticEvent | Event, reasion?: string) => {
     if (reasion === 'clickaway') {
@@ -40,7 +39,6 @@ function useWritingViewer() {
   
   return {
     writing,
-    title,
     MessageOpen,
     handleOnClose,
     warningMessage,

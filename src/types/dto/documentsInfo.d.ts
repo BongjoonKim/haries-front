@@ -11,16 +11,11 @@ interface DocumentDTO {
   titles : string;
   contents ?: string;
   contentsType ?: "markdown" | "wysiwig";
-  created ?: Date | LocaleTime;
+  created ?: Date | string;
   initialUser ?: string;
+  modified ?: Date | string;
+  modifiedUser ?: string;
 }
-
-// interface DocumentsDTO {
-//   titles : string;
-//   htmlContents ?: any;
-//   created ?: Date | LocaleTime;
-//   initialUser ?: string;
-// }
 
 interface PaginationDTO {
   page : number;
