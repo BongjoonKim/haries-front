@@ -4,7 +4,7 @@ import {ReactNode, useEffect, useMemo, useState} from "react";
 import {useSection} from "./useSection";
 import {heIL} from "@material-ui/core/locale";
 import {theme} from "../../../constants/types/main-content.const";
-import Button from "../../elements/Button/CustomButton";
+import Button from "../../elements/Button/BasicButton";
 
 interface ContentSectionProps {
     title?: string;

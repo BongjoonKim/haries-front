@@ -4,7 +4,7 @@ import {animated} from "react-spring";
 import styled, { css } from "styled-components";
 import converter from "../../../../utilities/converter";
 import {ModeTypes} from "../router/generate";
-import Button from "../../../elements/Button/CustomButton";
+import Button from "../../../elements/Button/BasicButton";
 import {VscChromeClose} from "react-icons/vsc";
 import {CloseRounded} from "@material-ui/icons";
 import ModeBoxHeader from "./ModeBoxHeader";

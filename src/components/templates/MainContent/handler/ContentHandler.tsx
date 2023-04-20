@@ -2,7 +2,7 @@ import {ContentFooterHandler, ContentHeaderHandler} from "../../../../constants/
 import {Content} from "../index";
 import useClipboard from "../../../../hooks/state/useClipboard";
 import messengerUtil from "../../../../utilities/messengerUtil";
-import Button from "../../../elements/Button/CustomButton";
+import Button from "../../../elements/Button/BasicButton";
 import {AiOutlineLink} from "react-icons/ai";
 import {useDialogContext} from "../../../modules/Mode/frame/Dialog/DialogContext";
 import {useModalContext} from "../../../widgets/Modal";

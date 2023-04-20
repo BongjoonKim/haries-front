@@ -9,16 +9,18 @@ import styled from "styled-components";
 import {Viewer} from "@toast-ui/react-editor";
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import moment from "moment";
+import CustomButton from "../../elements/Button";
 
 function WritingViewer() {
   // const {id} = useParams();
   // console.log("아이디값",  id)
   const {
     writing,
-    MessageOpen,
+    messageOpen,
     handleOnClose,
     warningMessage,
     viewerRef,
+    handleDelete
   } = useWritingViewer();
   
   const action = (
@@ -42,15 +44,21 @@ function WritingViewer() {
         <StyledWritingViewer>
           <div className="title">{writing.titles}</div>
           <div className="writing-info">
-            <div className="user">{writing.modifiedUser}</div>
-            <div className="created">{moment(writing.created).format("YY-MM-DD")}</div>
+            <div className="user">
+              <span>by. </span>
+              <span>{writing.modifiedUser}</span>
+            </div>
+            <div className="created">
+              <span>Last Modified : </span>
+              <span>{moment(writing.created).format("YY/MM/DD")}</span>
+            </div>
             <div className="edit-delete">
-              <Button><span>수정</span></Button>
-              <Button><span>삭제</span></Button>
+              <CustomButton><span>수정</span></CustomButton>
+              <CustomButton onClick={handleDelete}><span>삭제</span></CustomButton>
             </div>
           </div>
           <EditorViewer writing={writing.contents} viewerRef={viewerRef} />
-          <MessageBar open={MessageOpen} onClose={handleOnClose} message={warningMessage} action={action}/>
+          <MessageBar open={messageOpen} onClose={handleOnClose} message={warningMessage} action={action}/>
         </StyledWritingViewer>
       ) : (
       <></>
@@ -61,28 +69,47 @@ function WritingViewer() {
 export default WritingViewer;
 
 const StyledWritingViewer = styled.div`
-  width : 80%;
-  height: 200%;
-  text-align: center;
+  padding: 1rem 1rem;
+  width: 80%;
+  min-height: 100vh;
+  height: 100%;
+  //text-align: center;
   margin: auto;
-  border: 1px solid blue;
+  background-color: white;
+
   .title {
     padding: 1rem 1rem;
     font-size: 5ch;
     font-weight: 800;
     color: black;
+    text-align: center;
   }
-  .user {
-    float: left;
-  }
-  .created {
-    float: left;
-  }
+
+
+
   .writing-info {
     display: flex;
+    background-color: #d7d7d7;
     align-items: center;
+    height: 3rem;
+    padding : 0.5rem 1rem;
+    
+    .user {
+      float: left;
+      > span {
+        font-weight: 600;
+      }
+    }
+    .created {
+      float: left;
+      padding-left: 1rem;
+      opacity: 0.5;
+      font-size: smaller;
+    }
+    
     .edit-delete {
-      float: right !important;
+      display: flex;
+      margin-left: auto;
     }
   }
 `;

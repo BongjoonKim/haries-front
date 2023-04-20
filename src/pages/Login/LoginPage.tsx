@@ -3,7 +3,7 @@ import Wrapper from "../../components/elements/Layout/Column";
 import TextInput from "../../components/elements/TextInput";
 import MainContent from "../../components/templates/MainContent/MainContent";
 import {IconButton} from "@material-ui/core";
-import CustomButton from "../../components/elements/Button/CustomButton";
+import CustomButton from "../../components/elements/Button/BasicButton";
 import Button from "../../components/elements/Button";
 
 function LoginPage() {

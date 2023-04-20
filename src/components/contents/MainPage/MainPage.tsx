@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import Button from "../../elements/Button/CustomButton";
+import Button from "../../elements/Button/BasicButton";
 
 function MainPage() {
     const [modalIsOpen, setModalIsOpen] = useState(false);
