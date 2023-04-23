@@ -1,10 +1,10 @@
 import {atom, atomFamily} from "recoil";
 import {recoilPersist} from "recoil-persist";
-import {WRITING_INFO} from "./types";
+import {WRITING_INFO} from "./types.d";
 import moment from "moment";
-
+const { persistAtom } = recoilPersist()
 export const recoilDocumentState = {
-  wrtingInfo : atom<DocumentDTO>({
+  writingInfo : atom<DocumentDTO>({
     key: `${WRITING_INFO}`,
     default : {
       id : "",
@@ -16,6 +16,6 @@ export const recoilDocumentState = {
       modified : moment().format(),
       modifiedUser : "",
     },
-    effects_UNSTABLE: [localStorage.persistAtom]
+    effects_UNSTABLE: [persistAtom]
   })
 }

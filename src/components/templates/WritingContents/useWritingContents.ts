@@ -1,13 +1,38 @@
-import {useRef, MouseEvent, useCallback, MutableRefObject, useEffect} from "react";
+import {useRef, MouseEvent, useCallback, MutableRefObject, useEffect, useState} from "react";
 import {Editor} from "@toast-ui/editor";
-import {createDocuments} from "../../../endpoints/documents-endpoints";
+import {createDocuments, getDocuments} from "../../../endpoints/documents-endpoints";
 import MessageBar from "../../widgets/MessageBar";
+import {useParams} from "react-router-dom";
+import {useRecoilState} from "recoil";
+import recoilDocumentsState from "../../../stores/recoil/recoilDocumentsState";
+import {recoilCommonState} from "../../../stores/recoil/recoilCommonState/recoilCommonState";
+import {isOnline} from "@reduxjs/toolkit/dist/query/utils";
 
 export type HookCallback = (url: string, text?: string) => void;
 function useWritingContents() {
   const formData = new FormData();
   const editorRef = useRef<any>();
   const titleRef = useRef<any>();
+  const [writing, setWriting] = useRecoilState<DocumentDTO>(recoilDocumentsState.writingInfo);
+  const [message, setMessage]  = useRecoilState<{isOpen : boolean, contents : string}>(recoilCommonState.messageOpener);
+  // 수정 화면일 경우
+  const {id} = useParams();
+  
+  // 수정 화면일 경우 조회 로직
+  const getDocumentData = useCallback(async () => {
+    try {
+      const response = await getDocuments({id : id!});
+      setWriting(response.data);
+    } catch (error) {
+      setMessage((prev: ) => {
+        let data = JSON.parse(JSON.stringify(prev));
+        return {
+        
+        }
+      });
+    }
+  }, [writing, warningMessage, messageOpen]);
+  
   
   // 파일 첨부 추가
   const addFiles = (event : any): void => {

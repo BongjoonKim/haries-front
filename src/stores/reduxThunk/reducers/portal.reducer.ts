@@ -1,7 +1,7 @@
 import { portal, ActionTypes } from "../actions/portal.action";
-import {actionType as mode} from "../../components/modules/Mode";
-import {ModeComponent} from "../../types/mode";
-import converter from "../../utilities/converter";
+import {actionType as mode} from "../../../components/modules/Mode";
+import {ModeComponent} from "../../../types/mode";
+import converter from "../../../utilities/converter";
 
 type InitialState = {
     dialog : {

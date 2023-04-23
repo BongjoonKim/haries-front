@@ -1,7 +1,7 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useCallback, useState} from "react";
-import {RootState} from "../../stores";
-import {portalActions} from "../../stores/actions/portal.action";
+import {RootState} from "../../stores/reduxThunk";
+import {portalActions} from "../../stores/reduxThunk/actions/portal.action";
 
 function useModal(props?: {local?: boolean}) {
     const dispatch = useDispatch();

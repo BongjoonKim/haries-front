@@ -1,5 +1,5 @@
-import {widgetActions} from "../stores/actions/widget.action";
-import stores from "../stores";
+import {widgetActions} from "../stores/reduxThunk/actions/widget.action";
+import stores from "../stores/reduxThunk";
 
 const showMessageBox = (params: messageItem) => {
     stores.dispatch(

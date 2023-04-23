@@ -10,6 +10,7 @@ function BlogRoutes() {
       <Route path="/" element={<DocumentListPage />} />
       <Route path="/:id" element={<DocumentViewerPage />} />
       <Route path="/writing" element={<DocumentWritingPage />} />
+      <Route path="/writing/:id" element={<DocumentWritingPage />} />
     </Routes>
   )
 }

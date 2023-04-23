@@ -3,11 +3,12 @@ import {useNavigate, useParams} from "react-router-dom";
 import {SyntheticEvent, useCallback, useEffect, useRef, useState} from "react";
 import {deleteDocument, getDocuments} from "../../../endpoints/documents-endpoints";
 import {useRecoilState} from "recoil";
-import {recoilDocumentState} from "../../../stores/recoilDocumentsState/recoilDocumentState";
+import recoilDocumentsState from "../../../stores/recoil/recoilDocumentsState";
 
 function useWritingViewer() {
   const viewerRef = useRef<any>();
-  const [writing, setWriting] = useRecoilState<DocumentDTO>(recoilDocumentState.wrtingInfo);
+  const [writing, setWriting] = useRecoilState<DocumentDTO>(recoilDocumentsState.writingInfo);
+  // const [writing, setWriting] = useState<any>();
   const [messageOpen, setMessageOpen] = useState<boolean>(false);
   const [warningMessage, setWarningMessage] = useState("Fail Brought Writing")
   const {id} = useParams();

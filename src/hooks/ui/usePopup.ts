@@ -1,7 +1,7 @@
 import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../stores";
+import {RootState} from "../../stores/reduxThunk";
 import {useCallback} from "react";
-import {portalActions} from "../../stores/actions/portal.action";
+import {portalActions} from "../../stores/reduxThunk/actions/portal.action";
 
 function usePopup() {
     const dispatch = useDispatch();
