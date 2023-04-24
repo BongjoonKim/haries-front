@@ -7,7 +7,7 @@ import Editor from "../../widgets/Editor";
 
 
 function WritingContents() {
-  const {addFiles, editorRef, titleRef, handleSave, onUploadImage} = useWritingContents();
+  const {addFiles, editorRef, titleRef, handleSave, onUploadImage, writing} = useWritingContents();
   
   return (
     <StyledEditor>
@@ -15,7 +15,7 @@ function WritingContents() {
         <tbody>
         <tr>
           <td colSpan={2}>
-            <textarea id="editor-table-title" ref={titleRef} placeholder="제목을 입력하세요" />
+            <textarea id="editor-table-title" ref={titleRef} placeholder="제목을 입력하세요" value={!!writing.titles ? writing.titles : ""}/>
           </td>
         </tr>
         <tr>

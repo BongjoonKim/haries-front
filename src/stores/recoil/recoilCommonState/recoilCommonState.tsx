@@ -1,6 +1,6 @@
 import {atom} from "recoil";
 import {recoilPersist} from "recoil-persist";
-import {MESSAGE_STATUS} from "./types";
+import {MESSAGE_STATUS} from "./types.d";
 
 
 const {persistAtom} = recoilPersist();
@@ -12,6 +12,6 @@ export const recoilCommonState = {
       isOpen : false,
       contents : ""
     },
-    effects_UNSTABLE: [persistAtom]
+    // effects_UNSTABLE: [persistAtom]
   })
 }

@@ -1,12 +1,11 @@
 import {useRef, MouseEvent, useCallback, MutableRefObject, useEffect, useState} from "react";
 import {Editor} from "@toast-ui/editor";
-import {createDocuments, getDocuments} from "../../../endpoints/documents-endpoints";
+import {createDocuments, getDocuments, saveDocument} from "../../../endpoints/documents-endpoints";
 import MessageBar from "../../widgets/MessageBar";
 import {useParams} from "react-router-dom";
 import {useRecoilState} from "recoil";
 import recoilDocumentsState from "../../../stores/recoil/recoilDocumentsState";
-import {recoilCommonState} from "../../../stores/recoil/recoilCommonState/recoilCommonState";
-import {isOnline} from "@reduxjs/toolkit/dist/query/utils";
+import recoilCommonState from "../../../stores/recoil/recoilCommonState";
 
 export type HookCallback = (url: string, text?: string) => void;
 function useWritingContents() {
@@ -19,19 +18,20 @@ function useWritingContents() {
   const {id} = useParams();
   
   // 수정 화면일 경우 조회 로직
-  const getDocumentData = useCallback(async () => {
+  const getDocumentData = useCallback(async (id : string) => {
     try {
       const response = await getDocuments({id : id!});
       setWriting(response.data);
     } catch (error) {
-      setMessage((prev: ) => {
+      setMessage(prev => {
         let data = JSON.parse(JSON.stringify(prev));
         return {
-        
+          contents : "글 데이터 가져오기 실패",
+          isOpen: true
         }
       });
     }
-  }, [writing, warningMessage, messageOpen]);
+  }, []);
   
   
   // 파일 첨부 추가
@@ -61,15 +61,24 @@ function useWritingContents() {
       contents : contents,
       contentsType : editorInfo.mode
     }
-    
     try {
-      console.log("저장 확인", request)
-      await createDocuments(request);
+      if (!!id) {
+        await saveDocument({id, request});
+      } else {
+        console.log("저장 확인", request)
+        await createDocuments(request);
+      }
+
     } catch (e) {
-      console.log("save Error");
+      setMessage(prev => {
+        return {
+          contents : "글 저장 실패",
+          isOpen : true
+        }
+      })
     }
     
-  }, []);
+  }, [message]);
   
   // 이미지 저장 로직
   const onUploadImage = async (blob: Blob, callback: HookCallback) => {
@@ -81,12 +90,19 @@ function useWritingContents() {
     callback(objectURL);
   }
   
+  useEffect(() => {
+    if (!!id) {
+      getDocumentData(id);
+    }
+  }, []);
+  
   return {
     addFiles,
     editorRef,
     titleRef,
     handleSave,
-    onUploadImage
+    onUploadImage,
+    writing
   }
 }
 

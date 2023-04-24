@@ -1,63 +1,85 @@
 import {MouseEvent} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {SyntheticEvent, useCallback, useEffect, useRef, useState} from "react";
-import {deleteDocument, getDocuments} from "../../../endpoints/documents-endpoints";
+import {deleteDocument, getDocuments, saveDocument} from "../../../endpoints/documents-endpoints";
 import {useRecoilState} from "recoil";
 import recoilDocumentsState from "../../../stores/recoil/recoilDocumentsState";
+import recoilCommonState from "../../../stores/recoil/recoilCommonState";
 
 function useWritingViewer() {
   const viewerRef = useRef<any>();
   const [writing, setWriting] = useRecoilState<DocumentDTO>(recoilDocumentsState.writingInfo);
-  // const [writing, setWriting] = useState<any>();
-  const [messageOpen, setMessageOpen] = useState<boolean>(false);
-  const [warningMessage, setWarningMessage] = useState("Fail Brought Writing")
+  const [message, setMessage]  = useRecoilState<{isOpen : boolean, contents : string}>(recoilCommonState.messageOpener);
   const {id} = useParams();
+  
   const navigate = useNavigate();
 
   // 글 조회
-  const getDocumentData = useCallback(async () => {
+  const getDocumentData = useCallback(async (id : string) => {
     try {
-      const response = await getDocuments({id : id!});
-      setWriting(response.data);
-      console.log("글 종류", response.data);
+      if (!!id) {
+        const response = await getDocuments({id : id});
+        setWriting(response.data);
+        console.log("글 종류", response.data);
+      }
       
     } catch (e) {
-      setMessageOpen(true);
+      setMessage(prev => {
+        let data = JSON.parse(JSON.stringify(prev));
+        return {
+          contents : "글 불러오기 실패",
+          isOpen : true
+        }
+      })
     }
-  }, [warningMessage, messageOpen, writing]);
+  }, []);
   
   // 글 조회 실패 메세지
   const handleOnClose = useCallback((event: SyntheticEvent | Event, reasion?: string) => {
     if (reasion === 'clickaway') {
       return;
     }
-    setMessageOpen(false);
+    setMessage({isOpen : false, contents : ""});
   },[]);
   
   // 글 삭제
   const handleDelete = useCallback(async (event : MouseEvent<HTMLButtonElement>) => {
     try {
       await deleteDocument({"id": id!});
-      setWarningMessage("success delete");
-      setMessageOpen(true);
+      setMessage({
+        contents : "삭제 성공",
+        isOpen : true
+      });
       navigate(-1);   // 이전 화면으로
     } catch (e) {
-      setWarningMessage("fail delete");
-      setMessageOpen(true);
+      setMessage(prev => {
+        let data = JSON.parse(JSON.stringify(prev));
+        return {
+          contents : "글 삭제 실패",
+          isOpen : true
+        }
+      })
     }
-  }, [messageOpen, warningMessage]);
+  }, []);
+  
+  const handleSaveOpen = useCallback( () => {
+    console.log("여기여기", id)
+    navigate(`/blog/writing/${id}`);
+  }, []);
   
   useEffect(() => {
-    getDocumentData();
+    
+    getDocumentData(id!);
     
   }, []);
   
   
   return {
+    id,
     writing,
-    messageOpen,
     handleOnClose,
-    warningMessage,
+    message,
+    handleSaveOpen,
     viewerRef,
     handleDelete
   }

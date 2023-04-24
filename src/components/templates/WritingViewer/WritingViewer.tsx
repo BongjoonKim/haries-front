@@ -6,7 +6,6 @@ import MessageBar from "../../widgets/MessageBar";
 import CloseIcon from "@mui/icons-material/Close";
 import React, {lazy, Suspense} from "react";
 import styled from "styled-components";
-import {Viewer} from "@toast-ui/react-editor";
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import moment from "moment";
 import CustomButton from "../../elements/Button";
@@ -16,12 +15,14 @@ function WritingViewer() {
   // console.log("아이디값",  id)
   const {
     writing,
-    messageOpen,
+    message,
+    handleSaveOpen,
     handleOnClose,
-    warningMessage,
     viewerRef,
-    handleDelete
+    handleDelete,
   } = useWritingViewer();
+  
+  const EditorViewer = lazy(() => import("../../widgets/EditorViewer"));
   
   const action = (
     <>
@@ -53,12 +54,14 @@ function WritingViewer() {
               <span>{moment(writing.created).format("YY/MM/DD")}</span>
             </div>
             <div className="edit-delete">
-              <CustomButton><span>수정</span></CustomButton>
+              <CustomButton onClick={handleSaveOpen}><span>수정</span></CustomButton>
               <CustomButton onClick={handleDelete}><span>삭제</span></CustomButton>
             </div>
           </div>
-          <EditorViewer writing={writing.contents} viewerRef={viewerRef} />
-          <MessageBar open={messageOpen} onClose={handleOnClose} message={warningMessage} action={action}/>
+          <Suspense>
+            <EditorViewer writing={writing.contents} viewerRef={viewerRef} />
+          </Suspense>
+          <MessageBar open={message.isOpen} onClose={handleOnClose} message={message.contents} action={action}/>
         </StyledWritingViewer>
       ) : (
       <></>

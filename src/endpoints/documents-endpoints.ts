@@ -2,8 +2,8 @@ import request from "../services/request-response-service";
 import {AxiosResponse} from "axios";
 
 
-export async function createDocuments(params: DocumentDTO) {
-  return (await request.post("/documents/create", params)) as AxiosResponse<any>;
+export async function createDocuments(writing: DocumentDTO) {
+  return (await request.post("/documents/create", writing)) as AxiosResponse<any>;
 }
 
 // 모든 글 목록 조회
@@ -18,5 +18,10 @@ export async function getDocuments(params: {id : string}) {
 
 // 글 삭제
 export async function deleteDocument(params: {id: string}) {
-  return (await request.delete(`/documents/get?id=${params.id}`)) as AxiosResponse<any>;
+  return (await request.delete(`/documents/delete?id=${params.id}`)) as AxiosResponse<any>;
+}
+
+// 글 수정
+export async function saveDocument(params: {id : string, request : DocumentDTO}) {
+  return (await request.put(`documents/save?id=${params.id}`, params.request)) as AxiosResponse<any>;
 }
