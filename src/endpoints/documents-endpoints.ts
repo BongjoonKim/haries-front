@@ -1,5 +1,6 @@
 import request from "../services/request-response-service";
 import {AxiosResponse} from "axios";
+import {DocumentDTO, DocumentsInfo, PaginationDTO} from "../types/dto/documentsInfo.d";
 
 
 export async function createDocuments(writing: DocumentDTO) {
@@ -23,5 +24,6 @@ export async function deleteDocument(params: {id: string}) {
 
 // 글 수정
 export async function saveDocument(params: {id : string, request : DocumentDTO}) {
-  return (await request.put(`documents/save?id=${params.id}`, params.request)) as AxiosResponse<any>;
+  console.log("저장", params)
+  return (await request.put(`/documents/save?id=${params.id}`, params.request)) as AxiosResponse<any>;
 }

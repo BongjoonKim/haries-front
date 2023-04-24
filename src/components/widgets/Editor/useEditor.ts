@@ -1,6 +1,7 @@
 import {ChangeEvent, useCallback, useRef} from "react";
 import {current} from "@reduxjs/toolkit";
 import {createDocuments} from "../../../endpoints/documents-endpoints";
+import {DocumentDTO} from "../../../types/dto/documentsInfo";
 
 function useEditor() {
   const formData = new FormData();

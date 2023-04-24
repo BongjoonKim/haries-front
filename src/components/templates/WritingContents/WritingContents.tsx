@@ -1,13 +1,13 @@
 import useWritingContents from "./useWritingContents";
-import {Editor as ToastUi} from "@toast-ui/react-editor";
 import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
 import Button from "../../elements/Button";
 import styled from "styled-components";
-import Editor from "../../widgets/Editor";
+import {lazy, Suspense} from "react";
 
 
 function WritingContents() {
   const {addFiles, editorRef, titleRef, handleSave, onUploadImage, writing} = useWritingContents();
+  const Editor = lazy(() => import("../../widgets/Editor"));
   
   return (
     <StyledEditor>
@@ -15,17 +15,22 @@ function WritingContents() {
         <tbody>
         <tr>
           <td colSpan={2}>
-            <textarea id="editor-table-title" ref={titleRef} placeholder="제목을 입력하세요" value={!!writing.titles ? writing.titles : ""}/>
+            <textarea id="editor-table-title" ref={titleRef} placeholder="제목을 입력하세요" value={writing.titles} onChange={(event) => (console.log(event))}/>
           </td>
         </tr>
         <tr>
           <td className="react-toast-area" colSpan={2}>
-            <Editor
-              editorRef={editorRef}
-              hooks={{
-                addImageBlobHook: onUploadImage
-              }}
-            />
+            <Suspense>
+              <Editor
+                editorRef={editorRef}
+                initialEditType={writing.contentsType!}
+                initialValue={!!writing.contents ? writing.contents : ""}
+                hooks={{
+                  addImageBlobHook: onUploadImage
+                }}
+              />
+            </Suspense>
+
           </td>
         </tr>
         <tr className="editor-table-info">

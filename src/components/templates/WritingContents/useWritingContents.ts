@@ -6,6 +6,7 @@ import {useParams} from "react-router-dom";
 import {useRecoilState} from "recoil";
 import recoilDocumentsState from "../../../stores/recoil/recoilDocumentsState";
 import recoilCommonState from "../../../stores/recoil/recoilCommonState";
+import {DocumentDTO} from "../../../types/dto/documentsInfo";
 
 export type HookCallback = (url: string, text?: string) => void;
 function useWritingContents() {
@@ -22,6 +23,15 @@ function useWritingContents() {
     try {
       const response = await getDocuments({id : id!});
       setWriting(response.data);
+      console.log("글", response.data);
+      if (response.data.contentsType === "markdown") {
+        editorRef.current.setMarkdown(response.data.contents)
+      } else if (response.data?.contentsType === "wysiwyg") {
+        editorRef.current.setHTML(response.data.contents);
+      } else {
+        editorRef.current.setMarkdown(response.data.contents)
+      }
+      
     } catch (error) {
       setMessage(prev => {
         let data = JSON.parse(JSON.stringify(prev));
@@ -52,7 +62,7 @@ function useWritingContents() {
     let contents = "";
     if (editorInfo.mode === "markdown") {
       contents = editorInfo.getMarkdown();
-    } else if (editorInfo.mode === "wysiwig") {
+    } else if (editorInfo.mode === "wysiwyg") {
       contents = editorInfo.getHTML();
     }
     

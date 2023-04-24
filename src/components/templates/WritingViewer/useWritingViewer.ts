@@ -5,10 +5,11 @@ import {deleteDocument, getDocuments, saveDocument} from "../../../endpoints/doc
 import {useRecoilState} from "recoil";
 import recoilDocumentsState from "../../../stores/recoil/recoilDocumentsState";
 import recoilCommonState from "../../../stores/recoil/recoilCommonState";
+import {DocumentDTO} from "../../../types/dto/documentsInfo.d";
 
 function useWritingViewer() {
   const viewerRef = useRef<any>();
-  const [writing, setWriting] = useRecoilState<DocumentDTO>(recoilDocumentsState.writingInfo);
+  const [writing, setWriting] = useState<DocumentDTO>();
   const [message, setMessage]  = useRecoilState<{isOpen : boolean, contents : string}>(recoilCommonState.messageOpener);
   const {id} = useParams();
   
@@ -18,11 +19,10 @@ function useWritingViewer() {
   const getDocumentData = useCallback(async (id : string) => {
     try {
       if (!!id) {
-        const response = await getDocuments({id : id});
+        const response = await getDocuments({id: id});
         setWriting(response.data);
         console.log("글 종류", response.data);
       }
-      
     } catch (e) {
       setMessage(prev => {
         let data = JSON.parse(JSON.stringify(prev));
@@ -68,9 +68,11 @@ function useWritingViewer() {
   }, []);
   
   useEffect(() => {
-    
-    getDocumentData(id!);
-    
+    if (!!id) {
+      getDocumentData(id!);
+    } else {
+      setWriting(undefined);
+    }
   }, []);
   
   

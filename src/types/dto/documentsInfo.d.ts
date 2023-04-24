@@ -1,3 +1,4 @@
+import {EditorType} from "@toast-ui/editor";
 
 interface DocumentsInfo {
   totalContents : number;
@@ -10,7 +11,7 @@ interface DocumentDTO {
   id ?: string;
   titles : string;
   contents ?: string;
-  contentsType ?: "markdown" | "wysiwig";
+  contentsType ?: EditorType ;
   created ?: Date | string;
   initialUser ?: string;
   modified ?: Date | string;

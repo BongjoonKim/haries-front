@@ -8,8 +8,10 @@ import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 import '@toast-ui/editor/dist/i18n/ko-kr';
+import {EditorType} from "@toast-ui/editor";
 
 export interface EditorProps{
+  initialEditType : EditorType;
   initialValue?: string;
   editorRef: any;
   hooks: any;
@@ -20,8 +22,8 @@ function Editor(props: EditorProps) {
   // 커스텀 하기
   return (
     <ToastUi
-      initialValue=''
-      initialEditType="markdown"
+      initialValue={props.initialValue}
+      initialEditType={props.initialEditType || "markdown"}
       plugins={[colorSyntax]}
       ref={props.editorRef}
       language="ko-KR"

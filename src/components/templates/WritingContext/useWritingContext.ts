@@ -1,5 +1,6 @@
 import {useCallback, useEffect, useState} from "react";
 import {getAllDocuments} from "../../../endpoints/documents-endpoints";
+import {DocumentDTO, PaginationDTO} from "../../../types/dto/documentsInfo.d";
 
 function useWritingContext() {
   const [page, setPage] = useState<any>(1);
