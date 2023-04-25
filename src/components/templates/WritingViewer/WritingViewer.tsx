@@ -40,8 +40,6 @@ function WritingViewer() {
   
   
   return (
-    writing !== undefined ?
-      (
         <StyledWritingViewer>
           <div className="title">{writing.titles}</div>
           <div className="writing-info">
@@ -63,9 +61,6 @@ function WritingViewer() {
           </Suspense>
           <MessageBar open={message.isOpen} onClose={handleOnClose} message={message.contents} action={action}/>
         </StyledWritingViewer>
-      ) : (
-      <></>
-      )
   )
 }
 
