@@ -1,13 +1,13 @@
-import useWritingContents from "./useWritingContents";
+import useWritingContents from "../useWritingContents";
 import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
-import Button from "../../elements/Button";
+import Button from "../../../elements/Button";
 import styled from "styled-components";
-import {lazy, Suspense} from "react";
+import Editor from "../../../widgets/Editor";
+import {StyledEditor, StyledEditorButton, StyledLeftEditorButton, StyledRightEditorButton} from "../WritingStyle";
 
-
-function WritingContents() {
-  const {addFiles, editorRef, titleRef, handleSave, onUploadImage, writing} = useWritingContents();
-  const Editor = lazy(() => import("../../widgets/Editor"));
+function CreateContent() {
+  
+  const {addFiles, editorRef, titleRef, handleSave, onUploadImage, writing } = useWritingContents();
   
   return (
     <StyledEditor>
@@ -20,17 +20,13 @@ function WritingContents() {
         </tr>
         <tr>
           <td className="react-toast-area" colSpan={2}>
-            <Suspense>
               <Editor
                 editorRef={editorRef}
                 initialEditType={writing.contentsType!}
-                initialValue={!!writing.contents ? writing.contents : ""}
                 hooks={{
                   addImageBlobHook: onUploadImage
                 }}
               />
-            </Suspense>
-
           </td>
         </tr>
         <tr className="editor-table-info">
@@ -47,50 +43,12 @@ function WritingContents() {
         </StyledLeftEditorButton>
         <StyledRightEditorButton>
           <Button variant="contained" color="primary" children="미리보기" />
-          <Button variant="contained" color="primary" children="임시저장" onClick={handleSave} />
-          <Button variant="contained" color="secondary" children="발행" />
+          <Button variant="contained" color="primary" children="임시저장"  />
+          <Button variant="contained" color="secondary" children="발행" onClick={handleSave}/>
         </StyledRightEditorButton>
       </StyledEditorButton>
     </StyledEditor>
   )
 }
 
-export default WritingContents;
-
-const StyledEditor = styled.div`
-  display: block;
-  justify-content: center;
-  align-items: center;
-  .editor-table {
-    margin: auto;
-    width: 100%;
-    textarea {
-      width: 100%;
-      border: none;
-      display: flex;
-    }
-    .editor-table-info {
-      width: 100%;
-    }
-  }
-`;
-
-const StyledEditorButton = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const StyledRightEditorButton = styled.div`
-  display: flex;
-  bottom: 0;
-  margin-left: auto;
-  align-items: center;
-`;
-const StyledLeftEditorButton = styled.div`
-  display: flex;
-  bottom: 0;
-  //justify-content: left !important;
-  margin-right: auto;
-  align-items: center;
-`;
+export default CreateContent;

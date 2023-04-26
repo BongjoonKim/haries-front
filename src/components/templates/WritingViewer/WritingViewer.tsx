@@ -41,15 +41,15 @@ function WritingViewer() {
   
   return (
         <StyledWritingViewer>
-          <div className="title">{writing.titles}</div>
+          <div className="title">{writing?.titles}</div>
           <div className="writing-info">
             <div className="user">
               <span>by. </span>
-              <span>{writing.modifiedUser}</span>
+              <span>{writing?.modifiedUser}</span>
             </div>
             <div className="created">
               <span>Last Modified : </span>
-              <span>{moment(writing.created).format("YY/MM/DD")}</span>
+              <span>{moment(writing?.created).format("YY/MM/DD")}</span>
             </div>
             <div className="edit-delete">
               <CustomButton onClick={handleSaveOpen}><span>수정</span></CustomButton>
@@ -57,7 +57,7 @@ function WritingViewer() {
             </div>
           </div>
           <Suspense>
-            <EditorViewer writing={writing.contents} viewerRef={viewerRef} />
+            <EditorViewer writing={writing?.contents} viewerRef={viewerRef} />
           </Suspense>
           <MessageBar open={message.isOpen} onClose={handleOnClose} message={message.contents} action={action}/>
         </StyledWritingViewer>

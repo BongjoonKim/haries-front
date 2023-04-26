@@ -1,5 +1,4 @@
-import {useRef, MouseEvent, useCallback, MutableRefObject, useEffect, useState} from "react";
-import {Editor} from "@toast-ui/editor";
+import {useRef, MouseEvent, useCallback, MutableRefObject, useEffect, useState, lazy} from "react";
 import {createDocuments, getDocuments, saveDocument} from "../../../endpoints/documents-endpoints";
 import MessageBar from "../../widgets/MessageBar";
 import {useParams} from "react-router-dom";
@@ -10,13 +9,14 @@ import {DocumentDTO} from "../../../types/dto/documentsInfo";
 
 export type HookCallback = (url: string, text?: string) => void;
 function useWritingContents() {
+  const {id} = useParams();
   const formData = new FormData();
   const editorRef = useRef<any>();
   const titleRef = useRef<any>();
   const [writing, setWriting] = useRecoilState<DocumentDTO>(recoilDocumentsState.writingInfo);
   const [message, setMessage]  = useRecoilState<{isOpen : boolean, contents : string}>(recoilCommonState.messageOpener);
   // 수정 화면일 경우
-  const {id} = useParams();
+  
   
   // 수정 화면일 경우 조회 로직
   const getDocumentData = useCallback(async (id : string) => {
@@ -104,6 +104,8 @@ function useWritingContents() {
     if (!!id) {
       getDocumentData(id);
     }
+    
+    
   }, []);
   
   return {
@@ -112,7 +114,7 @@ function useWritingContents() {
     titleRef,
     handleSave,
     onUploadImage,
-    writing
+    writing,
   }
 }
 

@@ -1,8 +1,15 @@
-import WritingContents from "../../../components/templates/WritingContents";
+import CreateContent from "../../../components/templates/WritingContents/Create";
+import {useParams} from "react-router-dom";
+import UpdateWriting from "../../../components/templates/WritingContents/Update";
 
 function DocumentWritingPage() {
+  const {id} = useParams();
   return (
-    <WritingContents />
+    !!id ? (
+      <CreateContent />
+    ) : (
+      <UpdateWriting />
+    )
   )
 }
 
