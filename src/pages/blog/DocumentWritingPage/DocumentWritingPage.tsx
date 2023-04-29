@@ -6,9 +6,12 @@ function DocumentWritingPage() {
   const {id} = useParams();
   return (
     !!id ? (
-      <CreateContent />
-    ) : (
+      // 수정 화면
       <UpdateWriting />
+    ) : (
+      // 글 작성 화면
+      <CreateContent />
+      
     )
   )
 }

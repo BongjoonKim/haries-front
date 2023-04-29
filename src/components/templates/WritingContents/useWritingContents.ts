@@ -22,8 +22,8 @@ function useWritingContents() {
   const getDocumentData = useCallback(async (id : string) => {
     try {
       const response = await getDocuments({id : id!});
+      console.log("백엔드 로직 확인", response.data)
       setWriting(response.data);
-      console.log("글", response.data);
       if (response.data.contentsType === "markdown") {
         editorRef.current.setMarkdown(response.data.contents)
       } else if (response.data?.contentsType === "wysiwyg") {
@@ -41,7 +41,7 @@ function useWritingContents() {
         }
       });
     }
-  }, []);
+  }, [writing]);
   
   
   // 파일 첨부 추가
@@ -114,7 +114,7 @@ function useWritingContents() {
     titleRef,
     handleSave,
     onUploadImage,
-    writing,
+    writing
   }
 }
 

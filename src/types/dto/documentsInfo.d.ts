@@ -10,7 +10,7 @@ interface DocumentsInfo {
 interface DocumentDTO {
   id ?: string;
   titles : string;
-  contents ?: string;
+  contents : string;
   contentsType ?: EditorType ;
   created ?: Date | string;
   initialUser ?: string;

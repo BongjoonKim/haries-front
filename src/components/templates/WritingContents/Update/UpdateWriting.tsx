@@ -1,57 +1,32 @@
 import useWritingContents from "../useWritingContents";
 import React, {lazy, Suspense} from "react";
 import Editor from "../../../widgets/Editor";
-import Button from "../../../elements/Button";
-import {StyledEditor, StyledEditorButton, StyledLeftEditorButton, StyledRightEditorButton} from "../WritingStyle";
+import WritingContentsLayout from "../WritingContentsLayout";
 
 function UpdateWriting() {
   const {addFiles, editorRef, titleRef, handleSave, onUploadImage, writing } = useWritingContents();
   const Editor = lazy(() => import("../../../widgets/Editor"));
-  console.log
+  const WritingContentsLayout = lazy(() => import("../WritingContentsLayout"));
   
+  console.log("글 값", writing)
   return (
-    <StyledEditor>
-      <table className="editor-table">
-        <tbody>
-        <tr>
-          <td colSpan={2}>
-            <textarea id="editor-table-title" ref={titleRef} placeholder="제목을 입력하세요" value={writing.titles} onChange={(event) => (console.log(event))}/>
-          </td>
-        </tr>
-        <tr>
-          <td className="react-toast-area" colSpan={2}>
-            <Suspense>
-              <Editor
-                editorRef={editorRef}
-                initialEditType={writing.contentsType!}
-                initialValue={!!writing.contents ? writing.contents : ""}
-                hooks={{
-                  addImageBlobHook: onUploadImage
-                }}
-              />
-            </Suspense>
+    <Suspense>
+      <WritingContentsLayout
+        titleRef={titleRef}
+        addFiles={addFiles}
+        handleSave={handleSave}
+        titles={writing.titles}
+      >
 
-          </td>
-        </tr>
-        <tr className="editor-table-info">
-          <th>첨부파일</th>
-          <td>
-            <input type="file" id="fileUpload" onChange={addFiles} />
-          </td>
-        </tr>
-        </tbody>
-      </table>
-      <StyledEditorButton>
-        <StyledLeftEditorButton>
-          <Button variant="contained" color="secondary" children="나가기" />
-        </StyledLeftEditorButton>
-        <StyledRightEditorButton>
-          <Button variant="contained" color="primary" children="미리보기" />
-          <Button variant="contained" color="primary" children="임시저장"  />
-          <Button variant="contained" color="secondary" children="발행" onClick={handleSave}/>
-        </StyledRightEditorButton>
-      </StyledEditorButton>
-    </StyledEditor>
+          <Editor
+            initialEditType={writing.contentsType!}
+            initialValue={writing.contents!}
+            editorRef={editorRef}
+            hooks={{addImageBlobHook : onUploadImage}}
+          />
+      </WritingContentsLayout>
+    </Suspense>
+    
   )
   
 }
