@@ -31,7 +31,7 @@ export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export default forwardRef((props: TextInputProps, ref: ForwardedRef<HTMLInputElement> | any) => {
-    const [value, setValue] = useState<string | number | readonly string[] | undefined>(props.value);
+    const [value, setValue] = useState<string | number | readonly string[] | undefined>(props.defaultValue || "");
     const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>): void => {
         if (props.filter) {
             event.target.value = String(event.target.value)?.replace?.(props.filter, "");

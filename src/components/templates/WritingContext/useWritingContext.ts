@@ -9,6 +9,7 @@ function useWritingContext() {
   
   const getPaginationData = useCallback(async (props : PaginationDTO) => {
     
+    console.log("props", props)
     const response = await getAllDocuments(props);
     console.log("리스폰스", response.data)
     setWritings(response.data.documentsDTO);

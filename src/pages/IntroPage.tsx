@@ -10,7 +10,7 @@ function IntroPage() {
       <StyleIntroPage >
         <img
           className="intro-image"
-          src={`${process.env.PUBLIC_URL}/fontana.jpeg`}
+          src={`${process.env.PUBLIC_URL}/Cityscapes.jpeg`}
           width={"100%"}
         />
       </StyleIntroPage>

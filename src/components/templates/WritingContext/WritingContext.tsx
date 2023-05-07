@@ -8,11 +8,12 @@ import Page from "../../widgets/Page";
 function WritingContext() {
   
   const {page, setPage, writings, totalContents} = useWritingContext();
+  console.log("값 확인", totalContents)
   
   return (
     <StyledWritingContext>
       <SubContext data={[...writings]}/>
-      <Page totalCount={totalContents} setPage={setPage} page={page} size={4} />
+      <Page totalCount={totalContents} setPage={setPage} page={page} size={6} />
     </StyledWritingContext>
   )
 }
