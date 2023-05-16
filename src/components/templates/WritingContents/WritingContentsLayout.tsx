@@ -3,6 +3,7 @@ import React, {MutableRefObject, ReactNode, Suspense, useState} from "react";
 import Button from "../../elements/Button";
 import Editor from "../../widgets/Editor";
 import TextInput from "../../elements/TextInput";
+import useWritingContents from "./useWritingContents";
 
 interface WritingContentsLayoutProps {
   titleRef : MutableRefObject<HTMLTextAreaElement>
@@ -15,6 +16,7 @@ interface WritingContentsLayoutProps {
 
 function WritingContentsLayout(props : WritingContentsLayoutProps) {
   console.log("title", props.titles)
+  const {handleOutPage} = useWritingContents();
   
   return (
     <StyledEditor>
@@ -46,7 +48,7 @@ function WritingContentsLayout(props : WritingContentsLayoutProps) {
       </table>
       <StyledEditorButton>
         <StyledLeftEditorButton>
-          <Button variant="contained" color="secondary" children="나가기" />
+          <Button variant="contained" color="secondary" children="나가기" onClick={handleOutPage}/>
         </StyledLeftEditorButton>
         <StyledRightEditorButton>
           <Button variant="contained" color="primary" children="미리보기" />

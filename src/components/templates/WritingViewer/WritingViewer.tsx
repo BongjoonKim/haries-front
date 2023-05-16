@@ -49,7 +49,7 @@ function WritingViewer() {
             </div>
             <div className="created">
               <span>Last Modified : </span>
-              <span>{moment(writing?.created).format("YY/MM/DD")}</span>
+              <span>{moment(writing?.modified).format("YY/MM/DD")}</span>
             </div>
             <div className="edit-delete">
               <CustomButton onClick={handleSaveOpen}><span>수정</span></CustomButton>

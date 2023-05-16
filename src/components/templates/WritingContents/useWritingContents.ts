@@ -1,7 +1,7 @@
 import {useRef, MouseEvent, useCallback, MutableRefObject, useEffect, useState, lazy} from "react";
 import {createDocuments, getDocuments, saveDocument} from "../../../endpoints/documents-endpoints";
 import MessageBar from "../../widgets/MessageBar";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useRecoilState} from "recoil";
 import recoilDocumentsState from "../../../stores/recoil/recoilDocumentsState";
 import recoilCommonState from "../../../stores/recoil/recoilCommonState";
@@ -15,6 +15,7 @@ function useWritingContents() {
   const titleRef = useRef<any>();
   const [writing, setWriting] = useRecoilState<DocumentDTO>(recoilDocumentsState.writingInfo);
   const [message, setMessage]  = useRecoilState<{isOpen : boolean, contents : string}>(recoilCommonState.messageOpener);
+  const navigate = useNavigate();
   // 수정 화면일 경우
   
   
@@ -22,16 +23,18 @@ function useWritingContents() {
   const getDocumentData = useCallback(async (id : string) => {
     try {
       const response = await getDocuments({id : id!});
-      console.log("백엔드 로직 확인", response.data)
       setWriting(response.data);
-      if (response.data.contentsType === "markdown") {
-        editorRef.current.setMarkdown(response.data.contents)
-      } else if (response.data?.contentsType === "wysiwyg") {
-        editorRef.current.setHTML(response.data.contents);
-      } else {
-        editorRef.current.setMarkdown(response.data.contents)
+      if (editorRef.current !== undefined) {
+        if (response.data.contentsType === "markdown") {
+          editorRef.current.setMarkdown(response.data.contents)
+        }
+        else if (response.data.contentsType === "wysiwyg") {
+          editorRef.current.setHTML(response.data.contents);
+        }
+        else {
+          editorRef.current.setMarkdown(response.data.contents)
+        }
       }
-      
     } catch (error) {
       setMessage(prev => {
         let data = JSON.parse(JSON.stringify(prev));
@@ -104,8 +107,11 @@ function useWritingContents() {
     if (!!id) {
       getDocumentData(id);
     }
-    
-    
+  }, []);
+  
+  // 나가기 로직
+  const handleOutPage = useCallback(() => {
+    navigate(-1);
   }, []);
   
   return {
@@ -114,7 +120,8 @@ function useWritingContents() {
     titleRef,
     handleSave,
     onUploadImage,
-    writing
+    writing,
+    handleOutPage
   }
 }
 
