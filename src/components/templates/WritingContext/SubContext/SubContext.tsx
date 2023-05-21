@@ -2,6 +2,7 @@ import styled from "styled-components";
 import moment from "moment";
 import {createElement} from "react";
 import useSubContext from "./useSubContext";
+import {DocumentDTO} from "../../../../types/dto/documentsInfo";
 
 interface SubContextProps {
   data : DocumentDTO[];

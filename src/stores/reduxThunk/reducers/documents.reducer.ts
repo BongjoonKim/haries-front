@@ -1,5 +1,6 @@
 import moment, {now} from "moment";
 import {ActionTypes, DocumentConstants} from "../actions/documents.action";
+import {DocumentDTO} from "../../../types/dto/documentsInfo";
 
 const initialState: DocumentDTO= {
   titles : "",

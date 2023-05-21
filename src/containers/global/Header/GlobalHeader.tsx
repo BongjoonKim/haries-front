@@ -12,7 +12,6 @@ import useGlobalHeader from "./useGlobalHeader";
 import RightNavigator from "./RightNavigator";
 import {IconButton} from "@material-ui/core";
 import {DehazeRounded} from "@material-ui/icons";
-import {RxDividerVertical} from "react-icons/rx";
 
 function GlobalHeader() {
     // 메인 메뉴 로딩 상태

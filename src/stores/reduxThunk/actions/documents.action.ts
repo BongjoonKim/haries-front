@@ -1,3 +1,5 @@
+import {DocumentDTO} from "../../../types/dto/documentsInfo";
+
 export const DocumentConstants = {
   SAVE : "save",
   SAVE_AS : "saveAs",
