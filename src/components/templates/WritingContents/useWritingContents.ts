@@ -24,27 +24,28 @@ function useWritingContents() {
     try {
       const response = await getDocuments({id : id!});
       setWriting(response.data);
-      if (editorRef.current !== undefined) {
+      
+      if (editorRef.current !== undefined && editorRef.current !== null) {
+        console.log("Ref 확인", editorRef.current, response.data);
         if (response.data.contentsType === "markdown") {
-          editorRef.current.setMarkdown(response.data.contents)
+          editorRef.current?.setMarkdown(response.data.contents)
         }
         else if (response.data.contentsType === "wysiwyg") {
-          editorRef.current.setHTML(response.data.contents);
+          editorRef.current?.setHTML(response.data.contents);
         }
         else {
-          editorRef.current.setMarkdown(response.data.contents)
+          editorRef.current?.setMarkdown(response.data.contents)
         }
       }
     } catch (error) {
       setMessage(prev => {
-        let data = JSON.parse(JSON.stringify(prev));
         return {
           contents : "글 데이터 가져오기 실패",
           isOpen: true
         }
       });
     }
-  }, [writing]);
+  }, [writing, message]);
   
   
   // 파일 첨부 추가
@@ -81,7 +82,8 @@ function useWritingContents() {
         console.log("저장 확인", request)
         await createDocuments(request);
       }
-
+      navigate("/blog")
+  
     } catch (e) {
       setMessage(prev => {
         return {

@@ -1,5 +1,8 @@
-import {Snackbar} from "@mui/material";
-import {ReactNode, SyntheticEvent} from "react";
+import {IconButton, Snackbar} from "@mui/material";
+import React, {ReactNode, SyntheticEvent, useCallback} from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import {useRecoilState} from "recoil";
+import recoilCommonState from "../../../stores/recoil/recoilCommonState";
 
 interface  MessageBarProps {
   open : boolean;
@@ -9,6 +12,29 @@ interface  MessageBarProps {
   action ?: ReactNode;
   
   
+}
+
+export function action() {
+  const [message, setMessage]  = useRecoilState<{isOpen : boolean, contents : string}>(recoilCommonState.messageOpener);
+  const handleOnClose = useCallback((event: SyntheticEvent | Event, reasion?: string) => {
+    if (reasion === 'clickaway') {
+      return;
+    }
+    setMessage({isOpen : false, contents : ""});
+  },[message]);
+  
+  return (
+    <>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleOnClose}
+      >
+        <CloseIcon fontSize="small"/>
+      </IconButton>
+    </>
+    )
 }
 
 function MessageBar(props : MessageBarProps) {

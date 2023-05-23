@@ -32,7 +32,7 @@ function useWritingViewer() {
         }
       })
     }
-  }, []);
+  }, [message]);
   
   // 글 조회 실패 메세지
   const handleOnClose = useCallback((event: SyntheticEvent | Event, reasion?: string) => {
@@ -40,7 +40,7 @@ function useWritingViewer() {
       return;
     }
     setMessage({isOpen : false, contents : ""});
-  },[]);
+  },[message]);
   
   // 글 삭제
   const handleDelete = useCallback(async (event : MouseEvent<HTMLButtonElement>) => {
@@ -50,7 +50,7 @@ function useWritingViewer() {
         contents : "삭제 성공",
         isOpen : true
       });
-      navigate(-1);   // 이전 화면으로
+      navigate("blog");   // 이전 화면으로
     } catch (e) {
       setMessage(prev => {
         let data = JSON.parse(JSON.stringify(prev));
@@ -60,7 +60,7 @@ function useWritingViewer() {
         }
       })
     }
-  }, []);
+  }, [message]);
   
   const handleSaveOpen = useCallback( () => {
     console.log("여기여기", id)
@@ -74,6 +74,8 @@ function useWritingViewer() {
       setWriting(undefined);
     }
   }, []);
+  
+  
   
   
   return {

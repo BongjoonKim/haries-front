@@ -2,8 +2,11 @@ import styled from "styled-components";
 import useWritingContext from "./useWritingContext";
 import Pagination from "react-js-pagination";
 import SubContext from "./SubContext";
-import {useState} from "react";
+import React, {useState} from "react";
 import Page from "../../widgets/Page";
+import MessageBar, {action} from "../../widgets/MessageBar";
+import {IconButton} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 function WritingContext() {
   
@@ -14,6 +17,7 @@ function WritingContext() {
     <StyledWritingContext>
       <SubContext data={[...writings]}/>
       <Page totalCount={totalContents} setPage={setPage} page={page} size={6} />
+      <MessageBar open={message.isOpen} onClose={handleOnClose} message={message.contents} action={action}/>
     </StyledWritingContext>
   )
 }

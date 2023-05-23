@@ -1,3 +1,4 @@
-import MessageBar from "./MessageBar";
+import MessageBar, {action} from "./MessageBar";
 
 export default MessageBar;
+export {action}

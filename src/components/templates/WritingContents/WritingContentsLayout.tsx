@@ -15,7 +15,6 @@ interface WritingContentsLayoutProps {
 }
 
 function WritingContentsLayout(props : WritingContentsLayoutProps) {
-  console.log("title", props.titles)
   const {handleOutPage} = useWritingContents();
   
   return (
