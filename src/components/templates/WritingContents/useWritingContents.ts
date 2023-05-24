@@ -1,11 +1,12 @@
 import {useRef, MouseEvent, useCallback, MutableRefObject, useEffect, useState, lazy} from "react";
-import {createDocuments, getDocuments, saveDocument} from "../../../endpoints/documents-endpoints";
+import {createDocuments, getDocument, getDocumentUnique, saveDocument} from "../../../endpoints/documents-endpoints";
 import MessageBar from "../../widgets/MessageBar";
 import {useNavigate, useParams} from "react-router-dom";
 import {useRecoilState} from "recoil";
 import recoilDocumentsState from "../../../stores/recoil/recoilDocumentsState";
 import recoilCommonState from "../../../stores/recoil/recoilCommonState";
 import {DocumentDTO} from "../../../types/dto/documentsInfo";
+import generatorUtil from "../../../utilities/generatorUtil";
 
 export type HookCallback = (url: string, text?: string) => void;
 function useWritingContents() {
@@ -22,25 +23,26 @@ function useWritingContents() {
   // 수정 화면일 경우 조회 로직
   const getDocumentData = useCallback(async (id : string) => {
     try {
-      const response = await getDocuments({id : id!});
+      const response = await getDocument({id : id!});
       setWriting(response.data);
-      
-      if (editorRef.current !== undefined && editorRef.current !== null) {
-        console.log("Ref 확인", editorRef.current, response.data);
-        if (response.data.contentsType === "markdown") {
-          editorRef.current?.setMarkdown(response.data.contents)
-        }
-        else if (response.data.contentsType === "wysiwyg") {
-          editorRef.current?.setHTML(response.data.contents);
-        }
-        else {
-          editorRef.current?.setMarkdown(response.data.contents)
-        }
-      }
+      //
+      // if (editorRef.current !== undefined && editorRef.current !== null) {
+      //   console.log("커런트 확인", editorRef.current);
+      //   console.log("커런트 확인", editorRef.current);
+      //   if (response.data.contentsType === "markdown") {
+      //     editorRef.current?.setMarkdown(response.data.contents)
+      //   }
+      //   else if (response.data.contentsType === "wysiwyg") {
+      //     editorRef.current?.setHTML(response.data.contents);
+      //   }
+      //   else {
+      //     editorRef.current?.setMarkdown(response.data.contents)
+      //   }
+      // }
     } catch (error) {
       setMessage(prev => {
         return {
-          contents : "글 데이터 가져오기 실패",
+          contents : `글 데이터 가져오터기 실패 : ${error}`,
           isOpen: true
         }
       });
@@ -69,21 +71,26 @@ function useWritingContents() {
     } else if (editorInfo.mode === "wysiwyg") {
       contents = editorInfo.getHTML();
     }
+    const unique = generatorUtil.uuid();
     
     const request : DocumentDTO = {
       titles: titleRef.current.value,
       contents : contents,
-      contentsType : editorInfo.mode
+      contentsType : editorInfo.mode,
+      unique: unique
     }
     try {
       if (!!id) {
         await saveDocument({id, request});
+        navigate(`/blog/${id}`)
       } else {
-        console.log("저장 확인", request)
+        console.log("저장 확인", request);
         await createDocuments(request);
-      }
-      navigate("/blog")
+        const response = await getDocumentUnique({unique: unique});
+        console.log("유니크키", response.data)
+        navigate(`/blog/${response.data.id}`);
   
+      }
     } catch (e) {
       setMessage(prev => {
         return {
@@ -91,6 +98,8 @@ function useWritingContents() {
           isOpen : true
         }
       })
+    } finally {
+
     }
     
   }, [message]);

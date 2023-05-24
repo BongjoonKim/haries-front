@@ -7,7 +7,7 @@ import FieldMessage from "../FieldMessage";
 import {KeyboardEvent, FocusEvent} from "react";
 
 export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
-    value?: string | number | readonly string[] | undefined;
+    // value?: string | number | readonly string[] | undefined;
     checked?: boolean;
     id?: string;
     label?: string;
@@ -53,7 +53,7 @@ export default forwardRef((props: TextInputProps, ref: ForwardedRef<HTMLInputEle
                 type={props.type}
                 id={props.id}
                 defaultValue={props.defaultValue}
-                value={props.value ? "" : value}
+                // value={props.value ? "" : value}
                 data-type={props.actionType}
                 data-option={props.actionOptions}
                 data-names={props.names}

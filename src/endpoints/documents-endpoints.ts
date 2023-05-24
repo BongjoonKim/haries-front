@@ -13,8 +13,12 @@ export async function getAllDocuments(params: PaginationDTO) {
 }
 
 // 글 조회
-export async function getDocuments(params: {id : string}) {
+export async function getDocument(params: {id : string}) {
   return (await request.get(`/documents/get?id=${params.id}`)) as AxiosResponse<DocumentDTO>;
+}
+
+export async function getDocumentUnique(params: {unique : string}) {
+  return (await request.get(`/documents/get/key?unique=${params.unique}`)) as AxiosResponse<DocumentDTO>;
 }
 
 // 글 삭제

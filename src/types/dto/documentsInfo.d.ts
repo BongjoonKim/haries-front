@@ -16,6 +16,7 @@ interface DocumentDTO {
   initialUser ?: string;
   modified ?: Date | string;
   modifiedUser ?: string;
+  unique ?: string;
 }
 
 interface PaginationDTO {

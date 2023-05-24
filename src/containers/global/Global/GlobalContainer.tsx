@@ -59,6 +59,7 @@ const StyledGlobalLeftAside = styled.div<{isCollapsed: boolean}>`
 const StyledGlobalMain = styled.main<{isAsideCollapsed: boolean}>`
   flex-grow: 1;
   height: 100%;
+  min-height: calc(100vh - 5.25rem);
   background-color: whitesmoke;
   width: ${props => (props.isAsideCollapsed ? "1920px" : "1670px")};
   padding: 12px;

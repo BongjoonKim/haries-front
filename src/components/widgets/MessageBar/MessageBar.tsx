@@ -14,7 +14,7 @@ interface  MessageBarProps {
   
 }
 
-export function action() {
+export function Action() {
   const [message, setMessage]  = useRecoilState<{isOpen : boolean, contents : string}>(recoilCommonState.messageOpener);
   const handleOnClose = useCallback((event: SyntheticEvent | Event, reasion?: string) => {
     if (reasion === 'clickaway') {

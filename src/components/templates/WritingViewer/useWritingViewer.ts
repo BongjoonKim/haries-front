@@ -1,7 +1,7 @@
 import {MouseEvent} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {SyntheticEvent, useCallback, useEffect, useRef, useState} from "react";
-import {deleteDocument, getDocuments, saveDocument} from "../../../endpoints/documents-endpoints";
+import {deleteDocument, getDocument, saveDocument} from "../../../endpoints/documents-endpoints";
 import {useRecoilState} from "recoil";
 import recoilDocumentsState from "../../../stores/recoil/recoilDocumentsState";
 import recoilCommonState from "../../../stores/recoil/recoilCommonState";
@@ -19,7 +19,7 @@ function useWritingViewer() {
   const getDocumentData = useCallback(async (id : string) => {
     try {
       if (!!id) {
-        const response = await getDocuments({id: id});
+        const response = await getDocument({id: id});
         setWriting(response.data);
         console.log("글 종류", response.data);
       }
@@ -50,7 +50,7 @@ function useWritingViewer() {
         contents : "삭제 성공",
         isOpen : true
       });
-      navigate("blog");   // 이전 화면으로
+      navigate("/blog");   // 이전 화면으로
     } catch (e) {
       setMessage(prev => {
         let data = JSON.parse(JSON.stringify(prev));
@@ -59,11 +59,22 @@ function useWritingViewer() {
           isOpen : true
         }
       })
+    } finally {
+      await setTimeout(() => {
+        setMessage({
+          contents : "",
+          isOpen : false
+        });
+        }, 3000);
     }
   }, [message]);
   
   const handleSaveOpen = useCallback( () => {
-    console.log("여기여기", id)
+    console.log("여기여기", id);
+    setMessage({
+      contents : "",
+      isOpen : false
+    });
     navigate(`/blog/writing/${id}`);
   }, []);
   

@@ -4,20 +4,20 @@ import Pagination from "react-js-pagination";
 import SubContext from "./SubContext";
 import React, {useState} from "react";
 import Page from "../../widgets/Page";
-import MessageBar, {action} from "../../widgets/MessageBar";
+import MessageBar, {Action} from "../../widgets/MessageBar";
 import {IconButton} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 function WritingContext() {
   
-  const {page, setPage, writings, totalContents} = useWritingContext();
+  const {page, setPage, writings, totalContents, message, handleOnClose} = useWritingContext();
   console.log("값 확인", totalContents)
   
   return (
     <StyledWritingContext>
       <SubContext data={[...writings]}/>
       <Page totalCount={totalContents} setPage={setPage} page={page} size={6} />
-      <MessageBar open={message.isOpen} onClose={handleOnClose} message={message.contents} action={action}/>
+      <MessageBar open={message.isOpen} onClose={handleOnClose} message={message.contents} action={Action()}/>
     </StyledWritingContext>
   )
 }
