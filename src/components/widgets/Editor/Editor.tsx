@@ -25,6 +25,9 @@ function Editor(props: EditorProps) {
       initialValue={props.initialValue}
       initialEditType={props.initialEditType || "markdown"}
       plugins={[colorSyntax]}
+      // hideModeSwitch={true}
+      previewStyle={window.innerWidth > 1000 ? 'vertical' : 'tab'}
+      useCommandShortcut={true}
       ref={props.editorRef}
       language="ko-KR"
       hooks={props.hooks}

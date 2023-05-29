@@ -7,6 +7,7 @@ import recoilDocumentsState from "../../../stores/recoil/recoilDocumentsState";
 import recoilCommonState from "../../../stores/recoil/recoilCommonState";
 import {DocumentDTO} from "../../../types/dto/documentsInfo";
 import generatorUtil from "../../../utilities/generatorUtil";
+import fileConfig from "../../../appConfig/fileConfig";
 
 export type HookCallback = (url: string, text?: string) => void;
 function useWritingContents() {
@@ -106,12 +107,14 @@ function useWritingContents() {
   
   // 이미지 저장 로직
   const onUploadImage = async (blob: Blob, callback: HookCallback) => {
-    // const url = await uploadImage(blob);
-    // callback(url, 'alt text');
-    console.log("블롭", blob);
-    const objectURL = URL.createObjectURL(blob);
-    console.log("블롭 -> url", objectURL);
-    callback(objectURL);
+    console.log("파일 확인", blob);
+    try {
+      const response = await fileConfig({blob: blob});
+      callback(response);
+    } catch (e) {
+      console.log("에러 확인", e)
+    }
+
   }
   
   useEffect(() => {
