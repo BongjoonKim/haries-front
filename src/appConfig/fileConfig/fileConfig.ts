@@ -10,10 +10,10 @@ interface fileS3ConfigProps {
 
 export default async function fileS3Config(props : fileS3ConfigProps) {
   const REGION = "ap-northeast-2";
-  const ACCESS_KEY_ID = "";
-  const SECRET_ACCESS_KEY_ID = "";
+  const ACCESS_KEY_ID = `${process.env.REACT_APP_AWS_ACCESS_KEY_ID}`!;
+  const SECRET_ACCESS_KEY_ID = `${process.env.REACT_APP_AWS_SECRET_ACCESS_KEY_ID}`!;
   
-  
+  console.log("여기보세요", ACCESS_KEY_ID)
   const config = {
     bucketName: "haries-img",
     region: REGION,
