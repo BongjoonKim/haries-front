@@ -10,8 +10,8 @@ interface fileS3ConfigProps {
 
 export default async function fileS3Config(props : fileS3ConfigProps) {
   const REGION = "ap-northeast-2";
-  const ACCESS_KEY_ID = "AKIAY4U5F4IDKQFVHWFM";
-  const SECRET_ACCESS_KEY_ID = "rLTlmzMKq8uWEg7yE3vPrC+bpw8TbGjT63BCoCHO";
+  const ACCESS_KEY_ID = "";
+  const SECRET_ACCESS_KEY_ID = "";
   
   
   const config = {
