@@ -2,6 +2,7 @@ import {ReactNode} from "react";
 import GlobalHeader from "../Header/GlobalHeader";
 import styled from "styled-components";
 import {useLayout} from "../../../hooks/layout/useLayout";
+import Sidebar from "../Sidebar";
 
 function GlobalContainer(props: {children: ReactNode}) {
     const {isAsideCollapsed} = useLayout();
@@ -11,9 +12,7 @@ function GlobalContainer(props: {children: ReactNode}) {
             <GlobalHeader />
             <StyledGlobalBody>
               <StyledGlobalLeftAside isCollapsed={isAsideCollapsed}>
-                <p>
-                  <span>system-time</span>
-                </p>
+                <Sidebar isCollapsed={isAsideCollapsed} />
               </StyledGlobalLeftAside>
               <StyledGlobalMain isAsideCollapsed={false}>
                   {props.children}
@@ -41,18 +40,7 @@ const StyledGlobalBody = styled.div`
 `;
 
 const StyledGlobalLeftAside = styled.div<{isCollapsed: boolean}>`
-  width: ${props => (props.isCollapsed ? "0px" : "15rem")};
-  min-width: ${props => (props.isCollapsed ? "0px" : "15rem")};
-  transition: all 0.2s ease-out;
-  border-right: 1px solid #cfd2d4;
-  border-left: 1px solid #e8eaeb;
-  background: #fff;
-  box-shadow: 0 0 10px #00000026;
-  display:  inline-block;
-  flex-direction: column;
-  overflow-x: hidden;
-  overflow-y: auto;
-  z-index: 9998;
+
   
 `;
 

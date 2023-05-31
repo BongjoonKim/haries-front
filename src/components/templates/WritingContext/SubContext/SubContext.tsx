@@ -46,8 +46,11 @@ const StyledSubContext = styled.div`
   grid-template-rows: auto;
   grid-gap: 1rem;
   justify-content:center;
-  width : 90%;
+  //width : 100%;
+  height: 100%;
   margin: 5vh auto;
+  height: auto;
+  padding: 0rem 2rem;
   
   @media screen and (min-width: 768px) {
     grid-template-columns: 1fr 1fr;
@@ -56,6 +59,7 @@ const StyledSubContext = styled.div`
   @media screen and (min-width: 1250px) {
     grid-template-columns: repeat(3, 3fr);
     margin: 5vh auto;
+    min-height: 100%;
   }
 
 `;
@@ -71,7 +75,7 @@ const StyledContextBox = styled.div`
     -webkit-transition: margin 0.5s ease-out;
     -moz-transition: margin 0.5s ease-out;
     -o-transition: margin 0.5s ease-out;
-    margin-top: -5px;
+    padding-top: -5px;
     cursor:pointer;
   }
 
