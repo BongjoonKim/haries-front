@@ -4,11 +4,26 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import TreeItem, {TreeItemProps, useTreeItem, TreeItemContentProps} from "@mui/lab/TreeItem";
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
+import useSidebar from "./useSidebar";
+import {FoldersDTO} from "../../../types/dto/foldersDTO";
+import {lazy, Suspense, useEffect, useState} from "react";
+import SubFolder from "./SubFolder";
 
 interface SidebarProps {
   isCollapsed : boolean;
 }
+
 function Sidebar(props : SidebarProps) {
+  const {rootId, mainFolders} = useSidebar();
+  console.log("루트아이디", rootId, mainFolders);
+  
+  // const SubFolderTree = lazy(() => import("./SubFolder"));
+  const [expanded, setExpanded] = useState<string[]>();
+  const handleExpandClick = (event : any) => {
+    console.log("Expand 확인", event);
+    
+  }
+  
   return (
     <StyledSidebar isCollapsed={props.isCollapsed}>
       <TreeView
@@ -16,12 +31,31 @@ function Sidebar(props : SidebarProps) {
         defaultExpanded={["0"]}
         defaultExpandIcon={<AddBoxOutlinedIcon />}
         defaultCollapseIcon={<IndeterminateCheckBoxOutlinedIcon />}
+        expanded={expanded}
         sx={{height: "264px", flexGrow: 1, overflowY: "auto"}}
       >
-        <StyledTreeItem nodeId="1" label="Main" >
-          <StyledTreeItem nodeId="2" label="sub" />
-          <StyledTreeItem nodeId="3" label="sub2" />
-        </StyledTreeItem>
+        <>
+          {mainFolders?.map((el, inx) => {
+            return (
+              <StyledTreeItem
+                key={inx}
+                nodeId={el.uniqueKey + inx}
+                label={el.label}
+                
+              >
+                {/*<Suspense>*/}
+                {/*  <SubFolderTree parentId={rootId!} />*/}
+                {/*  */}
+                {/*</Suspense>*/}
+                {SubFolder({
+                  parentId : el.parentId,
+                  expanded : expanded!
+                })}
+              </StyledTreeItem>
+            )
+          })}
+        </>
+
       </TreeView>
     </StyledSidebar>
   )
