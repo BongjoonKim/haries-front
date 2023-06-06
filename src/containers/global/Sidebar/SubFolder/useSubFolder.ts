@@ -4,21 +4,20 @@ import {getChildFolders} from "../../../../endpoints/folders-endpotins";
 import {SubFolderProps} from "./SubFolder";
 
 function useSubFolder(props : SubFolderProps) {
-  // const [subFolders , setSubFolders] = useState<FoldersDTO[]>();
-  let data : any = [];
+  const [subFolders , setSubFolders] = useState<FoldersDTO[]>();
+  
   const getSubFolders = useCallback(async (parentId: string) => {
-    data = await getChildFolders({parentId : parentId});
-  }, []);
+    const response = await getChildFolders({parentId : parentId});
+    setSubFolders(response.data);
+  }, [subFolders]);
   
   useEffect( () => {
-     (async () => {
-      await getSubFolders(props.parentId);
-    })();
-    
-  }, []);
+    getSubFolders(props.parentId);
+  }, [props.parentId]);
   
   return {
-    data
+    subFolders,
+    setSubFolders
   }
 }
 

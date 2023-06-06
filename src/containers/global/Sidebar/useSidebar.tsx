@@ -24,11 +24,11 @@ function useSidebar(props ?: useSidebarProps) {
     // console.log("메인 폴더", mainFolderList)
   }, [rootId, mainFolders]);
   
-  const getSubFolders = useCallback(async (parentId : string) => {
-    const subFolderList = await getChildFolders({parentId : parentId});
-    console.log("서브폴더 가져왔는지", subFolderList)
-    setSubFolders(subFolderList.data);
-  }, [subFolders])
+  // const getSubFolders = useCallback(async (parentId : string) => {
+  //   const subFolderList = await getChildFolders({parentId : parentId});
+  //   console.log("서브폴더 가져왔는지", subFolderList)
+  //   setSubFolders(subFolderList.data);
+  // }, [subFolders])
   
   
   useEffect(() => {
@@ -39,7 +39,7 @@ function useSidebar(props ?: useSidebarProps) {
     rootId,
     mainFolders,
     subFolders,
-    getSubFolders
+    setSubFolders
   }
 }
 

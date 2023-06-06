@@ -6,18 +6,20 @@ import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
 import useSidebar from "./useSidebar";
 import {FoldersDTO} from "../../../types/dto/foldersDTO";
-import {lazy, Suspense, useEffect, useState} from "react";
+import {lazy, Suspense, useEffect, useState,createElement} from "react";
 import SubFolder from "./SubFolder";
 
 interface SidebarProps {
   isCollapsed : boolean;
 }
 
+
+
 function Sidebar(props : SidebarProps) {
-  const {rootId, mainFolders} = useSidebar();
+  const {rootId, mainFolders, subFolders, setSubFolders} = useSidebar();
   console.log("루트아이디", rootId, mainFolders);
   
-  // const SubFolderTree = lazy(() => import("./SubFolder"));
+  // const SubFolder = lazy(() => import("./SubFolder"));
   const [expanded, setExpanded] = useState<string[]>();
   const handleExpandClick = (event : any) => {
     console.log("Expand 확인", event);
@@ -39,23 +41,25 @@ function Sidebar(props : SidebarProps) {
             return (
               <StyledTreeItem
                 key={inx}
-                nodeId={el.uniqueKey + inx}
+                nodeId={el.id}
                 label={el.label}
                 
               >
-                {/*<Suspense>*/}
-                {/*  <SubFolderTree parentId={rootId!} />*/}
-                {/*  */}
-                {/*</Suspense>*/}
-                {SubFolder({
-                  parentId : el.parentId,
-                  expanded : expanded!
-                })}
+                { el.childrenId.length > 0 &&
+                  createElement(
+                    SubFolder,
+                    {
+                      parentId : el.id,
+                      expanded : expanded!,
+                      subFolders : subFolders,
+                      setSubFolders : setSubFolders
+                    }
+                  )
+                }
               </StyledTreeItem>
             )
           })}
         </>
-
       </TreeView>
     </StyledSidebar>
   )
