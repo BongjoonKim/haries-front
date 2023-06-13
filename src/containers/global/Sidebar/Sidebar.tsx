@@ -16,7 +16,7 @@ interface SidebarProps {
 
 
 function Sidebar(props : SidebarProps) {
-  const {rootId, mainFolders, subFolders, setSubFolders} = useSidebar();
+  const {rootId, mainFolders} = useSidebar();
   console.log("루트아이디", rootId, mainFolders);
   
   // const SubFolder = lazy(() => import("./SubFolder"));
@@ -38,6 +38,7 @@ function Sidebar(props : SidebarProps) {
       >
         <>
           {mainFolders?.map((el, inx) => {
+            console.log("el", el)
             return (
               <StyledTreeItem
                 key={inx}
@@ -46,13 +47,12 @@ function Sidebar(props : SidebarProps) {
                 
               >
                 { el.childrenId.length > 0 &&
+                  
                   createElement(
                     SubFolder,
                     {
                       parentId : el.id,
-                      expanded : expanded!,
-                      subFolders : subFolders,
-                      setSubFolders : setSubFolders
+                      expanded : expanded!
                     }
                   )
                 }

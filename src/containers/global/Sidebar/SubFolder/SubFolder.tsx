@@ -7,17 +7,15 @@ import {getChildFolders} from "../../../../endpoints/folders-endpotins";
 export interface SubFolderProps {
   parentId : string;
   expanded ?: string[];
-  subFolders : any;
-  setSubFolders : any;
 }
 
 function SubFolder(props : SubFolderProps) {
   const {subFolders, setSubFolders} = useSubFolder(props);
-  useSubFolder(props);
-  
+  // useSubFolder(props);
+  console.log("확인", props)
   return (
     <>
-      {props.subFolders?.map((el : any, inx : number) => {
+      {subFolders?.map((el : any, inx : number) => {
         return (
           <StyledTreeItem key={inx} nodeId={el.uniqueKey + inx} label={el.label}>
             {/*<>*/}
@@ -34,8 +32,6 @@ function SubFolder(props : SubFolderProps) {
               {
                 parentId : el.id,
                 expanded : props.expanded!,
-                subFolders : subFolders,
-                setSubFolders : setSubFolders
               }
             )}
           </StyledTreeItem>

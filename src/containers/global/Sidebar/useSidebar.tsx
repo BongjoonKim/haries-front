@@ -10,7 +10,6 @@ interface useSidebarProps {
 
 function useSidebar(props ?: useSidebarProps) {
   const [mainFolders, setMainFolders] = useState<FoldersDTO[]>();
-  const [subFolders, setSubFolders] = useState<FoldersDTO[]>();
   const [rootId, setRootId] = useState<string>();
   
   // 루트 폴더 아이디
@@ -21,6 +20,7 @@ function useSidebar(props ?: useSidebarProps) {
     // console.log("루트 폴더", rootFolder.data)
     const mainFolderList = await getChildFolders({parentId : rootFolder.data.id});
     setMainFolders(mainFolderList.data);
+    
     // console.log("메인 폴더", mainFolderList)
   }, [rootId, mainFolders]);
   
@@ -38,8 +38,6 @@ function useSidebar(props ?: useSidebarProps) {
   return {
     rootId,
     mainFolders,
-    subFolders,
-    setSubFolders
   }
 }
 
