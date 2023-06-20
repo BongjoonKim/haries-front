@@ -11,6 +11,7 @@ interface useSidebarProps {
 function useSidebar(props ?: useSidebarProps) {
   const [mainFolders, setMainFolders] = useState<FoldersDTO[]>();
   const [rootId, setRootId] = useState<string>();
+  const [expanded, setExpanded] = useState<string[]>();
   
   // 루트 폴더 아이디
   
@@ -38,6 +39,7 @@ function useSidebar(props ?: useSidebarProps) {
   return {
     rootId,
     mainFolders,
+    expanded
   }
 }
 

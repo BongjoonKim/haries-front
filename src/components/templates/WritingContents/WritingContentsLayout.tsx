@@ -1,9 +1,15 @@
 import {StyledEditor, StyledEditorButton, StyledLeftEditorButton, StyledRightEditorButton} from "./WritingStyle";
-import React, {MutableRefObject, ReactNode, Suspense, useState} from "react";
+import React, {createElement, MutableRefObject, ReactNode, Suspense, useState} from "react";
 import Button from "../../elements/Button";
 import Editor from "../../widgets/Editor";
 import TextInput from "../../elements/TextInput";
 import useWritingContents from "./useWritingContents";
+import TreeView from "@mui/lab/TreeView";
+import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
+import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
+import useSidebar from "../../../containers/global/Sidebar/useSidebar";
+import SubFolder from "../../../containers/global/Sidebar/SubFolder";
+import TreeItem from "@mui/lab/TreeItem";
 
 interface WritingContentsLayoutProps {
   titleRef : MutableRefObject<HTMLTextAreaElement>
@@ -16,6 +22,7 @@ interface WritingContentsLayoutProps {
 
 function WritingContentsLayout(props : WritingContentsLayoutProps) {
   const {handleOutPage} = useWritingContents();
+  const {rootId, mainFolders, expanded} = useSidebar();
   
   return (
     <StyledEditor>
@@ -42,6 +49,36 @@ function WritingContentsLayout(props : WritingContentsLayoutProps) {
           <td>
             <input type="file" id="fileUpload" onChange={props.addFiles} />
           </td>
+          <th>폴더 선택</th>
+          <td>
+            <TreeView
+              aria-label="customized"
+              defaultExpanded={["0"]}
+              defaultExpandIcon={<AddBoxOutlinedIcon />}
+              defaultCollapseIcon={<IndeterminateCheckBoxOutlinedIcon />}
+            >
+              {mainFolders?.map((el, inx) => {
+                return (
+                  <TreeItem
+                    key={inx}
+                    nodeId={el.id}
+                    label={el.label}
+                  >
+                    {el.childrenId.length > 0 && createElement(
+                      SubFolder,
+                      {
+                        parentId : el.id,
+                        expanded : expanded!
+                      }
+                    )}
+                  </TreeItem>
+                )
+              })}
+            </TreeView>
+          </td>
+        </tr>
+        <tr>
+          <th>Tag</th>
         </tr>
         </tbody>
       </table>

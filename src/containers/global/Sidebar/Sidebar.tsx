@@ -16,11 +16,11 @@ interface SidebarProps {
 
 
 function Sidebar(props : SidebarProps) {
-  const {rootId, mainFolders} = useSidebar();
+  const {rootId, mainFolders, expanded} = useSidebar();
   console.log("루트아이디", rootId, mainFolders);
   
   // const SubFolder = lazy(() => import("./SubFolder"));
-  const [expanded, setExpanded] = useState<string[]>();
+  
   const handleExpandClick = (event : any) => {
     console.log("Expand 확인", event);
     

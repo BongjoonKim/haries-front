@@ -17,6 +17,7 @@ interface DocumentDTO {
   modified ?: Date | string;
   modifiedUser ?: string;
   unique ?: string;
+  folderId ?: string;
 }
 
 interface PaginationDTO {
