@@ -9,7 +9,7 @@ export const recoilDocumentState = {
     key: `${WRITING_INFO}`,
     default : {
       id : "",
-      titles : "",
+      title : "",
       contents : "",
       contentsType : "markdown",
       created : moment().format(),

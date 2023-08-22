@@ -25,7 +25,7 @@ function useEditor() {
     const contents = editorRef.current.getInstance().getHTML();
     
     const data: DocumentDTO = {
-      titles : titleRef.current.value,
+      title : titleRef.current.value,
       contents : contents
     }
     try {

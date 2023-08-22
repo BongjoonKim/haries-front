@@ -8,6 +8,7 @@ import recoilCommonState from "../../../stores/recoil/recoilCommonState";
 import {DocumentDTO} from "../../../types/dto/documentsInfo";
 import generatorUtil from "../../../utilities/generatorUtil";
 import fileConfig from "../../../appConfig/fileConfig";
+import {cloneDeep} from "lodash";
 
 export type HookCallback = (url: string, text?: string) => void;
 function useWritingContents() {
@@ -18,6 +19,11 @@ function useWritingContents() {
   const [writing, setWriting] = useRecoilState<DocumentDTO>(recoilDocumentsState.writingInfo);
   const [message, setMessage]  = useRecoilState<{isOpen : boolean, contents : string}>(recoilCommonState.messageOpener);
   const navigate = useNavigate();
+  const [tags, setTags] = useState<any>([]);
+  const tagRef = useRef<any>(null);
+  const [selectedFolderId, setSelectedFolderId] = useState<string>("");
+  const [disclose, setDisclose] = useState<boolean>(false);
+  
   // 수정 화면일 경우
   
   
@@ -75,7 +81,7 @@ function useWritingContents() {
     const unique = generatorUtil.uuid();
     
     const request : DocumentDTO = {
-      titles: titleRef.current.value,
+      title: titleRef.current.value,
       contents : contents,
       contentsType : editorInfo.mode,
       unique: unique
@@ -85,10 +91,8 @@ function useWritingContents() {
         await saveDocument({id, request});
         navigate(`/blog/${id}`)
       } else {
-        console.log("저장 확인", request);
         await createDocuments(request);
         const response = await getDocumentUnique({unique: unique});
-        console.log("유니크키", response.data)
         navigate(`/blog/${response.data.id}`);
   
       }
@@ -103,19 +107,40 @@ function useWritingContents() {
 
     }
     
-  }, [message]);
+  }, [message, selectedFolderId]);
   
   // 이미지 저장 로직
   const onUploadImage = async (blob: Blob, callback: HookCallback) => {
-    console.log("파일 확인", blob);
     try {
       const response = await fileConfig({blob: blob});
       callback(response);
     } catch (e) {
       console.log("에러 확인", e)
     }
-
   }
+  
+  // 태그 입력 함수
+  const addTag = useCallback(async (event : any) => {
+    const data = tagRef.current.value;
+    if (event.code === "Enter") {
+      // event.preventDefault();
+      console.log("data", data, tags)
+      if (data !== "" && !tags.includes(data)) {        // 이미 등록한 tag는 더 등록할 수 없다
+        setTags((prev : string[]) => [...prev, data]);
+        tagRef.current.value = "";
+      }
+    }
+  }, [tags]);
+  
+  // 태그 삭제 함수
+  const tagDelete = useCallback((event : any) => {
+    // console.log("삭제 이벤트 확인", event.currentTarget.parentElement.parentElement.children[0].innerHTML);
+    const deleteTag = event.currentTarget.parentElement.parentElement.children[0].innerHTML.slice(1);
+    // console.log("deleteTag", deleteTag)
+    setTags((prev : string[]) => {
+      return prev.filter(el => el !== deleteTag);
+    })
+  }, [tags]);
   
   useEffect(() => {
     if (!!id) {
@@ -135,7 +160,14 @@ function useWritingContents() {
     handleSave,
     onUploadImage,
     writing,
-    handleOutPage
+    handleOutPage,
+    tags,
+    setTags,
+    tagRef,
+    addTag,
+    setSelectedFolderId,
+    setDisclose,
+    tagDelete
   }
 }
 

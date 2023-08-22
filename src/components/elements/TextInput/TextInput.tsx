@@ -27,11 +27,11 @@ export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
     title?: string;
     hasSearched?: boolean;
     isLoading?: boolean;
-    defaultValue?: string | number | readonly string[] | undefined;
+    value?: string | number | readonly string[] | undefined;
 }
 
 export default forwardRef((props: TextInputProps, ref: ForwardedRef<HTMLInputElement> | any) => {
-    const [value, setValue] = useState<string | number | readonly string[] | undefined>(props.defaultValue || "");
+    const [value, setValue] = useState<string | number | readonly string[] | undefined>(props.value || "");
     const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>): void => {
         if (props.filter) {
             event.target.value = String(event.target.value)?.replace?.(props.filter, "");
@@ -52,7 +52,7 @@ export default forwardRef((props: TextInputProps, ref: ForwardedRef<HTMLInputEle
                 ref={ref}
                 type={props.type}
                 id={props.id}
-                defaultValue={props.defaultValue}
+                value={props.value}
                 // value={props.value ? "" : value}
                 data-type={props.actionType}
                 data-option={props.actionOptions}

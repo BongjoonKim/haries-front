@@ -8,14 +8,14 @@ function UpdateWriting() {
   const Editor = lazy(() => import("../../../widgets/Editor"));
   const WritingContentsLayout = lazy(() => import("../WritingContentsLayout"));
   
-  console.log("글 값", writing)
+  console.log("글 값", writing.title)
   return (
     <Suspense>
       <WritingContentsLayout
         titleRef={titleRef}
         addFiles={addFiles}
         handleSave={handleSave}
-        titles={writing.titles}
+        titles={writing.title}
       >
 
           <Editor

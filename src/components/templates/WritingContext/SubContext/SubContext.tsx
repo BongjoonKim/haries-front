@@ -23,7 +23,7 @@ function SubContext(props: SubContextProps) {
         <StyledContextBox key={index} id={writing.id} onClick={contentsOnClick}>
           <img src={`${process.env.PUBLIC_URL}/serrata.jpeg`}/>
           <h4>
-            {writing.titles}
+            {writing.title}
           </h4>
           <span>
             {documents?.body?.innerText}

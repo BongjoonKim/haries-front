@@ -1,5 +1,5 @@
 import {StyledEditor, StyledEditorButton, StyledLeftEditorButton, StyledRightEditorButton} from "./WritingStyle";
-import React, {createElement, MutableRefObject, ReactNode, Suspense, useState} from "react";
+import React, {createElement, MutableRefObject, ReactNode, Suspense, SyntheticEvent, useState} from "react";
 import Button from "../../elements/Button";
 import Editor from "../../widgets/Editor";
 import TextInput from "../../elements/TextInput";
@@ -10,6 +10,8 @@ import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/Indeterminate
 import useSidebar from "../../../containers/global/Sidebar/useSidebar";
 import SubFolder from "../../../containers/global/Sidebar/SubFolder";
 import TreeItem from "@mui/lab/TreeItem";
+import TagInput from "../../elements/TextInput/TagInput";
+import {FormControlLabel, Switch} from "@mui/material";
 
 interface WritingContentsLayoutProps {
   titleRef : MutableRefObject<HTMLTextAreaElement>
@@ -21,67 +23,75 @@ interface WritingContentsLayoutProps {
 }
 
 function WritingContentsLayout(props : WritingContentsLayoutProps) {
-  const {handleOutPage} = useWritingContents();
+  const {handleOutPage, tags, setTags, tagRef, addTag, setSelectedFolderId, setDisclose, tagDelete} = useWritingContents();
   const {rootId, mainFolders, expanded} = useSidebar();
-  
   return (
     <StyledEditor>
-      <table className="editor-table">
-        <tbody>
-        <tr>
-          <td colSpan={2}>
-            <TextInput
-              name="title"
-              id="editor-table-title"
-              ref={props.titleRef}
-              placeholder="제목을 입력하세요"
-              defaultValue={props.titles}
+      <div className="title">
+        <TextInput
+          name="title"
+          id="editor-table-title"
+          ref={props.titleRef}
+          placeholder="제목을 입력하세요"
+          value={props.titles}
+        />
+      </div>
+      <div>
+        <div className="react-toast-area">
+          {props.children}
+        </div>
+      </div>
+      <div className="editor-config">
+        <div className="editor-config-left">
+          <p className="editor-config-left-items-title">폴더 선택</p>
+          <TreeView
+            aria-label="customized"
+            defaultExpanded={["0"]}
+            defaultExpandIcon={<AddBoxOutlinedIcon />}
+            onNodeSelect={(event : SyntheticEvent, value : string) => {setSelectedFolderId(value)}}
+            defaultCollapseIcon={<IndeterminateCheckBoxOutlinedIcon />}
+          >
+            {mainFolders?.map((el, inx) => {
+              return (
+                <TreeItem
+                  key={inx}
+                  nodeId={el.id}
+                  label={el.label}
+                >
+                  {el.childrenId.length > 0 && createElement(
+                    SubFolder,
+                    {
+                      parentId : el.id,
+                      expanded : expanded!
+                    }
+                  )}
+                </TreeItem>
+              )
+            })}
+          </TreeView>
+        </div>
+        <div className="editor-config-right">
+          <div className="editor-config-right-items">
+            <p className="editor-config-right-items-title">첨부파일</p>
+            <input className="editor-config-right-items-contents" type="file" id="fileUpload" onChange={props.addFiles} />
+          </div>
+          <div className="editor-config-right-items">
+            <p className="editor-config-right-items-title">공개 여부</p>
+            <FormControlLabel
+              className="editor-config-right-items-contents"
+              control={
+                <Switch name="disclose" />
+              }
+              label={"disclose"}
             />
-          </td>
-        </tr>
-        <tr>
-          <td className="react-toast-area" colSpan={2}>
-            {props.children}
-          </td>
-        </tr>
-        <tr className="editor-table-info">
-          <th>첨부파일</th>
-          <td>
-            <input type="file" id="fileUpload" onChange={props.addFiles} />
-          </td>
-          <th>폴더 선택</th>
-          <td>
-            <TreeView
-              aria-label="customized"
-              defaultExpanded={["0"]}
-              defaultExpandIcon={<AddBoxOutlinedIcon />}
-              defaultCollapseIcon={<IndeterminateCheckBoxOutlinedIcon />}
-            >
-              {mainFolders?.map((el, inx) => {
-                return (
-                  <TreeItem
-                    key={inx}
-                    nodeId={el.id}
-                    label={el.label}
-                  >
-                    {el.childrenId.length > 0 && createElement(
-                      SubFolder,
-                      {
-                        parentId : el.id,
-                        expanded : expanded!
-                      }
-                    )}
-                  </TreeItem>
-                )
-              })}
-            </TreeView>
-          </td>
-        </tr>
-        <tr>
-          <th>Tag</th>
-        </tr>
-        </tbody>
-      </table>
+            
+          </div>
+          <div className="editor-config-right-items">
+            <p className="editor-config-right-items-title">태그</p>
+            <TagInput  className="editor-config-right-items-contents" tags={tags} setTags={setTags} ref={tagRef} onKeyDown={addTag} onDelete={tagDelete}/>
+          </div>
+        </div>
+      </div>
       <StyledEditorButton>
         <StyledLeftEditorButton>
           <Button variant="contained" color="secondary" children="나가기" onClick={handleOutPage}/>

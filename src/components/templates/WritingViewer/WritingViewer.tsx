@@ -37,11 +37,12 @@ function WritingViewer() {
     </>
   )
   
+  console.log("제목 확인", writing)
   
   
   return (
         <StyledWritingViewer>
-          <div className="title">{writing?.titles}</div>
+          <div className="title">{writing?.title}</div>
           <div className="writing-info">
             <div className="user">
               <span>by. </span>

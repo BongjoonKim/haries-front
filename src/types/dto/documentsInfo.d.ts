@@ -9,12 +9,14 @@ interface DocumentsInfo {
 
 interface DocumentDTO {
   id ?: string;
-  titles : string;
+  title : string;
   contents : string;
   contentsType ?: EditorType ;
+  disclose ?: boolean;
+  tags ?: [];
   created ?: Date | string;
-  initialUser ?: string;
   modified ?: Date | string;
+  initialUser ?: string;
   modifiedUser ?: string;
   unique ?: string;
   folderId ?: string;
