@@ -11,11 +11,11 @@ import fileConfig from "../../../appConfig/fileConfig";
 import {cloneDeep} from "lodash";
 
 export type HookCallback = (url: string, text?: string) => void;
-function useWritingContents() {
+function useWritingContents(props : any) {
   const {id} = useParams();
   const formData = new FormData();
-  const editorRef = useRef<any>();
-  const titleRef = useRef<any>();
+  // const editorRef = useRef();
+  // const titleRef = useRef<any>();
   const [writing, setWriting] = useRecoilState<DocumentDTO>(recoilDocumentsState.writingInfo);
   const [message, setMessage]  = useRecoilState<{isOpen : boolean, contents : string}>(recoilCommonState.messageOpener);
   const navigate = useNavigate();
@@ -70,67 +70,47 @@ function useWritingContents() {
   
   // 글 저장 로직
   const handleSave = useCallback(async () => {
-    const editorInfo = editorRef.current.getInstance();
-    
-    let contents = "";
-    if (editorInfo.mode === "markdown") {
-      contents = editorInfo.getMarkdown();
-    } else if (editorInfo.mode === "wysiwyg") {
-      contents = editorInfo.getHTML();
-    }
-    const unique = generatorUtil.uuid();
-    
-    const request : DocumentDTO = {
-      title: titleRef.current.value,
-      contents : contents,
-      contentsType : editorInfo.mode,
-      unique: unique
-    }
-    try {
-      if (!!id) {
-        await saveDocument({id, request});
-        navigate(`/blog/${id}`)
-      } else {
-        await createDocuments(request);
-        const response = await getDocumentUnique({unique: unique});
-        navigate(`/blog/${response.data.id}`);
   
-      }
-    } catch (e) {
-      setMessage(prev => {
-        return {
-          contents : "글 저장 실패",
-          isOpen : true
-        }
-      })
-    } finally {
-
-    }
-    
-  }, [message, selectedFolderId]);
+    console.log("editorRef", props)
+      // const editorInfo = editorRef?.current.getInstance();
+      // let contents = "";
+      //
+      // if (editorInfo.mode === "markdown") {
+      //   contents = editorInfo.getMarkdown();
+      // } else if (editorInfo.mode === "wysiwyg") {
+      //   contents = editorInfo.getHTML();
+      // }
+      //
+      // const unique = generatorUtil.uuid();
+      //
+      // const request : DocumentDTO = {
+      //   title: titleRef.current.value,
+      //   contents : contents,
+      //   contentsType : editorInfo.mode,
+      //   unique: unique,
+      //   disclose: disclose,
+      //   folderId: selectedFolderId
+      // }
+      // try {
+      //   if (!!id) {
+      //     await saveDocument({id, request});
+      //     navigate(`/blog/${id}`)
+      //   } else {
+      //     await createDocuments(request);
+      //     const response = await getDocumentUnique({unique: unique});
+      //     navigate(`/blog/${response.data.id}`);
+      //
+      //   }
+      // } catch (e) {
+      //   setMessage(prev => {
+      //     return {
+      //       contents: "글 저장 실패",
+      //       isOpen: true
+      //     }
+      //   })
+      // }
+  }, [message, selectedFolderId, disclose, tags]);
   
-  // 이미지 저장 로직
-  const onUploadImage = async (blob: Blob, callback: HookCallback) => {
-    try {
-      const response = await fileConfig({blob: blob});
-      callback(response);
-    } catch (e) {
-      console.log("에러 확인", e)
-    }
-  }
-  
-  // 태그 입력 함수
-  const addTag = useCallback(async (event : any) => {
-    const data = tagRef.current.value;
-    if (event.code === "Enter") {
-      // event.preventDefault();
-      console.log("data", data, tags)
-      if (data !== "" && !tags.includes(data)) {        // 이미 등록한 tag는 더 등록할 수 없다
-        setTags((prev : string[]) => [...prev, data]);
-        tagRef.current.value = "";
-      }
-    }
-  }, [tags]);
   
   // 태그 삭제 함수
   const tagDelete = useCallback((event : any) => {
@@ -155,19 +135,7 @@ function useWritingContents() {
   
   return {
     addFiles,
-    editorRef,
-    titleRef,
-    handleSave,
-    onUploadImage,
-    writing,
-    handleOutPage,
-    tags,
-    setTags,
-    tagRef,
-    addTag,
-    setSelectedFolderId,
-    setDisclose,
-    tagDelete
+
   }
 }
 

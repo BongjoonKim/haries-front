@@ -1,21 +1,41 @@
 import useWritingContents from "../useWritingContents";
-import React, {lazy, Suspense} from "react";
-import Editor from "../../../widgets/Editor";
+import React, {lazy, Suspense, useRef} from "react";
+// import Editor from "../../../widgets/Editor";
 import WritingContentsLayout from "../WritingContentsLayout";
+import useEditorWriting from "../useEditorWriting";
 
 function UpdateWriting() {
-  const {addFiles, editorRef, titleRef, handleSave, onUploadImage, writing } = useWritingContents();
+  const {
+    editorRef, onUploadImage,
+    writing, handleSave,
+    addTag, tags, setTags, tagInput, setTagInput,
+    tagDelete, getDocumentData,
+    addFiles, handleOutPage,
+    selectedFolderId, writeTag,
+    setSelectedFolderId
+  } = useEditorWriting();
   const Editor = lazy(() => import("../../../widgets/Editor"));
   const WritingContentsLayout = lazy(() => import("../WritingContentsLayout"));
   
-  console.log("글 값", writing.title)
+  // const ref = {titleRef, editorRef};
+  
   return (
     <Suspense>
       <WritingContentsLayout
-        titleRef={titleRef}
+        editorRef={editorRef}
+        title={writing.title}
+        save={handleSave}
+        addTag = {addTag}
+        tags={tags}
+        tagInput={tagInput}
+        setTagInput={setTagInput}
+        tagDelete={tagDelete}
+        getDocumentData={getDocumentData}
         addFiles={addFiles}
-        handleSave={handleSave}
-        titles={writing.title}
+        handleOutPage={handleOutPage}
+        selectedFolderId={selectedFolderId}
+        setSelectedFolderId={setSelectedFolderId}
+        writeTag={writeTag}
       >
 
           <Editor

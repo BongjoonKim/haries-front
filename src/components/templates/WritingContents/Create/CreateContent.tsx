@@ -5,13 +5,36 @@ import styled from "styled-components";
 import Editor from "../../../widgets/Editor";
 import {StyledEditor, StyledEditorButton, StyledLeftEditorButton, StyledRightEditorButton} from "../WritingStyle";
 import WritingContentsLayout from "../WritingContentsLayout";
+import {useRef} from "react";
+import useEditorWriting from "../useEditorWriting";
 
 function CreateContent() {
   
-  const {addFiles, editorRef, titleRef, handleSave, onUploadImage, writing } = useWritingContents();
+  const {
+    editorRef, writing, onUploadImage,
+    handleSave, addTag,
+    tags, tagInput, setTagInput, tagDelete,
+    addFiles, handleOutPage, writeTag,
+    selectedFolderId,
+    setSelectedFolderId,
+  } = useEditorWriting();
   
   return (
-    <WritingContentsLayout titleRef={titleRef} addFiles={addFiles} handleSave={handleSave}>
+    <WritingContentsLayout
+      editorRef={editorRef}
+      title={writing.title}
+      save={handleSave}
+      addTag = {addTag}
+      tags={tags}
+      tagInput={tagInput}
+      setTagInput={setTagInput}
+      tagDelete={tagDelete}
+      addFiles={addFiles}
+      handleOutPage={handleOutPage}
+      selectedFolderId={selectedFolderId}
+      setSelectedFolderId={setSelectedFolderId}
+      writeTag={writeTag}
+    >
       <Editor
         editorRef={editorRef}
         initialEditType={writing.contentsType!}

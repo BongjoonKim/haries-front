@@ -16,7 +16,11 @@ export interface TagInputProps extends InputHTMLAttributes<HTMLInputElement> {
   tags ?: string[];
   setTags ?: Dispatch<SetStateAction<string[]>>;
   onKeyDown ?: any;
+  // 한글일 때는 onKeyDown이 잘 작동하지 않기 때문이다.
+  onKeyUp ?: any;
   onDelete : (event : MouseEventHandler<HTMLElement>) => void;
+  value : any;
+  onChange : any;
 }
 
 
@@ -64,8 +68,10 @@ function TagInput(props : TagInputProps, ref : ForwardedRef<HTMLInputElement>) {
       <div className="tag-input">
         <span>#</span>
         <input
-          ref={ref}
+          value={props.value}
           onKeyDown={props.onKeyDown}
+          onKeyUp={props.onKeyUp}
+          onChange={props.onChange}
         />
       </div>
     </StyledTag>

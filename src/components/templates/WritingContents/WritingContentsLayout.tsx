@@ -1,5 +1,14 @@
 import {StyledEditor, StyledEditorButton, StyledLeftEditorButton, StyledRightEditorButton} from "./WritingStyle";
-import React, {createElement, MutableRefObject, ReactNode, Suspense, SyntheticEvent, useState} from "react";
+import React, {
+  createElement,
+  Dispatch, ForwardedRef, forwardRef, ForwardRefRenderFunction,
+  MutableRefObject,
+  ReactNode,
+  SetStateAction,
+  Suspense,
+  SyntheticEvent,
+  useState
+} from "react";
 import Button from "../../elements/Button";
 import Editor from "../../widgets/Editor";
 import TextInput from "../../elements/TextInput";
@@ -14,26 +23,49 @@ import TagInput from "../../elements/TextInput/TagInput";
 import {FormControlLabel, Switch} from "@mui/material";
 
 interface WritingContentsLayoutProps {
-  titleRef : MutableRefObject<HTMLTextAreaElement>
   children : ReactNode;
-  addFiles : any;
-  handleSave : () => void;
-  titles ?: string | number | readonly string[] | undefined;
-  
+  title ?: string | number | readonly string[] | undefined;
+  save : () => void;
+  addTag: any;
+  tags: string[];
+  tagInput : string;
+  setTagInput : any;
+  tagDelete : any;
+  getDocumentData ?: (id : string) => void;
+  addFiles : (event : any) => void;
+  handleOutPage: any;
+  selectedFolderId : any;
+  setSelectedFolderId : any;
+  editorRef : any;
+  writeTag : any;
 }
 
-function WritingContentsLayout(props : WritingContentsLayoutProps) {
-  const {handleOutPage, tags, setTags, tagRef, addTag, setSelectedFolderId, setDisclose, tagDelete} = useWritingContents();
+function WritingContentsLayout(props: WritingContentsLayoutProps, ref : any) {
+  // const {
+  //   handleOutPage,
+  //   tagRef,
+  //   addTag,
+  //   tags,
+  //   setTags,
+  //   selectedFolderId,
+  //   setSelectedFolderId,
+  //   setDisclose,
+  //   tagDelete,
+  //   addFiles,
+  //   handleSave
+  // } = useWritingContents(ref);
+  
   const {rootId, mainFolders, expanded} = useSidebar();
+  
   return (
     <StyledEditor>
       <div className="title">
         <TextInput
           name="title"
           id="editor-table-title"
-          ref={props.titleRef}
+          // ref={titleRef}
           placeholder="제목을 입력하세요"
-          value={props.titles}
+          value={props.title}
         />
       </div>
       <div>
@@ -48,7 +80,9 @@ function WritingContentsLayout(props : WritingContentsLayoutProps) {
             aria-label="customized"
             defaultExpanded={["0"]}
             defaultExpandIcon={<AddBoxOutlinedIcon />}
-            onNodeSelect={(event : SyntheticEvent, value : string) => {setSelectedFolderId(value)}}
+            onNodeSelect={(event : SyntheticEvent, value : string) => {
+              props.setSelectedFolderId(value)
+            }}
             defaultCollapseIcon={<IndeterminateCheckBoxOutlinedIcon />}
           >
             {mainFolders?.map((el, inx) => {
@@ -88,22 +122,29 @@ function WritingContentsLayout(props : WritingContentsLayoutProps) {
           </div>
           <div className="editor-config-right-items">
             <p className="editor-config-right-items-title">태그</p>
-            <TagInput  className="editor-config-right-items-contents" tags={tags} setTags={setTags} ref={tagRef} onKeyDown={addTag} onDelete={tagDelete}/>
+            <TagInput
+              className="editor-config-right-items-contents"
+              tags={props.tags}
+              value={props.tagInput}
+              onKeyUp={props.addTag}
+              onDelete={props.tagDelete}
+              onChange={props.writeTag}
+            />
           </div>
         </div>
       </div>
       <StyledEditorButton>
         <StyledLeftEditorButton>
-          <Button variant="contained" color="secondary" children="나가기" onClick={handleOutPage}/>
+          <Button variant="contained" color="secondary" children="나가기" onClick={props.handleOutPage}/>
         </StyledLeftEditorButton>
         <StyledRightEditorButton>
           <Button variant="contained" color="primary" children="미리보기" />
           <Button variant="contained" color="primary" children="임시저장"  />
-          <Button variant="contained" color="secondary" children="발행" onClick={props.handleSave}/>
+          <Button variant="contained" color="secondary" children="발행" onClick={props.save}/>
         </StyledRightEditorButton>
       </StyledEditorButton>
     </StyledEditor>
   )
 }
 
-export default WritingContentsLayout;
+export default forwardRef(WritingContentsLayout);
