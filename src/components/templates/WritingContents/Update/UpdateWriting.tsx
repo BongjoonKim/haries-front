@@ -1,5 +1,5 @@
 import useWritingContents from "../useWritingContents";
-import React, {lazy, Suspense, useRef} from "react";
+import React, {lazy, Suspense, useRef, useState} from "react";
 // import Editor from "../../../widgets/Editor";
 import WritingContentsLayout from "../WritingContentsLayout";
 import useEditorWriting from "../useEditorWriting";
@@ -11,19 +11,18 @@ function UpdateWriting() {
     addTag, tags, setTags, tagInput, setTagInput,
     tagDelete, getDocumentData,
     addFiles, handleOutPage,
-    selectedFolderId, writeTag,
+    selectedFolderId, writeTag, titleWrite, title,
     setSelectedFolderId
   } = useEditorWriting();
+  
   const Editor = lazy(() => import("../../../widgets/Editor"));
   const WritingContentsLayout = lazy(() => import("../WritingContentsLayout"));
-  
-  // const ref = {titleRef, editorRef};
   
   return (
     <Suspense>
       <WritingContentsLayout
         editorRef={editorRef}
-        title={writing.title}
+        write={writing}
         save={handleSave}
         addTag = {addTag}
         tags={tags}

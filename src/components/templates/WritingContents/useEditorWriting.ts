@@ -10,8 +10,8 @@ import generatorUtil from "../../../utilities/generatorUtil";
 
 function useEditorWriting() {
   const editorRef = useRef<any>();
-  const [title, setTitle] = useState("");
   const [writing, setWriting] = useRecoilState<DocumentDTO>(recoilDocumentsState.writingInfo);
+  const [title, setTitle] = useState<string>(writing.title);
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState<string>("");
   const [selectedFolderId, setSelectedFolderId] = useState<string>("");
@@ -20,15 +20,19 @@ function useEditorWriting() {
   const navigate = useNavigate();
   
   
+  
   // 수정 화면일 때 조회 로직
   const getDocumentData = useCallback(async (id : string) => {
     try {
       const response = await getDocument({id : id!});
-      setWriting(response.data);
+      setWriting({
+        ...response.data
+      });
+      // setTitle(response.data.title);
     } catch (e) {
       console.log("getDocumentData", e);
     }
-  }, [writing]);
+  }, [writing, title]);
   
   
   const onUploadImage = async (blob: Blob, callback: HookCallback) => {
@@ -63,12 +67,21 @@ function useEditorWriting() {
     }
     const unique = generatorUtil.uuid();
     
+    console.log("제목은??", writing.title)
+    
+    // const request : DocumentDTO = {
+    //   title:
+    // }
+    
     console.log("contents", contents)
-  }, []);
-  
-  const titleWrite = useCallback((event : any) => {
-    setWriting((prev: DocumentDTO) => {return {...prev, title : event.taget.value }});
   }, [writing]);
+  
+  const titleWrite = useCallback(async (event : any) => {
+    console.log("event", event.target.value);
+    const value = await event.target.value;
+    setTitle(value);
+    // setWriting((prev: DocumentDTO) => {return {...prev, title : event.target.value }});
+  }, [title]);
   
   // 태그 입력 함수
   const addTag = useCallback( (event : any) => {
@@ -78,7 +91,7 @@ function useEditorWriting() {
         setTagInput("");
       }
     }
-  }, [tags, tagInput]);
+  }, [tags, tagInput, writing]);
   
   const writeTag = useCallback((event : any) => {
   

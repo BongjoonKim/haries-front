@@ -1,3 +1,3 @@
-import CreateContent from "./CreateContent";
+import CreateWriting from "./CreateWriting";
 
-export default CreateContent;
+export default CreateWriting;

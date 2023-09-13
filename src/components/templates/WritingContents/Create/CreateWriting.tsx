@@ -8,7 +8,7 @@ import WritingContentsLayout from "../WritingContentsLayout";
 import {useRef} from "react";
 import useEditorWriting from "../useEditorWriting";
 
-function CreateContent() {
+function CreateWriting() {
   
   const {
     editorRef, writing, onUploadImage,
@@ -22,7 +22,7 @@ function CreateContent() {
   return (
     <WritingContentsLayout
       editorRef={editorRef}
-      title={writing.title}
+      write={writing}
       save={handleSave}
       addTag = {addTag}
       tags={tags}
@@ -46,4 +46,4 @@ function CreateContent() {
   )
 }
 
-export default CreateContent;
+export default CreateWriting;

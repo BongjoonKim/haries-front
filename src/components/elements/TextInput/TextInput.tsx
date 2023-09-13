@@ -37,8 +37,11 @@ export default forwardRef((props: TextInputProps, ref: ForwardedRef<HTMLInputEle
             event.target.value = String(event.target.value)?.replace?.(props.filter, "");
         }
         props.onChange?.(event);
+        console.log("추가", event.target.value)
         setValue(() => event.target.value)
     }, [value]);
+    
+    console.log("value", props.value)
     
     return (
         <StyledInput title={props.title} width={props.width} flex={props.flex}>
@@ -52,14 +55,15 @@ export default forwardRef((props: TextInputProps, ref: ForwardedRef<HTMLInputEle
                 ref={ref}
                 type={props.type}
                 id={props.id}
-                value={props.value}
-                // value={props.value ? "" : value}
+                // value={props.value}
+                value={!value ? props.value : value}
                 data-type={props.actionType}
                 data-option={props.actionOptions}
                 data-names={props.names}
                 checked={props.checked}
                 name={props.name}
                 onChange={handleChange}
+                // onChange={props.onChange}
                 onKeyPress={props.onKeyPress}
                 autoComplete={props.autoComplete}
                 maxLength={props.maxLength}
