@@ -1,17 +1,19 @@
 import {useCallback, useEffect, useRef, useState} from "react";
-import {useRecoilState} from "recoil";
+import {useRecoilState, useResetRecoilState} from "recoil";
 import {DocumentDTO} from "../../../types/dto/documentsInfo";
 import recoilDocumentsState from "../../../stores/recoil/recoilDocumentsState";
 import fileConfig from "../../../appConfig/fileConfig";
 import {HookCallback} from "./useWritingContents";
 import {useNavigate, useParams} from "react-router-dom";
-import {getDocument} from "../../../endpoints/documents-endpoints";
+import {createDocuments, getDocument, getDocumentUnique, saveDocument} from "../../../endpoints/documents-endpoints";
 import generatorUtil from "../../../utilities/generatorUtil";
 
 function useEditorWriting() {
   const editorRef = useRef<any>();
+  // 글 정보를 담고있을 로직
   const [writing, setWriting] = useRecoilState<DocumentDTO>(recoilDocumentsState.writingInfo);
-  const [title, setTitle] = useState<string>(writing.title);
+  const resetWriting = useResetRecoilState(recoilDocumentsState.writingInfo);
+  const titleRef = useRef<HTMLInputElement>(null);
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState<string>("");
   const [selectedFolderId, setSelectedFolderId] = useState<string>("");
@@ -22,17 +24,20 @@ function useEditorWriting() {
   
   
   // 수정 화면일 때 조회 로직
-  const getDocumentData = useCallback(async (id : string) => {
+  const getDocumentData = useCallback(async (id ?: string) => {
     try {
-      const response = await getDocument({id : id!});
-      setWriting({
-        ...response.data
-      });
-      // setTitle(response.data.title);
+      if (id) {
+        const response = await getDocument({id : id!});
+        setWriting({
+          ...response.data
+        });
+      } else {
+        resetWriting();
+      }
     } catch (e) {
       console.log("getDocumentData", e);
     }
-  }, [writing, title]);
+  }, [writing]);
   
   
   const onUploadImage = async (blob: Blob, callback: HookCallback) => {
@@ -57,7 +62,6 @@ function useEditorWriting() {
   
   // 저장 로직
   const handleSave = useCallback(async () => {
-    console.log("editorRef", editorRef);
     const editorInfo = editorRef?.current.getInstance();
     let contents = "";
     if (editorInfo.mode === "markdown") {
@@ -66,44 +70,36 @@ function useEditorWriting() {
       contents = editorInfo.getHTML();
     }
     const unique = generatorUtil.uuid();
-    
-    console.log("제목은??", writing.title)
-    
-    // const request : DocumentDTO = {
-    //   title:
-    // }
-    
-    console.log("contents", contents)
-  }, [writing]);
   
-  const titleWrite = useCallback(async (event : any) => {
-    console.log("event", event.target.value);
-    const value = await event.target.value;
-    setTitle(value);
-    // setWriting((prev: DocumentDTO) => {return {...prev, title : event.target.value }});
-  }, [title]);
-  
-  // 태그 입력 함수
-  const addTag = useCallback( (event : any) => {
-    if (event.code === "Enter") {
-      if (tagInput !== "" && !tags.includes(tagInput)) {
-        setTags((prev : string[]) => [...prev, tagInput]);
-        setTagInput("");
-      }
+    const request : DocumentDTO = {
+      title: titleRef.current?.value!,
+      contents : contents,
+      contentsType : editorInfo.mode,
+      unique: unique,
+      // disclose: disclose,
+      folderId: selectedFolderId
     }
-  }, [tags, tagInput, writing]);
   
-  const writeTag = useCallback((event : any) => {
-  
-  }, [tagInput, tags])
-  
-  // 태그 삭제 함수
-  const tagDelete = useCallback((event : any) => {
-    const deleteTag = event.currentTarget.parentElement.parentElement.children[0].innerHTML.slice(1);
-    setTags((prev : string[]) => {
-      return prev.filter(el => el !== deleteTag);
-    })
-  }, [tags]);
+    try {
+      if (!!id) {
+        await saveDocument({id, request});
+        navigate(`/blog/${id}`)
+      } else {
+        await createDocuments(request);
+        const response = await getDocumentUnique({unique: unique});
+        navigate(`/blog/${response.data.id}`);
+
+      }
+      getDocumentData(id!);
+    } catch (e) {
+      // setMessage(prev => {
+      //   return {
+      //     contents: "글 저장 실패",
+      //     isOpen: true
+      //   }
+      // })
+    }
+  }, [writing, selectedFolderId]);
   
   // 나가기 로직
   const handleOutPage = useCallback(() => {
@@ -111,30 +107,24 @@ function useEditorWriting() {
   }, []);
   
   useEffect(() => {
-    if (id) {
-      getDocumentData(id);
-    }
+    getDocumentData(id);
   }, []);
   
   return {
     editorRef,
     writing,
-    title,
-    titleWrite,
+    titleRef,
     onUploadImage,
     addFiles,
     handleSave,
-    addTag,
     tags,
     setTags,
     tagInput,
     setTagInput,
-    tagDelete,
     getDocumentData,
     handleOutPage,
     selectedFolderId,
     setSelectedFolderId,
-    writeTag
   }
   
   

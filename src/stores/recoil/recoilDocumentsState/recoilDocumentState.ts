@@ -12,6 +12,7 @@ export const recoilDocumentState = {
       title : "",
       contents : "",
       contentsType : "markdown",
+      tags: [],
       created : moment().format(),
       initialUser : "",
       modified : moment().format(),

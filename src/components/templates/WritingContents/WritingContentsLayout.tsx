@@ -27,54 +27,29 @@ interface WritingContentsLayoutProps {
   title ?: string | number | readonly string[] | undefined;
   write ?: any;
   save : () => void;
-  addTag: any;
   tags: string[];
   tagInput : string;
   setTagInput : any;
-  tagDelete : any;
   getDocumentData ?: (id : string) => void;
   addFiles : (event : any) => void;
   handleOutPage: any;
   selectedFolderId : any;
   setSelectedFolderId : any;
-  editorRef : any;
-  writeTag : any;
   titleWrite ?: (event: any) => void;
 }
 
 function WritingContentsLayout(props: WritingContentsLayoutProps, ref : any) {
-  // const {
-  //   handleOutPage,
-  //   tagRef,
-  //   addTag,
-  //   tags,
-  //   setTags,
-  //   selectedFolderId,
-  //   setSelectedFolderId,
-  //   setDisclose,
-  //   tagDelete,
-  //   addFiles,
-  //   handleSave
-  // } = useWritingContents(ref);
-  
   const {rootId, mainFolders, expanded} = useSidebar();
   
-  // const [title, setTitle] = useState(props.write.title);
-  console.log("제목",props.write.title)
-
   return (
     <StyledEditor>
       <div className="title">
         <TextInput
           name="title"
           id="editor-table-title"
-          // ref={titleRef}
+          ref={ref}
           placeholder="제목을 입력하세요"
           value={props.write.title}
-          // onChange={props.titleWrite}
-          // value={title}
-          // onChange={(event: any) => setTitle(event.target.value)}
-          // onKeyDown={props.titleWrite}
         />
       </div>
       <div>
@@ -135,9 +110,6 @@ function WritingContentsLayout(props: WritingContentsLayoutProps, ref : any) {
               className="editor-config-right-items-contents"
               tags={props.tags}
               value={props.tagInput}
-              onKeyUp={props.addTag}
-              onDelete={props.tagDelete}
-              onChange={props.writeTag}
             />
           </div>
         </div>

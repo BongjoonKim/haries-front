@@ -11,29 +11,27 @@ import useEditorWriting from "../useEditorWriting";
 function CreateWriting() {
   
   const {
-    editorRef, writing, onUploadImage,
-    handleSave, addTag,
-    tags, tagInput, setTagInput, tagDelete,
-    addFiles, handleOutPage, writeTag,
+    editorRef, onUploadImage,
+    writing, handleSave, titleRef,
+    tags, setTags, tagInput, setTagInput,
+    getDocumentData,
+    addFiles, handleOutPage,
     selectedFolderId,
-    setSelectedFolderId,
+    setSelectedFolderId
   } = useEditorWriting();
   
   return (
     <WritingContentsLayout
-      editorRef={editorRef}
+      ref={titleRef}
       write={writing}
       save={handleSave}
-      addTag = {addTag}
       tags={tags}
       tagInput={tagInput}
       setTagInput={setTagInput}
-      tagDelete={tagDelete}
       addFiles={addFiles}
       handleOutPage={handleOutPage}
       selectedFolderId={selectedFolderId}
       setSelectedFolderId={setSelectedFolderId}
-      writeTag={writeTag}
     >
       <Editor
         editorRef={editorRef}

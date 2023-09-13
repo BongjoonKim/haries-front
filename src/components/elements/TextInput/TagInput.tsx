@@ -1,16 +1,20 @@
 import {
+  ChangeEvent,
   Dispatch,
   ForwardedRef,
   forwardRef,
   InputHTMLAttributes,
   MouseEventHandler,
-  SetStateAction,
+  SetStateAction, useCallback,
   useRef,
   useState
 } from "react";
 import {TextField} from "@mui/material";
 import styled from "styled-components";
 import CloseIcon from '@mui/icons-material/Close';
+import {useRecoilState} from "recoil";
+import {DocumentDTO} from "../../../types/dto/documentsInfo";
+import recoilDocumentsState from "../../../stores/recoil/recoilDocumentsState";
 
 export interface TagInputProps extends InputHTMLAttributes<HTMLInputElement> {
   tags ?: string[];
@@ -18,16 +22,47 @@ export interface TagInputProps extends InputHTMLAttributes<HTMLInputElement> {
   onKeyDown ?: any;
   // 한글일 때는 onKeyDown이 잘 작동하지 않기 때문이다.
   onKeyUp ?: any;
-  onDelete : (event : MouseEventHandler<HTMLElement>) => void;
+  onDelete ?: (event : MouseEventHandler<HTMLElement>) => void;
   value : any;
-  onChange : any;
+  onChange ?: any;
+  filter?: RegExp;
 }
 
 
 
 function TagInput(props : TagInputProps, ref : ForwardedRef<HTMLInputElement>) {
+  const [value, setValue] = useState<string | number | readonly string[] | undefined>(props.value || "");
+  const [writing, setWriting] = useRecoilState<DocumentDTO>(recoilDocumentsState.writingInfo);
+  
+  const [tags, setTags] = useState<any>(props.tags);
+  const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>): void => {
+    if (props.filter) {
+      event.target.value = String(event.target.value)?.replace?.(props.filter, "");
+    }
+    props.onChange?.(event);
+    setValue(() => event.target.value)
+  }, [value]);
+  
+  // 태그 입력 함수
+  const addTag = useCallback( (event : any) => {
+    if (event.code === "Enter") {
+      if (value !== "" && !tags.includes(value)) {
+        setTags((prev : string[]) => [...prev, value]);
+        setValue("");
+      }
+    }
+  }, [tags, value]);
+  
+  // 태그 삭제 함수
+  const tagDelete = useCallback((event : any) => {
+    const deleteTag = event.currentTarget.parentElement.parentElement.children[0].innerHTML.slice(1);
+    setTags((prev : string[]) => {
+      return prev.filter(el => el !== deleteTag);
+    })
+  }, [tags]);
   
   const Tag = (tags ?: string[]) => {
+    console.log("태그 정보 확인", tags)
     return (
       <span
         style={{
@@ -49,7 +84,7 @@ function TagInput(props : TagInputProps, ref : ForwardedRef<HTMLInputElement>) {
               <span>#{tag}</span>
               <span>
                 <CloseIcon
-                  onClick={(event : any) => props.onDelete(event)}
+                  onClick={tagDelete}
                 />
               </span>
             </span>
@@ -64,14 +99,15 @@ function TagInput(props : TagInputProps, ref : ForwardedRef<HTMLInputElement>) {
   
   return (
     <StyledTag>
-      {Tag(props.tags)}
+      {Tag(tags)}
       <div className="tag-input">
         <span>#</span>
         <input
-          value={props.value}
+          value={!value ? props.value : value}
           onKeyDown={props.onKeyDown}
-          onKeyUp={props.onKeyUp}
-          onChange={props.onChange}
+          // onKeyUp={props.onKeyUp}
+          onKeyUp={addTag}
+          onChange={handleChange}
         />
       </div>
     </StyledTag>
