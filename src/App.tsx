@@ -7,12 +7,14 @@ import Front from "./pages/Front";
 import RoutesTree from "./RoutesTree";
 import ExampleThree from "./pages/examples/ExampleThree";
 import ExampleOne from "./pages/examples/ExampleOne";
+import RedirectLogin from "./pages/Login/RedirectLogin";
 
 function App() {
   return (
     <UniversalContainer>
       <Routes>
         <Route path="/*" element={<IntroPage />} />
+        <Route path="/login/redirect" element={<RedirectLogin />} />
         <Route path="/example/*" element={RoutesTree.ExampleRoutes()} />
         <Route path="/frontEnd/*" element={<Front />} />
         <Route path="/blog/*" element={RoutesTree.BlogRoutes()} />

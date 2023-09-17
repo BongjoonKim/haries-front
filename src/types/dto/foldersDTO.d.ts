@@ -14,6 +14,6 @@ interface FoldersDTO {
   created : Date;
   modified : Date;
   creator : string;
-  mofifier : string;
+  modifier : string;
   children : FoldersDTO[];
 }

@@ -5,8 +5,11 @@ import MainContent from "../../components/templates/MainContent/MainContent";
 import {IconButton} from "@material-ui/core";
 import CustomButton from "../../components/elements/Button/BasicButton";
 import Button from "../../components/elements/Button";
+import useLoginPage from "./useLoginPage";
 
 function LoginPage() {
+  const {naverLogin} = useLoginPage();
+  
   return (
     <MainContent>
       <Wrapper>
@@ -47,7 +50,7 @@ function LoginPage() {
           <Button className="kakaoTalk">
             <img src={`${process.env.PUBLIC_URL}/kakao_login_large.png`} width={"160rem"}/>
           </Button>
-          <Button className="naver">
+          <Button className="naver" onClick={naverLogin}>
             <img src={`${process.env.PUBLIC_URL}/naver_login.png`} width={"140rem"}/>
           </Button>
           
