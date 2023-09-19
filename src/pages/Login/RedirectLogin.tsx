@@ -1,17 +1,18 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect} from "react";
+import {CircularProgress} from "@mui/material";
+
 
 function RedirectLogin() {
   const navigate = useNavigate();
-  const {code} = useParams();
+  const params = useParams();
+  
   useEffect(() => {
-    console.log("코드 확인", code)
+    console.log("코드 확인", params)
   }, []);
   
   return (
-    <>
-      <span>로딩 중</span>
-    </>
+    <CircularProgress />
   )
   
 }
