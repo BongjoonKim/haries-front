@@ -1,4 +1,3 @@
-import Navbar from "../components/headMenu/Navbar";
 import MainPage from "../components/contents/MainPage/MainPage";
 import styled from "styled-components";
 import {useTransition} from "react-spring";

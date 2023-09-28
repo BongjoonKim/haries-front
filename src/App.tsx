@@ -14,10 +14,11 @@ function App() {
     <UniversalContainer>
       <Routes>
         <Route path="/*" element={<IntroPage />} />
-        <Route path="/login/redirect" element={<RedirectLogin />} />
+        <Route path="/login/redirect/*" element={<RedirectLogin />} />
         <Route path="/example/*" element={RoutesTree.ExampleRoutes()} />
         <Route path="/frontEnd/*" element={<Front />} />
         <Route path="/blog/*" element={RoutesTree.BlogRoutes()} />
+        {/*<Route path="/admin/*" element={RoutesTree.}*/}
       </Routes>
     </UniversalContainer>
   );

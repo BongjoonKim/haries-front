@@ -58,8 +58,6 @@ function Dialog<T = string, N = string>({
         }
     }
     
-    console.log("top left", top, left, title)
-    
     if (String(type)?.includes(ModeTypes.MODELESS) && Array.isArray(status[name as keyof ModeComponent.ModeStatus<N>])) {
         return (
             <Fragment>

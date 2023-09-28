@@ -17,7 +17,6 @@ interface SidebarProps {
 
 function Sidebar(props : SidebarProps) {
   const {rootId, mainFolders, expanded} = useSidebar();
-  console.log("루트아이디", rootId, mainFolders);
   
   // const SubFolder = lazy(() => import("./SubFolder"));
   
@@ -38,7 +37,6 @@ function Sidebar(props : SidebarProps) {
       >
         <>
           {mainFolders?.map((el, inx) => {
-            console.log("el", el)
             return (
               <StyledTreeItem
                 key={inx}
