@@ -18,7 +18,7 @@ function App() {
         <Route path="/example/*" element={RoutesTree.ExampleRoutes()} />
         <Route path="/frontEnd/*" element={<Front />} />
         <Route path="/blog/*" element={RoutesTree.BlogRoutes()} />
-        {/*<Route path="/admin/*" element={RoutesTree.}*/}
+        <Route path="/admin/*" element={RoutesTree.AdminRoutes()} />
       </Routes>
     </UniversalContainer>
   );
