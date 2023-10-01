@@ -1,10 +1,11 @@
 import {useCallback, useEffect, useState} from "react";
 import {FoldersDTO} from "../../../types/dto/foldersDTO";
 import {getChildFolders, getRootFolder} from "../../../endpoints/folders-endpotins";
+import {IsVisibleProps} from "./FolderTree";
 
 function useFolderTree() {
   const [folderList, setFolderList] = useState<FoldersDTO[]>([]);
-  
+  const [isVisible, setIsVisible] = useState<IsVisibleProps>({id : "", value : false});
   
   // 모든 폴더 정보 생성
   const getAllFolderList = useCallback(async () => {
@@ -22,7 +23,9 @@ function useFolderTree() {
   }, []);
   
   return {
-    folderList
+    folderList,
+    isVisible,
+    setIsVisible
   }
 }
 
