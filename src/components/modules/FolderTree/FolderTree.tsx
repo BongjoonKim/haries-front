@@ -11,7 +11,8 @@ import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined
 import CustomButton from "../../elements/Button";
 import {Button} from "@mui/material";
 import CustomIconButton from "../../elements/Button/CustomIconButton";
-import {Dispatch, MouseEventHandler, SetStateAction} from "react";
+import React, {Dispatch, MouseEventHandler, SetStateAction} from "react";
+import CustomPopover from "../../elements/CustomPopover";
 
 export interface IsVisibleProps {
   id : string;
@@ -22,6 +23,10 @@ interface FolderTreeProps {
   foldersDTO : FoldersDTO[];
   isVisible: IsVisibleProps;
   setIsVisible : Dispatch<SetStateAction<IsVisibleProps>>;
+  onPopoverOpener : (event : any, id : string) => void;
+  anchorEl : any;
+  setAnchorEl : Dispatch<SetStateAction<HTMLButtonElement | null>>;
+  open : any;
 
 }
 
@@ -29,6 +34,37 @@ interface FolderEditDelete {
   label : string;
   id : string;
   isVisible : IsVisibleProps;
+  onPopoverOpener : (event: any, id: string) => void;
+  anchorEl : any;
+  setAnchorEl : Dispatch<SetStateAction<HTMLButtonElement | null>>;
+  open : any;
+}
+
+function FolderEditDelete(props : FolderEditDelete) {
+  return (
+    <StyledEditDelete >
+      {(props.isVisible.id === props.id) && props.isVisible.value && (
+        <>
+          <CustomIconButton key={props.id + "edit"} size="small" onClick={(event : any) => props.onPopoverOpener(event, props.id)}>
+            <ModeEditOutlineOutlinedIcon fontSize={"small"} />
+          </CustomIconButton>
+          <CustomIconButton key={props.id + "delete"} size="small" onClick={(event : any) => props.onPopoverOpener(event, props.id)}>
+            <DeleteForeverOutlinedIcon fontSize={"small"} />
+          </CustomIconButton>
+          <CustomPopover
+            open={props.open}
+            anchorEl={props.anchorEl}
+            onClose={() => props.setAnchorEl(null)}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+          >
+          </CustomPopover>
+        </>
+      )}
+    </StyledEditDelete>
+  )
 }
 
 // 폴더의 트리 구조를 만드는 컴포넌트
@@ -38,7 +74,7 @@ function makeTreeConstructure(props : FolderTreeProps) {
       <>
         {props.foldersDTO.map((el: FoldersDTO, inx: number) => {
             return (
-              <>
+              <div key={el.id}>
                 {
                   el.children.length ? (
                     <StyledTreeItem
@@ -49,23 +85,34 @@ function makeTreeConstructure(props : FolderTreeProps) {
                       onMouseLeave={() => {props.setIsVisible({id : el.id, value : false})}}
                     >
                       <TreeItem
-                        key={inx}
+                        key={el.id}
                         nodeId={el.id}
                         label={el.label}
                       >
                         {makeTreeConstructure({
                           foldersDTO : el.children,
                           isVisible: props.isVisible,
-                          setIsVisible : props.setIsVisible
+                          setIsVisible : props.setIsVisible,
+                          onPopoverOpener : props.onPopoverOpener,
+                          anchorEl: props.anchorEl,
+                          setAnchorEl: props.setAnchorEl,
+                          open : props.open,
                         })}
                       </TreeItem>
-                      <FolderEditDelete label={el.label} id={el.id} isVisible={props.isVisible} />
+                      <FolderEditDelete
+                        label={el.label}
+                        id={el.id}
+                        isVisible={props.isVisible}
+                        onPopoverOpener={props.onPopoverOpener}
+                        anchorEl={props.anchorEl}
+                        setAnchorEl={props.setAnchorEl}
+                        open={props.open}
+                      />
                     </StyledTreeItem>
                   ) : (
                     <StyledTreeItem
                       key={el.id}
                       onMouseEnter={(event: any) => {
-                        console.log("event", el.id);
                         props.setIsVisible({id : el.id, value : true});
                       }}
                       onMouseLeave={() => {props.setIsVisible({id : el.id, value : false})}}
@@ -76,11 +123,19 @@ function makeTreeConstructure(props : FolderTreeProps) {
                         nodeId={el.id}
                         label={el.label}
                       />
-                      <FolderEditDelete label={el.label} id={el.id} isVisible={props.isVisible} />
+                      <FolderEditDelete
+                        label={el.label}
+                        id={el.id}
+                        isVisible={props.isVisible}
+                        onPopoverOpener={props.onPopoverOpener}
+                        anchorEl={props.anchorEl}
+                        setAnchorEl={props.setAnchorEl}
+                        open={props.open}
+                      />
                     </StyledTreeItem>
                   )
                 }
-              </>
+              </div>
             )
           })
         }
@@ -90,7 +145,11 @@ function makeTreeConstructure(props : FolderTreeProps) {
 
 // 폴더 트리구조의 시작
 function FolderTree() {
-  const { folderList, isVisible, setIsVisible } = useFolderTree();
+  const {
+    folderList, isVisible,
+    setIsVisible, editAndDeleteFolder,
+    anchorEl, setAnchorEl, open
+  } = useFolderTree();
   return (
     <TreeView
       aria-label="customized"
@@ -98,37 +157,19 @@ function FolderTree() {
       defaultExpandIcon={<AddBoxOutlinedIcon />}
       defaultCollapseIcon={<IndeterminateCheckBoxOutlinedIcon />}
       sx={{height: "264px", flexGrow: 1}}
-      // onMouseEnter={() => {setIsVisible({id : el.id, value : true})}}
-      // onMouseLeave={() => {setIsVisible({id : el.id, value : false})}}
-
     >
       {folderList.length && makeTreeConstructure({
         foldersDTO : folderList,
         isVisible: isVisible,
-        setIsVisible : setIsVisible
+        setIsVisible : setIsVisible,
+        onPopoverOpener : editAndDeleteFolder,
+        anchorEl : anchorEl,
+        setAnchorEl : setAnchorEl,
+        open: open
       })}
     </TreeView>
   )
 };
-
-function FolderEditDelete(props : FolderEditDelete) {
-  // console.log("보여지기", props.label, props.id, props.isVisible.id, props.isVisible.value)
-  return (
-    <StyledEditDelete>
-      {(props.isVisible.id === props.id) && props.isVisible.value && (
-        <>
-          <CustomIconButton size="small">
-            <ModeEditOutlineOutlinedIcon fontSize={"small"} />
-          </CustomIconButton>
-          <CustomIconButton size="small">
-          <DeleteForeverOutlinedIcon fontSize={"small"} />
-          </CustomIconButton>
-        </>
-      )}
-      
-    </StyledEditDelete>
-  )
-}
 
 export default FolderTree;
 

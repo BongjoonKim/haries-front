@@ -6,6 +6,11 @@ import {IsVisibleProps} from "./FolderTree";
 function useFolderTree() {
   const [folderList, setFolderList] = useState<FoldersDTO[]>([]);
   const [isVisible, setIsVisible] = useState<IsVisibleProps>({id : "", value : false});
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const open = Boolean(anchorEl);
+  
+  
+  
   
   // 모든 폴더 정보 생성
   const getAllFolderList = useCallback(async () => {
@@ -18,6 +23,12 @@ function useFolderTree() {
     }
   }, [folderList]);
   
+  // 폴더 명 수정 삭제 클릭 시 Popover 켜지게 도와주는 로직 로직
+  const editAndDeleteFolder = useCallback(async (event : any, id: string) => {
+    console.log("id", id);
+    setAnchorEl(event.currentTarget)
+  }, [anchorEl]);
+  
   useEffect(() => {
     getAllFolderList();
   }, []);
@@ -25,7 +36,11 @@ function useFolderTree() {
   return {
     folderList,
     isVisible,
-    setIsVisible
+    setIsVisible,
+    editAndDeleteFolder,
+    anchorEl,
+    setAnchorEl,
+    open
   }
 }
 
