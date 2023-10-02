@@ -10,7 +10,7 @@ function CreateFolder() {
       <CustomButton>
         폴더 생성
       </CustomButton>
-      <FolderTree />
+      <FolderTree show={true}/>
     
     </MainContent>
   )

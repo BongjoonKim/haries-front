@@ -13,24 +13,14 @@ import {Button} from "@mui/material";
 import CustomIconButton from "../../elements/Button/CustomIconButton";
 import React, {Dispatch, MouseEventHandler, SetStateAction} from "react";
 import CustomPopover from "../../elements/CustomPopover";
+import EditNamePopover from "../EditNamePopover";
 
 export interface IsVisibleProps {
   id : string;
   value : boolean;
 }
 
-interface FolderTreeProps {
-  foldersDTO : FoldersDTO[];
-  isVisible: IsVisibleProps;
-  setIsVisible : Dispatch<SetStateAction<IsVisibleProps>>;
-  onPopoverOpener : (event : any, id : string) => void;
-  anchorEl : any;
-  setAnchorEl : Dispatch<SetStateAction<HTMLButtonElement | null>>;
-  open : any;
-
-}
-
-interface FolderEditDelete {
+interface FolderEditDelete extends FolderTreeProps{
   label : string;
   id : string;
   isVisible : IsVisibleProps;
@@ -40,9 +30,24 @@ interface FolderEditDelete {
   open : any;
 }
 
+interface TreeConstructureProps extends FolderTreeProps {
+  foldersDTO : FoldersDTO[];
+  isVisible: IsVisibleProps;
+  setIsVisible : Dispatch<SetStateAction<IsVisibleProps>>;
+  onPopoverOpener : (event : any, id : string) => void;
+  anchorEl : any;
+  setAnchorEl : Dispatch<SetStateAction<HTMLButtonElement | null>>;
+  open : any;
+}
+
+interface FolderTreeProps {
+  show : boolean;
+}
+
 function FolderEditDelete(props : FolderEditDelete) {
   return (
-    <StyledEditDelete >
+    <>
+    {props.show ? (<StyledEditDelete>
       {(props.isVisible.id === props.id) && props.isVisible.value && (
         <>
           <CustomIconButton key={props.id + "edit"} size="small" onClick={(event : any) => props.onPopoverOpener(event, props.id)}>
@@ -60,15 +65,19 @@ function FolderEditDelete(props : FolderEditDelete) {
               horizontal: 'left',
             }}
           >
+            <EditNamePopover />
           </CustomPopover>
         </>
       )}
-    </StyledEditDelete>
+    </StyledEditDelete>) : (
+      <></>
+    )}
+    </>
   )
 }
 
 // 폴더의 트리 구조를 만드는 컴포넌트
-function makeTreeConstructure(props : FolderTreeProps) {
+function makeTreeConstructure(props : TreeConstructureProps) {
   return props.foldersDTO.length
     && (
       <>
@@ -80,6 +89,7 @@ function makeTreeConstructure(props : FolderTreeProps) {
                     <StyledTreeItem
                       key={el.id}
                       onMouseEnter={(event: any) => {
+                        console.log("Root hover Event", el.id)
                         props.setIsVisible({id : el.id, value : true});
                       }}
                       onMouseLeave={() => {props.setIsVisible({id : el.id, value : false})}}
@@ -90,6 +100,7 @@ function makeTreeConstructure(props : FolderTreeProps) {
                         label={el.label}
                       >
                         {makeTreeConstructure({
+                          show : props.show || false,
                           foldersDTO : el.children,
                           isVisible: props.isVisible,
                           setIsVisible : props.setIsVisible,
@@ -100,6 +111,7 @@ function makeTreeConstructure(props : FolderTreeProps) {
                         })}
                       </TreeItem>
                       <FolderEditDelete
+                        show={props.show || false}
                         label={el.label}
                         id={el.id}
                         isVisible={props.isVisible}
@@ -113,10 +125,10 @@ function makeTreeConstructure(props : FolderTreeProps) {
                     <StyledTreeItem
                       key={el.id}
                       onMouseEnter={(event: any) => {
+                        console.log("Sub hover Event", el.id)
                         props.setIsVisible({id : el.id, value : true});
                       }}
                       onMouseLeave={() => {props.setIsVisible({id : el.id, value : false})}}
-
                     >
                       <TreeItem
                         key={inx}
@@ -124,6 +136,7 @@ function makeTreeConstructure(props : FolderTreeProps) {
                         label={el.label}
                       />
                       <FolderEditDelete
+                        show={props.show || false}
                         label={el.label}
                         id={el.id}
                         isVisible={props.isVisible}
@@ -144,7 +157,7 @@ function makeTreeConstructure(props : FolderTreeProps) {
 }
 
 // 폴더 트리구조의 시작
-function FolderTree() {
+function FolderTree(props : FolderTreeProps) {
   const {
     folderList, isVisible,
     setIsVisible, editAndDeleteFolder,
@@ -159,6 +172,7 @@ function FolderTree() {
       sx={{height: "264px", flexGrow: 1}}
     >
       {folderList.length && makeTreeConstructure({
+        show : props.show || false,
         foldersDTO : folderList,
         isVisible: isVisible,
         setIsVisible : setIsVisible,
@@ -186,6 +200,7 @@ const StyledTreeItem = styled.div`
     .MuiTreeItem-label {
       padding-left:4px;
       padding-right: 19px;
+      z-index: 2000;
     }
   }
 `;
