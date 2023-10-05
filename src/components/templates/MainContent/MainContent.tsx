@@ -56,6 +56,7 @@ function MainContent(props: MainProps) {
                 <StyledContentBody mainContentTheme={props.mainContentTheme} noGrow={props.noGrow}>
                     {props.children}
                 </StyledContentBody>
+                <StyledFooterBody>{props.footer}</StyledFooterBody>
                 {props.value?.footerHandler && props.value.footerHandler.length > 0 && (
                     <ContentFooter
                         onReset={props.onReset}
@@ -86,6 +87,9 @@ const StyledContentBody = styled.div<{mainContentTheme?: string; noGrow?: boolea
   display: flex;
   flex-direction: column;
   row-gap: 8px;
+`;
+
+const StyledFooterBody = styled.div<any>`
 `;
 
 export default MainContent;
