@@ -18,11 +18,12 @@ function ChattingTemplate() {
   return (
     <MainContent
       title="ChatGPT"
-      footer={
-        <div>안녕</div>
-      }
+      // footer={
+      //   <div>안녕</div>
+      // }
     >
-      <SendbirdApp appId={process.env["REACT_APP_SEND_BIRD_APP_ID"]!} userId={"User"} />
+      {/*<SendbirdApp appId={process.env["REACT_APP_SEND_BIRD_APP_ID"]!} userId={"User"} />*/}
+      
 
     </MainContent>
   )
