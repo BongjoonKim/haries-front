@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useState} from "react";
-import {FoldersDTO} from "../../../types/dto/foldersDTO";
+import {FoldersDTO} from "../../../types/dto/FoldersDTO";
 import {int} from "aws-sdk/clients/datapipeline";
 import {getChildFolders, getRootFolder} from "../../../endpoints/folders-endpotins";
 import useClipboard from "../../../hooks/state/useClipboard";

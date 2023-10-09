@@ -1,17 +1,12 @@
 import styled, {css} from "styled-components";
 import {Avatar} from "@mui/material";
+import moment from "moment";
 
 function ChatMessage(props : any) {
   return (
     <StyledMessageWrapper type={props.type}>
       <div className="message-box">
-        sdlfjs;ljfwoiefwqogien;;ogineosdnwgv;osindgvoianegongebonrebioalunsgbvli
-        sdfs
-        df
-        sdf
-        sdf
-        sdf
-        sdf
+        {props.content}
       </div>
       <div className="info">
         <div className="avatar-wrapper">
@@ -21,7 +16,7 @@ function ChatMessage(props : any) {
           />
         </div>
         <div className="time">
-          09:50
+          {moment(props.created).format("HH:mm")}
         </div>
       </div>
     </StyledMessageWrapper>
@@ -34,7 +29,7 @@ export default ChatMessage;
 
 const StyledMessageWrapper = styled.div<{type : any}>`
   display: flex;
-  height: 100%;
+  height: fit-content;
   ${props => props.type === "me"
           ? css`
       margin-left: auto;
@@ -51,6 +46,7 @@ const StyledMessageWrapper = styled.div<{type : any}>`
     box-shadow: 1px 1px 1px gray;
     padding: 1rem 1rem;
     position: relative;
+    height: fit-content;
   }
   .info {
     display: flex;

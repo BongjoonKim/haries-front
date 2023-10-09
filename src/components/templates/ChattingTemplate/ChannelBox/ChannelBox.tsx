@@ -2,7 +2,6 @@ import styled from "styled-components";
 import {Avatar} from "@mui/material";
 
 function ChannelBox(props : any) {
-  console.log("선택 확인", props.id, props.selectedChannel)
   return (
     <StyledChannelBox
       onClick={props.onClick}

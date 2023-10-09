@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useState} from "react";
-import {FoldersDTO} from "../../../../types/dto/foldersDTO";
+import {FoldersDTO} from "../../../../types/dto/FoldersDTO";
 import {getChildFolders} from "../../../../endpoints/folders-endpotins";
 import {SubFolderProps} from "./SubFolder";
 

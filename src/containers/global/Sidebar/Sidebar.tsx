@@ -5,7 +5,7 @@ import TreeItem, {TreeItemProps, useTreeItem, TreeItemContentProps} from "@mui/l
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
 import useSidebar from "./useSidebar";
-import {FoldersDTO} from "../../../types/dto/foldersDTO";
+import {FoldersDTO} from "../../../types/dto/FoldersDTO";
 import {lazy, Suspense, useEffect, useState,createElement} from "react";
 import SubFolder from "./SubFolder";
 

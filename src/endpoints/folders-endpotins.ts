@@ -1,6 +1,6 @@
 import request from "../services/request-response-service";
 import {AxiosResponse} from "axios";
-import {FoldersDTO} from "../types/dto/foldersDTO";
+import {FoldersDTO} from "../types/dto/FoldersDTO";
 
 export async function getRootFolder() {
   return (await request.get("/folders/root")) as AxiosResponse<FoldersDTO>;

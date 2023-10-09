@@ -1,5 +1,5 @@
 // 폴더 트리 구조
-import {FoldersDTO} from "../../../types/dto/foldersDTO";
+import {FoldersDTO} from "../../../types/dto/FoldersDTO";
 import styled from "styled-components";
 import TreeItem from "@mui/lab/TreeItem";
 import useFolderTree from "./useFolderTree";

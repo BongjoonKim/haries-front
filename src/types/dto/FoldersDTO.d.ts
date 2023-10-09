@@ -1,10 +1,9 @@
-import {int} from "aws-sdk/clients/datapipeline";
 
-interface FoldersDTO {
+export interface FoldersDTO {
   id : string;
   uniqueKey : string;
   label : string;
-  depth : int;
+  depth : number;
   path : string;
   parentId : string;
   childrenId : string[];

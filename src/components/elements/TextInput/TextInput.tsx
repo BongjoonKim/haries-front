@@ -52,14 +52,14 @@ export default forwardRef((props: TextInputProps, ref: ForwardedRef<HTMLInputEle
                 ref={ref}
                 type={props.type}
                 id={props.id}
-                // value={props.value}
-                value={!value ? props.value : value}
+                value={props.value}
+                // value={!value ? props.value : value}
                 data-type={props.actionType}
                 data-option={props.actionOptions}
                 data-names={props.names}
                 checked={props.checked}
                 name={props.name}
-                onChange={handleChange}
+                onChange={props.onChange ? props.onChange : handleChange}
                 // onChange={props.onChange}
                 onKeyPress={props.onKeyPress}
                 autoComplete={props.autoComplete}

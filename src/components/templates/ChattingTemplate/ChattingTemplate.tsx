@@ -23,12 +23,10 @@ function ChattingTemplate() {
     newChannelName, setNewChannelName,
     createNewChannel, channelList,
     handleClickChannel, selectedChannel,
-    handleDelete
+    handleDelete, message, setMessage,
+    handleSendMessage, messageHistory
   } = useChattingTemplate();
   
-  console.log("channelList", channelList)
-  
-  // @ts-ignore
   return (
     <MainContent
       title="ChatGPT"
@@ -108,21 +106,23 @@ function ChattingTemplate() {
         </div>
         <div className="chat-view">
           <div className="message-history">
-            <ChatMessage />
-            <ChatMessage type={"me"}/>
-            <ChatMessage type={"me"}/>
-            <ChatMessage type={"me"}/>
-            <ChatMessage type={"me"}/>
-            <ChatMessage type={"me"}/>
-            <ChatMessage type={"me"}/>
-            <ChatMessage type={"me"}/>
-            <ChatMessage type={"me"}/>
-            <ChatMessage type={"me"}/>
-            <ChatMessage type={"me"}/>
-  
+            {messageHistory.map((el, inx) => {
+              return (<>{el.userId === "ChatGPT" ? (
+                
+                <ChatMessage key={inx} type={""} {...el}/>
+              ) : (
+                <ChatMessage key={inx} type={"me"} {...el}/>
+              )}</>)
+            })}
           </div>
           <div className="message-write">
-            <TextInput />
+            <TextInput
+              value={message}
+              onChange={(event : any) => {
+                setMessage(event.target.value)
+              }}
+              onKeyPress={handleSendMessage}
+            />
             <CustomButton>
               전송
             </CustomButton>
