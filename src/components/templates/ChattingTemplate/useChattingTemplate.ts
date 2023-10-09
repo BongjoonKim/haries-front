@@ -1,12 +1,12 @@
 import {useCallback, useEffect, useState} from "react";
 import axios from "axios";
-import {createChannel, getChannels} from "../../../endpoints/chatting-endpoints";
+import {createChannel, deleteChannel, getChannels} from "../../../endpoints/chatting-endpoints";
 
 function useChattingTemplate() {
   const [isChannelModal, setIsChannelModal] = useState<boolean>(false);
   const [newChannelName, setNewChannelName] = useState<string>("");
   const [channelList, setChannelList] = useState<any[]>([]);
-  const [selectedChannel, setSelectedChannel] = useState<string>("")
+  const [selectedChannel, setSelectedChannel] = useState<string>("");
   
   // 새로운 채널 생성
   const createNewChannel = useCallback(async () => {
@@ -41,11 +41,18 @@ function useChattingTemplate() {
   }, [selectedChannel]);
   
   // 채널 삭제
-  const deleteChannel = useCallback(async (event: any) => {
-    
-    
-    setIsChannelModal(false);
-    setSelectedChannel("");
+  const handleDelete = useCallback(async (event: any) => {
+    try {
+      console.log("채널 삭제", selectedChannel)
+      await deleteChannel({channelId : selectedChannel});
+  
+      setIsChannelModal(false);
+      setSelectedChannel("");
+      await retrieveChannels();
+    } catch (e) {
+      console.log("handleDelete", e)
+    }
+
   }, [selectedChannel, isChannelModal]);
   
   useEffect(() => {
@@ -60,7 +67,8 @@ function useChattingTemplate() {
     createNewChannel,
     channelList,
     handleClickChannel,
-    selectedChannel
+    selectedChannel,
+    handleDelete
   }
 }
 

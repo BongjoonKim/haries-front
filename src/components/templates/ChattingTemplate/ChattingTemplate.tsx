@@ -22,7 +22,8 @@ function ChattingTemplate() {
     isChannelModal, setIsChannelModal,
     newChannelName, setNewChannelName,
     createNewChannel, channelList,
-    handleClickChannel, selectedChannel
+    handleClickChannel, selectedChannel,
+    handleDelete
   } = useChattingTemplate();
   
   console.log("channelList", channelList)
@@ -69,7 +70,7 @@ function ChattingTemplate() {
               New Channel
             </CustomButton>
             <CustomButton
-              onClick={handleChannelDelete}
+              onClick={handleDelete}
             >
               Delete
             </CustomButton>
@@ -101,8 +102,6 @@ function ChattingTemplate() {
                   
                 />
               </Box>
-              
-              
             </Modal>
           </div>
           
