@@ -11,18 +11,23 @@ import ChatMessage from "./ChatMessage";
 import ChannelBox from "./ChannelBox";
 import InputBase from '@mui/material/InputBase';
 import Paper from '@mui/material/Paper';
-import {Divider, IconButton} from "@mui/material";
+import {Box, Divider, IconButton, Modal} from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
+import useChattingTemplate from "./useChattingTemplate";
+import SimpleCreate from "../SimpleCreate";
 
 
 function ChattingTemplate() {
-  const gptBot = useCallback(async () => {
-    axios.post("https://api-")
-  }, []);
+  const {
+    isChannelModal, setIsChannelModal,
+    newChannelName, setNewChannelName,
+    createNewChannel, channelList,
+    handleClickChannel, selectedChannel
+  } = useChattingTemplate();
   
-  useEffect(() => {
+  console.log("channelList", channelList)
   
-  }, []);
+  // @ts-ignore
   return (
     <MainContent
       title="ChatGPT"
@@ -45,18 +50,60 @@ function ChattingTemplate() {
             </IconButton>
           </Paper>
           <div className="channel-list">
-            <ChannelBox />
-            <ChannelBox />
+            {channelList.map(el => {
+              return (
+                <ChannelBox
+                  key={el.id}
+                  id={el.id}
+                  title={el.name}
+                  onClick={handleClickChannel}
+                  selectedChannel={selectedChannel}
+                />
+              )
+            })}
           </div>
           <div className="footer">
             <CustomButton
+              onClick={() => setIsChannelModal(true)}
             >
               New Channel
             </CustomButton>
             <CustomButton
+              onClick={handleChannelDelete}
             >
               Delete
             </CustomButton>
+            <Modal
+              open={isChannelModal}
+              onClose={() => setIsChannelModal(false)}
+              sx={{zIndex : 200000}}
+            >
+              <Box
+                style={{
+                  position : "absolute",
+                  top : "50%",
+                  left : "50%",
+                  transform: 'translate(-50%, -50%)',
+                  width: 400,
+                  borderRadius: '12px',
+                  padding: '16px 32px 24px 32px',
+                  background: "white"
+                }}
+              >
+                <SimpleCreate
+                  title="New Channel"
+                  contents={newChannelName}
+                  onChange={(event : any) => {
+                    setNewChannelName(event.target.value)
+                  }}
+                  onOk={createNewChannel}
+                  onCancel={() => setIsChannelModal(false)}
+                  
+                />
+              </Box>
+              
+              
+            </Modal>
           </div>
           
         </div>
