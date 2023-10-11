@@ -15,7 +15,7 @@ function ChannelBox(props : any) {
           {props.title}
         </div>
         <div className="detail">
-          설명입니다
+          {props.lastestMessage}
         </div>
       </div>
     </StyledChannelBox>
@@ -31,8 +31,11 @@ const StyledChannelBox = styled.div<{active : string}>`
   padding: 0.5rem 0.5rem;
   border-bottom: 1px solid gray;
   background-color: ${props => props.active ? "#bec1c9" : ""};
+
   .info {
     margin-left: 1rem;
+    width: 100%;
+
     .title {
       font-weight: 600;
     }
@@ -40,10 +43,15 @@ const StyledChannelBox = styled.div<{active : string}>`
     .detail {
       color: gray;
       font-size: 12px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      word-wrap: break-word;
+      width: 10rem;
+      overflow-x: hidden;
     }
   }
 
   &:hover {
-    background-color: #bec1c9;
+    background-color: ${props => props.active ? "" : "#edeff8"};
   }
 `;

@@ -14,12 +14,15 @@ import Paper from '@mui/material/Paper';
 import {Box, Divider, IconButton, Modal} from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import useChattingTemplate from "./useChattingTemplate";
-import SimpleCreate from "../SimpleCreate";
+import SimpleSave from "../SimpleSave";
+import ModalModule from "../../modules/ModalModule";
+import SimpleDelete from "../SimpleDelete";
 
 
 function ChattingTemplate() {
   const {
     isChannelModal, setIsChannelModal,
+    isDeleteChannelModal, setIsDeleteChannelModal,
     newChannelName, setNewChannelName,
     createNewChannel, channelList,
     handleClickChannel, selectedChannel,
@@ -49,12 +52,13 @@ function ChattingTemplate() {
             </IconButton>
           </Paper>
           <div className="channel-list">
-            {channelList.map(el => {
+            {channelList?.map(el => {
               return (
                 <ChannelBox
                   key={el.id}
                   id={el.id}
                   title={el.name}
+                  lastestMessage={el.lastestMessage}
                   onClick={handleClickChannel}
                   selectedChannel={selectedChannel}
                 />
@@ -68,39 +72,38 @@ function ChattingTemplate() {
               New Channel
             </CustomButton>
             <CustomButton
-              onClick={handleDelete}
+              onClick={() => {setIsDeleteChannelModal(true)}}
             >
               Delete
             </CustomButton>
-            <Modal
+            
+            {/* 생성 및 수정 모달 */}
+            <ModalModule
               open={isChannelModal}
               onClose={() => setIsChannelModal(false)}
-              sx={{zIndex : 200000}}
             >
-              <Box
-                style={{
-                  position : "absolute",
-                  top : "50%",
-                  left : "50%",
-                  transform: 'translate(-50%, -50%)',
-                  width: 400,
-                  borderRadius: '12px',
-                  padding: '16px 32px 24px 32px',
-                  background: "white"
+              <SimpleSave
+                title="New Channel"
+                contents={newChannelName}
+                onChange={(event : any) => {
+                  setNewChannelName(event.target.value)
                 }}
-              >
-                <SimpleCreate
-                  title="New Channel"
-                  contents={newChannelName}
-                  onChange={(event : any) => {
-                    setNewChannelName(event.target.value)
-                  }}
-                  onOk={createNewChannel}
-                  onCancel={() => setIsChannelModal(false)}
-                  
-                />
-              </Box>
-            </Modal>
+                onOk={createNewChannel}
+                onCancel={() => setIsChannelModal(false)}
+  
+              />
+            </ModalModule>
+  
+            {/* 삭제 모달 */}
+            <ModalModule
+              open={isDeleteChannelModal}
+              onClose={() => setIsDeleteChannelModal(false)}
+            >
+              <SimpleDelete
+                onDelete={handleDelete}
+                onClose={() => {}}
+              />
+            </ModalModule>
           </div>
           
         </div>
@@ -108,7 +111,6 @@ function ChattingTemplate() {
           <div className="message-history">
             {messageHistory.map((el, inx) => {
               return (<>{el.userId === "ChatGPT" ? (
-                
                 <ChatMessage key={inx} type={""} {...el}/>
               ) : (
                 <ChatMessage key={inx} type={"me"} {...el}/>

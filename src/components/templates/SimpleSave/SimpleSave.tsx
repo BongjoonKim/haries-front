@@ -2,7 +2,7 @@ import styled from "styled-components";
 import CustomButton from "../../elements/Button";
 import TextInput from "../../elements/TextInput";
 
-function SimpleCreate(props : any) {
+function SimpleSave(props : any) {
   return (
     <StyledSimpleCreate>
       <div className="title">
@@ -30,7 +30,7 @@ function SimpleCreate(props : any) {
   )
 }
 
-export default SimpleCreate;
+export default SimpleSave;
 
 const StyledSimpleCreate = styled.div`
   .title {

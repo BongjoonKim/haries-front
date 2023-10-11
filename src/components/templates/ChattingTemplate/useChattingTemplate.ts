@@ -9,11 +9,13 @@ import {
 } from "../../../endpoints/chatting-endpoints";
 import {MessageHistoryDTO} from "../../../types/dto/messageHistoryDTO";
 import {askChatGPT} from "../../../endpoints/chatgpt-endpoints";
+import {ChannelDTO} from "../../../types/dto/ChannelDTO";
 
 function useChattingTemplate() {
   const [isChannelModal, setIsChannelModal] = useState<boolean>(false);
+  const [isDeleteChannelModal, setIsDeleteChannelModal] = useState<boolean>(false);
   const [newChannelName, setNewChannelName] = useState<string>("");
-  const [channelList, setChannelList] = useState<any[]>([]);
+  const [channelList, setChannelList] = useState<ChannelDTO[]>([]);
   const [selectedChannel, setSelectedChannel] = useState<string>("");
   const [message, setMessage] = useState<string>("");
   const [messageHistory, setMessageHistory] = useState<MessageHistoryDTO[]>([]);
@@ -34,7 +36,7 @@ function useChattingTemplate() {
   const retrieveChannels = useCallback(async () => {
     try {
       const response = await getChannels();
-      setChannelList(response.data);
+      setChannelList(response.data ? response.data : []);
     } catch (e) {
       console.log('retrieveChannels', e);
     }
@@ -70,7 +72,8 @@ function useChattingTemplate() {
     if (event.key === "Enter") {
       const request : MessageHistoryDTO = {
         channelId : selectedChannel,
-        content : message
+        content : message,
+        bot : "user"
       };
       await createMessage(request);
       setMessage("");
@@ -102,6 +105,8 @@ function useChattingTemplate() {
   return {
     isChannelModal,
     setIsChannelModal,
+    isDeleteChannelModal,
+    setIsDeleteChannelModal,
     newChannelName,
     setNewChannelName,
     createNewChannel,
