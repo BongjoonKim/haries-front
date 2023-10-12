@@ -110,13 +110,15 @@ function ChattingTemplate() {
         </div>
         <div className="chat-view">
           <div className="message-history">
-            {messageHistory.map((el, inx) => {
+            {messageHistory.length > 0 ? messageHistory.map((el, inx) => {
               return (<>{el.userId === "ChatGPT" ? (
                 <ChatMessage key={inx} type={""} {...el}/>
               ) : (
                 <ChatMessage key={inx} type={"me"} {...el}/>
               )}</>)
-            })}
+            }) : (
+              <span className="default-message">Select Channel</span>
+            )}
           </div>
           <div className="message-write">
             <TextInput
@@ -178,6 +180,13 @@ const StyledChattingTemplate = styled.div`
       gap : 1rem;
       height: 80vh;
       overflow-y: auto;
+      align-items: center;
+      .default-message {
+        align-items: center;
+        line-height: 80vh;
+        user-select: none;
+        color: gray;
+      }
     }
 
     .message-write {
