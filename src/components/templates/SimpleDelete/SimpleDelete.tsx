@@ -5,7 +5,7 @@ function SimpleDelete(props : any) {
   return (
     <StyledSimpleDelete>
       <div className="title">
-        Really wanna Delete?
+        <span>Really wanna Delete? </span>
       </div>
       <div className="footer">
         <CustomButton
@@ -28,4 +28,8 @@ export default SimpleDelete;
 const StyledSimpleDelete = styled.div`
   display: flex;
   flex-direction: column;
+  .footer {
+    display: flex;
+    justify-content: end;
+  }
 `;

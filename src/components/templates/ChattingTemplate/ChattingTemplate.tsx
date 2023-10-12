@@ -100,8 +100,9 @@ function ChattingTemplate() {
               onClose={() => setIsDeleteChannelModal(false)}
             >
               <SimpleDelete
+                // title={selectedChannel}
                 onDelete={handleDelete}
-                onClose={() => {}}
+                onCancel={() => setIsDeleteChannelModal(false)}
               />
             </ModalModule>
           </div>
@@ -130,10 +131,7 @@ function ChattingTemplate() {
             </CustomButton>
           </div>
         </div>
-       
       </StyledChattingTemplate>
-      
-
     </MainContent>
   )
   

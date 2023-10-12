@@ -61,7 +61,9 @@ function useChattingTemplate() {
   
       setIsChannelModal(false);
       setSelectedChannel("");
+      setIsDeleteChannelModal(false);
       await retrieveChannels();
+      
     } catch (e) {
       console.log("handleDelete", e)
     }

@@ -12,6 +12,12 @@ function SimpleSave(props : any) {
         <TextInput
           value={props.contents}
           onChange={props.onChange}
+          onKeyPress={(event) => {
+            console.log("값 확인", event.key)
+            if (event.key === "Enter") {
+              props.onOk();
+            }
+          }}
         />
       </div>
       <div className="footer">
