@@ -121,10 +121,18 @@ function ChattingTemplate() {
           )}
           <div className="message-history">
             {selectedChannel ? messageHistory.map((el, inx) => {
-              return (<>{el.userId === "ChatGPT" ? (
-                <ChatMessage key={inx} type={""} {...el}/>
-              ) : (
-                <ChatMessage key={inx} type={"me"} {...el}/>
+              return (
+                <>
+                  {el.userId === "ChatGPT" ? (
+                    <ChatMessage key={inx} type={""} {...el}/>
+                  ) : (
+                    <>
+                      {el.userId === "loading" ? (
+                        <ChatMessage key={inx} type={"loading"} {...el}/>
+                      ) : (
+                        <ChatMessage key={inx} type={"me"} {...el}/>
+                       )}
+                   </>
               )}</>)
             }) : (
               <span className="default-message">Select Channel Please!</span>

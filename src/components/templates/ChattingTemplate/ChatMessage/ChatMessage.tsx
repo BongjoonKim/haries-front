@@ -1,13 +1,21 @@
 import styled, {css} from "styled-components";
-import {Avatar} from "@mui/material";
+import {Avatar, CircularProgress} from "@mui/material";
 import moment from "moment";
+import React from "react";
 
 function ChatMessage(props : any) {
   return (
     <StyledMessageWrapper type={props.type}>
-      <div className="message-box">
-        {props.content}
-      </div>
+      {props.type === "loading" ? (
+        <div className="message-box">
+          <CircularProgress />
+        </div>
+      ) : (
+        <div className="message-box">
+          {props.content}
+        </div>
+      )}
+
       <div className="info">
         <div className="avatar-wrapper">
           <Avatar

@@ -87,7 +87,7 @@ function useChattingTemplate() {
           id : "loading",
           channelId : selectedChannel,
           content : "loading",
-          userId : "ChatGPT",
+          userId : "loading",
           created : new Date(),
           bot: true
         }]
