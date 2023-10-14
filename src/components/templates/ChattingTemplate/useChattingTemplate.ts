@@ -80,6 +80,19 @@ function useChattingTemplate() {
       await createMessage(request);
       setMessage("");
       
+      // 조회!
+      await getMessageHistory(selectedChannel);
+      setMessageHistory((prev: any) => {
+        return [...prev, {
+          id : "loading",
+          channelId : selectedChannel,
+          content : "loading",
+          userId : "ChatGPT",
+          created : new Date(),
+          bot: true
+        }]
+      })
+  
       // chatGPT에 문의
       const responseGPT = await askChatGPT({question : message});
       const gptRequest : MessageHistoryDTO = {

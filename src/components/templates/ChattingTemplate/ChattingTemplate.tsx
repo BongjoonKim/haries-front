@@ -109,15 +109,25 @@ function ChattingTemplate() {
           
         </div>
         <div className="chat-view">
+          {selectedChannel ? (
+            <>
+              <span className="start-message">Start Conversation!</span>
+              <hr />
+            </>
+          ) : (
+            <>
+              <span/>
+            </>
+          )}
           <div className="message-history">
-            {messageHistory.length > 0 ? messageHistory.map((el, inx) => {
+            {selectedChannel ? messageHistory.map((el, inx) => {
               return (<>{el.userId === "ChatGPT" ? (
                 <ChatMessage key={inx} type={""} {...el}/>
               ) : (
                 <ChatMessage key={inx} type={"me"} {...el}/>
               )}</>)
             }) : (
-              <span className="default-message">Select Channel</span>
+              <span className="default-message">Select Channel Please!</span>
             )}
           </div>
           <div className="message-write">
@@ -145,10 +155,11 @@ const StyledChattingTemplate = styled.div`
   display: flex;
   width: 100%;
   gap: 1rem;
+
   .channel-view {
     display: flex;
     flex-direction: column;
-    width : 15rem;
+    width: 15rem;
     background-color: white;
     padding: 1rem 0.5rem;
     border-radius: 1rem 1rem;
@@ -162,28 +173,46 @@ const StyledChattingTemplate = styled.div`
       overflow-y: auto;
       margin-bottom: 2rem;
     }
+
     .footer {
       display: flex;
       justify-content: space-between;
     }
   }
+
   .chat-view {
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
     background-color: white;
     padding: 0.5rem 0.5rem;
     border-radius: 1rem 1rem;
+    align-items: center;
+    height: 80vh;
+    span {
+      &:first-child {
+        justify-content: center;
+        color: gray;
+      }
+    }
+    hr {
+        width: 100%;
+        border: 1px solid #cccccc;
+    }
+
     .message-history {
       padding-right: 0.5rem;
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap : 1rem;
-      height: 80vh;
+      gap: 1rem;
       overflow-y: auto;
       align-items: center;
+      height: 100%;
+      padding-bottom: 1rem;
       .default-message {
         align-items: center;
-        line-height: 80vh;
+        line-height: 70vh;
         user-select: none;
         color: gray;
       }
@@ -194,6 +223,7 @@ const StyledChattingTemplate = styled.div`
       height: 5rem;
       align-items: center;
       width: 100%;
+
       .caIjNN { // textInput
         flex-grow: 1;
       }
