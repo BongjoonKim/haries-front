@@ -109,17 +109,18 @@ function ChattingTemplate() {
           
         </div>
         <div className="chat-view">
-          {selectedChannel ? (
-            <>
-              <span className="start-message">Start Conversation!</span>
-              <hr />
-            </>
-          ) : (
-            <>
-              <span/>
-            </>
-          )}
+          
           <div className="message-history">
+            {selectedChannel ? (
+              <>
+                <span className="start-message">Start Conversation!</span>
+                <hr />
+              </>
+            ) : (
+              <>
+                <span/>
+              </>
+            )}
             {selectedChannel ? messageHistory.map((el, inx) => {
               return (
                 <>
