@@ -27,7 +27,8 @@ function ChattingTemplate() {
     createNewChannel, channelList,
     handleClickChannel, selectedChannel,
     handleDelete, message, setMessage,
-    handleSendMessage, messageHistory
+    handleSendMessage, messageHistory,
+    scrollRef
   } = useChattingTemplate();
   
   return (
@@ -109,7 +110,7 @@ function ChattingTemplate() {
         </div>
         <div className="chat-view">
           
-          <div className="message-history">
+          <div className="message-history" ref={scrollRef}>
             {selectedChannel ? (
               <>
                 <span className="start-message">Start Conversation!</span>

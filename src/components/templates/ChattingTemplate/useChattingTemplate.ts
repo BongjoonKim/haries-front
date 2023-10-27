@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import axios from "axios";
 import {
   createChannel,
@@ -19,6 +19,8 @@ function useChattingTemplate() {
   const [selectedChannel, setSelectedChannel] = useState<string>("");
   const [message, setMessage] = useState<string>("");
   const [messageHistory, setMessageHistory] = useState<MessageHistoryDTO[]>([]);
+  const scrollRef = useRef<any>();
+  
   
   // 새로운 채널 생성
   const createNewChannel = useCallback(async () => {
@@ -103,7 +105,7 @@ function useChattingTemplate() {
       await createMessage(gptRequest);
   
       await getMessageHistory(selectedChannel);
-  
+      scrollRef.current!.scrollTop = scrollRef.current!.scrollHeight;
     }
   }, [message, selectedChannel]);
   
@@ -132,7 +134,8 @@ function useChattingTemplate() {
     message,
     setMessage,
     handleSendMessage,
-    messageHistory
+    messageHistory,
+    scrollRef
   }
 }
 
