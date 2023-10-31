@@ -110,7 +110,7 @@ function ChattingTemplate() {
         </div>
         <div className="chat-view">
           
-          <div className="message-history" ref={scrollRef}>
+          <div className="message-history">
             {selectedChannel ? (
               <>
                 <span className="start-message">Start Conversation!</span>
@@ -138,6 +138,7 @@ function ChattingTemplate() {
             }) : (
               <span className="default-message">Select Channel Please!</span>
             )}
+            <div ref={scrollRef} />
           </div>
           <div className="message-write">
             <TextInput

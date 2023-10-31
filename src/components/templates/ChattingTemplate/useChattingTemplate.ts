@@ -105,7 +105,6 @@ function useChattingTemplate() {
       await createMessage(gptRequest);
   
       await getMessageHistory(selectedChannel);
-      scrollRef.current!.scrollTop = scrollRef.current!.scrollHeight;
     }
   }, [message, selectedChannel]);
   
@@ -118,6 +117,10 @@ function useChattingTemplate() {
   useEffect(() => {
     retrieveChannels();
   }, []);
+  
+  useEffect(() => {
+    scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+  }, [messageHistory])
   
   return {
     isChannelModal,
