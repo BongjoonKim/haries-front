@@ -165,6 +165,7 @@ const StyledChattingTemplate = styled.div`
   display: flex;
   width: 100%;
   gap: 1rem;
+  height: 100%;
 
   .channel-view {
     display: flex;
@@ -198,7 +199,7 @@ const StyledChattingTemplate = styled.div`
     padding: 0.5rem 0.5rem;
     border-radius: 1rem 1rem;
     align-items: center;
-    height: 80vh;
+    
     span {
       &:first-child {
         justify-content: center;
@@ -217,9 +218,11 @@ const StyledChattingTemplate = styled.div`
       flex-direction: column;
       gap: 1rem;
       overflow-y: auto;
+      overflow-x: hidden;
       align-items: center;
-      height: 100%;
       padding-bottom: 1rem;
+      height: 20px;
+      flex-grow: 1;
       .default-message {
         align-items: center;
         line-height: 70vh;

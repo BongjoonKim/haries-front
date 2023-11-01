@@ -12,4 +12,5 @@ function ChattingPage() {
 export default ChattingPage;
 
 const StyledChattingPage = styled.div`
-  `;
+  width: 100%;
+`;

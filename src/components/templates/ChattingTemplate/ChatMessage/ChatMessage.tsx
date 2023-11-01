@@ -47,7 +47,7 @@ const StyledMessageWrapper = styled.div<{type : any}>`
     `
   }
   .message-box {
-    max-width: 20rem;
+    max-width: 35rem;
     word-break: break-all;
     background-color : ${props => props.type === "me" ? "honeydew" : "beige"};
     border-radius: 1rem 1rem;
