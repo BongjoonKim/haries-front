@@ -50,7 +50,6 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.4.1",
     "remark-gfm": "^3.0.1",
-    "sendbird-uikit": "^2.7.2",
     "styled-components": "^5.3.6",
     "types": "^0.1.1",
     "typescript": "^4.8.4",
