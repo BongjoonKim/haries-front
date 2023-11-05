@@ -15,7 +15,6 @@ function RedirectLogin() {
   useEffect(() => {
     const code = new URL(window.location.href).searchParams.get("code");
     const state = new URL(window.location.href).searchParams.get("state");
-    console.log()
     getUserInfo(code!, state!);
     
     navigate("/home");
