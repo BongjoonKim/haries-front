@@ -21,8 +21,10 @@ export default IntroPage;
 const StyleIntroPage = styled.div`
   z-index: 9998;
   overflow: hidden;
+  width: 100%;
   img {
     transition: all 5s linear;
+    height: 100%;
   }
   &:hover img {
     transform: scale(1.1);

@@ -1,8 +1,5 @@
 import styled from "styled-components";
 import MainContent from "../MainContent/MainContent";
-import "sendbird-uikit/dist/index.css";
-import { App as SendbirdApp } from "sendbird-uikit";
-import {Channel} from "sendbird-uikit";
 import React, {useCallback, useEffect} from "react";
 import axios from "axios";
 import TextInput from "../../elements/TextInput";

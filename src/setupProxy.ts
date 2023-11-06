@@ -3,7 +3,7 @@ export const { createProxyMiddleware } = require('http-proxy-middleware');
 module.exports = function(app:any) {
   app.use(
     createProxyMiddleware("/*", {
-      target: 'http://13.125.108.196:3001',
+      target: 'http://3.34.140.118:3001',
       changeOrigin: true,
     })
   );
