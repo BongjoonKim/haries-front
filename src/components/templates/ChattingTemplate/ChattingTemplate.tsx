@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, {css} from "styled-components";
 import MainContent from "../MainContent/MainContent";
 import React, {useCallback, useEffect} from "react";
 import axios from "axios";
@@ -25,16 +25,16 @@ function ChattingTemplate() {
     handleClickChannel, selectedChannel,
     handleDelete, message, setMessage,
     handleSendMessage, messageHistory,
-    scrollRef
+    scrollRef, channelBoxOpener, setChannelBoxOpener
   } = useChattingTemplate();
+  
+  console.log("선택한 채널", selectedChannel)
   
   return (
     <MainContent
       title="ChatGPT"
     >
-      {/*<SendbirdApp appId={process.env["REACT_APP_SEND_BIRD_APP_ID"]!} userId={"User"} />*/}
-      <StyledChattingTemplate>
-
+      <StyledChattingTemplate channelBoxOpener={channelBoxOpener}>
         <div className="channel-view">
           <Paper
             component="form"
@@ -110,7 +110,11 @@ function ChattingTemplate() {
           <div className="message-history">
             {selectedChannel ? (
               <>
-                <span className="start-message">Start Conversation!</span>
+                <span className="start-message"
+                  onClick={() => {setChannelBoxOpener(prev => !prev)}}
+                >
+                  {channelList.filter(el => el.id === selectedChannel)[0].name}
+                </span>
                 <hr />
               </>
             ) : (
@@ -145,7 +149,7 @@ function ChattingTemplate() {
               }}
               onKeyPress={handleSendMessage}
             />
-            <CustomButton>
+            <CustomButton onClick={handleSendMessage}>
               전송
             </CustomButton>
           </div>
@@ -158,7 +162,7 @@ function ChattingTemplate() {
 
 export default ChattingTemplate;
 
-const StyledChattingTemplate = styled.div`
+const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
   display: flex;
   width: 100%;
   gap: 1rem;
@@ -167,10 +171,24 @@ const StyledChattingTemplate = styled.div`
   .channel-view {
     display: flex;
     flex-direction: column;
-    width: 15rem;
+    width: 18rem;
+    ${props => props.channelBoxOpener ? css `
+      transform: translateX(0rem);
+      opacity: 1;
+      pointer-events: visible;
+    ` : css`
+      transform: translateX(-20rem);
+      opacity: 1;
+      pointer-events: visible;
+    `}
+    position: absolute;
+    z-index: 10000;
+    height: -webkit-fill-available;
     background-color: white;
     padding: 1rem 0.5rem;
     border-radius: 1rem 1rem;
+    overflow-y: hidden;
+    overflow-x: hidden;
     .channel-list {
       border: 1px solid gray;
       width: 100%;
@@ -220,6 +238,14 @@ const StyledChattingTemplate = styled.div`
       padding-bottom: 1rem;
       height: 20px;
       flex-grow: 1;
+      span {
+        &:first-child {
+          margin-bottom: -1rem;
+        }
+        &:hover {
+          cursor: pointer;
+        }
+      }
       .default-message {
         align-items: center;
         line-height: 70vh;

@@ -53,32 +53,32 @@ function GlobalHeader() {
                         
                       />
                     </StyledLogo>
-                    <StyledDehaze>
-                      <IconButton
-                        edge="start"
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={() => {
-                          if (isAsideCollapsed) {
-                            setIsAsideCollapsed(false);
-                          } else {
-                            setIsAsideCollapsed(true);
-                          }
-      
-                        }}
-                      >
-                        <DehazeRounded/>
-                      </IconButton>
-                    </StyledDehaze>
-                    <p
-                      style={{
-                        margin: "0.2rem 0 0 0",
-                        padding: "auto",
-                        fontSize: "2rem",
-                        fontWeight : 100
-                      }}
-                    >|
-                    </p>
+                    {/*<StyledDehaze>*/}
+                    {/*  <IconButton*/}
+                    {/*    edge="start"*/}
+                    {/*    color="inherit"*/}
+                    {/*    aria-label="open drawer"*/}
+                    {/*    onClick={() => {*/}
+                    {/*      if (isAsideCollapsed) {*/}
+                    {/*        setIsAsideCollapsed(false);*/}
+                    {/*      } else {*/}
+                    {/*        setIsAsideCollapsed(true);*/}
+                    {/*      }*/}
+                    
+                    {/*    }}*/}
+                    {/*  >*/}
+                    {/*    <DehazeRounded/>*/}
+                    {/*  </IconButton>*/}
+                    {/*</StyledDehaze>*/}
+                    {/*<p*/}
+                    {/*  style={{*/}
+                    {/*    margin: "0.2rem 0 0 0",*/}
+                    {/*    padding: "auto",*/}
+                    {/*    fontSize: "2rem",*/}
+                    {/*    fontWeight : 100*/}
+                    {/*  }}*/}
+                    {/*>|*/}
+                    {/*</p>*/}
                     {/*<p className="divide-header-bar">|</p>*/}
                 </StyledLogoContainer>
                 <Navigator className="header-navigator" items={menuList} loading={mainMenuLoading} />
@@ -122,7 +122,6 @@ const StyledHeaderRight = styled.div`
   background-color: black;
   z-index: 1000;
   background-color: rgba(255, 255, 255, 0);
-
 `;
 
 const StyledLogoContainer = styled.div<{isCollapsed: boolean}>`

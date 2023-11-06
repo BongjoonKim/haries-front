@@ -20,6 +20,7 @@ function useChattingTemplate() {
   const [message, setMessage] = useState<string>("");
   const [messageHistory, setMessageHistory] = useState<MessageHistoryDTO[]>([]);
   const scrollRef = useRef<any>();
+  const [channelBoxOpener, setChannelBoxOpener] = useState<boolean>(false);
   
   
   // 새로운 채널 생성
@@ -52,9 +53,12 @@ function useChattingTemplate() {
       ? ""
       : clickedId
     );
+    // setChannelBoxOpener(prev => {
+    //   return !prev ? prev : !prev
+    // });
     
     await getMessageHistory(clickedId);
-  }, [selectedChannel]);
+  }, [selectedChannel, channelBoxOpener]);
   
   // 채널 삭제
   const handleDelete = useCallback(async (event: any) => {
@@ -73,7 +77,7 @@ function useChattingTemplate() {
   
   // 메세지 입력
   const handleSendMessage = useCallback(async (event: any) => {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" || event.type === "click") {
       const request : MessageHistoryDTO = {
         channelId : selectedChannel,
         content : message,
@@ -138,7 +142,9 @@ function useChattingTemplate() {
     setMessage,
     handleSendMessage,
     messageHistory,
-    scrollRef
+    scrollRef,
+    channelBoxOpener,
+    setChannelBoxOpener
   }
 }
 

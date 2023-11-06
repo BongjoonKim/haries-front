@@ -48,34 +48,34 @@ function RightNavigator() {
   
   return (
     <StyledRightHeader>
-      <IconButton onClick={() => navigate(`/blog/writing`)}>
-        <BorderColorIcon />
-      </IconButton>
+      {/*<IconButton onClick={() => navigate(`/blog/writing`)}>*/}
+      {/*  <BorderColorIcon />*/}
+      {/*</IconButton>*/}
       
       {/*검색 창*/}
-      <StyledSearch>
-        <StyledIconWrapper>
-          <SearchIcon />
-        </StyledIconWrapper>
-        <StyledInputBase
-          placeholder="Search…"
-          inputProps={{ 'aria-label': 'search' }}
-        />
-      </StyledSearch>
+      {/*<StyledSearch>*/}
+      {/*  <StyledIconWrapper>*/}
+      {/*    <SearchIcon />*/}
+      {/*  </StyledIconWrapper>*/}
+      {/*  <StyledInputBase*/}
+      {/*    placeholder="Search…"*/}
+      {/*    inputProps={{ 'aria-label': 'search' }}*/}
+      {/*  />*/}
+      {/*</StyledSearch>*/}
       
       {/*이메일*/}
-      <IconButton onClick={() => handleShowMode("ask")}>
-        <MailOutlineRounded />
-      </IconButton>
-      <Dialog
-        type={ModeTypes.MODELESS}
-        name="ask"
-        title="Q&A"
-        top="10%"
-        left="70%"
-        children={exampleTwo()}
-        {...getLocalModeProps()}
-      />
+      {/*<IconButton onClick={() => handleShowMode("ask")}>*/}
+      {/*  <MailOutlineRounded />*/}
+      {/*</IconButton>*/}
+      {/*<Dialog*/}
+      {/*  type={ModeTypes.MODELESS}*/}
+      {/*  name="ask"*/}
+      {/*  title="Q&A"*/}
+      {/*  top="10%"*/}
+      {/*  left="70%"*/}
+      {/*  children={exampleTwo()}*/}
+      {/*  {...getLocalModeProps()}*/}
+      {/*/>*/}
       
       {/*로그인*/}
       <IconButton onClick={openLoginModal}>
