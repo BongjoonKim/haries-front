@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import IntroPage from "./pages/IntroPage";
 import {BrowserRouter, Route, Routes, useNavigate} from "react-router-dom";
@@ -11,6 +11,14 @@ import RedirectLogin from "./pages/Login/RedirectLogin";
 import ChatGPTRoutes from "./RoutesTree/ChatGPTRoutes";
 
 function App() {
+  // function setScreenSize() {
+  //   let vh = window.innerHeight * 0.01;
+  //   document.documentElement.style.setProperty("--vh", `${vh}px`);
+  // }
+  // useEffect(() => {
+  //   setScreenSize();
+  // });
+  
   return (
     <UniversalContainer>
       <Routes>

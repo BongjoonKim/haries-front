@@ -13,4 +13,6 @@ export default ChattingPage;
 
 const StyledChattingPage = styled.div`
   width: 100%;
+  //height: calc(var(--vh, 1vh) * 100);
+
 `;

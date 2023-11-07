@@ -253,8 +253,9 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
         overflow-x: hidden;
         align-items: center;
         padding-bottom: 1rem;
-        height: 20px;
+        //height: 20px;
         flex-grow: 1;
+        height: 100%;
 
         span {
           &:first-child {
@@ -262,11 +263,15 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
           }
 
           &:hover {
-            cursor: pointer;
+            cursor: default;
           }
         }
 
         .default-message {
+          &:hover {
+            cursor: default;
+          }
+          cursor:default;
           align-items: center;
           line-height: 70vh;
           user-select: none;
@@ -362,6 +367,9 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
         }
 
         .default-message {
+          &:hover {
+            cursor: default;
+          }
           align-items: center;
           line-height: 70vh;
           user-select: none;
