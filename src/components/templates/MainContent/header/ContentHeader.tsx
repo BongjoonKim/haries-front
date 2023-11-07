@@ -8,13 +8,15 @@ interface ContentHeaderProps extends Content.HandlerProps {
     id?: string;
     title?: string;
     contentHeaderTheme?: string;
+    header ?: any;
 }
 
 export default function ContentHeader(props: ContentHeaderProps) {
     return (
         <StyledContentHeader className="content-header" contentHeaderTheme={props.contentHeaderTheme}>
-            <Column flexdirection="row" alignitems="center" flex={1}>
+            <Column flexdirection="row" alignitems="center" justifycontent="space-between" flex={1}>
                 <h3 className="content-header-title">{props.title}</h3>
+                <div className="content-header-buttons">{props.header}</div>
             </Column>
             <ContentHeaderHandlers
                 onReset={props.onReset}
@@ -34,27 +36,34 @@ const StyledContentHeader = styled.header<{contentHeaderTheme?: string}>`
   align-items: center;
   padding-bottom: 8px;
   .content-header {
-    &-title {
-      position: relative;
-      padding-left: 24px;
-      margin: 0;
-      color: #363a3e;
-      font-size: 15px;
-      line-height: 26px;
-      font-weight: 600;
-      text-transform: capitalize;
-      padding-bottom: 0 !important;
-      &:not(:empty):after {
-        content: "";
-        display: block;
-        position: absolute;
-        top: 50%;
-        left: 0;
-        margin-top: -8px;
-        width: 18px;
-        height: 18px;
-        line-height: 18px;
+
+      //justify-content: space-between;
+      &-title {
+        position: relative;
+        padding-left: 24px;
+        margin: 0;
+        color: #363a3e;
+        font-size: 15px;
+        line-height: 26px;
+        font-weight: 600;
+        text-transform: capitalize;
+        padding-bottom: 0 !important;
+
+        &:not(:empty):after {
+          content: "";
+          display: block;
+          position: absolute;
+          top: 50%;
+          left: 0;
+          margin-top: -8px;
+          width: 18px;
+          height: 18px;
+          line-height: 18px;
+        }
       }
-    }
+
+      &-buttons {
+
+      }
   }
 `;

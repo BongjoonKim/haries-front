@@ -14,6 +14,7 @@ import useChattingTemplate from "./useChattingTemplate";
 import SimpleSave from "../SimpleSave";
 import ModalModule from "../../modules/ModalModule";
 import SimpleDelete from "../SimpleDelete";
+import {DehazeRounded} from "@material-ui/icons";
 
 
 function ChattingTemplate() {
@@ -33,6 +34,18 @@ function ChattingTemplate() {
   return (
     <MainContent
       title="ChatGPT"
+      header={
+        <div>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            onClick={() => {setChannelBoxOpener(prev => !prev)}}
+          >
+            <DehazeRounded/>
+          </IconButton>
+        </div>
+      }
     >
       <StyledChattingTemplate channelBoxOpener={channelBoxOpener}>
         <div className="channel-view">
@@ -163,107 +176,211 @@ function ChattingTemplate() {
 export default ChattingTemplate;
 
 const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
+  
   display: flex;
   width: 100%;
   gap: 1rem;
   height: 100%;
 
-  .channel-view {
-    display: flex;
-    flex-direction: column;
-    width: 18rem;
-    ${props => props.channelBoxOpener ? css `
-      transform: translateX(0rem);
-      opacity: 1;
-      pointer-events: visible;
-    ` : css`
-      transform: translateX(-20rem);
-      opacity: 1;
-      pointer-events: visible;
-    `}
-    position: absolute;
-    z-index: 10000;
-    height: -webkit-fill-available;
-    background-color: white;
-    padding: 1rem 0.5rem;
-    border-radius: 1rem 1rem;
-    overflow-y: hidden;
-    overflow-x: hidden;
-    .channel-list {
-      border: 1px solid gray;
-      width: 100%;
+  @media only screen and (min-width: 0px) and (max-width: 1199px) {
+    .channel-view {
+      position: absolute;
       display: flex;
       flex-direction: column;
-      margin-top: 2rem;
-      height: 100%;
-      overflow-y: auto;
-      margin-bottom: 2rem;
-    }
+      transition-property: transform;
+      transition-duration: 200ms;
+      ${props => props.channelBoxOpener
+        ? css `
+          transform: translateX(0rem);
+          opacity: 1;
+          pointer-events: visible;
+        ` : css `
+          transform: translateX(-20rem);
+          opacity: 1;
+          pointer-events: visible;
+      `}
+      z-index: 10000;
+      height: -webkit-fill-available;
+      background-color: #f2f2ef;
+      padding: 1rem 0.5rem;
+      border-radius: 1rem 1rem;
+      overflow-y: hidden;
+      overflow-x: hidden;
+      .channel-list {
+        border: 1px solid gray;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin-top: 2rem;
+        height: inherit;
+        overflow-y: auto;
+        margin-bottom: 2rem;
+      }
 
-    .footer {
-      display: flex;
-      justify-content: space-between;
-    }
-  }
-
-  .chat-view {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    padding: 0.5rem 0.5rem;
-    border-radius: 1rem 1rem;
-    align-items: center;
-    
-    span {
-      &:first-child {
-        justify-content: center;
-        color: gray;
+      .footer {
+        display: flex;
+        justify-content: space-between;
       }
     }
-    hr {
-        width: 100%;
-        border: 1px solid #cccccc;
-    }
-
-    .message-history {
-      padding-right: 0.5rem;
-      width: 100%;
+    .chat-view {
+      flex-grow: 1;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
-      overflow-y: auto;
-      overflow-x: hidden;
+      background-color: white;
+      padding: 0.5rem 0.5rem;
+      border-radius: 1rem 1rem;
       align-items: center;
-      padding-bottom: 1rem;
-      height: 20px;
-      flex-grow: 1;
+
       span {
         &:first-child {
-          margin-bottom: -1rem;
-        }
-        &:hover {
-          cursor: pointer;
+          justify-content: center;
+          color: gray;
         }
       }
-      .default-message {
+
+      hr {
+        width: 100%;
+        border: 1px solid #cccccc;
+      }
+
+      .message-history {
+        padding-right: 0.5rem;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        overflow-y: auto;
+        overflow-x: hidden;
         align-items: center;
-        line-height: 70vh;
-        user-select: none;
-        color: gray;
-      }
-    }
-
-    .message-write {
-      display: flex;
-      height: 5rem;
-      align-items: center;
-      width: 100%;
-
-      .caIjNN { // textInput
+        padding-bottom: 1rem;
+        height: 20px;
         flex-grow: 1;
+
+        span {
+          &:first-child {
+            margin-bottom: -1rem;
+          }
+
+          &:hover {
+            cursor: pointer;
+          }
+        }
+
+        .default-message {
+          align-items: center;
+          line-height: 70vh;
+          user-select: none;
+          color: gray;
+        }
+      }
+
+      .message-write {
+        display: flex;
+        height: 5rem;
+        align-items: center;
+        width: 100%;
+
+        .caIjNN { // textInput
+          flex-grow: 1;
+        }
       }
     }
   }
+  
+  @media only screen and (min-width: 1200px){
+    .channel-view {
+      display: flex;
+      flex-direction: column;
+      width: 18rem;
+              //position: absolute;
+      z-index: 10000;
+      height: -webkit-fill-available;
+      background-color: white;
+      padding: 1rem 0.5rem;
+      border-radius: 1rem 1rem;
+      overflow-y: hidden;
+      overflow-x: hidden;
+      .channel-list {
+        border: 1px solid gray;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin-top: 2rem;
+        height: 100%;
+        overflow-y: auto;
+        margin-bottom: 2rem;
+      }
+
+      .footer {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+
+    .chat-view {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      background-color: white;
+      padding: 0.5rem 0.5rem;
+      border-radius: 1rem 1rem;
+      align-items: center;
+
+      span {
+        &:first-child {
+          justify-content: center;
+          color: gray;
+        }
+      }
+
+      hr {
+        width: 100%;
+        border: 1px solid #cccccc;
+      }
+
+      .message-history {
+        padding-right: 0.5rem;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        overflow-y: auto;
+        overflow-x: hidden;
+        align-items: center;
+        padding-bottom: 1rem;
+        height: 20px;
+        flex-grow: 1;
+
+        span {
+          &:first-child {
+            margin-bottom: -1rem;
+          }
+
+          &:hover {
+            cursor: pointer;
+          }
+        }
+
+        .default-message {
+          align-items: center;
+          line-height: 70vh;
+          user-select: none;
+          color: gray;
+        }
+      }
+
+      .message-write {
+        display: flex;
+        height: 5rem;
+        align-items: center;
+        width: 100%;
+
+        .caIjNN { // textInput
+          flex-grow: 1;
+        }
+      }
+    }
+  }
+
 
 `;

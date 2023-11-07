@@ -16,6 +16,7 @@ interface MainProps extends Content.CommonProps, Content.BodyProps, Content.Head
     onInit?: () => Promise<void>;
     mainContentTheme?: string;
     noGrow?: boolean
+    header?: any;
 }
 
 function MainContent(props: MainProps) {
@@ -46,6 +47,7 @@ function MainContent(props: MainProps) {
                 <ContentHeader
                     contentHeaderTheme={props.mainContentTheme}
                     title={props.title}
+                    header={props.header}
                     onReset={props.onReset}
                     onSearch={props?.onSearch}
                     onSubmit={props?.onSubmit}

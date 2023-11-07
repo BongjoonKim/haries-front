@@ -20,7 +20,7 @@ function useChattingTemplate() {
   const [message, setMessage] = useState<string>("");
   const [messageHistory, setMessageHistory] = useState<MessageHistoryDTO[]>([]);
   const scrollRef = useRef<any>();
-  const [channelBoxOpener, setChannelBoxOpener] = useState<boolean>(false);
+  const [channelBoxOpener, setChannelBoxOpener] = useState<boolean>(true);
   
   
   // 새로운 채널 생성
@@ -53,9 +53,13 @@ function useChattingTemplate() {
       ? ""
       : clickedId
     );
-    // setChannelBoxOpener(prev => {
-    //   return !prev ? prev : !prev
-    // });
+    setChannelBoxOpener(prev => {
+      if(selectedChannel === clickedId) {
+        return true;
+      } else {
+        return false
+      }
+    });
     
     await getMessageHistory(clickedId);
   }, [selectedChannel, channelBoxOpener]);
