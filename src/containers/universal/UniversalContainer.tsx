@@ -26,12 +26,7 @@ function UniversalBranch(props: {children: ReactNode}) {
 function UniversalContainer(props : {children : ReactNode}) {
     const navigate = useNavigate();
     const location = useLocation();
-    let vh = window.innerHeight * 0.01
-    document.documentElement.style.setProperty('--vh', `${vh}px`)
-    window.addEventListener('resize', () => {
-        let vh = window.innerHeight * 0.01
-        document.documentElement.style.setProperty('--vh', `${vh}px`)
-    })
+
     // 사용자 정보 hook
     const {isLogin, isLoginExcludePath} = useUser();
 
@@ -83,11 +78,7 @@ function UniversalContainer(props : {children : ReactNode}) {
 export default UniversalContainer;
 
 const Universal = styled.div<{independent?: boolean}>`
-  //height: 100%;
+  height: 100%;
   width: 100%;
-    //&:root {
-    //    --vh: 100%;
-    //}
-  height: calc(var(--vh, 1vh) * 100);
 `;
 
