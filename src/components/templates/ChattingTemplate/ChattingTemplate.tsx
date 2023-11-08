@@ -299,7 +299,7 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
       width: 18rem;
               //position: absolute;
       z-index: 10000;
-      height: -webkit-fill-available;
+      height: auto;
       background-color: white;
       padding: 1rem 0.5rem;
       border-radius: 1rem 1rem;
