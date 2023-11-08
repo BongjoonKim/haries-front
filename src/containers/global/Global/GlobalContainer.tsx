@@ -6,12 +6,7 @@ import Sidebar from "../Sidebar";
 
 function GlobalContainer(props: {children: ReactNode}) {
     const {isAsideCollapsed} = useLayout();
-  let vh = window.innerHeight * 0.01
-  document.documentElement.style.setProperty('--vh', `${vh}px`)
-  window.addEventListener('resize', () => {
-    let vh = window.innerHeight * 0.01
-    document.documentElement.style.setProperty('--vh', `${vh}px`)
-  })
+
     return (
         <StyledGlobalContainer>
             <GlobalHeader />
@@ -38,7 +33,7 @@ const StyledGlobalContainer = styled.div`
 
 const StyledGlobalBody = styled.div`
   width: 100%;
-  height: calc(var(--vh, 1vh) * 100 - 3.6rem);
+  //height: calc(var(--vh, 1vh) * 100 - 3.6rem);
   display: flex;
   flex-direction: column;
   flex-grow: 1;

@@ -29,7 +29,12 @@ function UniversalContainer(props : {children : ReactNode}) {
 
     // 사용자 정보 hook
     const {isLogin, isLoginExcludePath} = useUser();
-
+    let vh = window.innerHeight * 0.01
+    document.documentElement.style.setProperty('--vh', `${vh}px`)
+    window.addEventListener('resize', () => {
+        let vh = window.innerHeight * 0.01
+        document.documentElement.style.setProperty('--vh', `${vh}px`)
+    })
 
     // 로그인 여부 effect
     // useEffect(() => {
@@ -78,7 +83,8 @@ function UniversalContainer(props : {children : ReactNode}) {
 export default UniversalContainer;
 
 const Universal = styled.div<{independent?: boolean}>`
-  height: 100%;
-  width: 100%;
+  //height: 100%;
+  //width: 100%;
+    height: calc(var(--vh, 1vh) * 100);
 `;
 
