@@ -273,7 +273,8 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
           }
           cursor:default;
           align-items: center;
-          line-height: 70vh;
+          margin-bottom: auto;
+          margin-top: auto;
           user-select: none;
           color: gray;
         }
@@ -371,7 +372,8 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
             cursor: default;
           }
           align-items: center;
-          line-height: 70vh;
+          margin-bottom: auto;
+          margin-top: auto;
           user-select: none;
           color: gray;
         }
