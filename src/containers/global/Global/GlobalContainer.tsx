@@ -33,11 +33,9 @@ const StyledGlobalContainer = styled.div`
 
 const StyledGlobalBody = styled.div`
   width: 100%;
-  //height: calc(var(--vh, 1vh) * 100 - 3.6rem);
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  //height: calc(100% - 3.5rem);
   overflow-x: hidden;
 `;
 

@@ -253,9 +253,9 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
         overflow-x: hidden;
         align-items: center;
         padding-bottom: 1rem;
-        //height: 20px;
+        height: inherit;
         flex-grow: 1;
-        height: 100%;
+        //height: 100%;
 
         span {
           &:first-child {
