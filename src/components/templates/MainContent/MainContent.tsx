@@ -89,7 +89,7 @@ const StyledContentBody = styled.div<{mainContentTheme?: string; noGrow?: boolea
   display: flex;
   flex-direction: column;
   row-gap: 8px;
-  height: 300px;
+  //height: 300px;
   flex-shrink: 1;
 `;
 

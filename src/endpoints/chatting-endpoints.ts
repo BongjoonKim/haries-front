@@ -19,6 +19,6 @@ export async function createMessage(props: MessageHistoryDTO) {
   return (await request.post(`/chatting/message`, props)) as AxiosResponse<any>;
 }
 
-export async function getMessages(props: {channelId : string}) {
-  return (await request.get(`/chatting/messages?channelId=${props.channelId}`)) as AxiosResponse<any>;
+export async function getMessages(props: {channelId : string, page: number}) {
+  return (await request.get(`/chatting/messages?channelId=${props.channelId}&page=${props.page}&size=10`)) as AxiosResponse<any>;
 }

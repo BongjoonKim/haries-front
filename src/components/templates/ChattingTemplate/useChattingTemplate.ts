@@ -17,10 +17,14 @@ function useChattingTemplate() {
   const [newChannelName, setNewChannelName] = useState<string>("");
   const [channelList, setChannelList] = useState<ChannelDTO[]>([]);
   const [selectedChannel, setSelectedChannel] = useState<string>("");
+  const [infPageNum, setInfPageNum] = useState<number>(-1); // -1 페이지는 마지막 페이지를 의미(최신 페이지)
   const [message, setMessage] = useState<string>("");
   const [messageHistory, setMessageHistory] = useState<MessageHistoryDTO[]>([]);
   const scrollRef = useRef<any>();
   const [channelBoxOpener, setChannelBoxOpener] = useState<boolean>(true);
+  const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+  const messageHistoryRef = useRef<any>();
+  const [highEnd, setHighEnd] = useState<any>(null);
   
   
   // 새로운 채널 생성
@@ -91,7 +95,7 @@ function useChattingTemplate() {
       setMessage("");
       
       // 조회!
-      await getMessageHistory(selectedChannel);
+      await getMessageHistory(selectedChannel, -1);
       setMessageHistory((prev: any) => {
         return [...prev, {
           id : "loading",
@@ -117,18 +121,54 @@ function useChattingTemplate() {
   }, [message, selectedChannel]);
   
   // 메세지 조회
-  const getMessageHistory = useCallback(async (channelId : string) => {
-    const response = await getMessages({channelId : channelId});
-    setMessageHistory(response.data);
-  }, [messageHistory])
+  const getMessageHistory = useCallback(async (channelId : string, page ?: number) => {
+    if (page) {
+      const response = await getMessages({channelId : channelId, page: page});
+      setMessageHistory(response.data.messagesHistory);
+      setInfPageNum(response.data.nextPage)
+    } else {
+      const response = await getMessages({channelId : channelId, page: infPageNum});
+      setMessageHistory(response.data.messagesHistory);
+      setInfPageNum(response.data.nextPage)
+    }
+  }, [messageHistory]);
+  
+  // const infiniteScroll: IntersectionObserverCallback = async ([entry], io) => {
+  //   if (entry.isIntersecting) {
+  //     messageHistoryRef.current?.style.setProperty("overflowY", "hidden");
+  //     io.unobserve(entry.target);
+  //     await getMessageHistory(selectedChannel, infPageNum);
+  //     await io.observe(entry.target);
+  //     messageHistoryRef.current?.style.setProperty("overflowY", "auto");
+  //   }
+  // };
+  //
+  // useEffect(() => {
+  //   const io: IntersectionObserver = new IntersectionObserver((infiniteScroll,highEnd) {
+  //     root : null,
+  //     rootMargin : "0px",
+  //     threshold : 0.5,
+  //   })
+  //   io.observe(highEnd);
+  //   return () => io.disconnect();
+  // }, [highEnd, getMessageHistory]);
   
   useEffect(() => {
     retrieveChannels();
-  }, []);
+  }, [messageHistory, infPageNum]);
   
   useEffect(() => {
     scrollRef.current.scrollIntoView({ behavior: 'smooth' });
   }, [messageHistory])
+  
+  useEffect(() => {
+    const resizeListener = () => {
+      // setInnerWidth(window.innerWidth);
+      console.log("화면 사이즈 보기", window.innerWidth)
+      setInnerWidth(window.innerWidth)
+    };
+    window.addEventListener("resize", resizeListener);
+  }, [window.innerWidth]);
   
   return {
     isChannelModal,
@@ -148,7 +188,10 @@ function useChattingTemplate() {
     messageHistory,
     scrollRef,
     channelBoxOpener,
-    setChannelBoxOpener
+    setChannelBoxOpener,
+    innerWidth,
+    messageHistoryRef,
+    highEnd
   }
 }
 

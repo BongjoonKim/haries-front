@@ -1,6 +1,6 @@
 import styled, {css} from "styled-components";
 import MainContent from "../MainContent/MainContent";
-import React, {useCallback, useEffect} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import axios from "axios";
 import TextInput from "../../elements/TextInput";
 import CustomButton from "../../elements/Button/CustomButton";
@@ -26,25 +26,31 @@ function ChattingTemplate() {
     handleClickChannel, selectedChannel,
     handleDelete, message, setMessage,
     handleSendMessage, messageHistory,
-    scrollRef, channelBoxOpener, setChannelBoxOpener
+    scrollRef, channelBoxOpener, setChannelBoxOpener,
+    innerWidth, messageHistoryRef, highEnd
   } = useChattingTemplate();
   
-  console.log("선택한 채널", selectedChannel)
+  
+  console.log("스크롤 높이 보기", highEnd)
   
   return (
     <MainContent
       title="ChatGPT"
       header={
-        <div>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={() => {setChannelBoxOpener(prev => !prev)}}
-          >
-            <DehazeRounded/>
-          </IconButton>
-        </div>
+        innerWidth < 1200 ? (
+          <div>
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              onClick={() => {setChannelBoxOpener(prev => !prev)}}
+            >
+              <DehazeRounded/>
+            </IconButton>
+          </div>
+        ) : (
+          <></>
+        )
       }
     >
       <StyledChattingTemplate channelBoxOpener={channelBoxOpener}>
@@ -120,7 +126,7 @@ function ChattingTemplate() {
         </div>
         <div className="chat-view">
           
-          <div className="message-history">
+          <div className="message-history" ref={highEnd}>
             {selectedChannel ? (
               <>
                 <span className="start-message"
@@ -253,9 +259,8 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
         overflow-x: hidden;
         align-items: center;
         padding-bottom: 1rem;
-        height: inherit;
+        height: 20px;
         flex-grow: 1;
-        //height: 100%;
 
         span {
           &:first-child {

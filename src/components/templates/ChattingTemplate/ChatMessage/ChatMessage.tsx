@@ -56,6 +56,12 @@ const StyledMessageWrapper = styled.div<{type : any}>`
     position: relative;
     height: fit-content;
   }
+  span {
+    &:first-child {
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+  }
   .info {
     display: flex;
     flex-direction: column;
