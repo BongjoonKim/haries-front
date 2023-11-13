@@ -125,8 +125,7 @@ function ChattingTemplate() {
           
         </div>
         <div className="chat-view">
-          
-          <div className="message-history" ref={highEnd}>
+          <div className="message-history">
             {selectedChannel ? (
               <>
                 <span className="start-message"
@@ -141,6 +140,10 @@ function ChattingTemplate() {
                 <span/>
               </>
             )}
+            <div ref={messageHistoryRef} style={{
+              minHeight: "3rem",
+              width: "100%"
+            }}/>
             {selectedChannel ? messageHistory.map((el, inx) => {
               return (
                 <>

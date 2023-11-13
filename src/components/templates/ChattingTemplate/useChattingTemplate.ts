@@ -10,6 +10,7 @@ import {
 import {MessageHistoryDTO} from "../../../types/dto/messageHistoryDTO";
 import {askChatGPT} from "../../../endpoints/chatgpt-endpoints";
 import {ChannelDTO} from "../../../types/dto/ChannelDTO";
+import useInfiniteScroll from "../../../hooks/sensor/useInfiniteScroll";
 
 function useChattingTemplate() {
   const [isChannelModal, setIsChannelModal] = useState<boolean>(false);
@@ -23,8 +24,12 @@ function useChattingTemplate() {
   const scrollRef = useRef<any>();
   const [channelBoxOpener, setChannelBoxOpener] = useState<boolean>(true);
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+  
   const messageHistoryRef = useRef<any>();
   const [highEnd, setHighEnd] = useState<any>(null);
+  const [observe, unobserve] = useInfiniteScroll( async () => {
+    await getMessageHistory(selectedChannel);
+  })
   
   
   // 새로운 채널 생성
@@ -142,16 +147,20 @@ function useChattingTemplate() {
   //     messageHistoryRef.current?.style.setProperty("overflowY", "auto");
   //   }
   // };
+  
+  useEffect(() => {
+    const observer = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        // await getMessageHistory(selectedChannel)
+        console.log(" 여기 와야대")
+      }
+    },{threshold: 1});
+    observer.observe(messageHistoryRef.current);
+  }, [messageHistory]);
   //
-  // useEffect(() => {
-  //   const io: IntersectionObserver = new IntersectionObserver((infiniteScroll,highEnd) {
-  //     root : null,
-  //     rootMargin : "0px",
-  //     threshold : 0.5,
-  //   })
-  //   io.observe(highEnd);
-  //   return () => io.disconnect();
-  // }, [highEnd, getMessageHistory]);
+  useEffect(() => {
+
+  }, [infPageNum]);
   
   useEffect(() => {
     retrieveChannels();
