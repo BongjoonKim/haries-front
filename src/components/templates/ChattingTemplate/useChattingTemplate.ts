@@ -30,9 +30,11 @@ function useChattingTemplate() {
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
   
   const messageHistoryRef = useRef<any>();
+  const messageHistorysRef = useRef<any>();
+  
   const [highEnd, setHighEnd] = useState<any>(null);
   const [goLatest, setGoLatest] = useState<boolean>(true);
-  const [observe, unobserve] = useInfiniteScroll(() => {
+  const [observe, unobserve, disconnect] = useInfiniteScroll(() => {
     setUpdate(prev => !prev);
   })
   
@@ -126,7 +128,7 @@ function useChattingTemplate() {
       }
       await createMessage(gptRequest);
   
-      await getMessageHistory(selectedChannel);
+      await getMessageHistory(selectedChannel, -1);
       scrollRef.current.scrollIntoView({ behavior: 'smooth' });
       setGoLatest(true);
   
@@ -160,8 +162,16 @@ function useChattingTemplate() {
   }, [selectedChannel]);
   //
   useEffect(() => {
-    console.log("여기 일어났다")
+    // messageHistoryRef.current.scrollIntoView({block : "end"});
+    unobserve(messageHistoryRef.current);
     getMessageHistory(selectedChannel);
+    // console.log("스크롤 위치", messageHistoryRef.current.scrollTop)
+    messageHistorysRef.current?.scrollIntoView(true);
+    setTimeout(() => {
+      observe(messageHistoryRef.current);
+    }, 5000);
+
+  
   }, [update]);
   
   useEffect(() => {
@@ -198,7 +208,8 @@ function useChattingTemplate() {
     setChannelBoxOpener,
     innerWidth,
     messageHistoryRef,
-    highEnd
+    highEnd,
+    messageHistorysRef
   }
 }
 

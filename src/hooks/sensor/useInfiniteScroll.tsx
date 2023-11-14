@@ -7,7 +7,7 @@ function useInfiniteScroll(callback: any) {
         callback();
       }
     });
-  }, {threshold: 1}));
+  }, {threshold: 0.4}));
   const observe = (el:any) => {
     observer.current.observe(el);
   }
@@ -16,7 +16,11 @@ function useInfiniteScroll(callback: any) {
     observer.current.unobserve(el);
   }
   
-  return [observe, unobserve];
+  const disconnect = (s: string) => {
+    observer.current.disconnect();
+  }
+  
+  return [observe, unobserve, disconnect];
 }
 
 export default useInfiniteScroll;

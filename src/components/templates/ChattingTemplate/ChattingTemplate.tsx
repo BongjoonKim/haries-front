@@ -27,7 +27,7 @@ function ChattingTemplate() {
     handleDelete, message, setMessage,
     handleSendMessage, messageHistory,
     scrollRef, channelBoxOpener, setChannelBoxOpener,
-    innerWidth, messageHistoryRef, highEnd
+    innerWidth, messageHistoryRef, highEnd, messageHistorysRef
   } = useChattingTemplate();
   
   return (
@@ -144,6 +144,10 @@ function ChattingTemplate() {
             {selectedChannel ? messageHistory.map((el, inx) => {
               return (
                 <>
+                  {inx === 9 && (<div ref={messageHistorysRef} style={{
+                    minHeight: "3rem",
+                    width: "100%"
+                  }}/>)}
                   {el.userId === "ChatGPT" ? (
                     <ChatMessage key={inx} type={""} {...el}/>
                   ) : (
@@ -154,7 +158,9 @@ function ChattingTemplate() {
                         <ChatMessage key={inx} type={"me"} {...el}/>
                        )}
                    </>
-              )}</>)
+                  )}
+                </>
+              )
             }) : (
               <span className="default-message">Select Channel Please!</span>
             )}
