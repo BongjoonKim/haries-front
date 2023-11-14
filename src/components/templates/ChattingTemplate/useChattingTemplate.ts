@@ -11,24 +11,29 @@ import {MessageHistoryDTO} from "../../../types/dto/messageHistoryDTO";
 import {askChatGPT} from "../../../endpoints/chatgpt-endpoints";
 import {ChannelDTO} from "../../../types/dto/ChannelDTO";
 import useInfiniteScroll from "../../../hooks/sensor/useInfiniteScroll";
+import {useRecoilState} from "recoil";
+import recoilCommonState from "../../../stores/recoil/recoilCommonState";
 
 function useChattingTemplate() {
   const [isChannelModal, setIsChannelModal] = useState<boolean>(false);
   const [isDeleteChannelModal, setIsDeleteChannelModal] = useState<boolean>(false);
   const [newChannelName, setNewChannelName] = useState<string>("");
   const [channelList, setChannelList] = useState<ChannelDTO[]>([]);
-  const [selectedChannel, setSelectedChannel] = useState<string>("");
+  // const [selectedChannel, setSelectedChannel] = useRecoilState(recoilCommonState.selectedChannelId);
+  const [selectedChannel, setSelectedChannel] = useState("");
   const [infPageNum, setInfPageNum] = useState<number>(-1); // -1 페이지는 마지막 페이지를 의미(최신 페이지)
   const [message, setMessage] = useState<string>("");
   const [messageHistory, setMessageHistory] = useState<MessageHistoryDTO[]>([]);
   const scrollRef = useRef<any>();
   const [channelBoxOpener, setChannelBoxOpener] = useState<boolean>(true);
+  const [update, setUpdate] = useState<boolean>(false);
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
   
   const messageHistoryRef = useRef<any>();
   const [highEnd, setHighEnd] = useState<any>(null);
-  const [observe, unobserve] = useInfiniteScroll( async () => {
-    await getMessageHistory(selectedChannel);
+  const [goLatest, setGoLatest] = useState<boolean>(true);
+  const [observe, unobserve] = useInfiniteScroll(() => {
+    setUpdate(prev => !prev);
   })
   
   
@@ -52,16 +57,16 @@ function useChattingTemplate() {
     } catch (e) {
       console.log('retrieveChannels', e);
     }
-  }, [channelList]);
+  }, [channelList, goLatest]);
   
   // 채널 하나 클릭
   const handleClickChannel = useCallback( async (event : any) => {
-    const clickedId = event.currentTarget.children[1].children[0].value
-    setSelectedChannel( prev =>
-      prev === clickedId
-      ? ""
-      : clickedId
-    );
+    const clickedId = event.currentTarget.children[1].children[0].value;
+    setSelectedChannel((prev:any) => {
+      return prev === clickedId
+        ? ""
+        : clickedId
+    });
     setChannelBoxOpener(prev => {
       if(selectedChannel === clickedId) {
         return true;
@@ -111,7 +116,7 @@ function useChattingTemplate() {
           bot: true
         }]
       })
-  
+      scrollRef.current.scrollIntoView({ behavior: 'smooth' });
       // chatGPT에 문의
       const responseGPT = await askChatGPT({question : message});
       const gptRequest : MessageHistoryDTO = {
@@ -122,58 +127,51 @@ function useChattingTemplate() {
       await createMessage(gptRequest);
   
       await getMessageHistory(selectedChannel);
+      scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+      setGoLatest(true);
+  
     }
-  }, [message, selectedChannel]);
+  }, [message, selectedChannel, goLatest]);
   
   // 메세지 조회
   const getMessageHistory = useCallback(async (channelId : string, page ?: number) => {
-    if (page) {
+    if (page !== undefined) {
       const response = await getMessages({channelId : channelId, page: page});
       setMessageHistory(response.data.messagesHistory);
-      setInfPageNum(response.data.nextPage)
+      setInfPageNum(response.data.nextPage);
     } else {
-      const response = await getMessages({channelId : channelId, page: infPageNum});
-      setMessageHistory(response.data.messagesHistory);
-      setInfPageNum(response.data.nextPage)
+      if (infPageNum >= 0) {
+        const response = await getMessages({channelId : channelId, page: infPageNum});
+        setMessageHistory((prev:any) => {
+          if (prev.length > 0) {
+            return [...response.data.messagesHistory, ...prev]
+          } else {
+            return response.data.messagesHistory;
+          }
+        });
+        setInfPageNum(response.data.nextPage)
+        }
     }
-  }, [messageHistory]);
-  
-  // const infiniteScroll: IntersectionObserverCallback = async ([entry], io) => {
-  //   if (entry.isIntersecting) {
-  //     messageHistoryRef.current?.style.setProperty("overflowY", "hidden");
-  //     io.unobserve(entry.target);
-  //     await getMessageHistory(selectedChannel, infPageNum);
-  //     await io.observe(entry.target);
-  //     messageHistoryRef.current?.style.setProperty("overflowY", "auto");
-  //   }
-  // };
+  }, [messageHistory, infPageNum, selectedChannel]);
   
   useEffect(() => {
-    const observer = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) {
-        // await getMessageHistory(selectedChannel)
-        console.log(" 여기 와야대")
-      }
-    },{threshold: 1});
-    observer.observe(messageHistoryRef.current);
-  }, [messageHistory]);
+    getMessageHistory(selectedChannel, -1);
+    observe(messageHistoryRef.current);
+  }, [selectedChannel]);
   //
   useEffect(() => {
-
-  }, [infPageNum]);
+    console.log("여기 일어났다")
+    getMessageHistory(selectedChannel);
+  }, [update]);
   
   useEffect(() => {
+    messageHistory.length <= 10 && scrollRef.current.scrollIntoView(false);  // 스크롤 맨 아래로 기본 값s
     retrieveChannels();
-  }, [messageHistory, infPageNum]);
-  
-  useEffect(() => {
-    scrollRef.current.scrollIntoView({ behavior: 'smooth' });
-  }, [messageHistory])
+  }, [messageHistory]);
   
   useEffect(() => {
     const resizeListener = () => {
       // setInnerWidth(window.innerWidth);
-      console.log("화면 사이즈 보기", window.innerWidth)
       setInnerWidth(window.innerWidth)
     };
     window.addEventListener("resize", resizeListener);

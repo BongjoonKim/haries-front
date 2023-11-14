@@ -13,5 +13,11 @@ export const recoilCommonState = {
       contents : ""
     },
     // effects_UNSTABLE: [persistAtom]
+  }),
+  
+  selectedChannelId: atom<string>({
+    key: "sdfsdf",
+    default: "",
+    effects_UNSTABLE: [persistAtom]
   })
 }

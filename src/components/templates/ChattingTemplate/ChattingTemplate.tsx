@@ -30,9 +30,6 @@ function ChattingTemplate() {
     innerWidth, messageHistoryRef, highEnd
   } = useChattingTemplate();
   
-  
-  console.log("스크롤 높이 보기", highEnd)
-  
   return (
     <MainContent
       title="ChatGPT"
