@@ -28,6 +28,8 @@ function useChattingTemplate() {
   const [channelBoxOpener, setChannelBoxOpener] = useState<boolean>(true);
   const [update, setUpdate] = useState<boolean>(false);
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+  const [show, setShow] = useState(false);
+  const [newList ,setNewList] = useState<MessageHistoryDTO[]>([]);
   
   const messageHistoryRef = useRef<any>();
   const messageHistorysRef = useRef<any>();
@@ -145,16 +147,19 @@ function useChattingTemplate() {
       if (infPageNum >= 0) {
         const response = await getMessages({channelId : channelId, page: infPageNum});
         setMessageHistory((prev:any) => {
-          if (prev.length > 0) {
-            return [...response.data.messagesHistory, ...prev]
+          if (prev.length > 0){
+            return [
+              // ...response.data.messagesHistory,
+              ...prev]
           } else {
             return response.data.messagesHistory;
           }
         });
+        setNewList(response.data.messagesHistory)
         setInfPageNum(response.data.nextPage)
         }
     }
-  }, [messageHistory, infPageNum, selectedChannel]);
+  }, [messageHistory, infPageNum, selectedChannel, newList]);
   
   useEffect(() => {
     getMessageHistory(selectedChannel, -1);
@@ -165,7 +170,8 @@ function useChattingTemplate() {
     // messageHistoryRef.current.scrollIntoView({block : "end"});
     unobserve(messageHistoryRef.current);
     getMessageHistory(selectedChannel);
-    // console.log("스크롤 위치", messageHistoryRef.current.scrollTop)
+    setShow(true);
+  
     messageHistorysRef.current?.scrollIntoView(true);
     setTimeout(() => {
       observe(messageHistoryRef.current);
@@ -209,7 +215,8 @@ function useChattingTemplate() {
     innerWidth,
     messageHistoryRef,
     highEnd,
-    messageHistorysRef
+    messageHistorysRef,
+    show, newList
   }
 }
 

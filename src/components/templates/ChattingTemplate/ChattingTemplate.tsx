@@ -27,7 +27,8 @@ function ChattingTemplate() {
     handleDelete, message, setMessage,
     handleSendMessage, messageHistory,
     scrollRef, channelBoxOpener, setChannelBoxOpener,
-    innerWidth, messageHistoryRef, highEnd, messageHistorysRef
+    innerWidth, messageHistoryRef, highEnd, messageHistorysRef,
+    show, newList
   } = useChattingTemplate();
   
   return (
@@ -137,6 +138,29 @@ function ChattingTemplate() {
                 <span/>
               </>
             )}
+            
+            {show && newList.map((el, inx) => {
+              return (
+                <>
+                  {/*{inx === 9 && (<div ref={messageHistorysRef} style={{*/}
+                  {/*  minHeight: "3rem",*/}
+                  {/*  width: "100%"*/}
+                  {/*}}/>)}*/}
+      
+                  {el.userId === "ChatGPT" ? (
+                    <ChatMessage key={inx} type={""} {...el}/>
+                  ) : (
+                    <>
+                      {el.userId === "loading" ? (
+                        <ChatMessage key={inx} type={"loading"} {...el}/>
+                      ) : (
+                        <ChatMessage key={inx} type={"me"} {...el}/>
+                      )}
+                    </>
+                  )}
+                </>
+              )
+            })}
             <div ref={messageHistoryRef} style={{
               minHeight: "3rem",
               width: "100%"
@@ -144,10 +168,11 @@ function ChattingTemplate() {
             {selectedChannel ? messageHistory.map((el, inx) => {
               return (
                 <>
-                  {inx === 9 && (<div ref={messageHistorysRef} style={{
-                    minHeight: "3rem",
-                    width: "100%"
-                  }}/>)}
+                  {/*{inx === 9 && (<div ref={messageHistorysRef} style={{*/}
+                  {/*  minHeight: "3rem",*/}
+                  {/*  width: "100%"*/}
+                  {/*}}/>)}*/}
+                  
                   {el.userId === "ChatGPT" ? (
                     <ChatMessage key={inx} type={""} {...el}/>
                   ) : (
