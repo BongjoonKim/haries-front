@@ -36,9 +36,6 @@ function useChattingTemplate() {
   
   const [highEnd, setHighEnd] = useState<any>(null);
   const [goLatest, setGoLatest] = useState<boolean>(true);
-  const [observe, unobserve, disconnect] = useInfiniteScroll(() => {
-    setUpdate(prev => !prev);
-  })
   
   
   // 새로운 채널 생성
@@ -120,7 +117,6 @@ function useChattingTemplate() {
           bot: true
         }]
       })
-      scrollRef.current.scrollIntoView({ behavior: 'smooth' });
       // chatGPT에 문의
       const responseGPT = await askChatGPT({question : message});
       const gptRequest : MessageHistoryDTO = {
@@ -131,7 +127,6 @@ function useChattingTemplate() {
       await createMessage(gptRequest);
   
       await getMessageHistory(selectedChannel, -1);
-      scrollRef.current.scrollIntoView({ behavior: 'smooth' });
       setGoLatest(true);
   
     }
@@ -141,18 +136,21 @@ function useChattingTemplate() {
   const getMessageHistory = useCallback(async (channelId : string, page ?: number) => {
     if (page !== undefined) {
       const response = await getMessages({channelId : channelId, page: page});
-      setMessageHistory(response.data.messagesHistory);
+      setMessageHistory(response.data.messagesHistory.reverse());
       setInfPageNum(response.data.nextPage);
     } else {
       if (infPageNum >= 0) {
         const response = await getMessages({channelId : channelId, page: infPageNum});
         setMessageHistory((prev:any) => {
           if (prev.length > 0){
-            return [
-              // ...response.data.messagesHistory,
-              ...prev]
+            return response.data.messagesHistory.concat(prev.reverse()).reverse();
+            // return [
+            //   ...response.data.messagesHistory,
+            //   ...prev]
           } else {
-            return response.data.messagesHistory;
+            const result = response.data.messagesHistory.reverse();
+            console.log("리버스 확인", result)
+            return result;
           }
         });
         setNewList(response.data.messagesHistory)
@@ -163,25 +161,45 @@ function useChattingTemplate() {
   
   useEffect(() => {
     getMessageHistory(selectedChannel, -1);
-    observe(messageHistoryRef.current);
   }, [selectedChannel]);
+  
+  useEffect(() => {
+    const options = {
+      threshold: 0.5,
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.intersectionRatio > 0) {
+          // 더 많은 아이템을 로드하기 위한 로직 실행
+          setUpdate(prev => !prev);
+          // observer.unobserve(messageHistoryRef.current);
+        }
+      });
+    }, options);
+    
+    if (messageHistoryRef.current) {
+      observer.observe(messageHistoryRef.current);
+    }
+    
+    return () => {
+      if (messageHistoryRef.current) {
+        observer.unobserve(messageHistoryRef.current);
+      }
+    };
+  }, [messageHistoryRef]);
   //
   useEffect(() => {
     // messageHistoryRef.current.scrollIntoView({block : "end"});
-    unobserve(messageHistoryRef.current);
     getMessageHistory(selectedChannel);
-    setShow(true);
-  
-    messageHistorysRef.current?.scrollIntoView(true);
-    setTimeout(() => {
-      observe(messageHistoryRef.current);
-    }, 5000);
-
-  
   }, [update]);
   
   useEffect(() => {
-    messageHistory.length <= 10 && scrollRef.current.scrollIntoView(false);  // 스크롤 맨 아래로 기본 값s
+    if(messageHistory.length <= 10) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    } else {
+      // scrollRef.current.scrollTop = scrollRef.current.scrollHeight / 2;
+    }
     retrieveChannels();
   }, [messageHistory]);
   

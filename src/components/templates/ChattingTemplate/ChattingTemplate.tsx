@@ -123,48 +123,7 @@ function ChattingTemplate() {
           
         </div>
         <div className="chat-view">
-          <div className="message-history">
-            {selectedChannel ? (
-              <>
-                <span className="start-message"
-                  onClick={() => {setChannelBoxOpener(prev => !prev)}}
-                >
-                  {channelList.filter(el => el.id === selectedChannel)[0].name}
-                </span>
-                <hr />
-              </>
-            ) : (
-              <>
-                <span/>
-              </>
-            )}
-            
-            {show && newList.map((el, inx) => {
-              return (
-                <>
-                  {/*{inx === 9 && (<div ref={messageHistorysRef} style={{*/}
-                  {/*  minHeight: "3rem",*/}
-                  {/*  width: "100%"*/}
-                  {/*}}/>)}*/}
-      
-                  {el.userId === "ChatGPT" ? (
-                    <ChatMessage key={inx} type={""} {...el}/>
-                  ) : (
-                    <>
-                      {el.userId === "loading" ? (
-                        <ChatMessage key={inx} type={"loading"} {...el}/>
-                      ) : (
-                        <ChatMessage key={inx} type={"me"} {...el}/>
-                      )}
-                    </>
-                  )}
-                </>
-              )
-            })}
-            <div ref={messageHistoryRef} style={{
-              minHeight: "3rem",
-              width: "100%"
-            }}/>
+          <div className="message-history" ref={scrollRef}>
             {selectedChannel ? messageHistory.map((el, inx) => {
               return (
                 <>
@@ -189,7 +148,26 @@ function ChattingTemplate() {
             }) : (
               <span className="default-message">Select Channel Please!</span>
             )}
-            <div ref={scrollRef} />
+            <div ref={messageHistoryRef} style={{
+              minHeight: "3rem",
+              width: "100%"
+            }}/>
+            {selectedChannel ? (
+              <>
+                <hr />
+                <span className="start-message"
+                      onClick={() => {setChannelBoxOpener(prev => !prev)}}
+                >
+                  {channelList.filter(el => el.id === selectedChannel)[0].name}
+                </span>
+                
+              </>
+            ) : (
+              <>
+                <span/>
+              </>
+            )}
+            <div  />
           </div>
           <div className="message-write">
             <TextInput
@@ -284,7 +262,7 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
         padding-right: 0.5rem;
         width: 100%;
         display: flex;
-        flex-direction: column;
+        flex-direction: column-reverse;
         gap: 1rem;
         overflow-y: auto;
         overflow-x: hidden;
