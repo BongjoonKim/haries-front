@@ -81,8 +81,11 @@ function useChattingTemplate() {
         return false
       }
     });
-    
-    await getMessageHistory(clickedId);
+    if (clickedId) {
+      if (selectOrNot) {
+        await getMessageHistory(clickedId);
+      }
+    }
   }, [selectedChannel, channelBoxOpener, infPageNum]);
   
   // 채널 삭제
@@ -148,7 +151,7 @@ function useChattingTemplate() {
       setMessageHistory(response.data.messagesHistory.reverse());
       setInfPageNum(response.data.nextPage);
     } else {
-      // if (infPageNum >= 0) {
+      if (infPageNum >= 0) {
         const response = await getMessages({channelId : channelId, page: infPageNum});
         console.log("리버스", response.data)
         setMessageHistory((prev:any) => {
@@ -164,13 +167,17 @@ function useChattingTemplate() {
         });
           setNewList(response.data.messagesHistory)
           setInfPageNum(response.data.nextPage)
-        // }
+      } else {
+        const response = await getMessages({channelId : channelId, page: -1});
+        setMessageHistory(response.data.messagesHistory.reverse());
+        setInfPageNum(response.data.nextPage);
+      }
     }
   }, [messageHistory, infPageNum, selectedChannel, newList]);
   
   useEffect(() => {
     if (selectedChannel) {
-      getMessageHistory(selectedChannel, -1);
+      getMessageHistory(selectedChannel);
     }
   }, [selectedChannel]);
   
@@ -204,7 +211,7 @@ function useChattingTemplate() {
     // messageHistoryRef.current.scrollIntoView({block : "end"});
     if (selectedChannel && infPageNum >= 0) {
       
-      getMessageHistory(selectedChannel, infPageNum);
+      getMessageHistory(selectedChannel);
     }
   }, [update]);
   
