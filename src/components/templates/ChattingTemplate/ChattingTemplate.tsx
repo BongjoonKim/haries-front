@@ -124,6 +124,10 @@ function ChattingTemplate() {
         </div>
         <div className="chat-view">
           <div className="message-history" ref={scrollRef}>
+            <div style={{
+              width: "100%",
+              height: "100%"
+            }} />
             {selectedChannel ? messageHistory.map((el, inx) => {
               return (
                 <>
@@ -149,7 +153,7 @@ function ChattingTemplate() {
               <span className="default-message">Select Channel Please!</span>
             )}
             <div ref={messageHistoryRef} style={{
-              minHeight: "3rem",
+              minHeight: "1rem",
               width: "100%"
             }}/>
             {selectedChannel ? (
@@ -362,7 +366,7 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
         padding-right: 0.5rem;
         width: 100%;
         display: flex;
-        flex-direction: column;
+        flex-direction: column-reverse;
         gap: 1rem;
         overflow-y: auto;
         overflow-x: hidden;

@@ -63,11 +63,17 @@ function useChattingTemplate() {
   // 채널 하나 클릭
   const handleClickChannel = useCallback( async (event : any) => {
     const clickedId = event.currentTarget.children[1].children[0].value;
+    const selectOrNot = clickedId === selectedChannel ? false : true;
     setSelectedChannel((prev:any) => {
-      return prev === clickedId
-        ? ""
-        : clickedId
+      return selectOrNot
+        ? clickedId
+        : ""
     });
+    setInfPageNum((prev:number) => {
+      return selectOrNot
+        ? prev
+        : -1
+    })
     setChannelBoxOpener(prev => {
       if(selectedChannel === clickedId) {
         return true;
@@ -77,7 +83,7 @@ function useChattingTemplate() {
     });
     
     await getMessageHistory(clickedId);
-  }, [selectedChannel, channelBoxOpener]);
+  }, [selectedChannel, channelBoxOpener, infPageNum]);
   
   // 채널 삭제
   const handleDelete = useCallback(async (event: any) => {
@@ -134,13 +140,17 @@ function useChattingTemplate() {
   
   // 메세지 조회
   const getMessageHistory = useCallback(async (channelId : string, page ?: number) => {
+    console.log("값 보기", {channelId : channelId, page: page})
+    
     if (page !== undefined) {
       const response = await getMessages({channelId : channelId, page: page});
+      console.log("리버스", response.data)
       setMessageHistory(response.data.messagesHistory.reverse());
       setInfPageNum(response.data.nextPage);
     } else {
-      if (infPageNum >= 0) {
+      // if (infPageNum >= 0) {
         const response = await getMessages({channelId : channelId, page: infPageNum});
+        console.log("리버스", response.data)
         setMessageHistory((prev:any) => {
           if (prev.length > 0){
             return response.data.messagesHistory.concat(prev.reverse()).reverse();
@@ -149,18 +159,19 @@ function useChattingTemplate() {
             //   ...prev]
           } else {
             const result = response.data.messagesHistory.reverse();
-            console.log("리버스 확인", result)
             return result;
           }
         });
-        setNewList(response.data.messagesHistory)
-        setInfPageNum(response.data.nextPage)
-        }
+          setNewList(response.data.messagesHistory)
+          setInfPageNum(response.data.nextPage)
+        // }
     }
   }, [messageHistory, infPageNum, selectedChannel, newList]);
   
   useEffect(() => {
-    getMessageHistory(selectedChannel, -1);
+    if (selectedChannel) {
+      getMessageHistory(selectedChannel, -1);
+    }
   }, [selectedChannel]);
   
   useEffect(() => {
@@ -191,7 +202,10 @@ function useChattingTemplate() {
   //
   useEffect(() => {
     // messageHistoryRef.current.scrollIntoView({block : "end"});
-    getMessageHistory(selectedChannel);
+    if (selectedChannel && infPageNum >= 0) {
+      
+      getMessageHistory(selectedChannel, infPageNum);
+    }
   }, [update]);
   
   useEffect(() => {
