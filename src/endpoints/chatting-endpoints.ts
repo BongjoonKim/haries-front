@@ -7,8 +7,8 @@ export async function createChannel(props : {channelName : string}) {
   return (await request.post("/chatting/channel", {channelName : props.channelName})) as AxiosResponse<any>;
 }
 
-export async function getChannels() {
-  return (await request.get("/chatting/channels")) as AxiosResponse<any>;
+export async function getChannels(props : {channelName : string}) {
+  return (await request.get(`/chatting/channels?channelName=${props.channelName || ""}`)) as AxiosResponse<any>;
 }
 
 export async function deleteChannel(props : {channelId : string}) {

@@ -26,7 +26,7 @@ function ChattingTemplate() {
     handleClickChannel, selectedChannel,
     handleDelete, message, setMessage,
     handleSendMessage, messageHistory,
-    scrollRef, channelBoxOpener, setChannelBoxOpener,
+    scrollRef, channelBoxOpener, setChannelBoxOpener,retrieveChannels,
     innerWidth, messageHistoryRef, highEnd, messageHistorysRef,
     show, newList
   } = useChattingTemplate();
@@ -60,6 +60,9 @@ function ChattingTemplate() {
             <InputBase
               sx={{ ml: 1, flex: 1 }}
               placeholder="search"
+              onChange={(event: any) => {
+                retrieveChannels(event.target.value)
+              }}
             />
             <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
               <SearchIcon />
@@ -203,6 +206,7 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
 
   @media only screen and (min-width: 0px) and (max-width: 1199px) {
     .channel-view {
+      width: 15rem;
       position: absolute;
       display: flex;
       flex-direction: column;

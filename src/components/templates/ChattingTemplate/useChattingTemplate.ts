@@ -51,9 +51,10 @@ function useChattingTemplate() {
   }, [newChannelName, isChannelModal]);
   
   // 생성된 채널 조회
-  const retrieveChannels = useCallback(async () => {
+  const retrieveChannels = useCallback(async (channelName ?: string) => {
     try {
-      const response = await getChannels();
+      
+      const response = await getChannels({channelName : channelName || ""});
       setChannelList(response.data ? response.data : []);
     } catch (e) {
       console.log('retrieveChannels', e);
@@ -253,6 +254,7 @@ function useChattingTemplate() {
     setChannelBoxOpener,
     innerWidth,
     messageHistoryRef,
+    retrieveChannels,
     highEnd,
     messageHistorysRef,
     show, newList
