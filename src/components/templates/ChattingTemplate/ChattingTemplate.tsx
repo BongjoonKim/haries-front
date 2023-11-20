@@ -74,8 +74,8 @@ function ChattingTemplate() {
                 <ChannelBox
                   key={el.id}
                   id={el.id}
-                  title={el.name}
-                  lastestMessage={el.lastestMessage}
+                  title={el?.name}
+                  lastestMessage={el?.lastestMessage}
                   onClick={handleClickChannel}
                   selectedChannel={selectedChannel}
                 />
