@@ -134,11 +134,6 @@ function ChattingTemplate() {
             {selectedChannel ? messageHistory.map((el, inx) => {
               return (
                 <>
-                  {/*{inx === 9 && (<div ref={messageHistorysRef} style={{*/}
-                  {/*  minHeight: "3rem",*/}
-                  {/*  width: "100%"*/}
-                  {/*}}/>)}*/}
-                  
                   {el.userId === "ChatGPT" ? (
                     <ChatMessage key={inx} type={""} {...el}/>
                   ) : (
@@ -150,15 +145,18 @@ function ChattingTemplate() {
                        )}
                    </>
                   )}
+                  
                 </>
               )
             }) : (
               <span className="default-message">Select Channel Please!</span>
             )}
-            <div ref={messageHistoryRef} style={{
-              minHeight: "1rem",
-              width: "100%"
-            }}/>
+            {/*{selectedChannel && (*/}
+              <div ref={messageHistoryRef} style={{
+                minHeight: "1rem",
+                width: "100%"
+              }}/>
+            {/*// )}*/}
             {selectedChannel ? (
               <>
                 <hr />

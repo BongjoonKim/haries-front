@@ -8,7 +8,7 @@ function ChatMessage(props : any) {
     <StyledMessageWrapper type={props.type}>
       {props.type === "loading" ? (
         <div className="message-box">
-          <CircularProgress />
+          <CircularProgress className="loading"/>
         </div>
       ) : (
         <div className="message-box">
@@ -55,7 +55,13 @@ const StyledMessageWrapper = styled.div<{type : any}>`
     padding: 1rem 1rem;
     position: relative;
     height: fit-content;
+    .loading {
+      margin: auto !important;
+    }
   }
+
+
+  
   span {
     &:first-child {
       margin-top: auto;

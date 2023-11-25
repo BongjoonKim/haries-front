@@ -64,16 +64,26 @@ function useChattingTemplate() {
   // 채널 하나 클릭
   const handleClickChannel = useCallback( async (event : any) => {
     const clickedId = event.currentTarget.children[1].children[0].value;
-    const selectOrNot = clickedId === selectedChannel ? false : true;
+    let selectOrNot : boolean;
+    
+    if (selectedChannel) {
+      if (clickedId === selectedChannel) {
+        selectOrNot = false;
+      } else {
+        selectOrNot = true;
+      }
+    } else {
+      selectOrNot = true;
+    }
+    
+    console.log("selectOrNot", selectOrNot)
     setSelectedChannel((prev:any) => {
       return selectOrNot
         ? clickedId
         : ""
     });
     setInfPageNum((prev:number) => {
-      return selectOrNot
-        ? prev
-        : -1
+      return -1
     })
     setChannelBoxOpener(prev => {
       if(selectedChannel === clickedId) {
@@ -117,15 +127,16 @@ function useChattingTemplate() {
       
       // 조회!
       await getMessageHistory(selectedChannel, -1);
-      setMessageHistory((prev: any) => {
-        return [...prev, {
+      
+      await setMessageHistory((prev: any) => {
+        return [{
           id : "loading",
           channelId : selectedChannel,
           content : "loading",
           userId : "loading",
           created : new Date(),
           bot: true
-        }]
+        }, ...prev]
       })
       // chatGPT에 문의
       const responseGPT = await askChatGPT({question : message});
@@ -144,23 +155,16 @@ function useChattingTemplate() {
   
   // 메세지 조회
   const getMessageHistory = useCallback(async (channelId : string, page ?: number) => {
-    console.log("값 보기", {channelId : channelId, page: page})
-    
     if (page !== undefined) {
       const response = await getMessages({channelId : channelId, page: page});
-      console.log("리버스", response.data)
       setMessageHistory(response.data.messagesHistory.reverse());
       setInfPageNum(response.data.nextPage);
     } else {
       if (infPageNum >= 0) {
         const response = await getMessages({channelId : channelId, page: infPageNum});
-        console.log("리버스", response.data)
         setMessageHistory((prev:any) => {
           if (prev.length > 0){
             return response.data.messagesHistory.concat(prev.reverse()).reverse();
-            // return [
-            //   ...response.data.messagesHistory,
-            //   ...prev]
           } else {
             const result = response.data.messagesHistory.reverse();
             return result;
@@ -184,7 +188,7 @@ function useChattingTemplate() {
   
   useEffect(() => {
     const options = {
-      threshold: 0.5,
+      threshold: 1,
     };
     
     const observer = new IntersectionObserver((entries) => {
@@ -192,7 +196,6 @@ function useChattingTemplate() {
         if (entry.intersectionRatio > 0) {
           // 더 많은 아이템을 로드하기 위한 로직 실행
           setUpdate(prev => !prev);
-          // observer.unobserve(messageHistoryRef.current);
         }
       });
     }, options);
@@ -211,7 +214,6 @@ function useChattingTemplate() {
   useEffect(() => {
     // messageHistoryRef.current.scrollIntoView({block : "end"});
     if (selectedChannel && infPageNum >= 0) {
-      
       getMessageHistory(selectedChannel);
     }
   }, [update]);
