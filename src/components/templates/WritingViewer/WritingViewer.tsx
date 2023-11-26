@@ -37,9 +37,6 @@ function WritingViewer() {
     </>
   )
   
-  console.log("제목 확인", writing)
-  
-  
   return (
         <StyledWritingViewer>
           <div className="title">{writing?.title}</div>

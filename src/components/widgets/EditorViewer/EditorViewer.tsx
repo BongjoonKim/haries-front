@@ -11,7 +11,6 @@ interface EditorViewProps {
 }
 
 function EditorViewer(props : EditorViewProps) {
-  console.log("최종", props.writing)
   
     return (
       (props.writing !== "") ? (

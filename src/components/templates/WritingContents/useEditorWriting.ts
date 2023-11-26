@@ -40,11 +40,14 @@ function useEditorWriting() {
   }, [writing]);
   
   
+  // 파일 저장
   const onUploadImage = async (blob: Blob, callback: HookCallback) => {
     try {
       const response = await fileConfig({blob: blob});
+      console.log("이미지 저장 결과 값", response)
       callback(response);
     } catch (e) {
+      callback("fail image upload");
       console.log("에러 확인", e)
     }
   }
@@ -69,7 +72,28 @@ function useEditorWriting() {
     } else if (editorInfo.mode === "wysiwyg") {
       contents = editorInfo.getHTML();
     }
+  
+    // const urlRegex = /(https?:\/\/[^\s]+)/g;
+    // const urls = contents.match(urlRegex);
+    // let targetURL;
+    // if (urls) {
+    //   targetURL = urls.find(url => url.includes('haries-img'));
+    //   if (targetURL) {
+    //     console.log(targetURL);
+    //   } else {
+    //     console.log('해당 URL을 찾을 수 없습니다.');
+    //   }
+    // } else {
+    //   console.log('URL이 없습니다.');
+    // }
+    // console.log("타겟 url", urls, targetURL?.replace(/\).*/, ''))
+  
+  
+  
     const unique = generatorUtil.uuid();
+    
+    
+    
   
     const request : DocumentDTO = {
       title: titleRef.current?.value!,

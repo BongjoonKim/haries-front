@@ -2,9 +2,9 @@ import AWS from "aws-sdk";
 import S3 from "react-aws-s3-typescript";
 import generatorUtil from "../../utilities/generatorUtil";
 
-interface fileS3ConfigProps {
+interface fileS3ConfigPropsㅇ {
   blob : Blob,
-
+  
   
 }
 
@@ -31,7 +31,7 @@ export default async function fileS3Config(props : fileS3ConfigProps) {
   formData.append("file", file);
   
   
-  const response = await S3Client.uploadFile(file);
+  const response = await S3Client.uploadFile(file, "ㅇㅇㅇㅇ");
   console.log("리스폰스", response.location)
   
   return response.location;

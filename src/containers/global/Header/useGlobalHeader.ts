@@ -7,7 +7,7 @@ function useGlobalHeader() {
   const [menuList, setMenuList] = useState<MenuType[]>([]);
   const getAllMenuList = useCallback(async () => {
     const response = await retrieveMenus();
-    setMenuList(response.data.filter(el => ['chatgpt'].includes(lowerCase(el.menuName))));
+    setMenuList(response.data.filter(el => ['chatgpt', 'blog'].includes(lowerCase(el.menuName))));
   }, [menuList]);
   
   useEffect(() => {
