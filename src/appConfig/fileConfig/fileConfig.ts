@@ -31,6 +31,9 @@ export default async function fileS3Config(props : fileS3ConfigProps) {
   console.log("데이터 확인", data);
   // const response = {location : ""};
   
+  const deletes = await S3Client.deleteFile(
+    "8jLQ5KPWY5J687tZs2Ez6R.ade42992-b2c3-990c-05f0-cd01949e202")
+  
   const formData = new FormData();
   formData.append("file", file);
   
