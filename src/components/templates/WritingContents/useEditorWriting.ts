@@ -2,7 +2,7 @@ import {useCallback, useEffect, useRef, useState} from "react";
 import {useRecoilState, useResetRecoilState} from "recoil";
 import {DocumentDTO} from "../../../types/dto/documentsInfo";
 import recoilDocumentsState from "../../../stores/recoil/recoilDocumentsState";
-import fileConfig from "../../../appConfig/fileConfig";
+import fileConfig from "../../../appConfig/file/fileUpload";
 import {HookCallback} from "./useWritingContents";
 import {useNavigate, useParams} from "react-router-dom";
 import {createDocuments, getDocument, getDocumentUnique, saveDocument} from "../../../endpoints/documents-endpoints";
