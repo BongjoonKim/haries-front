@@ -32,7 +32,7 @@ export default async function fileS3Config(props : fileS3ConfigProps) {
   // const response = {location : ""};
   
   const deletes = await S3Client.deleteFile(
-    "8jLQ5KPWY5J687tZs2Ez6R.ade42992-b2c3-990c-05f0-cd01949e202")
+    "new/hKDEcA38kG1h8WaB52SDsg.503f8f9d-eaee-9805-3663-8d3849921e0")
   
   const formData = new FormData();
   formData.append("file", file);
