@@ -7,7 +7,6 @@ import recoilDocumentsState from "../../../stores/recoil/recoilDocumentsState";
 import recoilCommonState from "../../../stores/recoil/recoilCommonState";
 import {DocumentDTO} from "../../../types/dto/documentsInfo";
 import generatorUtil from "../../../utilities/generatorUtil";
-import fileConfig from "../../../appConfig/file/fileUpload";
 import {cloneDeep} from "lodash";
 
 export type HookCallback = (url: string, text?: string) => void;

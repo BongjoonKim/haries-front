@@ -48,9 +48,9 @@ function RightNavigator() {
   
   return (
     <StyledRightHeader>
-      {/*<IconButton onClick={() => navigate(`/blog/writing`)}>*/}
-      {/*  <BorderColorIcon />*/}
-      {/*</IconButton>*/}
+      <IconButton onClick={() => navigate(`/blog/writing`)}>
+        <BorderColorIcon />
+      </IconButton>
       
       {/*검색 창*/}
       {/*<StyledSearch>*/}

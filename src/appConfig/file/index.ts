@@ -1,2 +1,2 @@
-import fileConfig from "./fileConfig";
-export default fileConfig;
+import useFiles from "./fileProcesses";
+export default useFiles;

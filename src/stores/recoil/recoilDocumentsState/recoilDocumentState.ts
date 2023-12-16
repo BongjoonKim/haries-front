@@ -1,6 +1,6 @@
 import {atom, atomFamily} from "recoil";
 import {recoilPersist} from "recoil-persist";
-import {WRITING_INFO} from "./types.d";
+import {UPLOADED_LIST, WRITING_INFO} from "./types.d";
 import moment from "moment";
 import {DocumentDTO} from "../../../types/dto/documentsInfo";
 const { persistAtom } = recoilPersist()
@@ -19,5 +19,12 @@ export const recoilDocumentState = {
       modifiedUser : "",
     },
     // effects_UNSTABLE: [persistAtom]
+  }),
+  
+  uploadedList: atom<Blob[]>({
+    key : `${UPLOADED_LIST}`,
+    default : [],
+    effects_UNSTABLE: [persistAtom]
   })
+  
 }
