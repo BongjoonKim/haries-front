@@ -49,15 +49,20 @@ function useEditorWriting() {
   // 파일 저장
   const onUploadImage = async (blob: Blob, callback: HookCallback) => {
     try {
-      const {uploadFile} = fileProcesses({
-        dirName: id,
-        blob : blob,
-        uploadedList : uploadedList,
-        setUploadedList : setUploadedList
-      });
-      const response = await uploadFile();
+      const S3Client = fileConfig();
+      const fileName = generatorUtil.uuid();
+      const file = new File([blob], fileName, {type:blob.type});
+      const uploadResponse = await S3Client.uploadFile(file);
+  
+      setUploadedList((prev : any) => [
+        ...prev,
+        {
+          blob: blob,
+          uuid: fileName
+        }
+      ])
       // const response = await fileConfig({blob: blob});
-      callback(response);
+      callback(uploadResponse.location);
     } catch (e) {
       callback("fail image upload");
       console.log("에러 확인", e)
@@ -84,40 +89,54 @@ function useEditorWriting() {
     } else if (editorInfo.mode === "wysiwyg") {
       contents = editorInfo.getHTML();
     }
-    const unique = generatorUtil.uuid();
     
   
     try {
-      console.log("글 값 확인", contents)
-      const newContents = contents.replace(
-        `https://haries-img.s3-ap-northeast-2.amazonaws.com/new/`,
-        `https://haries-img.s3-ap-northeast-2.amazonaws.com/${titleRef.current?.value}/`
-      );
-      const request : DocumentDTO = {
-        title: titleRef.current?.value! || "간드앙2",
-        contents : newContents,
-        contentsType : editorInfo.mode,
-        unique: unique,
-        folderId: selectedFolderId
-      }
+      
+      
       if (id) {
+        const request : DocumentDTO = {
+          title: titleRef.current?.value!,
+          contents : contents,
+          contentsType : editorInfo.mode,
+          folderId: selectedFolderId
+        }
         await saveDocument({id, request});
         setUploadedList([]);
-        navigate(`/blog/${id}`)
+        navigate(`/blog/${id}`);
+        
       } else {
+        console.log("글 값 확인", contents)
+        const newContents = contents.replaceAll(
+          `https://haries-img.s3-ap-northeast-2.amazonaws.com/new/`,
+          `https://haries-img.s3-ap-northeast-2.amazonaws.com/${titleRef.current?.value}/`
+        );
+        const unique = generatorUtil.uuid();
+  
+        const request : DocumentDTO = {
+          title: titleRef.current?.value!,
+          contents : newContents,
+          contentsType : editorInfo.mode,
+          unique: unique,
+          folderId: selectedFolderId
+        }
         await createDocuments(request);
         const response = await getDocumentUnique({unique: unique});
         
         // 파일 신규 추가
-        for(const blob of uploadedList) {
+        for(const fileInfo of uploadedList) {
           const S3Client = fileConfig({
-            dirName: titleRef.current?.value || "간드앙2",
+            dirName: titleRef.current?.value,
           });
-          const file = new File([blob], generatorUtil.uuid(), {type:blob.type});
+          console.log("파일 블롭", fileInfo)
+          const file = new File([fileInfo.blob], fileInfo.uuid, {type:fileInfo.blob.type});
   
           const uploadResponse = await S3Client.uploadFile(file);
+          console.log("업로드 성공 여부 보기", titleRef.current?.value, fileInfo.blob, uploadResponse)
           
         }
+  
+        setUploadedList([]);
         
         // 파일 삭제
         const {getAllFiles} = fileProcesses();

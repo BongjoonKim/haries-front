@@ -4,11 +4,24 @@ import generatorUtil from "../../utilities/generatorUtil";
 import {useRecoilState} from "recoil";
 import recoilDocumentState from "../../stores/recoil/recoilDocumentsState";
 import fileConfig, {fileConfigProps} from "./fileConfig";
+import AWS from "aws-sdk";
 
 
 
 export default function fileProcesses(props ?: fileConfigProps) {
   const S3Client = fileConfig(props);
+  
+  const REGION = `${process.env.REACT_APP_AWS_FILE_REGION}`;
+  const ACCESS_KEY_ID = `${process.env.REACT_APP_AWS_ACCESS_KEY_ID}`!;
+  const SECRET_ACCESS_KEY_ID = `${process.env.REACT_APP_AWS_SECRET_ACCESS_KEY_ID}`!;
+  const IDENTITY_POOL = `${process.env.REACT_APP_AWS_IDENTITY_POOL}`;
+  const myCredentials = new AWS.CognitoIdentityCredentials({IdentityPoolId:IDENTITY_POOL});
+  
+  const myConfig = new AWS.Config({
+    credentials :myCredentials,
+    region : REGION
+  });
+  AWS.config.credentials
   
   
   // 파일 업로드

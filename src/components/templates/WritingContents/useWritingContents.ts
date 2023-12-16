@@ -31,20 +31,7 @@ function useWritingContents(props : any) {
     try {
       const response = await getDocument({id : id!});
       setWriting(response.data);
-      //
-      // if (editorRef.current !== undefined && editorRef.current !== null) {
-      //   console.log("커런트 확인", editorRef.current);
-      //   console.log("커런트 확인", editorRef.current);
-      //   if (response.data.contentsType === "markdown") {
-      //     editorRef.current?.setMarkdown(response.data.contents)
-      //   }
-      //   else if (response.data.contentsType === "wysiwyg") {
-      //     editorRef.current?.setHTML(response.data.contents);
-      //   }
-      //   else {
-      //     editorRef.current?.setMarkdown(response.data.contents)
-      //   }
-      // }
+
     } catch (error) {
       setMessage(prev => {
         return {

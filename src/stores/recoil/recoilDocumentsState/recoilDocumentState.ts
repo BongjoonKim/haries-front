@@ -21,7 +21,7 @@ export const recoilDocumentState = {
     // effects_UNSTABLE: [persistAtom]
   }),
   
-  uploadedList: atom<Blob[]>({
+  uploadedList: atom<any[]>({
     key : `${UPLOADED_LIST}`,
     default : [],
     effects_UNSTABLE: [persistAtom]
