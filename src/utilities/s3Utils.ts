@@ -21,9 +21,13 @@ export const s3Utils = {
     }
     const response = await S3.copyObject(params);
     return response.promise().then(el => el.$response);
-  }
+  },
   
   async deleteFile(props : any) {
-  
+    const S3 = awsS3();
+    const params = {
+      Bucket: "haries-img",
+      Key: props.fileName, // 원본 버킷/키
+    }
   }
 }

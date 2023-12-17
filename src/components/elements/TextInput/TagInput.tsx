@@ -62,7 +62,6 @@ function TagInput(props : TagInputProps, ref : ForwardedRef<HTMLInputElement>) {
   }, [tags]);
   
   const Tag = (tags ?: string[]) => {
-    console.log("태그 정보 확인", tags)
     return (
       <span
         style={{

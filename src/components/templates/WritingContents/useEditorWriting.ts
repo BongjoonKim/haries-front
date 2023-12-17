@@ -6,12 +6,10 @@ import {HookCallback} from "./useWritingContents";
 import {useNavigate, useParams} from "react-router-dom";
 import {createDocuments, getDocument, getDocumentUnique, saveDocument} from "../../../endpoints/documents-endpoints";
 import generatorUtil from "../../../utilities/generatorUtil";
-import useFiles from "../../../appConfig/file";
-import fileProcesses from "../../../appConfig/file";
 import recoilDocumentState from "../../../stores/recoil/recoilDocumentsState";
 import {startsWith} from "lodash";
-import fileConfig from "../../../appConfig/file/fileConfig";
 import awsS3 from "../../../appConfig/file/awsS3";
+import {s3Utils} from "../../../utilities/s3Utils";
 
 function useEditorWriting() {
   const editorRef = useRef<any>();
@@ -50,29 +48,27 @@ function useEditorWriting() {
   // 파일 저장
   const onUploadImage = async (blob: Blob, callback: HookCallback) => {
     try {
-      const S3Client = fileConfig();
       const fileName = generatorUtil.uuid();
-      const file = new File([blob], fileName, {type:blob.type});
-  
-      const news = await awsS3({file : file, fileName : fileName});
-      console.log("뉴스 보기", news)
+      let fileKey = ``;
+        fileKey = `new/${fileName}`;
       
-      // const uploadResponse = await S3Client.uploadFile(file);
+      const file = new File([blob], `${fileName}`, {type:blob.type});
   
+      const uploadFile = await s3Utils.uploadFile({file : file, fileName : fileKey});
+      console.log("uploadFile", uploadFile)
       setUploadedList((prev : any) => [
         ...prev,
         {
           blob: blob,
-          uuid: fileName
+          key: `${fileKey}`
         }
       ])
-      // const response = await fileConfig({blob: blob});
-      callback("");
+      callback(uploadFile);
     } catch (e) {
       callback("fail image upload");
       console.log("에러 확인", e)
     }
-  }
+  };
   
   // 파일 첨부 로직
   const addFiles = (event : any): void => {
@@ -130,34 +126,34 @@ function useEditorWriting() {
         const response = await getDocumentUnique({unique: unique});
         
         // 파일 신규 추가
-        for(const fileInfo of uploadedList) {
-          const S3Client = fileConfig({
-            dirName: titleRef.current?.value,
-          });
-          console.log("파일 블롭", fileInfo)
-          const file = new File([fileInfo.blob], fileInfo.uuid, {type:fileInfo.blob.type});
-  
-          const uploadResponse = await S3Client.uploadFile(file);
-          console.log("업로드 성공 여부 보기", titleRef.current?.value, fileInfo.blob, uploadResponse)
-          
-        }
-  
-        setUploadedList([]);
-        
-        // 파일 삭제
-        const {getAllFiles} = fileProcesses();
-        const allFiles = await getAllFiles();
-        console.log("모든 파일 보기", allFiles.data.Contents)
-        if (allFiles.data.Contents) {
-          for (const file of allFiles.data.Contents) {
-            if (startsWith(file.Key, "new/")) {
-              console.log("키값 확인", file.Key)
-              const S3Client = fileConfig();
-              const deleteResponse = await S3Client.deleteFile(file.Key);
-              console.log("deleteResponse", deleteResponse);
-            }
-          }
-        }
+        // for(const fileInfo of uploadedList) {
+        //   const S3Client = fileConfig({
+        //     dirName: titleRef.current?.value,
+        //   });
+        //   console.log("파일 블롭", fileInfo)
+        //   const file = new File([fileInfo.blob], fileInfo.uuid, {type:fileInfo.blob.type});
+        //
+        //   const uploadResponse = await S3Client.uploadFile(file);
+        //   console.log("업로드 성공 여부 보기", titleRef.current?.value, fileInfo.blob, uploadResponse)
+        //
+        // }
+        //
+        // setUploadedList([]);
+        //
+        // // 파일 삭제
+        // const {getAllFiles} = fileProcesses();
+        // const allFiles = await getAllFiles();
+        // console.log("모든 파일 보기", allFiles.data.Contents)
+        // if (allFiles.data.Contents) {
+        //   for (const file of allFiles.data.Contents) {
+        //     if (startsWith(file.Key, "new/")) {
+        //       console.log("키값 확인", file.Key)
+        //       const S3Client = fileConfig();
+        //       const deleteResponse = await S3Client.deleteFile(file.Key);
+        //       console.log("deleteResponse", deleteResponse);
+        //     }
+        //   }
+        // }
         
         // 파일 업로드
         
