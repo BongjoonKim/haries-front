@@ -174,7 +174,7 @@ function useChattingTemplate() {
           setInfPageNum(response.data.nextPage)
       } else {
         const response = await getMessages({channelId : channelId, page: -1});
-        setMessageHistory(response.data.messagesHistory.reverse());
+        setMessageHistory(response.data.messagesHistory?.reverse());
         setInfPageNum(response.data.nextPage);
       }
     }

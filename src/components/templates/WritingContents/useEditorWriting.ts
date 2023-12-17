@@ -11,6 +11,7 @@ import fileProcesses from "../../../appConfig/file";
 import recoilDocumentState from "../../../stores/recoil/recoilDocumentsState";
 import {startsWith} from "lodash";
 import fileConfig from "../../../appConfig/file/fileConfig";
+import awsS3 from "../../../appConfig/file/awsS3";
 
 function useEditorWriting() {
   const editorRef = useRef<any>();
@@ -52,7 +53,11 @@ function useEditorWriting() {
       const S3Client = fileConfig();
       const fileName = generatorUtil.uuid();
       const file = new File([blob], fileName, {type:blob.type});
-      const uploadResponse = await S3Client.uploadFile(file);
+  
+      const news = await awsS3({file : file, fileName : fileName});
+      console.log("뉴스 보기", news)
+      
+      // const uploadResponse = await S3Client.uploadFile(file);
   
       setUploadedList((prev : any) => [
         ...prev,
@@ -62,7 +67,7 @@ function useEditorWriting() {
         }
       ])
       // const response = await fileConfig({blob: blob});
-      callback(uploadResponse.location);
+      callback("");
     } catch (e) {
       callback("fail image upload");
       console.log("에러 확인", e)
@@ -95,6 +100,7 @@ function useEditorWriting() {
       
       
       if (id) {
+
         const request : DocumentDTO = {
           title: titleRef.current?.value!,
           contents : contents,
