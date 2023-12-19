@@ -51,18 +51,14 @@ function useEditorWriting() {
     try {
       const fileName = generatorUtil.uuid();
       let fileKey = ``;
+      if (id) {
+        fileKey = `${id}/${fileName}`;
+      } else {
         fileKey = `new/${fileName}`;
+      }
       
       const file = new File([blob], `${fileName}`, {type:blob.type});
-      
-  
-      // const uploadFile = await s3Utils.uploadFile({file : file, fileName : fileKey});
-      // console.log("uploadFile", uploadFile)
-      
-      const {uploadFile} = fileProcess({blob : blob, fileName : fileKey});
-      const response = await uploadFile();
-      console.log("response", response)
-      
+      const response = await s3Utils.uploadFile({fileKey : fileKey, file : file})
       
       setUploadedList((prev : any) => [
         ...prev,
@@ -99,10 +95,7 @@ function useEditorWriting() {
       contents = editorInfo.getHTML();
     }
     
-  
     try {
-      
-      
       if (id) {
 
         const request : DocumentDTO = {
@@ -121,8 +114,8 @@ function useEditorWriting() {
           `https://haries-img.s3-ap-northeast-2.amazonaws.com/new/`,
           `https://haries-img.s3-ap-northeast-2.amazonaws.com/${titleRef.current?.value}/`
         );
+        
         const unique = generatorUtil.uuid();
-  
         const request : DocumentDTO = {
           title: titleRef.current?.value!,
           contents : newContents,
@@ -132,6 +125,12 @@ function useEditorWriting() {
         }
         await createDocuments(request);
         const response = await getDocumentUnique({unique: unique});
+        
+        console.log("uploadedList", uploadedList)
+        for (const uploaded of uploadedList) {
+          const copy = await s3Utils.copyFile({fileKey : uploaded.key, newFileKey : uploaded.key.replace("new/", response.data.id)})
+          console.log("복사 성공여부 확인", response.data.id, copy)
+        }
         
         
         // 파일 업로드

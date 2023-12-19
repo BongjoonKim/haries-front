@@ -5,7 +5,7 @@ export const s3Utils = {
     const S3 = awsS3();
     const response = await S3.upload({
       Bucket : "haries-img",
-      Key : props.fileName,
+      Key : props.fileKey,
       Body : props.file,
     })
     
@@ -16,8 +16,8 @@ export const s3Utils = {
     const S3 = awsS3();
     const params = {
       Bucket: "haries-img",
-      CopySource: props.fileName, // 원본 버킷/키
-      Key: props.newFileName, // 대상 버킷/키
+      CopySource: props.fileKey, // 원본 버킷/키
+      Key: props.newFileKey, // 대상 버킷/키
     }
     const response = await S3.copyObject(params);
     return response.promise().then(el => el.$response);
