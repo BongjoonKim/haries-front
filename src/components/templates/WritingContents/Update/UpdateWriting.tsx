@@ -1,7 +1,10 @@
 import React, {lazy, Suspense, useRef, useState} from "react";
-import WritingContentsLayout from "../WritingContentsLayout";
+// import WritingContentsLayout from "../WritingContentsLayout";
 import useEditorWriting from "../useEditorWriting";
-import Editor from "../../../widgets/Editor";
+// import Editor from "../../../widgets/Editor";
+
+const Editor = lazy(() => import("../../../widgets/Editor"));
+const WritingContentsLayout = lazy(() => import("../WritingContentsLayout"));
 
 function UpdateWriting() {
   const {
@@ -14,8 +17,7 @@ function UpdateWriting() {
     setSelectedFolderId
   } = useEditorWriting();
   
-  // const Editor = lazy(() => import("../../../widgets/Editor"));
-  // const WritingContentsLayout = lazy(() => import("../WritingContentsLayout"));
+
   
   return (
     <Suspense>
