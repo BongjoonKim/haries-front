@@ -97,7 +97,6 @@ function useEditorWriting() {
     
     try {
       if (id) {
-
         const request : DocumentDTO = {
           title: titleRef.current?.value!,
           contents : contents,
@@ -107,39 +106,44 @@ function useEditorWriting() {
         await saveDocument({id, request});
         setUploadedList([]);
         navigate(`/blog/${id}`);
-        
       } else {
-        console.log("글 값 확인", contents)
-        const newContents = contents.replaceAll(
-          `https://haries-img.s3-ap-northeast-2.amazonaws.com/new/`,
-          `https://haries-img.s3-ap-northeast-2.amazonaws.com/${titleRef.current?.value}/`
-        );
-        
-        const unique = generatorUtil.uuid();
+        console.log("저장 전")
         const request : DocumentDTO = {
+          title: "",
+          contents : "",
+          unique: "",
+          folderId: ""
+        }
+        const response = await createDocuments(request);
+        console.log("응답", response)
+        
+        for (const uploaded of uploadedList) {
+          if (uploaded.blob?.name) {
+            const copy = await s3Utils.copyFile({fileKey : uploaded.key, newFileKey : uploaded.key.replace("new/", `${response.data.id}/`)})
+            const deletes = await s3Utils.deleteFile({fileKey : uploaded.key});
+          }
+        }
+  
+        const newContents = contents.replaceAll(
+          `https://haries-img.s3.ap-northeast-2.amazonaws.com/new/`,
+          `https://haries-img.s3.ap-northeast-2.amazonaws.com/${response.data.id}/`
+        );
+  
+        const unique = generatorUtil.uuid();
+        
+        const newRequest : DocumentDTO = {
           title: titleRef.current?.value!,
           contents : newContents,
           contentsType : editorInfo.mode,
           unique: unique,
           folderId: selectedFolderId
         }
-        await createDocuments(request);
-        const response = await getDocumentUnique({unique: unique});
-        
-        console.log("uploadedList", uploadedList)
-        for (const uploaded of uploadedList) {
-          const copy = await s3Utils.copyFile({fileKey : uploaded.key, newFileKey : uploaded.key.replace("new/", response.data.id)})
-          console.log("복사 성공여부 확인", response.data.id, copy)
-        }
-        
-        
-        // 파일 업로드
-        
+        const newId = response.data.id;
+        await saveDocument({id : newId, request : newRequest});
         // 화면 이동
         navigate(`/blog/${response.data.id}`);
-
       }
-      getDocumentData(id!);
+      await getDocumentData(id!);
     } catch (e) {
       // setMessage(prev => {
       //   return {

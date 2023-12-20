@@ -16,18 +16,19 @@ export const s3Utils = {
     const S3 = awsS3();
     const params = {
       Bucket: "haries-img",
-      CopySource: props.fileKey, // 원본 버킷/키
-      Key: props.newFileKey, // 대상 버킷/키
+      CopySource: `haries-img/${props.fileKey}`, // 원본 버킷/키
+      Key: `${props.newFileKey}`, // 대상 버킷/키
     }
     const response = await S3.copyObject(params);
-    return response.promise().then(el => el.$response);
+    return response.promise().then(el => el.CopyObjectResult);
   },
   
   async deleteFile(props : any) {
     const S3 = awsS3();
     const params = {
       Bucket: "haries-img",
-      Key: props.fileName, // 원본 버킷/키
+      Key: `haries-img/${props.fileKey}`, // 원본 버킷/키
     }
+    const response = await S3.deleteObject(params);
   }
 }
