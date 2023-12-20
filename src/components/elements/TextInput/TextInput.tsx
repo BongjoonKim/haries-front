@@ -36,7 +36,6 @@ export default forwardRef((props: TextInputProps, ref: ForwardedRef<HTMLInputEle
         if (props.filter) {
             event.target.value = String(event.target.value)?.replace?.(props.filter, "");
         }
-        console.log("제목 값 확인", event.target.value)
         props.onChange?.(event);
         setValue(() => event.target.value)
     }, [value]);

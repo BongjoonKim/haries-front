@@ -21,6 +21,7 @@ import SubFolder from "../../../containers/global/Sidebar/SubFolder";
 import TreeItem from "@mui/lab/TreeItem";
 import TagInput from "../../elements/TextInput/TagInput";
 import {FormControlLabel, Switch} from "@mui/material";
+import TitleInput from "../../elements/TextInput/TitleInput";
 
 interface WritingContentsLayoutProps {
   children : ReactNode;
@@ -44,15 +45,13 @@ function WritingContentsLayout(props: WritingContentsLayoutProps, ref : any) {
   return (
     <StyledEditor>
       <div className="title">
-        <TextInput
-          name="title"
-          id="editor-table-title"
+        <TitleInput
           ref={ref}
           placeholder="제목을 입력하세요"
           value={props.write.title}
         />
       </div>
-      <div>
+      <div className="wrapper-react-toast-area">
         <div className="react-toast-area">
           {props.children}
         </div>

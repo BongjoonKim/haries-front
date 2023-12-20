@@ -1,10 +1,23 @@
 import styled from "styled-components";
 
 export const StyledEditor = styled.div`
-  //display: block;
-  justify-content: center;
-  align-items: center;
-  height: 40rem;
+  height: 100%;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  .wrapper-react-toast-area {
+    display: flex;
+    flex: 1;
+    .react-toast-area {
+      display: flex;
+      flex: 1;
+      & > div {
+        height: 100% !important;
+        width: 100%;
+      }
+    }
+  }
+
   .editor-config {
     width: 100%;
     display: flex;

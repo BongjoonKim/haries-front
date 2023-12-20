@@ -10,7 +10,6 @@ import recoilDocumentState from "../../../stores/recoil/recoilDocumentsState";
 import {startsWith} from "lodash";
 import awsS3 from "../../../appConfig/file/awsS3";
 import {s3Utils} from "../../../utilities/s3Utils";
-import fileProcess from "../../../appConfig/file/fileProcess";
 
 function useEditorWriting() {
   const editorRef = useRef<any>();

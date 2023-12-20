@@ -47,19 +47,23 @@ const StyledSubContext = styled.div`
   grid-gap: 1rem;
   justify-content:center;
   //width : 100%;
-  height: 100%;
-  margin: 5vh auto;
-  height: auto;
+  //height: 100%;
+  //margin: 5vh auto;
+  //height: auto;
   padding: 0rem 2rem;
+  flex: 1;
+  margin : 0 10%;
   
   @media screen and (min-width: 768px) {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 2fr);
+    flex: 1;
   }
   //
   @media screen and (min-width: 1250px) {
     grid-template-columns: repeat(3, 3fr);
-    margin: 5vh auto;
-    min-height: 100%;
+    flex: 1;
+    //margin: 5vh auto;
+    //min-height: 100%;
   }
 
 `;

@@ -67,10 +67,9 @@ export default WritingViewer;
 const StyledWritingViewer = styled.div`
   padding: 1rem 1rem;
   width: 80%;
-  min-height: 100vh;
-  height: 100%;
+  //height: 100%;
   //text-align: center;
-  margin: auto;
+  //margin: auto;
   background-color: white;
 
   .title {

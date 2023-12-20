@@ -25,11 +25,13 @@ function WritingContext() {
 export default WritingContext;
 
 const StyledWritingContext = styled.div`
+  display: flex;
+  flex-direction: column;
   &:hover {
     mso-border-shadow: yes;
   }
   justify-content: center;
-  height: 100%;
+  flex: 1;
  .pagination {
    display: flex;
    justify-content: center;
