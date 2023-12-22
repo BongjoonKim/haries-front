@@ -8,7 +8,7 @@ import ChatMessage from "./ChatMessage";
 import ChannelBox from "./ChannelBox";
 import InputBase from '@mui/material/InputBase';
 import Paper from '@mui/material/Paper';
-import {Box, Divider, IconButton, Modal} from "@mui/material";
+import {Box, Divider, IconButton, Modal, TextareaAutosize} from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import useChattingTemplate from "./useChattingTemplate";
 import SimpleSave from "../SimpleSave";
@@ -30,6 +30,8 @@ function ChattingTemplate() {
     innerWidth, messageHistoryRef, highEnd, messageHistorysRef,
     show, newList
   } = useChattingTemplate();
+  
+  console.log("선택한 채널", message)
   
   return (
     <MainContent
@@ -175,14 +177,25 @@ function ChattingTemplate() {
             <div  />
           </div>
           <div className="message-write">
-            <TextInput
+            {/*<TextInput*/}
+            {/*  value={message}*/}
+            {/*  onChange={(event : any) => {*/}
+            {/*    setMessage(event.target.value)*/}
+            {/*  }}*/}
+            {/*  onKeyPress={handleSendMessage}*/}
+            {/*/>*/}
+            <TextareaAutosize
               value={message}
               onChange={(event : any) => {
-                setMessage(event.target.value)
+                setMessage(event.target.value);
               }}
-              onKeyPress={handleSendMessage}
+              onKeyDown={handleSendMessage}
+              disabled={!selectedChannel}
             />
-            <CustomButton onClick={handleSendMessage}>
+            <CustomButton
+              onClick={handleSendMessage}
+              disabled={!selectedChannel}
+            >
               전송
             </CustomButton>
           </div>
@@ -201,6 +214,11 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
   width: 100%;
   gap: 1rem;
   height: 100%;
+  textarea {
+    width: 100% !important;
+    min-height: 1rem;
+    padding: 0.5rem;
+  }
 
   @media only screen and (min-width: 0px) and (max-width: 1199px) {
     .channel-view {
@@ -302,10 +320,8 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
 
       .message-write {
         display: flex;
-        height: 5rem;
         align-items: center;
         width: 100%;
-
         .caIjNN { // textInput
           flex-grow: 1;
         }
@@ -401,7 +417,7 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
 
       .message-write {
         display: flex;
-        height: 5rem;
+        //height: 5rem;
         align-items: center;
         width: 100%;
 

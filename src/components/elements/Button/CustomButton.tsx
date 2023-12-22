@@ -11,6 +11,7 @@ interface ButtonProps {
   onClick ?: any;
   fullWidth?: boolean;
   backgroundColor?: string;
+  disabled ?: boolean;
   styles?: {
     margin?: string;
     width?: string;
@@ -27,6 +28,7 @@ function CustomButton(props : ButtonProps) {
         color={props.color}
         onClick={props.onClick}
         fullWidth={props.fullWidth}
+        disabled={props.disabled}
       />
     </StyleCustomButton>
   )

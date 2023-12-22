@@ -117,39 +117,42 @@ function useChattingTemplate() {
   // 메세지 입력
   const handleSendMessage = useCallback(async (event: any) => {
     if (event.key === "Enter" || event.type === "click") {
-      const request : MessageHistoryDTO = {
-        channelId : selectedChannel,
-        content : message,
-        bot : "user"
-      };
-      await createMessage(request);
-      setMessage("");
-      
-      // 조회!
-      await getMessageHistory(selectedChannel, -1);
-      
-      await setMessageHistory((prev: any) => {
-        return [{
-          id : "loading",
+      if (event.shiftKey) { // shift + enter를 쳤을 떄 줄바꿈 가능하게
+        return;
+      } else {
+        const request : MessageHistoryDTO = {
           channelId : selectedChannel,
-          content : "loading",
-          userId : "loading",
-          created : new Date(),
-          bot: true
-        }, ...prev]
-      })
-      // chatGPT에 문의
-      const responseGPT = await askChatGPT({question : message});
-      const gptRequest : MessageHistoryDTO = {
-        channelId : selectedChannel,
-        content : responseGPT.data,
-        bot : "ChatGPT"
+          content : message,
+          bot : "user"
+        };
+        await createMessage(request);
+        setMessage("");
+  
+        // 조회!
+        await getMessageHistory(selectedChannel, -1);
+  
+        await setMessageHistory((prev: any) => {
+          return [{
+            id : "loading",
+            channelId : selectedChannel,
+            content : "loading",
+            userId : "loading",
+            created : new Date(),
+            bot: true
+          }, ...prev]
+        })
+        // chatGPT에 문의
+        const responseGPT = await askChatGPT({question : message});
+        const gptRequest : MessageHistoryDTO = {
+          channelId : selectedChannel,
+          content : responseGPT.data,
+          bot : "ChatGPT"
+        }
+        await createMessage(gptRequest);
+  
+        await getMessageHistory(selectedChannel, -1);
+        setGoLatest(true);
       }
-      await createMessage(gptRequest);
-  
-      await getMessageHistory(selectedChannel, -1);
-      setGoLatest(true);
-  
     }
   }, [message, selectedChannel, goLatest]);
   
