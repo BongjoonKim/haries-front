@@ -6,6 +6,7 @@ import {useRecoilState} from "recoil";
 import recoilDocumentsState from "../../../stores/recoil/recoilDocumentsState";
 import recoilCommonState from "../../../stores/recoil/recoilCommonState";
 import {DocumentDTO} from "../../../types/dto/documentsInfo.d";
+import {s3Utils} from "../../../utilities/s3Utils";
 
 function useWritingViewer() {
   const viewerRef = useRef<any>();
@@ -21,7 +22,6 @@ function useWritingViewer() {
       if (!!id) {
         const response = await getDocument({id: id});
         setWriting(response.data);
-        console.log("글 종류", response.data);
       }
     } catch (e) {
       setMessage(prev => {
@@ -50,6 +50,24 @@ function useWritingViewer() {
         contents : "삭제 성공",
         isOpen : true
       });
+      
+      const responseList = await s3Utils.getFiles({prefix : id});
+      console.log("목록", responseList!.map(el => {
+        return {
+          Key : el.Key,
+        }
+      }))
+      
+      if (responseList && responseList.length) {
+        const deleteResult = await s3Utils.deleteFiles({Keys : responseList.map(el => {
+          return {
+            Key : `${el.Key}`,
+          }
+        })});
+        console.log("데이터 삭제", deleteResult)
+      }
+      
+      
       navigate("/blog");   // 이전 화면으로
     } catch (e) {
       setMessage(prev => {

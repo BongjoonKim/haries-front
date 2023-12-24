@@ -25,9 +25,6 @@ function useEditorWriting() {
   const navigate = useNavigate();
   const [uploadedList, setUploadedList] = useRecoilState(recoilDocumentState.uploadedList);
   
-  
-  
-  
   // 수정 화면일 때 조회 로직
   const getDocumentData = useCallback(async (id ?: string) => {
     try {

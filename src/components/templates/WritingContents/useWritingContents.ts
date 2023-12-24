@@ -54,50 +54,6 @@ function useWritingContents(props : any) {
     }
   }
   
-  // 글 저장 로직
-  const handleSave = useCallback(async () => {
-  
-    console.log("editorRef", props)
-      // const editorInfo = editorRef?.current.getInstance();
-      // let contents = "";
-      //
-      // if (editorInfo.mode === "markdown") {
-      //   contents = editorInfo.getMarkdown();
-      // } else if (editorInfo.mode === "wysiwyg") {
-      //   contents = editorInfo.getHTML();
-      // }
-      //
-      // const unique = generatorUtil.uuid();
-      //
-      // const request : DocumentDTO = {
-      //   title: titleRef.current.value,
-      //   contents : contents,
-      //   contentsType : editorInfo.mode,
-      //   unique: unique,
-      //   disclose: disclose,
-      //   folderId: selectedFolderId
-      // }
-      // try {
-      //   if (!!id) {
-      //     await saveDocument({id, request});
-      //     navigate(`/blog/${id}`)
-      //   } else {
-      //     await createDocuments(request);
-      //     const response = await getDocumentUnique({unique: unique});
-      //     navigate(`/blog/${response.data.id}`);
-      //
-      //   }
-      // } catch (e) {
-      //   setMessage(prev => {
-      //     return {
-      //       contents: "글 저장 실패",
-      //       isOpen: true
-      //     }
-      //   })
-      // }
-  }, [message, selectedFolderId, disclose, tags]);
-  
-  
   // 태그 삭제 함수
   const tagDelete = useCallback((event : any) => {
     // console.log("삭제 이벤트 확인", event.currentTarget.parentElement.parentElement.children[0].innerHTML);
