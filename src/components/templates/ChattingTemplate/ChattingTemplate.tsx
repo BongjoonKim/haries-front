@@ -417,7 +417,6 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
 
       .message-write {
         display: flex;
-        //height: 5rem;
         align-items: center;
         width: 100%;
 
