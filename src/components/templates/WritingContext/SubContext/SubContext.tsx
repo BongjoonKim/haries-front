@@ -18,10 +18,9 @@ function SubContext(props: SubContextProps) {
       {writings.map((writing, index) => {
         let parser = new DOMParser();
         let documents = parser.parseFromString(writing.contents!, "text/html");
-        console.log("도큐먼트", documents);
         return (
         <StyledContextBox key={index} id={writing.id} onClick={contentsOnClick}>
-          <img src={`${process.env.PUBLIC_URL}/serrata.jpeg`}/>
+          <img src={`${process.env.PUBLIC_URL}/Serrata.jpeg`}/>
           <h4>
             {writing.title}
           </h4>
