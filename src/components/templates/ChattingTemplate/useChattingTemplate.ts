@@ -117,6 +117,7 @@ function useChattingTemplate() {
   // 메세지 입력
   const handleSendMessage = useCallback(async (event: any) => {
     if (event.key === "Enter" || event.type === "click") {
+      event.preventDefault();
       if (event.shiftKey) { // shift + enter를 쳤을 떄 줄바꿈 가능하게
         return;
       } else {
@@ -222,7 +223,7 @@ function useChattingTemplate() {
   }, [update]);
   
   useEffect(() => {
-    if(messageHistory.length <= 10) {
+    if(messageHistory?.length <= 10) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     } else {
       // scrollRef.current.scrollTop = scrollRef.current.scrollHeight / 2;

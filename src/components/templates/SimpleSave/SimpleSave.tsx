@@ -9,11 +9,10 @@ function SimpleSave(props : any) {
         {props.title}
       </div>
       <div>
-        <TextInput
+        <input
           value={props.contents}
           onChange={props.onChange}
-          onKeyPress={(event) => {
-            console.log("값 확인", event.key)
+          onKeyDown={(event : any) => {
             if (event.key === "Enter") {
               props.onOk();
             }

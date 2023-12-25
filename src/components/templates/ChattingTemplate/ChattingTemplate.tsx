@@ -133,7 +133,7 @@ function ChattingTemplate() {
               width: "100%",
               height: "100%"
             }} />
-            {selectedChannel ? messageHistory.map((el, inx) => {
+            {selectedChannel ? messageHistory?.map((el, inx) => {
               return (
                 <>
                   {el.userId === "ChatGPT" ? (
@@ -187,6 +187,7 @@ function ChattingTemplate() {
             <TextareaAutosize
               value={message}
               onChange={(event : any) => {
+                event.preventDefault();
                 setMessage(event.target.value);
               }}
               onKeyDown={handleSendMessage}
