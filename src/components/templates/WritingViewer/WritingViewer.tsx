@@ -11,6 +11,7 @@ import moment from "moment";
 import CustomButton from "../../elements/Button";
 
 
+const EditorViewer = lazy(() => import("../../widgets/EditorViewer"));
 
 function WritingViewer() {
   // const {id} = useParams();
@@ -22,9 +23,9 @@ function WritingViewer() {
     handleOnClose,
     viewerRef,
     handleDelete,
+    id
   } = useWritingViewer();
   
-  const EditorViewer = lazy(() => import("../../widgets/EditorViewer"));
   
   const action = (
     <>
@@ -41,6 +42,7 @@ function WritingViewer() {
   
   return (
     <Suspense>
+      {writing?.id === id && (
         <StyledWritingViewer>
           <div className="title">{writing?.title}</div>
           <div className="writing-info">
@@ -57,10 +59,12 @@ function WritingViewer() {
               <CustomButton onClick={handleDelete}><span>삭제</span></CustomButton>
             </div>
           </div>
-          
-            <EditorViewer writing={writing?.contents} viewerRef={viewerRef} />
+    
+          <EditorViewer writing={writing?.contents} viewerRef={viewerRef} />
           <MessageBar open={message.isOpen} onClose={handleOnClose} message={message.contents} action={action}/>
         </StyledWritingViewer>
+      )}
+      
     </Suspense>
   )
 }
