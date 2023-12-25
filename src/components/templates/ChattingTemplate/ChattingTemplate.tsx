@@ -215,7 +215,7 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
   gap: 1rem;
   height: 100%;
   textarea {
-    width: 100% !important;
+    width: 100%;
     min-height: 1rem;
     padding: 0.5rem;
   }
