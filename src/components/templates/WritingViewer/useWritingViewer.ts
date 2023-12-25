@@ -52,11 +52,6 @@ function useWritingViewer() {
       });
       
       const responseList = await s3Utils.getFiles({prefix : id});
-      console.log("목록", responseList!.map(el => {
-        return {
-          Key : el.Key,
-        }
-      }))
       
       if (responseList && responseList.length) {
         const deleteResult = await s3Utils.deleteFiles({Keys : responseList.map(el => {
@@ -88,7 +83,6 @@ function useWritingViewer() {
   }, [message]);
   
   const handleSaveOpen = useCallback( () => {
-    console.log("여기여기", id);
     setMessage({
       contents : "",
       isOpen : false

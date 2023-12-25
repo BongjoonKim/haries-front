@@ -1,8 +1,8 @@
 import React, {lazy, Suspense, useRef, useState} from "react";
 import useEditorWriting from "../useEditorWriting";
 
-const Editor = lazy(() => import("../../../widgets/Editor"));
 const WritingContentsLayout = lazy(() => import("../WritingContentsLayout"));
+const Editor = lazy(() => import("../../../widgets/Editor"));
 
 function UpdateWriting() {
   const {
@@ -12,34 +12,36 @@ function UpdateWriting() {
     getDocumentData,
     addFiles, handleOutPage,
     selectedFolderId,
-    setSelectedFolderId
+    setSelectedFolderId, id
   } = useEditorWriting();
   
+  console.log("최종 writing", writing)
 
   
   return (
     <Suspense>
-      <WritingContentsLayout
-        ref={titleRef}
-        write={writing}
-        save={handleSave}
-        tags={tags}
-        tagInput={tagInput}
-        setTagInput={setTagInput}
-        getDocumentData={getDocumentData}
-        addFiles={addFiles}
-        handleOutPage={handleOutPage}
-        selectedFolderId={selectedFolderId}
-        setSelectedFolderId={setSelectedFolderId}
-      >
-
+      {writing.id === id && (
+        <WritingContentsLayout
+          ref={titleRef}
+          write={writing}
+          save={handleSave}
+          tags={tags}
+          tagInput={tagInput}
+          setTagInput={setTagInput}
+          getDocumentData={getDocumentData}
+          addFiles={addFiles}
+          handleOutPage={handleOutPage}
+          selectedFolderId={selectedFolderId}
+          setSelectedFolderId={setSelectedFolderId}
+        >
           <Editor
             initialEditType={writing.contentsType!}
             initialValue={writing.contents!}
             editorRef={editorRef}
             hooks={{addImageBlobHook : onUploadImage}}
           />
-      </WritingContentsLayout>
+        </WritingContentsLayout>
+      )}
     </Suspense>
     
   )

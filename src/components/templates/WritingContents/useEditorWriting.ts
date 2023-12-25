@@ -25,21 +25,25 @@ function useEditorWriting() {
   const navigate = useNavigate();
   const [uploadedList, setUploadedList] = useRecoilState(recoilDocumentState.uploadedList);
   
+  console.log("아이디 확인", id)
+  
   // 수정 화면일 때 조회 로직
   const getDocumentData = useCallback(async (id ?: string) => {
     try {
+      console.log("getDocumentData 오나")
       if (id) {
         const response = await getDocument({id : id!});
         setWriting({
           ...response.data
         });
       } else {
+        console.log("리셋하러 오나")
         resetWriting();
       }
     } catch (e) {
       console.log("getDocumentData", e);
     }
-  }, [writing]);
+  }, [writing, resetWriting]);
   
   
   // 파일 저장
@@ -111,7 +115,6 @@ function useEditorWriting() {
           folderId: ""
         }
         const response = await createDocuments(request);
-        console.log("응답", response)
         
         for (const uploaded of uploadedList) {
           if (uploaded.blob?.name) {
@@ -156,8 +159,13 @@ function useEditorWriting() {
   }, []);
   
   useEffect(() => {
-    getDocumentData(id);
-  }, []);
+    console.log("useEffect 타는지")
+    if (id) {
+      getDocumentData(id);
+    } else {
+      resetWriting();
+    }
+  }, [id]);
   
   return {
     editorRef,
@@ -174,6 +182,7 @@ function useEditorWriting() {
     handleOutPage,
     selectedFolderId,
     setSelectedFolderId,
+    id
   }
   
   

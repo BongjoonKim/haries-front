@@ -1,4 +1,3 @@
-import useWritingContents from "../useWritingContents";
 import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
 import Button from "../../../elements/Button";
 import styled from "styled-components";
@@ -17,30 +16,35 @@ function CreateWriting() {
     getDocumentData,
     addFiles, handleOutPage,
     selectedFolderId,
-    setSelectedFolderId
+    setSelectedFolderId, id
   } = useEditorWriting();
   
   return (
-    <WritingContentsLayout
-      ref={titleRef}
-      write={writing}
-      save={handleSave}
-      tags={tags}
-      tagInput={tagInput}
-      setTagInput={setTagInput}
-      addFiles={addFiles}
-      handleOutPage={handleOutPage}
-      selectedFolderId={selectedFolderId}
-      setSelectedFolderId={setSelectedFolderId}
-    >
-      <Editor
-        editorRef={editorRef}
-        initialEditType={writing.contentsType!}
-        hooks={{
-          addImageBlobHook: onUploadImage
-        }}
-      />
-    </WritingContentsLayout>
+    <>
+      {!writing.id && (
+        <WritingContentsLayout
+          ref={titleRef}
+          write={writing}
+          save={handleSave}
+          tags={tags}
+          tagInput={tagInput}
+          setTagInput={setTagInput}
+          addFiles={addFiles}
+          handleOutPage={handleOutPage}
+          selectedFolderId={selectedFolderId}
+          setSelectedFolderId={setSelectedFolderId}
+        >
+          <Editor
+            editorRef={editorRef}
+            initialEditType={writing.contentsType!}
+            hooks={{
+              addImageBlobHook: onUploadImage
+            }}
+          />
+        </WritingContentsLayout>
+      )}
+    </>
+    
   )
 }
 

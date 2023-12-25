@@ -25,7 +25,6 @@ function useWritingContents(props : any) {
   
   // 수정 화면일 경우
   
-  
   // 수정 화면일 경우 조회 로직
   const getDocumentData = useCallback(async (id : string) => {
     try {
@@ -65,6 +64,7 @@ function useWritingContents(props : any) {
   }, [tags]);
   
   useEffect(() => {
+    console.log("getDocumentData useEffect", id)
     if (!!id) {
       getDocumentData(id);
     }

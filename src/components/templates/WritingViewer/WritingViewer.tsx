@@ -1,4 +1,4 @@
-import EditorViewer from "../../widgets/EditorViewer";
+// import EditorViewer from "../../widgets/EditorViewer";
 import useWritingViewer from "./useWritingViewer";
 import {useParams} from "react-router-dom";
 import {Button, IconButton, Snackbar} from "@mui/material";
@@ -9,6 +9,8 @@ import styled from "styled-components";
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import moment from "moment";
 import CustomButton from "../../elements/Button";
+
+
 
 function WritingViewer() {
   // const {id} = useParams();
@@ -38,6 +40,7 @@ function WritingViewer() {
   )
   
   return (
+    <Suspense>
         <StyledWritingViewer>
           <div className="title">{writing?.title}</div>
           <div className="writing-info">
@@ -54,11 +57,11 @@ function WritingViewer() {
               <CustomButton onClick={handleDelete}><span>삭제</span></CustomButton>
             </div>
           </div>
-          <Suspense>
+          
             <EditorViewer writing={writing?.contents} viewerRef={viewerRef} />
-          </Suspense>
           <MessageBar open={message.isOpen} onClose={handleOnClose} message={message.contents} action={action}/>
         </StyledWritingViewer>
+    </Suspense>
   )
 }
 

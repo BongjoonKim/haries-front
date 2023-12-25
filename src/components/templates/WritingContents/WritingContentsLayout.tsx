@@ -12,7 +12,6 @@ import React, {
 import Button from "../../elements/Button";
 import Editor from "../../widgets/Editor";
 import TextInput from "../../elements/TextInput";
-import useWritingContents from "./useWritingContents";
 import TreeView from "@mui/lab/TreeView";
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
