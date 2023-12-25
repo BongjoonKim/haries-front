@@ -21,15 +21,21 @@ function SubContext(props: SubContextProps) {
         return (
         <StyledContextBox key={index} id={writing.id} onClick={contentsOnClick}>
           <img src={`${process.env.PUBLIC_URL}/Serrata.jpeg`}/>
-          <h4>
-            {writing.title}
-          </h4>
-          <span>
-            {documents?.body?.innerText}
-          </span>
-          <h6>
-            {moment(writing.created).format("YYYY-MM-DD")}
-          </h6>
+          <div className="info">
+            <div className="info-top">
+              <h4>
+                {writing.title}
+              </h4>
+              <span>
+                {documents?.body?.innerText}
+              </span>
+            </div>
+            <div className="info-bottom">
+              <h6>
+                {moment(writing.created).format("YYYY-MM-DD")}
+              </h6>
+            </div>
+          </div>
         </StyledContextBox>
       )})}
     </StyledSubContext>
@@ -73,6 +79,8 @@ const StyledContextBox = styled.div`
   height : 40vh;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 16px 0px;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
   &:hover {
     transition: box-shadow 0.25s ease-in 0s, transform 0.25s ease-in 0s;
     -webkit-transition: margin 0.5s ease-out;
@@ -81,19 +89,24 @@ const StyledContextBox = styled.div`
     padding-top: -5px;
     cursor:pointer;
   }
-
   img {
     width : 100%;
     height : 60%;
   }
-  span {
-    display: -webkit-box;
-    word-wrap: break-word;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    
+  .info {
+    padding: 0.5rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: space-between;
+    span {
+      display: -webkit-box;
+      word-wrap: break-word;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
   }
 `;
 
