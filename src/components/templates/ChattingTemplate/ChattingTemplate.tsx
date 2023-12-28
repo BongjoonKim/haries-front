@@ -8,7 +8,7 @@ import ChatMessage from "./ChatMessage";
 import ChannelBox from "./ChannelBox";
 import InputBase from '@mui/material/InputBase';
 import Paper from '@mui/material/Paper';
-import {Box, Divider, IconButton, Modal, TextareaAutosize} from "@mui/material";
+import {Box, CircularProgress, Divider, IconButton, Modal, TextareaAutosize} from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import useChattingTemplate from "./useChattingTemplate";
 import SimpleSave from "../SimpleSave";
@@ -28,10 +28,8 @@ function ChattingTemplate() {
     handleSendMessage, messageHistory,
     scrollRef, channelBoxOpener, setChannelBoxOpener,retrieveChannels,
     innerWidth, messageHistoryRef, highEnd, messageHistorysRef,
-    show, newList
+    show, newList, update
   } = useChattingTemplate();
-  
-  console.log("선택한 채널", message)
   
   return (
     <MainContent
@@ -153,11 +151,16 @@ function ChattingTemplate() {
             }) : (
               <span className="default-message">Select Channel Please!</span>
             )}
+            
             {/*{selectedChannel && (*/}
               <div ref={messageHistoryRef} style={{
-                minHeight: "1rem",
+                minHeight: "2rem",
                 width: "100%"
               }}/>
+            {update && (
+              <CircularProgress />
+            )
+            }
             {/*// )}*/}
             {selectedChannel ? (
               <>
@@ -190,7 +193,7 @@ function ChattingTemplate() {
                 event.preventDefault();
                 setMessage(event.target.value);
               }}
-              onKeyDown={handleSendMessage}
+              onKeyPress={handleSendMessage}
               disabled={!selectedChannel}
             />
             <CustomButton

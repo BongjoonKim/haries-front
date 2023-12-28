@@ -161,8 +161,8 @@ function useChattingTemplate() {
   const getMessageHistory = useCallback(async (channelId : string, page ?: number) => {
     if (page !== undefined) {
       const response = await getMessages({channelId : channelId, page: page});
-      setMessageHistory(response.data.messagesHistory.reverse());
-      setInfPageNum(response.data.nextPage);
+      await setMessageHistory(response.data.messagesHistory.reverse());
+      await setInfPageNum(response.data.nextPage);
     } else {
       if (infPageNum >= 0) {
         const response = await getMessages({channelId : channelId, page: infPageNum});
@@ -199,7 +199,7 @@ function useChattingTemplate() {
       entries.forEach((entry) => {
         if (entry.intersectionRatio > 0) {
           // 더 많은 아이템을 로드하기 위한 로직 실행
-          setUpdate(prev => !prev);
+          setUpdate(true);
         }
       });
     }, options);
@@ -211,14 +211,17 @@ function useChattingTemplate() {
     return () => {
       if (messageHistoryRef.current) {
         observer.unobserve(messageHistoryRef.current);
+        setUpdate(false);
       }
     };
   }, [messageHistoryRef]);
   //
   useEffect(() => {
-    // messageHistoryRef.current.scrollIntoView({block : "end"});
-    if (selectedChannel && infPageNum >= 0) {
-      getMessageHistory(selectedChannel);
+    if (selectedChannel && infPageNum >= 0 && update) {
+      setTimeout(() => {
+        getMessageHistory(selectedChannel);
+        setUpdate(false);
+      }, 1000)
     }
   }, [update]);
   
@@ -263,7 +266,8 @@ function useChattingTemplate() {
     retrieveChannels,
     highEnd,
     messageHistorysRef,
-    show, newList
+    show, newList,
+    update
   }
 }
 
