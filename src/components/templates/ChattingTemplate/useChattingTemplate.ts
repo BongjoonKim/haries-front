@@ -30,6 +30,7 @@ function useChattingTemplate() {
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
   const [show, setShow] = useState(false);
   const [newList ,setNewList] = useState<MessageHistoryDTO[]>([]);
+  const [isLoading, setLoading] = useState<boolean>(false);
   
   const messageHistoryRef = useRef<any>();
   const messageHistorysRef = useRef<any>();
@@ -174,15 +175,15 @@ function useChattingTemplate() {
             return result;
           }
         });
-          setNewList(response.data.messagesHistory)
-          setInfPageNum(response.data.nextPage)
+        setNewList(response.data.messagesHistory)
+        setInfPageNum(response.data.nextPage);
       } else {
         const response = await getMessages({channelId : channelId, page: -1});
         setMessageHistory(response.data.messagesHistory?.reverse());
         setInfPageNum(response.data.nextPage);
       }
     }
-  }, [messageHistory, infPageNum, selectedChannel, newList]);
+  }, [messageHistory, infPageNum, selectedChannel, newList, isLoading]);
   
   useEffect(() => {
     if (selectedChannel) {
@@ -191,39 +192,47 @@ function useChattingTemplate() {
   }, [selectedChannel]);
   
   useEffect(() => {
+    if (selectedChannel) {
     const options = {
       threshold: 1,
     };
-    
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.intersectionRatio > 0) {
-          // 더 많은 아이템을 로드하기 위한 로직 실행
-          setUpdate(true);
+        entries.forEach((entry) => {
+          if (entry.intersectionRatio > 0) {
+            // 더 많은 아이템을 로드하기 위한 로직 실행
+            setUpdate(prev => !prev);
+            if (infPageNum !== -1) {
+              setLoading(true);
+            } else {
+              setLoading(false);
+            }
+          }
+        });
+      }, options);
+      
+      if (messageHistoryRef.current) {
+        observer.observe(messageHistoryRef.current);
+      }
+      return () => {
+        if (messageHistoryRef.current) {
+          observer.unobserve(messageHistoryRef.current);
         }
-      });
-    }, options);
+      };
+    } else {
     
-    if (messageHistoryRef.current) {
-      observer.observe(messageHistoryRef.current);
     }
     
-    return () => {
-      if (messageHistoryRef.current) {
-        observer.unobserve(messageHistoryRef.current);
-        setUpdate(false);
-      }
-    };
-  }, [messageHistoryRef]);
+  }, [messageHistoryRef, selectedChannel, infPageNum]);
   //
   useEffect(() => {
-    if (selectedChannel && infPageNum >= 0 && update) {
+    if (selectedChannel && infPageNum >= 0 && isLoading) {
+      console.log("여기 오나")
       setTimeout(() => {
         getMessageHistory(selectedChannel);
-        setUpdate(false);
-      }, 1000)
+        // setLoading(false);
+      }, 1000);
     }
-  }, [update]);
+  }, [update, isLoading]);
   
   useEffect(() => {
     if(messageHistory?.length <= 10) {
@@ -267,7 +276,7 @@ function useChattingTemplate() {
     highEnd,
     messageHistorysRef,
     show, newList,
-    update
+    update, isLoading
   }
 }
 

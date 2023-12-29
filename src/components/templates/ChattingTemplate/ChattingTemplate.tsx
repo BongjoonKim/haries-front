@@ -28,8 +28,10 @@ function ChattingTemplate() {
     handleSendMessage, messageHistory,
     scrollRef, channelBoxOpener, setChannelBoxOpener,retrieveChannels,
     innerWidth, messageHistoryRef, highEnd, messageHistorysRef,
-    show, newList, update
+    show, newList, update, isLoading
   } = useChattingTemplate();
+  
+  console.log("로딩 확인", isLoading)
   
   return (
     <MainContent
@@ -151,17 +153,17 @@ function ChattingTemplate() {
             }) : (
               <span className="default-message">Select Channel Please!</span>
             )}
-            
-            {/*{selectedChannel && (*/}
-              <div ref={messageHistoryRef} style={{
-                minHeight: "2rem",
-                width: "100%"
-              }}/>
-            {update && (
-              <CircularProgress />
-            )
-            }
-            {/*// )}*/}
+            <div ref={messageHistoryRef} style={{
+              minHeight: "2rem",
+              width: "100%"
+            }}>
+              {isLoading && (
+                <div>
+                  <CircularProgress />
+                </div>
+                
+              )}
+            </div>
             {selectedChannel ? (
               <>
                 <hr />
