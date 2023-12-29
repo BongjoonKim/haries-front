@@ -153,15 +153,9 @@ function ChattingTemplate() {
             }) : (
               <span className="default-message">Select Channel Please!</span>
             )}
-            <div ref={messageHistoryRef} style={{
-              minHeight: "2rem",
-              width: "100%"
-            }}>
+            <div className="message-scroll-sensor" ref={messageHistoryRef}>
               {isLoading && (
-                <div>
                   <CircularProgress />
-                </div>
-                
               )}
             </div>
             {selectedChannel ? (
@@ -322,6 +316,13 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
           user-select: none;
           color: gray;
         }
+
+        .message-scroll-sensor {
+          display: flex;
+          justify-content: center;
+          min-height: 2rem;
+          width : 100%;
+        }
       }
 
       .message-write {
@@ -418,6 +419,13 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
           margin-top: auto;
           user-select: none;
           color: gray;
+        }
+        
+        .message-scroll-sensor {
+          display: flex;
+          justify-content: center;
+          min-height: 2rem;
+          width : 100%;
         }
       }
 

@@ -230,7 +230,7 @@ function useChattingTemplate() {
       setTimeout(() => {
         getMessageHistory(selectedChannel);
         // setLoading(false);
-      }, 1000);
+      }, 500);
     }
   }, [update, isLoading]);
   
