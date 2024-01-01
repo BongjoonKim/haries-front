@@ -48,4 +48,7 @@ const StyledSimpleCreate = styled.div`
     display: flex;
     justify-content: end;
   }
+  input {
+    width: 100%;
+  }
 `;
