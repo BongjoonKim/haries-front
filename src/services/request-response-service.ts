@@ -6,8 +6,7 @@ const request = axios.create({
     headers: {
         // 'Access-Control-Allow-Origin': 'http://13.209.27.28:3001',
         'Access-Control-Allow-Origin': 'http://localhost:3001',
-        
-        'Access-Control-Allow-Credentials' : true,
+        'Access-Control-Allow-Credentials' : false,
         "Content-Type": `application/json;charset=UTF-8`,
     },
 });

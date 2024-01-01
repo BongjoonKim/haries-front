@@ -8,8 +8,8 @@ function RedirectLogin() {
   const navigate = useNavigate();
   
   const getUserInfo = useCallback(async (code : string, state : string) => {
-    // const response = await doLogin({code : code, state : state});
-    const response = await oAuth2Login();
+    const response = await doLogin({code : code, state : state});
+    // const response = await oAuth2Login();
     console.log("response 값 확인", response)
   }, []);
   

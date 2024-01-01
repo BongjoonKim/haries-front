@@ -6,5 +6,5 @@ export async function doLogin(params : {code : string, state : string}) {
 }
 
 export async function oAuth2Login() {
-  return (await request.get(`/oauth2/authorization/naver`)) as AxiosResponse<any>
+  return (await request.post(`/oauth2/authorization/naver`)) as AxiosResponse<any>
 }

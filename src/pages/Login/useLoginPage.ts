@@ -7,9 +7,7 @@ function useLoginPage() {
     const clientId = `${process.env.REACT_APP_NAVER_CLIENT_ID}`;
     const redirectUri = `${process.env.REACT_APP_REDIRECT_LOGIN_URI}`;
     console.log("clientId", clientId);
-    const response = await oAuth2Login();
-    // console.log("결과값 확인", response)
-    // window.location.href = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=false`;
+    window.location.href = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=false`;
   }, []);
   
   return {
