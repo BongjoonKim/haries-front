@@ -3,7 +3,7 @@ import {MailOutlineRounded} from "@material-ui/icons";
 import {VpnKeyRounded} from "@material-ui/icons";
 import styled from "styled-components";
 import {Box, colors, IconButton} from "@material-ui/core";
-import {MouseEventHandler, useCallback, useRef, useState} from "react";
+import {MouseEventHandler, useCallback, useEffect, useRef, useState} from "react";
 import Popper from "../../../../components/widgets/Popper";
 import TextInput from "../../../../components/elements/TextInput";
 import useClickOutside from "../../../../hooks/sensor/useClickOutside";
@@ -20,12 +20,16 @@ import SearchIcon from '@mui/icons-material/Search';
 import {InputBase} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import BorderColorIcon from '@mui/icons-material/BorderColor';
+import {useRecoilState} from "recoil";
+import recoilCommonState from "../../../../stores/recoil/recoilCommonState";
 
 function RightNavigator() {
   const [anchorSearch, setAnchorSearch] = useState<any>(null);
   const arrowRef = useRef<any>(null);
   const [openSearch, setOpenSearch] = useState<boolean>(false);
   const {getModeProps : getLocalModeProps, handleShowMode, handleCloseMode} = useMode();
+  const [isLogin, setLogin] = useRecoilState(recoilCommonState.isLogin);
+  const [isShow, setShow] = useState(false);
   
   // 글쓰기
   const navigate = useNavigate();
@@ -41,16 +45,30 @@ function RightNavigator() {
     handleShowMode("login-modal");
   }, []);
   
-  // 개발자 문의 모달
-  const openAskModeless = useCallback((event: any) => {
-  
+  useEffect(() => {
+    if(localStorage.getItem("authorization")) {
+      setShow(true);
+    } else {
+      setShow(false);
+    }
   }, []);
+  
+  // 로그인 이벤트 발생 시
+  useEffect(() => {
+    if(isLogin) {
+      setShow(true);
+    } else {
+      setShow(false);
+    }
+  }, [isLogin]);
   
   return (
     <StyledRightHeader>
-      <IconButton onClick={() => navigate(`/blog/writing`)}>
-        <BorderColorIcon />
-      </IconButton>
+      {isShow && (
+        <IconButton onClick={() => navigate(`/blog/writing`)}>
+          <BorderColorIcon />
+        </IconButton>
+      )}
       
       {/*검색 창*/}
       {/*<StyledSearch>*/}
@@ -81,6 +99,7 @@ function RightNavigator() {
       <IconButton onClick={openLoginModal}>
         <VpnKeyRounded/>
       </IconButton>
+
       <Dialog
         type={ModeTypes.MODAL}
         name="login-modal"

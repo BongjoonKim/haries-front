@@ -1,6 +1,6 @@
 import {atom} from "recoil";
 import {recoilPersist} from "recoil-persist";
-import {MESSAGE_STATUS} from "./types.d";
+import {IS_LOGIN, MESSAGE_STATUS} from "./types.d";
 
 
 const {persistAtom} = recoilPersist();
@@ -13,6 +13,10 @@ export const recoilCommonState = {
       contents : ""
     },
     // effects_UNSTABLE: [persistAtom]
+  }),
+  isLogin : atom<boolean>({
+    key : `${IS_LOGIN}`,
+    default : false,
   }),
   
   selectedChannelId: atom<string>({
