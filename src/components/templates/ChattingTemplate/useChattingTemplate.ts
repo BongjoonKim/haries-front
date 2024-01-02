@@ -117,6 +117,7 @@ function useChattingTemplate() {
   
   // 메세지 입력
   const handleSendMessage = useCallback(async (event: any) => {
+    console.log("메세지 입력")
     if (event.key === "Enter" || event.type === "click") {
       event.preventDefault();
       if (event.shiftKey) { // shift + enter를 쳤을 떄 줄바꿈 가능하게
@@ -127,6 +128,7 @@ function useChattingTemplate() {
           content : message,
           bot : "user"
         };
+        console.log("로그 확인", request)
         await createMessage(request);
         setMessage("");
   
