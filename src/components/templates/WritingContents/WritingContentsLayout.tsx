@@ -12,12 +12,13 @@ import React, {
 import Button from "../../elements/Button";
 import Editor from "../../widgets/Editor";
 import TextInput from "../../elements/TextInput";
-import TreeView from "@mui/lab/TreeView";
+// import TreeView from "@mui/lab/TreeView";
+import {TreeView} from "@mui/x-tree-view/TreeView";
+import { TreeItem } from '@mui/x-tree-view/TreeItem';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
 import useSidebar from "../../../containers/global/Sidebar/useSidebar";
 import SubFolder from "../../../containers/global/Sidebar/SubFolder";
-import TreeItem from "@mui/lab/TreeItem";
 import TagInput from "../../elements/TextInput/TagInput";
 import {FormControlLabel, Switch} from "@mui/material";
 import TitleInput from "../../elements/TextInput/TitleInput";
@@ -117,8 +118,8 @@ function WritingContentsLayout(props: WritingContentsLayoutProps, ref : any) {
           <Button variant="contained" color="secondary" children="나가기" onClick={props.handleOutPage}/>
         </StyledLeftEditorButton>
         <StyledRightEditorButton>
-          <Button variant="contained" color="primary" children="미리보기" />
-          <Button variant="contained" color="primary" children="임시저장"  />
+          {/*<Button variant="contained" color="primary" children="미리보기" />*/}
+          {/*<Button variant="contained" color="primary" children="임시저장"  />*/}
           <Button variant="contained" color="secondary" children="발행" onClick={props.save}/>
         </StyledRightEditorButton>
       </StyledEditorButton>
