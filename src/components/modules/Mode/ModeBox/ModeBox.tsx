@@ -47,6 +47,8 @@ function ModalBox<T, N>({
         size,
 
     });
+    
+    console.log("타입 확인", boxSize)
 
     return transitions(
         ({ opacity }, item) =>
@@ -111,7 +113,6 @@ function ModalBox<T, N>({
                         {String(type)?.includes(ModeTypes.MODELESS) && !maximize && (
                           <ModeResizer size={boxSize} setSize={setBoxSize} resized={resized} setResized={setResized} />
                         )}
-                        <ModeResizer size={boxSize} setSize={setBoxSize} resized={resized} setResized={setResized} />
                       </StyledModeBoxFooter>
                     </StyledModeBox>
                 </animated.div>

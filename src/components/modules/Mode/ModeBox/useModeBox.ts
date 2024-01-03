@@ -1,4 +1,4 @@
-import {useRef, useState, useLayoutEffect, useCallback, useMemo} from "react";
+import {useRef, useState, useLayoutEffect, useCallback, useMemo, useEffect} from "react";
 import {useTransition} from "react-spring";
 import useDraggable from "../../../../hooks/sensor/useDraggable";
 import useToggle from "../../../../hooks/state/useToggle";
@@ -77,6 +77,7 @@ function useModeBox({
                     height: height - bodyClientHeight,
                 };
             }
+            console.log("boxRef", boxRef.current)
             setBoxSize({
                 width,
                 height,
@@ -98,7 +99,8 @@ function useModeBox({
         leave: {opacity: 0}
     });
     
-    useLayoutEffect(handleSetBoxSize, [handleSetBoxSize]);
+    useEffect(handleSetBoxSize, [boxRef.current]);
+    
     useDraggable(
         { target : boxRef, control : isModeless ? dragControlRef : undefined },
         {dragStyle: "margin", maximize, onPreventMouseDown: handlePreventMouseDown },
