@@ -36,6 +36,7 @@ function useEditorWriting() {
         setWriting({
           ...response.data
         });
+        setSelectedFolderId(response.data.folderId!);
       } else {
         console.log("리셋하러 오나")
         resetWriting();
@@ -43,7 +44,7 @@ function useEditorWriting() {
     } catch (e) {
       console.log("getDocumentData", e);
     }
-  }, [writing, resetWriting]);
+  }, [writing, resetWriting, selectedFolderId]);
   
   
   // 파일 저장
@@ -85,7 +86,7 @@ function useEditorWriting() {
     }
   }
   
-  // 저장 로직
+  // 블로그 글 저장 로직
   const handleSave = useCallback(async () => {
     const editorInfo = editorRef?.current.getInstance();
     let contents = "";
@@ -107,7 +108,6 @@ function useEditorWriting() {
         setUploadedList([]);
         navigate(`/blog/${id}`);
       } else {
-        console.log("저장 전")
         const request : DocumentDTO = {
           title: "",
           contents : "",
