@@ -25,8 +25,6 @@ function useEditorWriting() {
   const navigate = useNavigate();
   const [uploadedList, setUploadedList] = useRecoilState(recoilDocumentState.uploadedList);
   
-  console.log("아이디 확인", id)
-  
   // 수정 화면일 때 조회 로직
   const getDocumentData = useCallback(async (id ?: string) => {
     try {

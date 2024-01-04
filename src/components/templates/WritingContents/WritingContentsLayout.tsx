@@ -40,7 +40,7 @@ interface WritingContentsLayoutProps {
 }
 
 function WritingContentsLayout(props: WritingContentsLayoutProps, ref : any) {
-  const {rootId, mainFolders, expanded} = useSidebar();
+  const {rootId, mainFolders, expanded } = useSidebar();
   
   return (
     <StyledEditor>
@@ -66,6 +66,7 @@ function WritingContentsLayout(props: WritingContentsLayoutProps, ref : any) {
             onNodeSelect={(event : SyntheticEvent, value : string) => {
               props.setSelectedFolderId(value)
             }}
+            selected={props.selectedFolderId}
             defaultCollapseIcon={<IndeterminateCheckBoxOutlinedIcon />}
           >
             {mainFolders?.map((el, inx) => {
