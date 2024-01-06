@@ -11,6 +11,7 @@ export interface MainContentContextState {
 export interface MainContentProviderProps {
     children: ReactNode;
     value?: MainContentContextState;
+    style ?: any;
 }
 
 const MainContentContext = createContext<MainContentContextState | undefined>(undefined);
@@ -19,7 +20,7 @@ function useMainContentContext() {
     return useContext(MainContentContext);
 }
 
-function MainContentProvider({children, value}: MainContentProviderProps) {
+function MainContentProvider({children, value, style}: MainContentProviderProps) {
     return <MainContentContext.Provider value={value}>{children}</MainContentContext.Provider>
 }
 

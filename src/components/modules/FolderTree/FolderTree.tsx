@@ -1,9 +1,9 @@
 // 폴더 트리 구조
 import {FoldersDTO} from "../../../types/dto/FoldersDTO";
+import { TreeView } from "@mui/x-tree-view/TreeView";
+import { TreeItem } from '@mui/x-tree-view/TreeItem';
 import styled from "styled-components";
-import TreeItem from "@mui/lab/TreeItem";
 import useFolderTree from "./useFolderTree";
-import TreeView from "@mui/lab/TreeView";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import IndeterminateCheckBoxOutlinedIcon from "@mui/icons-material/IndeterminateCheckBoxOutlined";
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';

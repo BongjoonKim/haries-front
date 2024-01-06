@@ -17,6 +17,7 @@ interface MainProps extends Content.CommonProps, Content.BodyProps, Content.Head
     mainContentTheme?: string;
     noGrow?: boolean
     header?: any;
+    style ?: any;
 }
 
 function MainContent(props: MainProps) {
@@ -42,7 +43,7 @@ function MainContent(props: MainProps) {
     }, [props.loading, initLoading, mainContentHook]);
 
     return (
-        <MainContentProvider value={props.value}>
+        <MainContentProvider value={props.value} style={props.style}>
             <StyledContent mainContentTheme={props.mainContentTheme}>
                 <ContentHeader
                     contentHeaderTheme={props.mainContentTheme}

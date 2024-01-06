@@ -7,10 +7,9 @@ import MainAdmin from "../../pages/admin/layout/MainAdmin";
 function AdminRoutes() {
   return (
     <MainAdmin>
-    <Routes>
-      
-        <Route path="/" element={<CreateFolder />} />
-    </Routes>
+      <Routes>
+          <Route path="/folder" element={<CreateFolder />} />
+      </Routes>
     </MainAdmin>
 
   )

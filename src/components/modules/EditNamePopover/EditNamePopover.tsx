@@ -2,10 +2,24 @@ import styled from "styled-components";
 import TextInput from "../../elements/TextInput";
 import CustomButton from "../../elements/Button";
 
-function EditNamePopover() {
+interface EditNamePopoverProps {
+  folderName ?: string;
+  onChange ?: any;
+  onOk ?: any;
+}
+
+function EditNamePopover(props:EditNamePopoverProps) {
   return (
     <StyledEditNamePopover>
-      <TextInput />
+      <input
+        value={props.folderName}
+        onChange={props.onChange}
+        onKeyDown={(event : any) => {
+          if (event.key === "Enter") {
+            props.onOk();
+          }
+        }}
+      />
       <div className="footer">
         <CustomButton>
           save
