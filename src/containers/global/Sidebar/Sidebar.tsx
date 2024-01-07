@@ -40,16 +40,16 @@ function Sidebar(props : SidebarProps) {
             return (
               <StyledTreeItem
                 key={inx}
-                nodeId={el.id}
+                nodeId={el.id!}
                 label={el.label}
                 
               >
-                { el.childrenId.length > 0 &&
+                { el.childrenId!.length > 0 &&
                   
                   createElement(
                     SubFolder,
                     {
-                      parentId : el.id,
+                      parentId : el.id!,
                       expanded : expanded!
                     }
                   )

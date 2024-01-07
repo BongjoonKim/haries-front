@@ -73,13 +73,13 @@ function WritingContentsLayout(props: WritingContentsLayoutProps, ref : any) {
               return (
                 <TreeItem
                   key={inx}
-                  nodeId={el.id}
+                  nodeId={el.id!}
                   label={el.label}
                 >
-                  {el.childrenId.length > 0 && createElement(
+                  {el.childrenId!.length > 0 && createElement(
                     SubFolder,
                     {
-                      parentId : el.id,
+                      parentId : el.id!,
                       expanded : expanded!
                     }
                   )}

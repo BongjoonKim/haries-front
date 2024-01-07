@@ -19,7 +19,7 @@ function useSidebar(props ?: useSidebarProps) {
     const rootFolder = await getRootFolder();
     setRootId(rootFolder.data.id);
     // console.log("루트 폴더", rootFolder.data)
-    const mainFolderList = await getChildFolders({parentId : rootFolder.data.id});
+    const mainFolderList = await getChildFolders({parentId : rootFolder.data.id!});
     setMainFolders(mainFolderList.data);
     
     // console.log("메인 폴더", mainFolderList)

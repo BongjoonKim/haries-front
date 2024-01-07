@@ -11,9 +11,10 @@ import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined
 import CustomButton from "../../elements/Button";
 import {Button} from "@mui/material";
 import CustomIconButton from "../../elements/Button/CustomIconButton";
-import React, {Dispatch, MouseEventHandler, SetStateAction} from "react";
+import React, {ChangeEvent, Dispatch, MouseEventHandler, SetStateAction, useCallback, useState} from "react";
 import CustomPopover from "../../elements/CustomPopover";
 import EditNamePopover from "../EditNamePopover";
+import {putfolders} from "../../../endpoints/folders-endpotins";
 
 export interface IsVisibleProps {
   id : string;
@@ -45,6 +46,15 @@ interface FolderTreeProps {
 }
 
 function FolderEditDelete(props : FolderEditDelete) {
+  const [newFolderName, setNewFolderName] = useState<string>(props.label);
+  // 폴더명 수정
+  const editFolderName = useCallback(async () => {
+    const response = await putfolders({
+      id : props.id,
+      label : newFolderName
+    });
+    console.log("response", response.data);
+  }, [newFolderName]);
   return (
     <>
     {props.show ? (<StyledEditDelete>
@@ -57,7 +67,7 @@ function FolderEditDelete(props : FolderEditDelete) {
             <DeleteForeverOutlinedIcon fontSize={"small"} />
           </CustomIconButton>
           <CustomPopover
-            open={props.open}
+            open={!!props.anchorEl}
             anchorEl={props.anchorEl}
             onClose={() => props.setAnchorEl(null)}
             anchorOrigin={{
@@ -65,7 +75,13 @@ function FolderEditDelete(props : FolderEditDelete) {
               horizontal: 'left',
             }}
           >
-            <EditNamePopover />
+            <EditNamePopover
+              folderName={newFolderName}
+              onChange={(event : ChangeEvent<HTMLInputElement>) => {
+                setNewFolderName(event.target.value)
+              }}
+              onOk={editFolderName}
+            />
           </CustomPopover>
         </>
       )}
@@ -85,23 +101,23 @@ function makeTreeConstructure(props : TreeConstructureProps) {
             return (
               <div key={el.id}>
                 {
-                  el.children.length ? (
+                  el.children!.length ? (
                     <StyledTreeItem
                       key={el.id}
                       onMouseEnter={(event: any) => {
                         console.log("Root hover Event", el.id)
-                        props.setIsVisible({id : el.id, value : true});
+                        props.setIsVisible({id : el.id!, value : true});
                       }}
-                      onMouseLeave={() => {props.setIsVisible({id : el.id, value : false})}}
+                      onMouseLeave={() => {props.setIsVisible({id : el.id!, value : false})}}
                     >
                       <TreeItem
                         key={el.id}
-                        nodeId={el.id}
+                        nodeId={el.id!}
                         label={el.label}
                       >
                         {makeTreeConstructure({
                           show : props.show || false,
-                          foldersDTO : el.children,
+                          foldersDTO : el.children!,
                           isVisible: props.isVisible,
                           setIsVisible : props.setIsVisible,
                           onPopoverOpener : props.onPopoverOpener,
@@ -112,8 +128,8 @@ function makeTreeConstructure(props : TreeConstructureProps) {
                       </TreeItem>
                       <FolderEditDelete
                         show={props.show || false}
-                        label={el.label}
-                        id={el.id}
+                        label={el.label!}
+                        id={el.id!}
                         isVisible={props.isVisible}
                         onPopoverOpener={props.onPopoverOpener}
                         anchorEl={props.anchorEl}
@@ -126,19 +142,19 @@ function makeTreeConstructure(props : TreeConstructureProps) {
                       key={el.id}
                       onMouseEnter={(event: any) => {
                         console.log("Sub hover Event", el.id)
-                        props.setIsVisible({id : el.id, value : true});
+                        props.setIsVisible({id : el.id!, value : true});
                       }}
-                      onMouseLeave={() => {props.setIsVisible({id : el.id, value : false})}}
+                      onMouseLeave={() => {props.setIsVisible({id : el.id!, value : false})}}
                     >
                       <TreeItem
                         key={inx}
-                        nodeId={el.id}
+                        nodeId={el.id!}
                         label={el.label}
                       />
                       <FolderEditDelete
                         show={props.show || false}
-                        label={el.label}
-                        id={el.id}
+                        label={el.label!}
+                        id={el.id!}
                         isVisible={props.isVisible}
                         onPopoverOpener={props.onPopoverOpener}
                         anchorEl={props.anchorEl}

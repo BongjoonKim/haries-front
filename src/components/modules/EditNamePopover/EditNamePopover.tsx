@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import TextInput from "../../elements/TextInput";
 import CustomButton from "../../elements/Button";
+import {useState} from "react";
 
 interface EditNamePopoverProps {
   folderName ?: string;

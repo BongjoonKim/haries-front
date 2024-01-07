@@ -9,14 +9,11 @@ function useFolderTree() {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const open = Boolean(anchorEl);
   
-  
-  
-  
   // 모든 폴더 정보 생성
   const getAllFolderList = useCallback(async () => {
     try {
       const rootFolder = await getRootFolder();
-      const folderData = await getChildFolders({parentId : rootFolder.data.id});
+      const folderData = await getChildFolders({parentId : rootFolder.data.id!});
       setFolderList(folderData.data);
     } catch (e) {
       console.log("getAllFolderList Error", e);
