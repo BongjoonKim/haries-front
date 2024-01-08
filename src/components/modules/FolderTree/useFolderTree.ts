@@ -7,6 +7,7 @@ function useFolderTree() {
   const [folderList, setFolderList] = useState<FoldersDTO[]>([]);
   const [isVisible, setIsVisible] = useState<IsVisibleProps>({id : "", value : false});
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const [editDelete, setEditDelete] = useState<"edit" | "delete">("edit");
   const open = Boolean(anchorEl);
   
   // 모든 폴더 정보 생성
@@ -21,14 +22,15 @@ function useFolderTree() {
   }, [folderList]);
   
   // 폴더 명 수정 삭제 클릭 시 Popover 켜지게 도와주는 로직 로직
-  const editAndDeleteFolder = useCallback(async (event : any, id: string) => {
+  const editAndDeleteFolder = useCallback(async (event : any, id: string, type : "edit" | "delete") => {
     console.log("id", id);
+    setEditDelete(type);
     setAnchorEl(event.currentTarget)
-  }, [anchorEl]);
+  }, [anchorEl, editDelete]);
   
   useEffect(() => {
     getAllFolderList();
-  }, []);
+  }, [anchorEl]);
   
   return {
     folderList,
@@ -37,7 +39,8 @@ function useFolderTree() {
     editAndDeleteFolder,
     anchorEl,
     setAnchorEl,
-    open
+    open,
+    editDelete
   }
 }
 

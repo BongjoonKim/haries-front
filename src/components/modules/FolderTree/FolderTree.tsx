@@ -25,7 +25,8 @@ interface FolderEditDelete extends FolderTreeProps{
   label : string;
   id : string;
   isVisible : IsVisibleProps;
-  onPopoverOpener : (event: any, id: string) => void;
+  onPopoverOpener : (event: any, id: string, type : "edit" | "delete") => void;
+  editDelete : any;
   anchorEl : any;
   setAnchorEl : Dispatch<SetStateAction<HTMLButtonElement | null>>;
   open : any;
@@ -35,7 +36,8 @@ interface TreeConstructureProps extends FolderTreeProps {
   foldersDTO : FoldersDTO[];
   isVisible: IsVisibleProps;
   setIsVisible : Dispatch<SetStateAction<IsVisibleProps>>;
-  onPopoverOpener : (event : any, id : string) => void;
+  onPopoverOpener : (event : any, id : string, type : "edit" | "delete") => void;
+  editDelete : any;
   anchorEl : any;
   setAnchorEl : Dispatch<SetStateAction<HTMLButtonElement | null>>;
   open : any;
@@ -53,17 +55,23 @@ function FolderEditDelete(props : FolderEditDelete) {
       id : props.id,
       label : newFolderName
     });
-    console.log("response", response.data);
+    props.setAnchorEl(null);
   }, [newFolderName]);
+  
+  const deleteFolder = useCallback(async () => {
+  
+  }, []);
+  
   return (
     <>
-    {props.show ? (<StyledEditDelete>
+    {props.show ? (
+      <StyledEditDelete>
       {(props.isVisible.id === props.id) && props.isVisible.value && (
         <>
-          <CustomIconButton key={props.id + "edit"} size="small" onClick={(event : any) => props.onPopoverOpener(event, props.id)}>
+          <CustomIconButton key={props.id + "edit"} size="small" onClick={(event : any) => props.onPopoverOpener(event, props.id, "edit")}>
             <ModeEditOutlineOutlinedIcon fontSize={"small"} />
           </CustomIconButton>
-          <CustomIconButton key={props.id + "delete"} size="small" onClick={(event : any) => props.onPopoverOpener(event, props.id)}>
+          <CustomIconButton key={props.id + "delete"} size="small" onClick={(event : any) => props.onPopoverOpener(event, props.id, "delete")}>
             <DeleteForeverOutlinedIcon fontSize={"small"} />
           </CustomIconButton>
           <CustomPopover
@@ -81,6 +89,9 @@ function FolderEditDelete(props : FolderEditDelete) {
                 setNewFolderName(event.target.value)
               }}
               onOk={editFolderName}
+              onDelete={deleteFolder}
+              onCancel={() => props.setAnchorEl(null)}
+              type={props.editDelete}
             />
           </CustomPopover>
         </>
@@ -124,6 +135,7 @@ function makeTreeConstructure(props : TreeConstructureProps) {
                           anchorEl: props.anchorEl,
                           setAnchorEl: props.setAnchorEl,
                           open : props.open,
+                          editDelete: props.editDelete
                         })}
                       </TreeItem>
                       <FolderEditDelete
@@ -135,6 +147,7 @@ function makeTreeConstructure(props : TreeConstructureProps) {
                         anchorEl={props.anchorEl}
                         setAnchorEl={props.setAnchorEl}
                         open={props.open}
+                        editDelete={props.editDelete}
                       />
                     </StyledTreeItem>
                   ) : (
@@ -160,6 +173,7 @@ function makeTreeConstructure(props : TreeConstructureProps) {
                         anchorEl={props.anchorEl}
                         setAnchorEl={props.setAnchorEl}
                         open={props.open}
+                        editDelete={props.editDelete}
                       />
                     </StyledTreeItem>
                   )
@@ -177,7 +191,7 @@ function FolderTree(props : FolderTreeProps) {
   const {
     folderList, isVisible,
     setIsVisible, editAndDeleteFolder,
-    anchorEl, setAnchorEl, open
+    anchorEl, setAnchorEl, open, editDelete
   } = useFolderTree();
   return (
     <TreeView
@@ -195,7 +209,8 @@ function FolderTree(props : FolderTreeProps) {
         onPopoverOpener : editAndDeleteFolder,
         anchorEl : anchorEl,
         setAnchorEl : setAnchorEl,
-        open: open
+        open: open,
+        editDelete : editDelete
       })}
     </TreeView>
   )

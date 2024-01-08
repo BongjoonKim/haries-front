@@ -4,9 +4,12 @@ import CustomButton from "../../elements/Button";
 import {useState} from "react";
 
 interface EditNamePopoverProps {
+  type ?: "edit" | "delete";
   folderName ?: string;
   onChange ?: any;
   onOk ?: any;
+  onDelete ?: any;
+  onCancel ?: any;
 }
 
 function EditNamePopover(props:EditNamePopoverProps) {
@@ -22,9 +25,19 @@ function EditNamePopover(props:EditNamePopoverProps) {
         }}
       />
       <div className="footer">
-        <CustomButton>
-          save
-        </CustomButton>
+        {props.type === "edit" ? (
+          <CustomButton
+            onClick={props.onOk}
+          >
+            save
+          </CustomButton>
+        ) : (
+          <CustomButton
+            onClick={props.onDelete}
+          >
+            delete
+          </CustomButton>
+        )}
         <CustomButton>
           cancel
         </CustomButton>
