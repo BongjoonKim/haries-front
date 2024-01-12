@@ -3,11 +3,11 @@ import {FoldersDTO} from "../../../types/dto/FoldersDTO";
 import {getChildFolders, getRootFolder} from "../../../endpoints/folders-endpotins";
 import {IsVisibleProps} from "./FolderTree";
 
-function useFolderTree() {
+function useFolderTree(props : {update : any}) {
   const [folderList, setFolderList] = useState<FoldersDTO[]>([]);
   const [isVisible, setIsVisible] = useState<IsVisibleProps>({id : "", value : false});
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const [editDelete, setEditDelete] = useState<"edit" | "delete">("edit");
+  const [anchorEl, setAnchorEl] = useState<any>(null);
+  const [addEditDelete, setAddEditDelete] = useState<"add" | "edit" | "delete">("edit");
   const open = Boolean(anchorEl);
   
   // 모든 폴더 정보 생성
@@ -22,15 +22,14 @@ function useFolderTree() {
   }, [folderList]);
   
   // 폴더 명 수정 삭제 클릭 시 Popover 켜지게 도와주는 로직 로직
-  const editAndDeleteFolder = useCallback(async (event : any, id: string, type : "edit" | "delete") => {
-    console.log("id", id);
-    setEditDelete(type);
-    setAnchorEl(event.currentTarget)
-  }, [anchorEl, editDelete]);
+  const editAndDeleteFolder = useCallback(async (event : any, id: string, type : "add" | "edit" | "delete") => {
+    setAddEditDelete(type);
+    setAnchorEl(event.target)
+  }, [anchorEl, addEditDelete]);
   
   useEffect(() => {
     getAllFolderList();
-  }, [anchorEl]);
+  }, [anchorEl, props.update]);
   
   return {
     folderList,
@@ -40,7 +39,7 @@ function useFolderTree() {
     anchorEl,
     setAnchorEl,
     open,
-    editDelete
+    addEditDelete
   }
 }
 
