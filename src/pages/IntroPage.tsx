@@ -5,26 +5,33 @@ import {NavigatorItemProps} from "../containers/global/Header/Navigator/list/typ
 
 
 function IntroPage() {
-    return (
-      <StyleIntroPage >
-        <div
-          className="top"
-        >
+  return (
+    <StyleIntroPage >
+      <div
+        className="top"
+      >
+        <div className="top">
+          <div
+            className="image-cover"
+          >
+            <img
+              className="intro-image"
+              src={`${process.env.PUBLIC_URL}/IMG_3040.JPG`}
+              width={"100%"}
+            />
+          </div>
         </div>
-        <div
-          className="middle"
-        >
-        
-        </div>
-        {/*<img*/}
-        {/*  className="intro-image"*/}
-        {/*  src={`${process.env.PUBLIC_URL}/Cityscapes.jpeg`}*/}
-        {/*  width={"100%"}*/}
-        {/*/>*/}
-        
-        
-      </StyleIntroPage>
-    );
+      </div>
+      <div
+        className="middle"
+      >
+      
+      </div>
+    
+    
+    
+    </StyleIntroPage>
+  );
 }
 
 export default IntroPage;
@@ -36,15 +43,22 @@ const StyleIntroPage = styled.div`
 
   img {
     transition: all 5s linear;
-    height: 100%;
+    width: 300px;
+    height: 500px;
+    object-fit: cover;
+    //height: 100%;
   }
 
-  &:hover img {
-    transform: scale(1.1);
-  }
+  //&:hover img {
+  //  transform: scale(1.1);
+  //}
 
   .top {
-
+    
+    .image-cover {
+      position: absolute;
+      left: 50rem;
+    }
   }
   .middle {
     background: #eee1d6;
