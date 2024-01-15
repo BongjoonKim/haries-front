@@ -36,7 +36,9 @@ const StyledGlobalBody = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  overflow-x: hidden;
+  
+  //flex-shrink: 0;
+  //overflow-x: auto;
 `;
 
 const StyledGlobalMain = styled.main<{isAsideCollapsed: boolean}>`
