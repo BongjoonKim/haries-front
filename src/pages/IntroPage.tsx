@@ -18,7 +18,7 @@ function IntroPage() {
         >
           <img
             className="home-image"
-            src={`${process.env.PUBLIC_URL}/home-image.JPG`}
+            src={`${process.env.PUBLIC_URL}/home-image.jpg`}
             width={"20rem"}
           />
           <div className="border-box">
@@ -407,6 +407,7 @@ const StyleIntroPage = styled.div`
             font-size: 3rem;
             font-weight: 700;
             margin-bottom: 1rem;
+            margin-left: auto;
           }
           .description {
             margin-left: 1rem;
