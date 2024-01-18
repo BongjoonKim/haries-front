@@ -31,8 +31,6 @@ function ChattingTemplate() {
     show, newList, update, isLoading
   } = useChattingTemplate();
   
-  console.log("로딩 확인", isLoading)
-  
   return (
     <MainContent
       title="ChatGPT"
