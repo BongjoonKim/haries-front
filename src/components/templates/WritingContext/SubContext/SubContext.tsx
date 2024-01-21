@@ -3,6 +3,7 @@ import moment from "moment";
 import {createElement} from "react";
 import useSubContext from "./useSubContext";
 import {DocumentDTO} from "../../../../types/dto/documentsInfo";
+import {random} from "lodash";
 
 interface SubContextProps {
   data : DocumentDTO[];
@@ -11,8 +12,11 @@ interface SubContextProps {
 function SubContext(props: SubContextProps) {
   console.log("글 목록 보기", props.data);
   const writings = props.data;
-  const { contentsOnClick, imgUrl } = useSubContext(writings);
+  const { contentsOnClick, imgUrl, thumbnailColor } = useSubContext(writings);
   
+  // imgUrl.find((el : any) => el.id === )?.key
+  
+  console.log("imgUrl", thumbnailColor[random(thumbnailColor.length-1)])
   return (
     <StyledSubContext>
       {writings.map((writing, index) => {
@@ -20,7 +24,28 @@ function SubContext(props: SubContextProps) {
         let documents = parser.parseFromString(writing.contents!, "text/html");
         return (
         <StyledContextBox key={index} id={writing.id} onClick={contentsOnClick}>
-          <img src={`${process.env.PUBLIC_URL}/Serrata.jpeg`}/>
+          {imgUrl.filter((el : any) => el.id === writing.id)?.[0]?.key !== "none"
+             ? (
+              <img
+                className='thumbnail'
+                src={
+                  `${process.env.REACT_APP_S3_URI}/${imgUrl.filter((el : any) => el.id === writing.id)?.[0]?.key}`
+                }
+              />
+            ) : (
+              <div
+                className="thumbnail"
+              >
+                <div
+                  className="none"
+                  style={{
+                    opacity: 0.7,
+                    backgroundColor : thumbnailColor[random(thumbnailColor.length-1)]
+                  }}
+                />
+              </div>
+            )
+          }
           <div className="info">
             <div className="info-top">
               <h4>
@@ -89,9 +114,13 @@ const StyledContextBox = styled.div`
     padding-top: -5px;
     cursor:pointer;
   }
-  img {
+  .thumbnail {
     width : 100%;
-    height : 60%;
+    height : 12rem;
+    .none {
+      width: 100%;
+      height: 12rem;
+    }
   }
   .info {
     padding: 0.5rem 0.5rem;

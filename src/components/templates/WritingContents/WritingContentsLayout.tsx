@@ -76,7 +76,7 @@ function WritingContentsLayout(props: WritingContentsLayoutProps, ref : any) {
                   nodeId={el.id!}
                   label={el.label}
                 >
-                  {el.childrenId!.length > 0 && createElement(
+                  {el.childrenId && el.childrenId.length > 0 && createElement(
                     SubFolder,
                     {
                       parentId : el.id!,

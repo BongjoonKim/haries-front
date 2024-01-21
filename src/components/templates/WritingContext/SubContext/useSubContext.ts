@@ -3,7 +3,14 @@ import {useNavigate} from "react-router-dom";
 import {s3Utils} from "../../../../utilities/s3Utils";
 
 function useSubContext(props : any) {
-  const [imgUrl, setImgUrl] = useState<any[]>([]);
+  const [imgUrl, setImgUrl] = useState<any>([]);
+  const [thumbnailColor, setThumbnailColor] = useState([
+    "#FFD745",
+    "#FFBE45",
+    "#FF8345",
+    "#FFE70F",
+    "#FFA545"
+  ])
   const navigate = useNavigate();
   
   const contentsOnClick = useCallback( ( event : MouseEvent<HTMLElement>) => {
@@ -11,14 +18,25 @@ function useSubContext(props : any) {
   }, []);
   
   const getImg = useCallback(async () => {
-    for(const prop of props) {
-      
-      const responseList = await s3Utils.getFiles({prefix : prop.id});
-      setImgUrl(responseList!);
-      console.log("responseList", responseList)
+    const imgUrls = [];
+    console.log("프롭 확인", props)
   
+    for(const prop of props) {
+      const responseList = await s3Utils.getFiles({prefix : prop.id});
+      if (responseList && responseList.length) {
+        imgUrls.push({
+          id : prop.id,
+          key : responseList[0]?.Key
+        })
+      } else {
+        imgUrls.push({
+          id : prop.id,
+          key : "none"
+        })
+      }
     }
-  }, [props.id, imgUrl]);
+    setImgUrl([...imgUrls]);
+  }, [props, imgUrl]);
   
   useEffect(() => {
     getImg();
@@ -26,7 +44,8 @@ function useSubContext(props : any) {
   
   return {
     contentsOnClick,
-    imgUrl
+    imgUrl,
+    thumbnailColor
   }
 }
 
