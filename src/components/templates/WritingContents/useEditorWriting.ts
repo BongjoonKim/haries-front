@@ -82,6 +82,7 @@ function useEditorWriting() {
         formData.append("file", fileList[key])
       }
     }
+    console.log("파일 데이터 확인", fileList)
   }
   
   // 블로그 글 저장 로직
