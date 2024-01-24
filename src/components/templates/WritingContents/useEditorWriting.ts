@@ -29,21 +29,21 @@ function useEditorWriting() {
   // 수정 화면일 때 조회 로직
   const getDocumentData = useCallback(async (id ?: string) => {
     try {
-      console.log("getDocumentData 오나")
       if (id) {
         const response = await getDocument({id : id!});
         setWriting({
           ...response.data
         });
         setSelectedFolderId(response.data.folderId!);
+        const getAttachments = await s3Utils.getFiles({prefix : `${id}/attachments`});
+        setAttachments(getAttachments);
       } else {
-        console.log("리셋하러 오나")
         resetWriting();
       }
     } catch (e) {
       console.log("getDocumentData", e);
     }
-  }, [writing, resetWriting, selectedFolderId]);
+  }, [writing, resetWriting, selectedFolderId, attachments]);
   
   
   // 파일 저장
@@ -111,8 +111,7 @@ function useEditorWriting() {
         
         // 첨부한 파일 저장
         for (const file of attachments) {
-          const response = await s3Utils.uploadFile({fileKey : file.name, file : file})
-      
+          const response = await s3Utils.uploadFile({fileKey : id + "/attachments/" + file.name, file : file})
         }
         navigate(`/blog/${id}`);
       } else {
@@ -129,6 +128,11 @@ function useEditorWriting() {
             const copy = await s3Utils.copyFile({fileKey : uploaded.key, newFileKey : uploaded.key.replace("new/", `${response.data.id}/`)})
             const deletes = await s3Utils.deleteFile({fileKey : uploaded.key});
           }
+        }
+  
+        // 첨부한 파일 저장
+        for (const file of attachments) {
+          const response = await s3Utils.uploadFile({fileKey : id + "/attachments/" + file.name, file : file})
         }
   
         const newContents = contents.replaceAll(
@@ -190,7 +194,8 @@ function useEditorWriting() {
     handleOutPage,
     selectedFolderId,
     setSelectedFolderId,
-    id
+    id,
+    attachments
   }
   
   

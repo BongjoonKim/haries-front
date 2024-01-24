@@ -22,6 +22,8 @@ import SubFolder from "../../../containers/global/Sidebar/SubFolder";
 import TagInput from "../../elements/TextInput/TagInput";
 import {FormControlLabel, Switch} from "@mui/material";
 import TitleInput from "../../elements/TextInput/TitleInput";
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
+import CustomButton from "../../elements/Button";
 
 interface WritingContentsLayoutProps {
   children : ReactNode;
@@ -37,11 +39,12 @@ interface WritingContentsLayoutProps {
   selectedFolderId : any;
   setSelectedFolderId : any;
   titleWrite ?: (event: any) => void;
+  attachments ?: [];
 }
 
 function WritingContentsLayout(props: WritingContentsLayoutProps, ref : any) {
   const {rootId, mainFolders, expanded } = useSidebar();
-  
+  console.log("props.attachments", props.attachments!.length)
   return (
     <StyledEditor>
       <div className="title">
@@ -91,7 +94,29 @@ function WritingContentsLayout(props: WritingContentsLayoutProps, ref : any) {
         <div className="editor-config-right">
           <div className="editor-config-right-items">
             <p className="editor-config-right-items-title">첨부파일</p>
-            <input className="editor-config-right-items-contents" type="file" id="fileUpload" onChange={props.addFiles} />
+            <div className="box">
+              <input
+                className="editor-config-right-items-contents"
+                type="file"
+                id="fileUpload"
+                onChange={props.addFiles}
+                // value={props.attachments!.length && props.attachments}
+                multiple={true}
+              />
+              <div
+                className="attachment-list"
+              >
+                {props.attachments!.length && props.attachments!.map((el : any) => {
+                  return (
+                    <div>
+                      {el.Key.split("/")[2]}
+                    </div>
+                  )
+                })}
+                  <HighlightOffOutlinedIcon />
+              </div>
+              
+            </div>
           </div>
           <div className="editor-config-right-items">
             <p className="editor-config-right-items-title">공개 여부</p>

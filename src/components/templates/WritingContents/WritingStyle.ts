@@ -35,19 +35,26 @@ export const StyledEditor = styled.div`
     .editor-config-right {
       display: table;
       height: inherit;
+      .editor-config-right-items-attachment {
+        display: flex;
+        flex-direction: column;
+      }
       .editor-config-right-items {
         display: flex;
         line-height: 3rem;
-        height: 3rem;
+        //height: 3rem;
         .editor-config-right-items-title {
           background-color: rgb(230 230 230);
           width: 5rem;
           margin: 0;
           line-height: 3rem;
-          height: 100%;
         }
         .editor-config-right-items-contents {
           line-height: 3rem;
+        }
+        .attachment-list {
+          display: flex;
+          align-items: center;
         }
       }
     }
