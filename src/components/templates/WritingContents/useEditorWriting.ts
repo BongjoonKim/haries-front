@@ -22,6 +22,7 @@ function useEditorWriting() {
   const [selectedFolderId, setSelectedFolderId] = useState<string>("");
   const {id} = useParams();
   const formData = new FormData();
+  const [attachments, setAttachments] = useState<any>([]);
   const navigate = useNavigate();
   const [uploadedList, setUploadedList] = useRecoilState(recoilDocumentState.uploadedList);
   
@@ -74,16 +75,18 @@ function useEditorWriting() {
   };
   
   // 파일 첨부 로직
-  const addFiles = (event : any): void => {
+  const addFiles = useCallback((event : any): void => {
     event.preventDefault();
     const fileList = event.target.files;
+    const files = [];
     for(let key of Object.keys(fileList)) {
       if (key !== 'length') {
-        formData.append("file", fileList[key])
+        console.log("파일 정보", fileList[key]);
+        files.push(fileList[key]);
       }
     }
-    console.log("파일 데이터 확인", fileList)
-  }
+    setAttachments(files);
+  }, [attachments]);
   
   // 블로그 글 저장 로직
   const handleSave = useCallback(async () => {
@@ -105,6 +108,12 @@ function useEditorWriting() {
         }
         await saveDocument({id, request});
         setUploadedList([]);
+        
+        // 첨부한 파일 저장
+        for (const file of attachments) {
+          const response = await s3Utils.uploadFile({fileKey : file.name, file : file})
+      
+        }
         navigate(`/blog/${id}`);
       } else {
         const request : DocumentDTO = {
@@ -150,7 +159,7 @@ function useEditorWriting() {
       //   }
       // })
     }
-  }, [writing, selectedFolderId, uploadedList]);
+  }, [writing, selectedFolderId, uploadedList, attachments]);
   
   // 나가기 로직
   const handleOutPage = useCallback(() => {
