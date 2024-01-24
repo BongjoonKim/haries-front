@@ -16,7 +16,8 @@ function CreateWriting() {
     getDocumentData,
     addFiles, handleOutPage,
     selectedFolderId,
-    setSelectedFolderId, id
+    setSelectedFolderId, id, attachments,
+    handleDeleteFile
   } = useEditorWriting();
   
   return (
@@ -33,6 +34,8 @@ function CreateWriting() {
           handleOutPage={handleOutPage}
           selectedFolderId={selectedFolderId}
           setSelectedFolderId={setSelectedFolderId}
+          attachments={attachments}
+          handleDeleteFile={handleDeleteFile}
         >
           <Editor
             editorRef={editorRef}

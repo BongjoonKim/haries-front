@@ -46,7 +46,7 @@ function useEditorWriting() {
   }, [writing, resetWriting, selectedFolderId, attachments]);
   
   
-  // 파일 저장
+  // 에디터 파일 저장
   const onUploadImage = async (blob: Blob, callback: HookCallback) => {
     try {
       const fileName = generatorUtil.uuid();
@@ -81,12 +81,18 @@ function useEditorWriting() {
     const files = [];
     for(let key of Object.keys(fileList)) {
       if (key !== 'length') {
-        console.log("파일 정보", fileList[key]);
         files.push(fileList[key]);
       }
     }
     setAttachments(files);
   }, [attachments]);
+  
+  // 파일 삭제 로직
+  const handleDeleteFile = useCallback(async (el: any) => {
+    console.log("파일 삭제", el);
+    // const deletes = await s3Utils.deleteFile({fileKey : uploaded.key});
+  
+  }, []);
   
   // 블로그 글 저장 로직
   const handleSave = useCallback(async () => {
@@ -195,7 +201,8 @@ function useEditorWriting() {
     selectedFolderId,
     setSelectedFolderId,
     id,
-    attachments
+    attachments,
+    handleDeleteFile
   }
   
   

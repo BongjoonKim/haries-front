@@ -55,6 +55,10 @@ export const StyledEditor = styled.div`
         .attachment-list {
           display: flex;
           align-items: center;
+          .attachment-item {
+            display: flex;
+            align-items: center;
+          }
         }
       }
     }

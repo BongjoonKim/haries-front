@@ -12,7 +12,8 @@ function UpdateWriting() {
     getDocumentData,
     addFiles, handleOutPage,
     selectedFolderId,
-    setSelectedFolderId, id, attachments
+    setSelectedFolderId, id, attachments,
+    handleDeleteFile
   } = useEditorWriting();
   
   console.log("최종 writing", writing)
@@ -34,6 +35,7 @@ function UpdateWriting() {
           selectedFolderId={selectedFolderId}
           setSelectedFolderId={setSelectedFolderId}
           attachments={attachments}
+          handleDeleteFile={handleDeleteFile}
         >
           <Editor
             initialEditType={writing.contentsType!}

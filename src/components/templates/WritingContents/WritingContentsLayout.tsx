@@ -40,6 +40,7 @@ interface WritingContentsLayoutProps {
   setSelectedFolderId : any;
   titleWrite ?: (event: any) => void;
   attachments ?: [];
+  handleDeleteFile: (el : any) => void;
 }
 
 function WritingContentsLayout(props: WritingContentsLayoutProps, ref : any) {
@@ -108,12 +109,15 @@ function WritingContentsLayout(props: WritingContentsLayoutProps, ref : any) {
               >
                 {props.attachments!.length && props.attachments!.map((el : any) => {
                   return (
-                    <div>
+                    <div className="attachment-item">
                       {el.Key.split("/")[2]}
+                      <HighlightOffOutlinedIcon
+                        onClick={async () => {await props.handleDeleteFile(el)}}
+                      />
                     </div>
                   )
                 })}
-                  <HighlightOffOutlinedIcon />
+
               </div>
               
             </div>
