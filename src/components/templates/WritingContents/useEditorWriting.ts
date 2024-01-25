@@ -89,10 +89,17 @@ function useEditorWriting() {
   
   // 파일 삭제 로직
   const handleDeleteFile = useCallback(async (el: any) => {
-    console.log("파일 삭제", el);
-    // const deletes = await s3Utils.deleteFile({fileKey : uploaded.key});
+    try {
+      console.log("삭제할 파일", el)
+      const deletes = await s3Utils.deleteFile({fileKey : el.Key});
+      console.log("파일 삭제", deletes);
   
-  }, []);
+      const getAttachments = await s3Utils.getFiles({prefix : `${id}/attachments`});
+      setAttachments(getAttachments);
+    } catch (error) {
+      console.log("파일 삭제", handleDeleteFile)
+    }
+  }, [attachments]);
   
   // 블로그 글 저장 로직
   const handleSave = useCallback(async () => {
