@@ -53,23 +53,23 @@ function GlobalHeader() {
                         
                       />
                     </StyledLogo>
-                    {/*<StyledDehaze>*/}
-                    {/*  <IconButton*/}
-                    {/*    edge="start"*/}
-                    {/*    color="inherit"*/}
-                    {/*    aria-label="open drawer"*/}
-                    {/*    onClick={() => {*/}
-                    {/*      if (isAsideCollapsed) {*/}
-                    {/*        setIsAsideCollapsed(false);*/}
-                    {/*      } else {*/}
-                    {/*        setIsAsideCollapsed(true);*/}
-                    {/*      }*/}
+                    <StyledDehaze>
+                      <IconButton
+                        edge="start"
+                        color="inherit"
+                        aria-label="open drawer"
+                        onClick={() => {
+                          if (isAsideCollapsed) {
+                            setIsAsideCollapsed(false);
+                          } else {
+                            setIsAsideCollapsed(true);
+                          }
                     
-                    {/*    }}*/}
-                    {/*  >*/}
-                    {/*    <DehazeRounded/>*/}
-                    {/*  </IconButton>*/}
-                    {/*</StyledDehaze>*/}
+                        }}
+                      >
+                        <DehazeRounded/>
+                      </IconButton>
+                    </StyledDehaze>
                     {/*<p*/}
                     {/*  style={{*/}
                     {/*    margin: "0.2rem 0 0 0",*/}

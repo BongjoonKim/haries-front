@@ -107,7 +107,7 @@ function WritingContentsLayout(props: WritingContentsLayoutProps, ref : any) {
               <div
                 className="attachment-list"
               >
-                {props.attachments!.length && props.attachments!.map((el : any) => {
+                {props.attachments!.length ? props.attachments!.map((el : any) => {
                   return (
                     <div className="attachment-item">
                       {el.Key?.split("/")[2]}
@@ -116,7 +116,10 @@ function WritingContentsLayout(props: WritingContentsLayoutProps, ref : any) {
                       />
                     </div>
                   )
-                })}
+                }) : (
+                  <>
+                  </>
+                )}
 
               </div>
               
