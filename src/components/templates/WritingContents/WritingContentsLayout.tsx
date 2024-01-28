@@ -110,7 +110,7 @@ function WritingContentsLayout(props: WritingContentsLayoutProps, ref : any) {
                 {props.attachments!.length && props.attachments!.map((el : any) => {
                   return (
                     <div className="attachment-item">
-                      {el.Key.split("/")[2]}
+                      {el.Key?.split("/")[2]}
                       <HighlightOffOutlinedIcon
                         onClick={async () => {await props.handleDeleteFile(el)}}
                       />

@@ -42,11 +42,16 @@ export const s3Utils = {
   
   async deleteFile(props : any) {
     const S3 = awsS3();
+    console.log("props 확인", props)
     const params = {
       Bucket: "haries-img",
-      Key: `haries-img/${props.fileKey}`, // 원본 버킷/키
+      Key: `${props.fileKey}`, // 원본 버킷/키
     }
-    const response = await S3.deleteObject(params);
+    const response = await S3.deleteObject(params, function(err, data) {
+      console.log('에러 확인', err);
+      console.log('삭제 확인', data)
+    });
+    console.log("삭제 결과 값", response)
     return response;
   },
   
