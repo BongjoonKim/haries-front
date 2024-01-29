@@ -64,7 +64,6 @@ function GlobalHeader() {
                           } else {
                             setIsAsideCollapsed(true);
                           }
-                    
                         }}
                       >
                         <DehazeRounded/>

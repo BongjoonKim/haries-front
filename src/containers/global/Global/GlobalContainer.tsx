@@ -6,14 +6,14 @@ import Sidebar from "../Sidebar";
 
 function GlobalContainer(props: {children: ReactNode}) {
     const {isAsideCollapsed} = useLayout();
-
+    //
     return (
         <StyledGlobalContainer>
             <GlobalHeader />
             <StyledGlobalBody>
-              {/*<StyledGlobalLeftAside isCollapsed={isAsideCollapsed}>*/}
-              {/*  <Sidebar isCollapsed={isAsideCollapsed} />*/}
-              {/*</StyledGlobalLeftAside>*/}
+              <StyledGlobalLeftAside isAsideCollapsed={isAsideCollapsed}>
+                <Sidebar isCollapsed={isAsideCollapsed} />
+              </StyledGlobalLeftAside>
               <StyledGlobalMain isAsideCollapsed={false}>
                   {props.children}
               </StyledGlobalMain>
@@ -39,6 +39,13 @@ const StyledGlobalBody = styled.div`
   
   //flex-shrink: 0;
   //overflow-x: auto;
+`;
+
+const StyledGlobalLeftAside =styled.div<{isAsideCollapsed : boolean}>`
+  position: absolute;
+  z-index: 20000;
+  height: 100vh;
+  //width: 5rem;
 `;
 
 const StyledGlobalMain = styled.main<{isAsideCollapsed: boolean}>`

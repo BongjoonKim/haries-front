@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import TreeView from "@mui/lab/TreeView";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import TreeItem, {TreeItemProps, useTreeItem, TreeItemContentProps} from "@mui/lab/TreeItem";
+import {TreeView} from "@mui/x-tree-view/TreeView";
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
 import useSidebar from "./useSidebar";
@@ -33,7 +33,6 @@ function Sidebar(props : SidebarProps) {
         defaultExpandIcon={<AddBoxOutlinedIcon />}
         defaultCollapseIcon={<IndeterminateCheckBoxOutlinedIcon />}
         expanded={expanded}
-        sx={{height: "264px", flexGrow: 1, overflowY: "auto"}}
       >
         <>
           {mainFolders?.map((el, inx) => {
@@ -42,9 +41,8 @@ function Sidebar(props : SidebarProps) {
                 key={inx}
                 nodeId={el.id!}
                 label={el.label}
-                
               >
-                { el.childrenId!.length > 0 &&
+                { el.childrenId && el.childrenId.length > 0 &&
                   
                   createElement(
                     SubFolder,
@@ -68,15 +66,18 @@ export default Sidebar;
 const StyledSidebar = styled.div<{isCollapsed: boolean}>`
   width: ${props => (props.isCollapsed ? "0px" : "15rem")};
   min-width: ${props => (props.isCollapsed ? "0px" : "15rem")};
+  // transform: ${props => (props.isCollapsed ? "transformX(0)" : "transformX(500px)")};
+  width: 100%;
   transition: all 0.2s ease-out;
   border-right: 1px solid #cfd2d4;
   border-left: 1px solid #e8eaeb;
   background: #fff;
   box-shadow: 0 0 10px #00000026;
-  display:  inline-block;
+  height: 100%;
+  //display:  inline-block;
   flex-direction: column;
-  overflow-x: hidden;
-  overflow-y: auto;
+  //overflow-x: hidden;
+  //overflow-y: auto;
   z-index: 9998;
 `;
 
