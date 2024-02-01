@@ -11,9 +11,9 @@ function GlobalContainer(props: {children: ReactNode}) {
         <StyledGlobalContainer>
             <GlobalHeader />
             <StyledGlobalBody>
-              <StyledGlobalLeftAside isAsideCollapsed={isAsideCollapsed}>
-                <Sidebar isCollapsed={isAsideCollapsed} />
-              </StyledGlobalLeftAside>
+              {/*<StyledGlobalLeftAside isAsideCollapsed={isAsideCollapsed}>*/}
+              {/*  <Sidebar isCollapsed={isAsideCollapsed} />*/}
+              {/*</StyledGlobalLeftAside>*/}
               <StyledGlobalMain isAsideCollapsed={false}>
                   {props.children}
               </StyledGlobalMain>

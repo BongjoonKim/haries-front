@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import TreeItem, {TreeItemProps, useTreeItem, TreeItemContentProps} from "@mui/lab/TreeItem";
+import { TreeItem } from '@mui/x-tree-view/TreeItem';
 import {TreeView} from "@mui/x-tree-view/TreeView";
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
@@ -64,17 +64,18 @@ function Sidebar(props : SidebarProps) {
 export default Sidebar;
 
 const StyledSidebar = styled.div<{isCollapsed: boolean}>`
-  width: ${props => (props.isCollapsed ? "0px" : "15rem")};
-  min-width: ${props => (props.isCollapsed ? "0px" : "15rem")};
+  // width: ${props => (props.isCollapsed ? "0px" : "15rem")};
+  // min-width: ${props => (props.isCollapsed ? "0px" : "15rem")};
   // transform: ${props => (props.isCollapsed ? "transformX(0)" : "transformX(500px)")};
-  width: 100%;
+  width: 6rem;
   transition: all 0.2s ease-out;
   border-right: 1px solid #cfd2d4;
   border-left: 1px solid #e8eaeb;
   background: #fff;
   box-shadow: 0 0 10px #00000026;
   height: 100%;
-  //display:  inline-block;
+  position: fixed;
+  display:  inline-block;
   flex-direction: column;
   //overflow-x: hidden;
   //overflow-y: auto;
@@ -82,5 +83,7 @@ const StyledSidebar = styled.div<{isCollapsed: boolean}>`
 `;
 
 const StyledTreeItem = styled(TreeItem)`
-
+  li > div {
+    width: auto !important;
+  }
 `;
