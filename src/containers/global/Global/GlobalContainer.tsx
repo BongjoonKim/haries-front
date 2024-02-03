@@ -50,6 +50,7 @@ const StyledGlobalLeftAside =styled.div<{isAsideCollapsed : boolean}>`
 
 const StyledGlobalMain = styled.main<{isAsideCollapsed: boolean}>`
   flex-grow: 1;
+  padding: 0 2rem;
   display: flex;
   height: 100%;
   justify-content: center;

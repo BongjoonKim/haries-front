@@ -27,6 +27,7 @@ export default WritingContext;
 const StyledWritingContext = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 2rem 0;
   &:hover {
     mso-border-shadow: yes;
   }

@@ -21,8 +21,7 @@ function Sidebar(props : SidebarProps) {
   // const SubFolder = lazy(() => import("./SubFolder"));
   
   const handleExpandClick = (event : any) => {
-    console.log("Expand 확인", event);
-    
+  
   }
   
   return (
@@ -64,26 +63,26 @@ function Sidebar(props : SidebarProps) {
 export default Sidebar;
 
 const StyledSidebar = styled.div<{isCollapsed: boolean}>`
-  // width: ${props => (props.isCollapsed ? "0px" : "15rem")};
-  // min-width: ${props => (props.isCollapsed ? "0px" : "15rem")};
-  // transform: ${props => (props.isCollapsed ? "transformX(0)" : "transformX(500px)")};
-  width: 6rem;
-  transition: all 0.2s ease-out;
-  border-right: 1px solid #cfd2d4;
-  border-left: 1px solid #e8eaeb;
-  background: #fff;
-  box-shadow: 0 0 10px #00000026;
-  height: 100%;
-  position: fixed;
+  width: 8rem;
+  position: relative;
+  //transition: all 0.2s ease-out;
+  //border-right: 1px solid #cfd2d4;
+  //border-left: 1px solid #e8eaeb;
+  //box-shadow: 0 0 10px #00000026;
+  //position: absolute;
   display:  inline-block;
   flex-direction: column;
+  padding: 2rem 0;
   //overflow-x: hidden;
   //overflow-y: auto;
   z-index: 9998;
 `;
 
 const StyledTreeItem = styled(TreeItem)`
-  li > div {
-    width: auto !important;
+  li {
+    div {
+      width: auto !important;
+      padding : 0;
+    }
   }
 `;
