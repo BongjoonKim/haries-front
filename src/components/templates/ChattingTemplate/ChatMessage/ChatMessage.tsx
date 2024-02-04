@@ -2,6 +2,8 @@ import styled, {css} from "styled-components";
 import {Avatar, CircularProgress} from "@mui/material";
 import moment from "moment";
 import React from "react";
+import MarkDown from "../../../widgets/MarkDown";
+
 
 function ChatMessage(props : any) {
   return (
@@ -12,7 +14,7 @@ function ChatMessage(props : any) {
         </div>
       ) : (
         <div className="message-box">
-          {props.content}
+          <MarkDown contents={props.content} />
         </div>
       )}
 
