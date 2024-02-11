@@ -128,7 +128,6 @@ function useChattingTemplate() {
           content : message,
           bot : "user"
         };
-        console.log("로그 확인", request)
         await createMessage(request);
         setMessage("");
   
@@ -142,11 +141,14 @@ function useChattingTemplate() {
             content : "loading",
             userId : "loading",
             created : new Date(),
-            bot: true
+            bot: true,
           }, ...prev]
         })
         // chatGPT에 문의
-        const responseGPT = await askChatGPT({question : message});
+        const responseGPT = await askChatGPT({
+          channelId : selectedChannel,
+          question : message
+        });
         const gptRequest : MessageHistoryDTO = {
           channelId : selectedChannel,
           content : responseGPT.data,
