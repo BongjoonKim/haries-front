@@ -5,5 +5,5 @@ export async function askChatGPT(props : {
   channelId ?: string
   question : string
 }) {
-  return (await request.post("/chatgpt/open-ai", {question : props.question})) as AxiosResponse<any>;
+  return (await request.post("/chatgpt/open-ai", {question : props.question, channelId : props.channelId})) as AxiosResponse<any>;
 }
