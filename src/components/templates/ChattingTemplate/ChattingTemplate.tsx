@@ -341,7 +341,7 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
       width: 18rem;
               //position: absolute;
       z-index: 10000;
-      height: auto;
+      height: -webkit-fill-available;
       background-color: white;
       padding: 1rem 0.5rem;
       border-radius: 1rem 1rem;
@@ -353,7 +353,8 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
         display: flex;
         flex-direction: column;
         margin-top: 2rem;
-        height: 100%;
+        height: 1rem;
+        flex-grow: 1;
         overflow-y: auto;
         margin-bottom: 2rem;
       }

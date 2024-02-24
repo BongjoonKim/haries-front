@@ -60,6 +60,10 @@ const StyledMessageWrapper = styled.div<{type : any}>`
     .loading {
       margin: auto !important;
     }
+    pre {
+      word-break: break-word;
+      white-space: pre-wrap;
+    }
   }
 
 
