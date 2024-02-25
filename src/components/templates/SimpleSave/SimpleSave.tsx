@@ -12,7 +12,7 @@ function SimpleSave(props : any) {
         <input
           value={props.contents}
           onChange={props.onChange}
-          onKeyDown={(event : any) => {
+          onKeyUp={(event : any) => {
             if (event.key === "Enter") {
               props.onOk();
             }

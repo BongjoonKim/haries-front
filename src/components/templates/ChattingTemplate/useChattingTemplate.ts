@@ -43,7 +43,6 @@ function useChattingTemplate() {
   const createNewChannel = useCallback(async () => {
     try {
       await createChannel({channelName : newChannelName});
-      // console.log("newChannelName", newChannelName)
       setIsChannelModal(false);
       await retrieveChannels();
     } catch (e) {
