@@ -10,6 +10,9 @@ function SimpleDelete(props : any) {
       <div className="footer">
         <CustomButton
           onClick={props.onDelete}
+          onPressKey={(event: any) => {
+            props.onDelete();
+          }}
         >
           Delete
         </CustomButton>
