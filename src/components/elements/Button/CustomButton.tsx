@@ -18,6 +18,7 @@ interface ButtonProps {
     padding?: string;
     height?: string;
   }
+  type ?: any;
 }
 function CustomButton(props : ButtonProps) {
   return (
@@ -29,6 +30,7 @@ function CustomButton(props : ButtonProps) {
         onClick={props.onClick}
         fullWidth={props.fullWidth}
         disabled={props.disabled}
+        type={props.type}
       />
     </StyleCustomButton>
   )

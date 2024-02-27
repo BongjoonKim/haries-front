@@ -112,16 +112,16 @@ function ChattingTemplate() {
             </ModalModule>
   
             {/* 삭제 모달 */}
-            <ModalModule
-              open={isDeleteChannelModal}
-              onClose={() => setIsDeleteChannelModal(false)}
-            >
-              <SimpleDelete
-                // title={selectedChannel}
-                onDelete={handleDelete}
-                onCancel={() => setIsDeleteChannelModal(false)}
-              />
-            </ModalModule>
+              <ModalModule
+                open={isDeleteChannelModal}
+                onClose={() => setIsDeleteChannelModal(false)}
+              >
+                <SimpleDelete
+                  // title={selectedChannel}
+                  onDelete={handleDelete}
+                  onCancel={() => setIsDeleteChannelModal(false)}
+                />
+              </ModalModule>
           </div>
           
         </div>
