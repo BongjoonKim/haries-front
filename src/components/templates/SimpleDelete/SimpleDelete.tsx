@@ -7,7 +7,17 @@ import {useEffect} from "react";
 function SimpleDelete(props : any) {
   
   useEffect(() => {
+    function handleKeyPress(event:any) {
+      if (event.key === 'Enter') {
+        // 버튼 클릭 로직을 여기에 작성
+        props.onDelete();
+      }
+    }
   
+    document.addEventListener('keypress', handleKeyPress);
+    return () => {
+      document.removeEventListener('keypress', handleKeyPress);
+    };
   }, []);
   
   return (

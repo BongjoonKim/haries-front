@@ -115,6 +115,7 @@ function ChattingTemplate() {
               <ModalModule
                 open={isDeleteChannelModal}
                 onClose={() => setIsDeleteChannelModal(false)}
+                
               >
                 <SimpleDelete
                   // title={selectedChannel}
