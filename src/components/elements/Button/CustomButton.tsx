@@ -19,10 +19,14 @@ interface ButtonProps {
     height?: string;
   }
   type ?: any;
+  onSubmit ?: any;
 }
 function CustomButton(props : ButtonProps) {
   return (
     <StyleCustomButton {...props.styles}>
+      <form
+        onSubmit={props.onSubmit}
+      >
       <MUIButton
         children={props.children}
         variant={props.variant}
@@ -32,6 +36,7 @@ function CustomButton(props : ButtonProps) {
         disabled={props.disabled}
         type={props.type}
       />
+      </form>
     </StyleCustomButton>
   )
 }

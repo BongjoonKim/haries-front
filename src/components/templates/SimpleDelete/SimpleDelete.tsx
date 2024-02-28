@@ -2,8 +2,14 @@ import styled from "styled-components";
 import CustomButton from "../../elements/Button";
 import {Form} from "react-router-dom";
 import {FormControl} from "@mui/material";
+import {useEffect} from "react";
 
 function SimpleDelete(props : any) {
+  
+  useEffect(() => {
+  
+  }, []);
+  
   return (
     <StyledSimpleDelete>
       <div className="title">
@@ -17,10 +23,13 @@ function SimpleDelete(props : any) {
         }
       >
         <div className="footer">
-            <input />
             <CustomButton
               onClick={props.onDelete}
               type="submit"
+              onSubmit={(event : any) => {
+                event.preventDefault();
+                console.log("엔터", event.target.value)
+              }}
             >
               Delete
             </CustomButton>
