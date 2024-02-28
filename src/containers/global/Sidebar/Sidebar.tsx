@@ -20,8 +20,8 @@ function Sidebar(props : SidebarProps) {
   
   // const SubFolder = lazy(() => import("./SubFolder"));
   
-  const handleExpandClick = (event : any) => {
-  
+  const handleSelectTree = (event : any, nodeIds:any) => {
+    
   }
   
   return (
@@ -32,6 +32,7 @@ function Sidebar(props : SidebarProps) {
         defaultExpandIcon={<AddBoxOutlinedIcon />}
         defaultCollapseIcon={<IndeterminateCheckBoxOutlinedIcon />}
         expanded={expanded}
+        onNodeSelect={handleSelectTree}
       >
         <>
           {mainFolders?.map((el, inx) => {
