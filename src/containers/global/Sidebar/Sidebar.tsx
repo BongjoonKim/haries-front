@@ -6,7 +6,7 @@ import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import IndeterminateCheckBoxOutlinedIcon from '@mui/icons-material/IndeterminateCheckBoxOutlined';
 import useSidebar from "./useSidebar";
 import {FoldersDTO} from "../../../types/dto/FoldersDTO";
-import {lazy, Suspense, useEffect, useState,createElement} from "react";
+import {lazy, Suspense, useEffect, useState, createElement, useCallback} from "react";
 import SubFolder from "./SubFolder";
 
 interface SidebarProps {
@@ -20,9 +20,9 @@ function Sidebar(props : SidebarProps) {
   
   // const SubFolder = lazy(() => import("./SubFolder"));
   
-  const handleSelectTree = (event : any, nodeIds:any) => {
-    
-  }
+  const handleSelectTree = useCallback((event : any, nodeIds:any) => {
+  
+  }, []);
   
   return (
     <StyledSidebar isCollapsed={props.isCollapsed}>

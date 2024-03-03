@@ -19,4 +19,5 @@ const StyledDocumentList = styled.div`
   //flex-direction: column;
   justify-content: center;
   width : 100%;
+  max-width: 1600px;
 `;
