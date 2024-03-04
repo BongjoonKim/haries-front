@@ -1,4 +1,4 @@
-import {FilterDataDTO} from "../../../types/dto/FilterDataDTO";
+import {FilterDataDTO} from "../../../types/dto/filterDataDTO";
 
 export const WRITING_INFO = "writingInfo";
 export const UPLOADED_LIST = "uploadedList";

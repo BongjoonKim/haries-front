@@ -3,7 +3,7 @@ import {recoilPersist} from "recoil-persist";
 import {FILTER_INFO, FilterData, UPLOADED_LIST, WRITING_INFO} from "./types.d";
 import moment from "moment";
 import {DocumentDTO} from "../../../types/dto/documentsInfo";
-import {FilterDataDTO} from "../../../types/dto/FilterDataDTO";
+import {FilterDataDTO} from "../../../types/dto/filterDataDTO";
 
 const { persistAtom } = recoilPersist()
 export const recoilDocumentState = {
