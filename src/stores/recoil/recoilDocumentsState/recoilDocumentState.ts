@@ -1,8 +1,10 @@
 import {atom, atomFamily} from "recoil";
 import {recoilPersist} from "recoil-persist";
-import {FILTER_DATA, UPLOADED_LIST, WRITING_INFO} from "./types.d";
+import {FILTER_INFO, FilterData, UPLOADED_LIST, WRITING_INFO} from "./types.d";
 import moment from "moment";
 import {DocumentDTO} from "../../../types/dto/documentsInfo";
+import {FilterDataDTO} from "../../../types/dto/FilterDataDTO";
+
 const { persistAtom } = recoilPersist()
 export const recoilDocumentState = {
   writingInfo : atom<DocumentDTO>({
@@ -25,13 +27,10 @@ export const recoilDocumentState = {
     key : `${UPLOADED_LIST}`,
     default : [],
     effects_UNSTABLE: [persistAtom]
-  });
+  }),
   
-  filterData = atom<any>({
-    key: `${FILTER_DATA}`,
-    default : {
-    
-    }
+  filterData: atom<FilterDataDTO>({
+    key: `${FILTER_INFO}`,
+    default : FilterData
   })
-  
 }
