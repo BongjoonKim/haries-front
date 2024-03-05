@@ -8,9 +8,14 @@ import MessageBar, {Action} from "../../widgets/MessageBar";
 import {IconButton} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
-function WritingContext() {
+export interface WritingContextProps {
+  folderId : string;
+  setFolderId : any;
+}
+
+function WritingContext(props:WritingContextProps) {
   
-  const {page, setPage, writings, totalContents, message, handleOnClose} = useWritingContext();
+  const {page, setPage, writings, totalContents, message, handleOnClose} = useWritingContext(props);
   console.log("값 확인", totalContents)
   
   return (

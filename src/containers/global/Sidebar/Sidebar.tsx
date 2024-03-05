@@ -9,20 +9,16 @@ import {FoldersDTO} from "../../../types/dto/FoldersDTO";
 import {lazy, Suspense, useEffect, useState, createElement, useCallback} from "react";
 import SubFolder from "./SubFolder";
 
-interface SidebarProps {
+export interface SidebarProps {
   isCollapsed : boolean;
+  folderId : string;
+  setFolderId : any;
 }
 
 
 
 function Sidebar(props : SidebarProps) {
-  const {rootId, mainFolders, expanded} = useSidebar();
-  
-  // const SubFolder = lazy(() => import("./SubFolder"));
-  
-  const handleSelectTree = useCallback((event : any, nodeIds:any) => {
-  
-  }, []);
+  const {rootId, mainFolders, expanded, handleSelectTree} = useSidebar(props);
   
   return (
     <StyledSidebar isCollapsed={props.isCollapsed}>

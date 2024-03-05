@@ -3,12 +3,10 @@ import {FoldersDTO} from "../../../types/dto/FoldersDTO";
 import {int} from "aws-sdk/clients/datapipeline";
 import {getChildFolders, getRootFolder} from "../../../endpoints/folders-endpotins";
 import useClipboard from "../../../hooks/state/useClipboard";
+import {getFolderDocuments} from "../../../endpoints/documents-endpoints";
+import {SidebarProps} from "./Sidebar";
 
-interface useSidebarProps {
-  parentId : string;
-}
-
-function useSidebar(props ?: useSidebarProps) {
+function useSidebar(props : SidebarProps) {
   const [mainFolders, setMainFolders] = useState<FoldersDTO[]>();
   const [rootId, setRootId] = useState<string>();
   const [expanded, setExpanded] = useState<string[]>();
@@ -31,6 +29,10 @@ function useSidebar(props ?: useSidebarProps) {
   //   setSubFolders(subFolderList.data);
   // }, [subFolders])
   
+  const handleSelectTree = useCallback(async (event : any, folderId:string) => {
+    props.setFolderId(folderId);
+  }, [props.folderId]);
+  
   
   useEffect(() => {
     getDepthOneFolder();
@@ -39,7 +41,8 @@ function useSidebar(props ?: useSidebarProps) {
   return {
     rootId,
     mainFolders,
-    expanded
+    expanded,
+    handleSelectTree
   }
 }
 

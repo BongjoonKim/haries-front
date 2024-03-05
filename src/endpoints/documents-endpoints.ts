@@ -31,3 +31,8 @@ export async function saveDocument(params: {id ?: string, request : DocumentDTO}
   console.log("저장", params)
   return (await request.put(`/documents/save?id=${params.id}`, params.request)) as AxiosResponse<any>;
 }
+
+// 폴더 글 조회
+export async function getFolderDocuments(params: {folderId : string}) {
+  return (await request.get(`/documents/filter?folderId=${params.folderId}`)) as AxiosResponse<DocumentDTO[]>;
+}
