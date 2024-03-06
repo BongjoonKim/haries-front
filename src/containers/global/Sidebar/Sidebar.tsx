@@ -11,7 +11,7 @@ import SubFolder from "./SubFolder";
 
 export interface SidebarProps {
   isCollapsed : boolean;
-  folderId : string;
+  folderId ?: string;
   setFolderId : any;
 }
 

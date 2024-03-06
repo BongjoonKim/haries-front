@@ -13,7 +13,7 @@ function useWritingContext(props : WritingContextProps) {
   const [message, setMessage] = useRecoilState(recoilCommonState.messageOpener)
   
   const getPaginationData = useCallback(async (props : PaginationDTO) => {
-    
+    console.log("조회 조건", props)
     const response = await getAllDocuments(props);
     setWritings(response.data.documentsDTO);
     setTotalContents(response.data.totalContents)

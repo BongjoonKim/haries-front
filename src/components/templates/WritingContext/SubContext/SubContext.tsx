@@ -10,7 +10,6 @@ interface SubContextProps {
 }
 
 function SubContext(props: SubContextProps) {
-  console.log("글 목록 보기", props.data);
   const writings = props.data;
   const { contentsOnClick, imgUrl, thumbnailColor } = useSubContext(writings);
   

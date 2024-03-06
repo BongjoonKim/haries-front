@@ -36,7 +36,7 @@ interface WritingContentsLayoutProps {
   getDocumentData ?: (id : string) => void;
   addFiles : (event : any) => void;
   handleOutPage: any;
-  selectedFolderId : any;
+  selectedFolderId : string;
   setSelectedFolderId : any;
   titleWrite ?: (event: any) => void;
   attachments ?: [];
@@ -44,7 +44,12 @@ interface WritingContentsLayoutProps {
 }
 
 function WritingContentsLayout(props: WritingContentsLayoutProps, ref : any) {
-  const {rootId, mainFolders, expanded } = useSidebar();
+  const {rootId, mainFolders, expanded } = useSidebar({
+    isCollapsed : false,
+    setFolderId : props.setSelectedFolderId,
+    folderId: props.selectedFolderId
+  });
+  
   console.log("props.attachments", props.attachments!.length)
   return (
     <StyledEditor>

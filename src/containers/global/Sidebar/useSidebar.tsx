@@ -16,9 +16,15 @@ function useSidebar(props : SidebarProps) {
   const getDepthOneFolder = useCallback(async() => {
     const rootFolder = await getRootFolder();
     setRootId(rootFolder.data.id);
-    // console.log("루트 폴더", rootFolder.data)
+    console.log("루트 폴더", rootFolder.data)
     const mainFolderList = await getChildFolders({parentId : rootFolder.data.id!});
-    setMainFolders(mainFolderList.data);
+    setMainFolders([
+      {
+        id : "all",
+        label : "All"
+      },
+      ...mainFolderList.data
+    ]);
     
     // console.log("메인 폴더", mainFolderList)
   }, [rootId, mainFolders]);
@@ -30,6 +36,7 @@ function useSidebar(props : SidebarProps) {
   // }, [subFolders])
   
   const handleSelectTree = useCallback(async (event : any, folderId:string) => {
+    console.log("폴더 선택", folderId)
     props.setFolderId(folderId);
   }, [props.folderId]);
   

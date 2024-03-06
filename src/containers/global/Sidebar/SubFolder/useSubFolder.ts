@@ -8,7 +8,10 @@ function useSubFolder(props : SubFolderProps) {
   
   const getSubFolders = useCallback(async (parentId: string) => {
     const response = await getChildFolders({parentId : parentId});
-    setSubFolders(response.data);
+    console.log("")
+    setSubFolders(
+      response.data
+    );
   }, [subFolders]);
   
   useEffect( () => {

@@ -12,13 +12,12 @@ export interface SubFolderProps {
 function SubFolder(props : SubFolderProps) {
   const {subFolders, setSubFolders} = useSubFolder(props);
   // useSubFolder(props);
-  console.log("확인", props)
   return (
     <>
       {subFolders?.map((el : any, inx : number) => {
         return (
           <StyledTreeItem key={inx} nodeId={el.uniqueKey + inx} label={el.label}>
-            {el.childrenId.length > 0 && createElement(
+            {el.childrenId?.length > 0 && createElement(
               SubFolder,
               {
                 parentId : el.id,
