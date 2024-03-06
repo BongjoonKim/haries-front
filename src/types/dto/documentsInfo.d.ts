@@ -1,4 +1,5 @@
 import {EditorType} from "@toast-ui/editor";
+import {FilterDataDTO} from "./filterDataDTO";
 
 interface DocumentsInfo {
   totalContents : number;
@@ -25,6 +26,7 @@ interface DocumentDTO {
 interface PaginationDTO {
   page : number;
   size : number;
+  folderId ?: string;
 }
 
 interface PaginationInfoDTO extends PaginationDTO{

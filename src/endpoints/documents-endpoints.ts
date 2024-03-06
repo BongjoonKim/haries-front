@@ -9,7 +9,7 @@ export async function createDocuments(writing?: DocumentDTO) {
 
 // 모든 글 목록 조회
 export async function getAllDocuments(params: PaginationDTO) {
-  return (await request.get(`/documents/get-all?page=${params.page}&size=${params.size}`)) as AxiosResponse<DocumentsInfo>;
+  return (await request.get(`/documents/get-all?page=${params.page}&size=${params.size}&folderId=${params.folderId}`)) as AxiosResponse<DocumentsInfo>;
 }
 
 // 글 조회
