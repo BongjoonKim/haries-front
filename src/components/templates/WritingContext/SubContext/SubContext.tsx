@@ -38,7 +38,6 @@ function SubContext(props: SubContextProps) {
                   className="none"
                   style={{
                     opacity: 0.7,
-                    // backgroundColor : thumbnailColor[random(thumbnailColor.length-1)]
                     backgroundColor : writing.color
                   }}
                 />

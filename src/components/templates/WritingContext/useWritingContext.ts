@@ -13,14 +13,14 @@ function useWritingContext(props : WritingContextProps) {
   const [message, setMessage] = useRecoilState(recoilCommonState.messageOpener)
   
   const getPaginationData = useCallback(async (props : PaginationDTO) => {
-    console.log("조회 조건", props)
     const response = await getAllDocuments(props);
     setWritings(response.data.documentsDTO);
     setTotalContents(response.data.totalContents)
   }, [writings, page,totalContents, props.folderId, perPage]);
   
   useEffect(() => {
-    getPaginationData({page : page, size : 6, folderId : props.folderId})
+    console.log("최초 조회", props.folderId)
+    getPaginationData({page : page, size : 6, folderId : props.folderId || "all"})
   }, [page, message, props.folderId]);
   
   // 클릭 시 글 보이게 하기
