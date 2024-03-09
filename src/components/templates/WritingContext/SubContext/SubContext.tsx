@@ -15,7 +15,6 @@ function SubContext(props: SubContextProps) {
   
   // imgUrl.find((el : any) => el.id === )?.key
   
-  console.log("imgUrl", thumbnailColor[random(thumbnailColor.length-1)])
   return (
     <StyledSubContext>
       {writings.map((writing, index) => {
@@ -39,7 +38,8 @@ function SubContext(props: SubContextProps) {
                   className="none"
                   style={{
                     opacity: 0.7,
-                    backgroundColor : thumbnailColor[random(thumbnailColor.length-1)]
+                    // backgroundColor : thumbnailColor[random(thumbnailColor.length-1)]
+                    backgroundColor : writing.color
                   }}
                 />
               </div>

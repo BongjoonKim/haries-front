@@ -21,6 +21,7 @@ interface DocumentDTO {
   modifiedUser ?: string;
   unique ?: string;
   folderId ?: string;
+  color ?: string;
 }
 
 interface PaginationDTO {

@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useRef, useState} from "react";
-import {useRecoilState, useResetRecoilState} from "recoil";
+import {useRecoilState, useRecoilValue, useResetRecoilState} from "recoil";
 import {DocumentDTO} from "../../../types/dto/documentsInfo";
 import recoilDocumentsState from "../../../stores/recoil/recoilDocumentsState";
 import {HookCallback} from "./useWritingContents";
@@ -7,7 +7,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {createDocuments, getDocument, getDocumentUnique, saveDocument} from "../../../endpoints/documents-endpoints";
 import generatorUtil from "../../../utilities/generatorUtil";
 import recoilDocumentState from "../../../stores/recoil/recoilDocumentsState";
-import {startsWith} from "lodash";
+import {random, startsWith} from "lodash";
 import awsS3 from "../../../appConfig/file/awsS3";
 import {s3Utils} from "../../../utilities/s3Utils";
 
@@ -25,6 +25,7 @@ function useEditorWriting() {
   const [attachments, setAttachments] = useState<any>([]);
   const navigate = useNavigate();
   const [uploadedList, setUploadedList] = useRecoilState(recoilDocumentState.uploadedList);
+  const thumbnailColor = useRecoilValue(recoilDocumentState.thumbnailColor);
   
   // 수정 화면일 때 조회 로직
   const getDocumentData = useCallback(async (id ?: string) => {
@@ -110,14 +111,15 @@ function useEditorWriting() {
     } else if (editorInfo.mode === "wysiwyg") {
       contents = editorInfo.getHTML();
     }
-    
+    const color = thumbnailColor[random(thumbnailColor.length-1)];
     try {
       if (id) {
         const request : DocumentDTO = {
           title: titleRef.current?.value!,
           contents : contents,
           contentsType : editorInfo.mode,
-          folderId: selectedFolderId
+          folderId: selectedFolderId,
+          color : color
         }
         await saveDocument({id, request});
         setUploadedList([]);
@@ -132,7 +134,8 @@ function useEditorWriting() {
           title: "",
           contents : "",
           unique: "",
-          folderId: ""
+          folderId: "",
+          color : color
         }
         const response = await createDocuments(request);
         
@@ -160,7 +163,8 @@ function useEditorWriting() {
           contents : newContents,
           contentsType : editorInfo.mode,
           unique: unique,
-          folderId: selectedFolderId
+          folderId: selectedFolderId,
+          color: color
         }
         const newId = response.data.id;
         await saveDocument({id : newId, request : newRequest});
@@ -176,7 +180,7 @@ function useEditorWriting() {
       //   }
       // })
     }
-  }, [writing, selectedFolderId, uploadedList, attachments]);
+  }, [writing, selectedFolderId, uploadedList, attachments, thumbnailColor]);
   
   // 나가기 로직
   const handleOutPage = useCallback(() => {
