@@ -20,7 +20,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import {InputBase} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import {useRecoilState} from "recoil";
+import {useRecoilState, useRecoilValue} from "recoil";
 import recoilCommonState from "../../../../stores/recoil/recoilCommonState";
 
 function RightNavigator() {
@@ -28,7 +28,7 @@ function RightNavigator() {
   const arrowRef = useRef<any>(null);
   const [openSearch, setOpenSearch] = useState<boolean>(false);
   const {getModeProps : getLocalModeProps, handleShowMode, handleCloseMode} = useMode();
-  const [isLogin, setLogin] = useRecoilState(recoilCommonState.isLogin);
+  const isLogin = useRecoilValue<boolean>(recoilCommonState.isLogin);
   const [isShow, setShow] = useState(false);
   
   // 글쓰기

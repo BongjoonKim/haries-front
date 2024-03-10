@@ -127,8 +127,8 @@ function useChattingTemplate() {
           content : message,
           bot : "user"
         };
-        await createMessage(request);
         setMessage("");
+        await createMessage(request);
   
         // 조회!
         await getMessageHistory(selectedChannel, -1);

@@ -7,21 +7,26 @@ import recoilCommonState from "../../stores/recoil/recoilCommonState";
 
 
 function RedirectLogin() {
-  const [isLogin, setLogin] = useRecoilState(recoilCommonState.isLogin);
+  const [userAuth, setUserAuth] = useRecoilState(recoilCommonState.userAuth);
   const navigate = useNavigate();
   
   const getUserInfo = useCallback(async (code : string, state : string) => {
     try {
       const response = await doLogin({code : code, state : state});
-      console.log("response 값 확인", response);
-      localStorage.setItem("authorization", response.headers.authorization);
-      localStorage.setItem("refreshtoken", response.headers.refreshtoken);
-      setLogin(true);
+      sessionStorage.setItem("authorization", response.headers.authorization);
+      sessionStorage.setItem("refreshtoken", response.headers.refreshtoken);
+      setUserAuth(
+        {
+          roles : response.data.roles,
+          ...response.data.tokenDTO
+        });
+      
+      
     } catch (error) {
       console.log("getUserInfo error : ", error);
     }
 
-  }, [isLogin]);
+  }, [userAuth]);
   
   useEffect(() => {
     const code = new URL(window.location.href).searchParams.get("code");

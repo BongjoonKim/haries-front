@@ -1,9 +1,17 @@
-import {atom} from "recoil";
+import {atom, selector} from "recoil";
 import {recoilPersist} from "recoil-persist";
-import {IS_LOGIN, MESSAGE_STATUS} from "./types.d";
+import {IS_LOGIN, MESSAGE_STATUS, USER_AUTH} from "./types.d";
+import {TokenDTO} from "../../../types/dto/TokenDTO";
 
 
-const {persistAtom} = recoilPersist();
+const {persistAtom} = recoilPersist({
+  key: "sessionStorage",
+  storage : sessionStorage
+});
+
+interface UserAuth extends TokenDTO {
+  roles : string[];
+}
 
 export const recoilCommonState = {
   messageOpener : atom<{isOpen : boolean, contents : string}>({
@@ -14,14 +22,26 @@ export const recoilCommonState = {
     },
     // effects_UNSTABLE: [persistAtom]
   }),
-  isLogin : atom<boolean>({
+  
+  userAuth : atom<any>({
+    key : `${USER_AUTH}`,
+    default : {},
+    effects_UNSTABLE: [persistAtom]
+  }),
+  
+  isLogin : selector<boolean>({
     key : `${IS_LOGIN}`,
-    default : false,
+    get : ({get}) => {
+      const userAuth : UserAuth = get(recoilCommonState.userAuth);
+      return !!userAuth.accessToken && userAuth.roles?.includes("ADMIN");
+    }
   }),
   
   selectedChannelId: atom<string>({
     key: "sdfsdf",
     default: "",
     effects_UNSTABLE: [persistAtom]
-  })
+  }),
+  
+  
 }
