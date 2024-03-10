@@ -16,7 +16,7 @@ function SubFolder(props : SubFolderProps) {
     <>
       {subFolders?.map((el : any, inx : number) => {
         return (
-          <StyledTreeItem key={inx} nodeId={el.uniqueKey + inx} label={el.label}>
+          <StyledTreeItem key={inx} nodeId={el.id} label={el.label}>
             {el.childrenId?.length > 0 && createElement(
               SubFolder,
               {
