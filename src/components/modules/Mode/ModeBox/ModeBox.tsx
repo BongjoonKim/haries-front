@@ -48,8 +48,6 @@ function ModalBox<T, N>({
 
     });
     
-    console.log("타입 확인", boxSize)
-
     return transitions(
         ({ opacity }, item) =>
             item && (

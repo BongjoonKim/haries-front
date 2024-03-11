@@ -13,10 +13,9 @@ function SimpleDelete(props : any) {
         props.onDelete();
       }
     }
-  
-    document.addEventListener('keypress', handleKeyPress);
+    document.getElementsByClassName("MuiBox-root")[0]?.addEventListener('keypress', handleKeyPress);
     return () => {
-      document.removeEventListener('keypress', handleKeyPress);
+      document.getElementsByClassName("MuiBox-root")[0]?.removeEventListener('keypress', handleKeyPress);
     };
   }, []);
   

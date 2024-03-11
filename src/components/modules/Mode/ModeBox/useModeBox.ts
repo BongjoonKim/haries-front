@@ -77,7 +77,6 @@ function useModeBox({
                     height: height - bodyClientHeight,
                 };
             }
-            console.log("boxRef", boxRef.current)
             setBoxSize({
                 width,
                 height,
@@ -99,7 +98,8 @@ function useModeBox({
         leave: {opacity: 0}
     });
     
-    useEffect(handleSetBoxSize, [boxRef.current]);
+    // 의존성 제거해도 괜찮은지 확인 필요
+    useEffect(handleSetBoxSize, []);
     
     useDraggable(
         { target : boxRef, control : isModeless ? dragControlRef : undefined },

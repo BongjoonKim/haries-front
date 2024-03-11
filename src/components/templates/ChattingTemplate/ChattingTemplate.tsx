@@ -118,7 +118,6 @@ function ChattingTemplate() {
                 
               >
                 <SimpleDelete
-                  // title={selectedChannel}
                   onDelete={handleDelete}
                   onCancel={() => setIsDeleteChannelModal(false)}
                 />

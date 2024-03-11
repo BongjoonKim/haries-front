@@ -1,8 +1,23 @@
 import styled from "styled-components";
 import CustomButton from "../../elements/Button";
 import TextInput from "../../elements/TextInput";
+import {useEffect} from "react";
 
 function SimpleSave(props : any) {
+  
+  useEffect(() => {
+    function handleKeyPress(event:any) {
+      if (event.key === 'Enter') {
+        // 버튼 클릭 로직을 여기에 작성
+        props.onOk();
+      }
+    }
+    document.getElementsByClassName("MuiBox-root")[0]?.addEventListener('keypress', handleKeyPress);
+    return () => {
+      document.getElementsByClassName("MuiBox-root")[0]?.removeEventListener('keypress', handleKeyPress);
+    };
+  }, []);
+  
   return (
     <StyledSimpleCreate>
       <div className="title">
