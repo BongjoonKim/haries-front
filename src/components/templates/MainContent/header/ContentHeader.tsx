@@ -34,7 +34,7 @@ const StyledContentHeader = styled.header<{contentHeaderTheme?: string}>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 8px;
+  padding: 8px 0;
   .content-header {
 
       //justify-content: space-between;

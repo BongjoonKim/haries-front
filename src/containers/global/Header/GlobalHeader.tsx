@@ -135,7 +135,6 @@ const StyledLogoContainer = styled.div<{isCollapsed: boolean}>`
 
 const StyledLogo = styled.div`
   display: flex;
-  width: 8rem;
   margin: auto 0;
   cursor: pointer;
   

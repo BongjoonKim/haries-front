@@ -328,6 +328,7 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
         display: flex;
         align-items: center;
         width: 100%;
+        margin: 1rem 0;
         .caIjNN { // textInput
           flex-grow: 1;
         }
@@ -433,7 +434,7 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
         display: flex;
         align-items: center;
         width: 100%;
-
+        margin: 1rem 0;
         .caIjNN { // textInput
           flex-grow: 1;
         }

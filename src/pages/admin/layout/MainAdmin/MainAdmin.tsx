@@ -12,7 +12,7 @@ function MainAdmin(props : MainAdminProps) {
           <div className="title">
             Blog
           </div>
-          <a className="sub-title" href={`${process.env.REACT_APP_URI}/admin/folder`}>
+          <a className="sub-title" href={`/admin/folder`}>
             Folder
           </a>
         </div>
