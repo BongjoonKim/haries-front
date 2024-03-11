@@ -33,15 +33,7 @@ export const recoilCommonState = {
     key : `${IS_LOGIN}`,
     get : ({get}) => {
       const userAuth : UserAuth = get(recoilCommonState.userAuth);
-      return !!userAuth.accessToken && userAuth.roles?.includes("ADMIN");
+      return !!userAuth.accessToken && !!userAuth.grantType.length;
     }
   }),
-  
-  selectedChannelId: atom<string>({
-    key: "sdfsdf",
-    default: "",
-    effects_UNSTABLE: [persistAtom]
-  }),
-  
-  
 }

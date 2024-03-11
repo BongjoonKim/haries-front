@@ -8,6 +8,7 @@ import recoilCommonState from "../../../stores/recoil/recoilCommonState";
 function useGlobalHeader() {
   const [menuList, setMenuList] = useState<MenuType[]>([]);
   const isLogin = useRecoilValue(recoilCommonState.isLogin);
+  const userAuth = useRecoilValue(recoilCommonState.userAuth);
   
   const getAllMenuList = useCallback(async () => {
     const response = await retrieveMenus();
@@ -15,9 +16,14 @@ function useGlobalHeader() {
     setMenuList(() => {
       console.log("로그인 여부 확인", isLogin)
       if (isLogin) {
-        return response.data.filter(el => ['chatgpt', 'blog', 'admin'].includes(lowerCase(el.menuName)))
+        if (userAuth?.roles?.includes("ADMIN")) {
+          return response.data.filter(el => ['chatgpt', 'blog', 'admin'].includes(lowerCase(el.menuName)))
+        } else {
+          return response.data.filter(el => ['chatgpt', 'blog'].includes(lowerCase(el.menuName)))
+  
+        }
       } else {
-        return response.data.filter(el => ['chatgpt', 'blog'].includes(lowerCase(el.menuName)))
+        return response.data.filter(el => ['blog'].includes(lowerCase(el.menuName)))
       }
     });
   }, [menuList, isLogin]);
