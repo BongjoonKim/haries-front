@@ -1,10 +1,20 @@
+// setupProxy.js
 export const { createProxyMiddleware } = require('http-proxy-middleware');
 
-module.exports = function(app:any) {
+module.exports = (app : any) => {
+  // auth 포함 하위 route에 대해서는 localhost:5000/v1을 domain으로 하여 proxy설정
   app.use(
-    createProxyMiddleware("/*", {
-      target: 'http://13.209.27.28:3001',
+    '/local',
+    createProxyMiddleware({
+      target: 'http://localhost:3001',
+      changeOrigin: true,
+    }))
+  // dummy 포함 하위 route에 대해서는 localhost:6000/v1을 domain으로 하여 proxy설정
+  app.use(
+    '/remote',
+    createProxyMiddleware({
+      target: 'http://remote.test.com',
       changeOrigin: true,
     })
-  );
-};
+  )
+}

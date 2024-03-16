@@ -60,12 +60,12 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "export PORT=2999 && react-scripts start && GENERATE_SOURCEMAP=false react-scripts start",
+    "start": "GENERATE_SOURCEMAP=false && export PORT=2999 && react-scripts start",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy" : "http://13.209.27.28:3001",
+  "proxy" : "http://localhost:3001",
   "eslintConfig": {
     "extends": [
       "react-app",
