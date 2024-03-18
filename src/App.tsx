@@ -29,6 +29,7 @@ function App() {
         <Route path="/blog/*" element={RoutesTree.BlogRoutes()} />
         <Route path="/chatgpt/*" element={RoutesTree.ChatGPTRoutes()} />
         <Route path="/admin/*" element={RoutesTree.AdminRoutes()} />
+        <Route path="/dalle/*" element={RoutesTree.DalleRoutes()} />
       </Routes>
     </UniversalContainer>
   );
