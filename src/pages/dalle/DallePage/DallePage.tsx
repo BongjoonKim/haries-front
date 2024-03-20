@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import {useInView} from "react-intersection-observer";
+import QuestionBox from "../layout/QuestionBox";
 
 
 function DallePage() {
@@ -8,7 +9,9 @@ function DallePage() {
   
   return (
     <StyledDallePage>
-    
+      <div className="header-content">
+        <QuestionBox/>
+      </div>
     </StyledDallePage>
   )
 }
