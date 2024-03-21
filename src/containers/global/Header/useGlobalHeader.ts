@@ -17,9 +17,9 @@ function useGlobalHeader() {
       console.log("로그인 여부 확인", isLogin)
       if (isLogin) {
         if (userAuth?.roles?.includes("ADMIN")) {
-          return response.data.filter(el => ['chatgpt', 'blog', 'admin'].includes(lowerCase(el.menuName)))
+          return response.data.filter(el => ['chatgpt', 'blog', 'dalle', 'admin'].includes(lowerCase(el.menuName)))
         } else {
-          return response.data.filter(el => ['chatgpt', 'blog'].includes(lowerCase(el.menuName)))
+          return response.data.filter(el => ['chatgpt', 'blog', 'dalle'].includes(lowerCase(el.menuName)))
   
         }
       } else {

@@ -19,4 +19,9 @@ function DallePage() {
 export default DallePage;
 
 const StyledDallePage = styled.div`
-  `;
+  width: 100%;
+  padding : 4rem 4rem;
+  .header-content {
+  
+  }
+`;

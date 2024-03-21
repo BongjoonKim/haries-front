@@ -41,7 +41,7 @@ export default forwardRef((props: TextInputProps, ref: ForwardedRef<HTMLInputEle
     }, [value]);
     
     return (
-        <StyledInput title={props.title} width={props.width} flex={props.flex}>
+        <StyledInput title={props.title} width={props.width} flex={props.flex} height={props.height}>
             {props.label && props.id && (
                 <label className="input-label" htmlFor={props.id}>
                     {props.label}
@@ -99,7 +99,7 @@ const StyledInput = styled.div<{
   display: flex;
 
   .input-text {
-    height: 28px;
+    height: ${props => props.height ?? "28px"};
     width: ${props => {return props.width ?? "100%";
     }}
     padding: 4px 8px;
