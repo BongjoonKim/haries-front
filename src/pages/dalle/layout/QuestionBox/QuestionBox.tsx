@@ -1,12 +1,17 @@
 import styled from "styled-components";
 import TextInput from "../../../../components/elements/TextInput";
+import useQuestionBox from "./useQuestionBox";
 
 export default function QuestionBox(props : any) {
+  const {
+    handleEnter
+  } = useQuestionBox();
   return (
     <StyledQuestionBox>
       <TextInput
         height={"3rem"}
         placeholder = {"Describe what you want"}
+        onKeyUp={handleEnter}
       />
     </StyledQuestionBox>
   )

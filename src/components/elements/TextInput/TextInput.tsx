@@ -15,6 +15,7 @@ export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
     onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
     onReset?: () => void;
     onKeyPress?: (event: KeyboardEvent<HTMLInputElement>) => void;
+    onKeyUp ?: (event : KeyboardEvent<HTMLInputElement>) => void;
     className?: string;
     status?: currentStatus;
     filter?: RegExp;
@@ -62,6 +63,7 @@ export default forwardRef((props: TextInputProps, ref: ForwardedRef<HTMLInputEle
                 onChange={props.onChange ? props.onChange : handleChange}
                 // onChange={props.onChange}
                 onKeyPress={props.onKeyPress}
+                onKeyUp={props.onKeyUp}
                 autoComplete={props.autoComplete}
                 maxLength={props.maxLength}
                 onKeyDown={props.onKeyDown}
