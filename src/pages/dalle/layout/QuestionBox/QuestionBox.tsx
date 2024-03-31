@@ -11,7 +11,7 @@ export default function QuestionBox(props : any) {
       <TextInput
         height={"3rem"}
         placeholder = {"Describe what you want"}
-        onKeyUp={handleEnter}
+        onKeyDown={handleEnter}
       />
     </StyledQuestionBox>
   )
