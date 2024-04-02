@@ -27,4 +27,9 @@ function ImageList(props : ImageListProps) {
 export default ImageList;
 
 const StyledImageList = styled.div`
+  margin: 2rem 2rem;
+  display: flex;
+  //justify-content: center;
+  align-content: center;
+  overflow-x: auto;
 `;

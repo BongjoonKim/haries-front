@@ -16,6 +16,9 @@ function DallePage() {
       <div className="body-content">
         <ImageList />
       </div>
+      <div className='footer-content'>
+      
+      </div>
     </StyledDallePage>
   )
 }
@@ -25,7 +28,17 @@ export default DallePage;
 const StyledDallePage = styled.div`
   width: 100%;
   padding : 4rem 4rem;
+  display: flex;
+  flex-direction: column;
   .header-content {
   
+  }
+  .body-content {
+    flex-grow: 1;
+    align-content: center;
+  }
+  
+  .footer-content {
+    height : 20%
   }
 `;
