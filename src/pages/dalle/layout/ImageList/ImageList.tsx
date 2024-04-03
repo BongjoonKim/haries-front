@@ -2,6 +2,7 @@ import useImageList from "./useImageList";
 import styled from "styled-components";
 import {DalleDTO} from "../../../../types/dto/DalleDTO";
 import ImageBox from "./ImageBox";
+import Carousel from "../../../../components/widgets/Carousel";
 
 export interface ImageListProps {
 
@@ -14,7 +15,11 @@ function ImageList(props : ImageListProps) {
   } = useImageList();
   
   return (
+
     <StyledImageList>
+      <Carousel
+        data={images}
+      />
       {images?.map((image : DalleDTO) => {
         return (
           <ImageBox {...image} />
