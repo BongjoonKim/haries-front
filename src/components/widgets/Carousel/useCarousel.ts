@@ -1,4 +1,5 @@
-import {TouchEventHandler, useCallback, useEffect, useRef, useState} from "react";
+import {MouseEventHandler, TouchEventHandler, useCallback, useEffect, useRef, useState} from "react";
+import carousel from "./index";
 
 export interface useCarouselProps {
   data : any[];
@@ -35,7 +36,26 @@ export default function useCarousel(props : useCarouselProps) {
     }
   }, [curInx])
   
-  const handleTouchStart = (event : TouchEventHandler<HTMLDivElement>) => {
+  const handleTouchStart = (event : TouchEvent) => {
+    touchStartX = event.touches[0].clientX;
+  }
+  
+  const handleTouchMove = (event : TouchEvent) => {
+    const curTouchX = event.changedTouches[0].clientX;
+    
+    if (ref.current) {
+      ref.current.style.transform = `translateX(calc(-${curInx}00% - ${(touchStartX - curTouchX) * 2 || 0}px`
+    }
+  }
+  
+  const handleTouchEnd = (event : TouchEvent) => {
+    touchEndX = event.changedTouches[0].clientX;
+    
+    if (touchStartX >= touchEndX) {
+      handlemove(1);
+    } else {
+      handlemove(-1)
+    }
   }
   
   useEffect(() => {
