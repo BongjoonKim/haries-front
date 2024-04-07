@@ -23,7 +23,7 @@ interface ButtonProps {
 }
 function CustomButton(props : ButtonProps) {
   return (
-    <StyleCustomButton {...props.styles}>
+    <StyleCustomButton {...props.styles} className={props.className}>
       <form
         onSubmit={props.onSubmit}
       >

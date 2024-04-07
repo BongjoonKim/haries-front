@@ -32,10 +32,7 @@ function ImageList(props : ImageListProps) {
 export default ImageList;
 
 const StyledImageList = styled.div`
-  margin: 2rem 2rem;
+  margin: 2rem auto;
   display: flex;
-  //justify-content: center;
   align-content: center;
-  width: 100%;
-  //overflow-x: auto;
 `;

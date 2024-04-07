@@ -1,6 +1,11 @@
 import styled from "styled-components";
 import useCarousel from "./useCarousel";
 import ImageBox from "../../../pages/dalle/layout/ImageList/ImageBox";
+import CustomButton from "../../elements/Button";
+import CustomIconButton from "../../elements/Button/CustomIconButton";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import {IconButton} from "@mui/material";
 
 export interface CarouselProps {
   data : any[];
@@ -13,7 +18,8 @@ export default function Carousel(props : CarouselProps) {
     handleTouchMove,
     handleTouchEnd,
     ref,
-    newList
+    newList,
+    curInx
   } = useCarousel({data : props.data});
   return (
     <StyledCarousel
@@ -21,16 +27,27 @@ export default function Carousel(props : CarouselProps) {
       // onTouchMove={handleTouchMove}
       // onTouchEnd={handleTouchEnd}
     >
-      <button onClick={() => handleMove(1)}>
-        +1
-      </button>
-      <button onClick={() => handleMove(-1)}>
-        -1
-      </button>
+      <IconButton
+        className={"left"}
+        onClick={() => handleMove(-1)}
+      >
+        <ArrowBackIosIcon />
+      </IconButton>
+      <IconButton
+        className={"right"}
+        onClick={() => handleMove(1)}
+      >
+        <ArrowForwardIosIcon />
+      </IconButton>
       <div className='image-list' ref={ref}>
-        {newList.map((el : any) => {
+        {newList.map((el : any, inx : number) => {
           return (
-            <ImageBox url={el.url} />
+            <ImageBox
+              key={inx}
+              index={inx}
+              curInx={curInx}
+              url={el.url}
+            />
           )
         })}
       </div>
@@ -40,7 +57,22 @@ export default function Carousel(props : CarouselProps) {
 }
 
 const StyledCarousel = styled.div<any>`
+  overflow: hidden;
+  width: 832px;
+  .left {
+    position: relative;
+    top : 50%;
+    z-index: 9000;
+  }
+  .right {
+    position: relative;
+    //left: calc(100% - document;
+    right : calc(-100% + 5rem);
+    top : 50%;
+    z-index: 9000;
+  }
   .image-list {
     display: flex;
+    gap: 16px;
   }
 `;

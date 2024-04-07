@@ -36,6 +36,8 @@ const StyledDallePage = styled.div`
   .body-content {
     flex-grow: 1;
     align-content: center;
+    display: flex;
+    width: 100%;
   }
   
   .footer-content {
