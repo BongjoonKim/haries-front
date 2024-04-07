@@ -21,12 +21,13 @@ export default function useCarousel(props : useCarouselProps) {
   }, [curInx]);
   
   // 이동할 방향대로 움직이게 해주는 함수
-  const handlemove = useCallback((direction : number) => {
+  const handleMove = useCallback((direction : number) => {
     const newInx = curInx + direction;
-    if (newInx > props.data.length) {
+    console.log("newInx", newInx, curInx, direction)
+    if (newInx > props.data.length + 1) {
       moveToFirst(1);
     } else if (newInx) {
-      moveToFirst(props.data.length);
+      moveToFirst(newInx);
     }
     
     setCurInx((prev : number) => prev + direction);
@@ -52,9 +53,9 @@ export default function useCarousel(props : useCarouselProps) {
     touchEndX = event.changedTouches[0].clientX;
     
     if (touchStartX >= touchEndX) {
-      handlemove(1);
+      handleMove(1);
     } else {
-      handlemove(-1)
+      handleMove(-1)
     }
   }
   
@@ -65,6 +66,7 @@ export default function useCarousel(props : useCarouselProps) {
       setNewList([endData, ...props.data, startData])
     }
   }, [props.data]);
+  // https://doooodle932.tistory.com/130
   
   useEffect(() => {
     if (ref.current) {
@@ -72,6 +74,11 @@ export default function useCarousel(props : useCarouselProps) {
     }
   }, [curInx]);
   return {
-    
+    handleMove,
+    handleTouchStart,
+    handleTouchMove,
+    handleTouchEnd,
+    ref,
+    newList,
   }
 }

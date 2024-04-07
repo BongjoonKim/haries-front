@@ -20,11 +20,11 @@ function ImageList(props : ImageListProps) {
       <Carousel
         data={images}
       />
-      {images?.map((image : DalleDTO) => {
-        return (
-          <ImageBox {...image} />
-        )
-      })}
+      {/*{images?.map((image : DalleDTO) => {*/}
+      {/*  return (*/}
+      {/*    <ImageBox {...image} />*/}
+      {/*  )*/}
+      {/*})}*/}
     </StyledImageList>
   )
 }
@@ -36,5 +36,6 @@ const StyledImageList = styled.div`
   display: flex;
   //justify-content: center;
   align-content: center;
-  overflow-x: auto;
+  width: 100%;
+  //overflow-x: auto;
 `;
