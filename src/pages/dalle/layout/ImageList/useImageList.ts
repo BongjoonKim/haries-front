@@ -1,18 +1,23 @@
 import {useCallback, useEffect, useState} from "react";
 import {DalleDTO} from "../../../../types/dto/DalleDTO";
 import {getDalleImages} from "../../../../endpoints/dalle-endpoints";
+import {useRecoilValue} from "recoil";
+import recoilDocumentsState from "../../../../stores/recoil/recoilDocumentsState";
 
 export default function useImageList() {
   const [images, setImages] = useState<DalleDTO[]>([]);
+  const isLoading = useRecoilValue<boolean>(recoilDocumentsState.isLoading);
+  
   const getDalleList = useCallback(async() => {
     const response = await getDalleImages();
-    console.log("조회해온 값 확인", response)
     setImages(response.data);
   }, [images]);
   
   useEffect(() => {
-    getDalleList();
-  }, []);
+    if (!isLoading) {
+      getDalleList();
+    }
+  }, [isLoading]);
   
   return {
     images

@@ -4,6 +4,8 @@ import useQuestionBox from "./useQuestionBox";
 
 export default function QuestionBox(props : any) {
   const {
+    writing,
+    handleChange,
     handleEnter
   } = useQuestionBox();
   return (
@@ -12,6 +14,8 @@ export default function QuestionBox(props : any) {
         height={"3rem"}
         placeholder = {"Describe what you want"}
         onKeyDown={handleEnter}
+        value={writing}
+        onChange={handleChange}
       />
     </StyledQuestionBox>
   )

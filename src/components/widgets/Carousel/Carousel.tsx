@@ -59,16 +59,19 @@ export default function Carousel(props : CarouselProps) {
 const StyledCarousel = styled.div<any>`
   overflow: hidden;
   width: 832px;
+  display: flex;
+  align-content: center;
+  height: 512px;
   .left {
     position: relative;
-    top : 50%;
+    //top : 50%;
     z-index: 9000;
   }
   .right {
     position: relative;
     //left: calc(100% - document;
     right : calc(-100% + 5rem);
-    top : 50%;
+    //top : 50%;
     z-index: 9000;
   }
   .image-list {

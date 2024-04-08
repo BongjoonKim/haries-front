@@ -78,14 +78,16 @@ export default function useCarousel(props : useCarouselProps) {
   useEffect(() => {
     if (ref.current !== null) {
       console.log("현재 curInx", curInx)
+      // 사진 폭 + margin 16*2
+      // 사진 폭 * 3 / 4 + 32 + 32
       if (curInx === 1) {
-        ref.current.style.transform = `translateX(calc(-${544 * (curInx)}px - 448px))`
+        ref.current.style.transform = `translateX(calc(-${544 * (curInx)}px - 512px))`
       } else if(curInx === props.data.length + 1) {
-        ref.current.style.transform = `translateX(calc(-${544 * (curInx)}px - 480px))`
+        ref.current.style.transform = `translateX(calc(-${544 * (curInx)}px - 544px))`
       } else if (curInx === 0) {
-        ref.current.style.transform = `translateX(calc(-${544 * (curInx)}px - 416px))`
+        ref.current.style.transform = `translateX(calc(-${544 * (curInx)}px - 512x))`
       } else {
-        ref.current.style.transform = `translateX(calc(-${544 * (curInx)}px - 464px))`
+        ref.current.style.transform = `translateX(calc(-${544 * (curInx)}px - 528px))`
       }
     }
   }, [curInx]);

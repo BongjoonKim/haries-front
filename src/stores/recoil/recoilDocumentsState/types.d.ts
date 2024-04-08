@@ -7,6 +7,8 @@ export const FILTER_INFO = "filterInfo";
 
 export const THUMBNAILCOLOR = "thumbnailColor";
 
+export const IS_LOADING = "isLoading";
+
 
 // 필터 정보
 export const FilterData: FilterDataDTO = {
