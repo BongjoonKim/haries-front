@@ -13,6 +13,18 @@ export default function useCarousel(props : useCarouselProps) {
   const [curInx, setCurInx] = useState<number>(1);
   const ref = useRef<any>(null);
   
+  const imgWidth = 512;
+  const imgHeight = 512;
+  const imgMarginLR = 16;
+  const buttonWidth = 24;
+  const buttonPaddingLR = 8;
+  
+  const carouselWidth = imgWidth + imgMarginLR * 4 + 2 * (buttonWidth + 2 * buttonPaddingLR) + imgWidth / 2;
+  const initialTranslateX = imgWidth * 3 / 4 + buttonWidth + buttonPaddingLR * 2 + imgMarginLR;
+  const moveWidth = imgWidth + 2 * imgMarginLR
+  
+  console.log("carouselWidth", carouselWidth)
+  
   // transition이 끝난후 바로 transition을 없애주면서 슬라이드를 바로 이동해주는 함수
   const swift = (inx : number) => {
     setTimeout(() => {
@@ -48,7 +60,6 @@ export default function useCarousel(props : useCarouselProps) {
   
   const handleTouchMove = (event : TouchEvent) => {
     const curTouchX = event.changedTouches[0].clientX;
-    
     if (ref.current) {
       ref.current.style.transform = `translateX(calc(-${curInx}00% - ${(touchStartX - curTouchX) * 2 || 0}px`
     }
@@ -78,16 +89,13 @@ export default function useCarousel(props : useCarouselProps) {
   useEffect(() => {
     if (ref.current !== null) {
       console.log("현재 curInx", curInx)
-      // 사진 폭 + margin 16*2
-      // 사진 폭 * 3 / 4 + 32 + 32
-      if (curInx === 1) {
-        ref.current.style.transform = `translateX(calc(-${544 * (curInx)}px - 512px))`
-      } else if(curInx === props.data.length + 1) {
-        ref.current.style.transform = `translateX(calc(-${544 * (curInx)}px - 544px))`
-      } else if (curInx === 0) {
-        ref.current.style.transform = `translateX(calc(-${544 * (curInx)}px - 512x))`
+
+      if (curInx === 1) { // 오른쪽 버튼을 누를 때 마지막
+        ref.current.style.transform = `translateX(calc(-${moveWidth * (curInx)}px - ${initialTranslateX}px))`
+      } else if (curInx === 0) {  // 왼쪽 버튼을 누를 때 마지막
+        ref.current.style.transform = `translateX(calc(-${moveWidth * (curInx)}px - ${initialTranslateX}px))`
       } else {
-        ref.current.style.transform = `translateX(calc(-${544 * (curInx)}px - 528px))`
+        ref.current.style.transform = `translateX(calc(-${moveWidth * (curInx)}px - ${initialTranslateX}px))`
       }
     }
   }, [curInx]);
@@ -98,6 +106,9 @@ export default function useCarousel(props : useCarouselProps) {
     handleTouchEnd,
     ref,
     newList,
-    curInx
+    curInx,
+    carouselWidth,
+    imgWidth,
+    imgHeight
   }
 }

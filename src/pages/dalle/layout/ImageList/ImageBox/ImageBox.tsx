@@ -4,19 +4,27 @@ import {DalleDTO} from "../../../../../types/dto/DalleDTO";
 interface ImageBoxProps extends DalleDTO {
   index ?: number;
   curInx ?: number;
+  width ?: number;
+  height ?: number;
+  
 }
 
 export default function ImageBox(props : ImageBoxProps) {
   return (
-    <StyledImageBox imageInx={props.index} curInx={props.curInx}>
+    <StyledImageBox
+      imageInx={props.index}
+      curInx={props.curInx}
+      width={props.width}
+      height={props.height}
+    >
       <img src={props.url} />
     </StyledImageBox>
   )
 }
 
 const StyledImageBox = styled.div<any>`
-  min-width: 512px;
-  min-height: 512px;
+  min-width: ${(props : any) => (`${props.width}px` || "512px")};
+  min-height: ${(props : any) => (`${props.height}px` || "512px")};
   margin: 0 16px;
   //max-width: 512px;
   //max-height: 512px;

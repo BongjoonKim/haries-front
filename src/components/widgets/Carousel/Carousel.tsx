@@ -19,13 +19,17 @@ export default function Carousel(props : CarouselProps) {
     handleTouchEnd,
     ref,
     newList,
-    curInx
+    curInx,
+    carouselWidth,
+    imgWidth,
+    imgHeight
   } = useCarousel({data : props.data});
   return (
     <StyledCarousel
       // onTouchStart={handleTouchStart}
       // onTouchMove={handleTouchMove}
       // onTouchEnd={handleTouchEnd}
+      carouselWidth={carouselWidth}
     >
       <IconButton
         className={"left"}
@@ -47,6 +51,8 @@ export default function Carousel(props : CarouselProps) {
               index={inx}
               curInx={curInx}
               url={el.url}
+              width={imgWidth}
+              height={imgHeight}
             />
           )
         })}
@@ -56,9 +62,11 @@ export default function Carousel(props : CarouselProps) {
   )
 }
 
-const StyledCarousel = styled.div<any>`
+const StyledCarousel = styled.div<{
+  carouselWidth : number;
+}>`
   overflow: hidden;
-  width: 832px;
+  width: ${(props : any) => `${props.carouselWidth}px`};
   display: flex;
   align-content: center;
   height: 512px;
@@ -76,6 +84,8 @@ const StyledCarousel = styled.div<any>`
   }
   .image-list {
     display: flex;
-    gap: 16px;
+    //overflow-x: hidden;
+    //width: 832px;
+    //gap: 16px;
   }
 `;
