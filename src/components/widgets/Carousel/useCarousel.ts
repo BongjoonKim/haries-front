@@ -13,8 +13,8 @@ export default function useCarousel(props : useCarouselProps) {
   const [curInx, setCurInx] = useState<number>(1);
   const ref = useRef<any>(null);
   
-  const imgWidth = 512;
-  const imgHeight = 512;
+  const imgWidth = 768;
+  const imgHeight = 768;
   const imgMarginLR = 16;
   const buttonWidth = 24;
   const buttonPaddingLR = 8;

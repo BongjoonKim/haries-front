@@ -10,6 +10,7 @@ function useQuestionBox(props ?: any) {
   
   const handleChange = useCallback((event : ChangeEvent<HTMLInputElement>) => {
     const value = event.currentTarget.value;
+    console.log("값 확인", value)
     setWriting(value);
   }, [writing]);
   

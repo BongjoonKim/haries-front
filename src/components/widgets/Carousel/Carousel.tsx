@@ -29,6 +29,7 @@ export default function Carousel(props : CarouselProps) {
       // onTouchStart={handleTouchStart}
       // onTouchMove={handleTouchMove}
       // onTouchEnd={handleTouchEnd}
+      imgHeight={imgHeight}
       carouselWidth={carouselWidth}
     >
       <IconButton
@@ -53,6 +54,7 @@ export default function Carousel(props : CarouselProps) {
               url={el.url}
               width={imgWidth}
               height={imgHeight}
+              {...el}
             />
           )
         })}
@@ -64,12 +66,17 @@ export default function Carousel(props : CarouselProps) {
 
 const StyledCarousel = styled.div<{
   carouselWidth : number;
+  imgHeight : number;
 }>`
   overflow: hidden;
   width: ${(props : any) => `${props.carouselWidth}px`};
   display: flex;
   align-content: center;
-  height: 512px;
+  height: ${(props : any) => `${props.imgHeight}px`};
+  button {
+    border-radius: inherit !important;
+  }
+  
   .left {
     position: relative;
     //top : 50%;

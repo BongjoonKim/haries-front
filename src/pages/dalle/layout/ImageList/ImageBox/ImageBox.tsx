@@ -1,21 +1,31 @@
 import styled, {css} from "styled-components";
 import {DalleDTO} from "../../../../../types/dto/DalleDTO";
+import useImageBox from "./useImageBox";
 
 interface ImageBoxProps extends DalleDTO {
   index ?: number;
   curInx ?: number;
   width ?: number;
   height ?: number;
-  
+  [x : string] : any;
 }
 
 export default function ImageBox(props : ImageBoxProps) {
+  const {
+    handleMouseEnter,
+    handleMouseLeave
+  } = useImageBox();
+  // console.log("props", props.title)
   return (
     <StyledImageBox
       imageInx={props.index}
       curInx={props.curInx}
       width={props.width}
       height={props.height}
+      title={props.title}
+      info={props.el}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <img src={props.url} />
     </StyledImageBox>

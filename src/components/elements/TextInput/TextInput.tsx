@@ -53,8 +53,8 @@ export default forwardRef((props: TextInputProps, ref: ForwardedRef<HTMLInputEle
                 ref={ref}
                 type={props.type}
                 id={props.id}
-                value={value}
-                // value={props.value ? props.value : value}
+                // value={value}
+                value={props.value ? props.value : value}
                 data-type={props.actionType}
                 data-option={props.actionOptions}
                 data-names={props.names}
