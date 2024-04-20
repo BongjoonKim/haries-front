@@ -13,9 +13,10 @@ interface ImageBoxProps extends DalleDTO {
 export default function ImageBox(props : ImageBoxProps) {
   const {
     handleMouseEnter,
-    handleMouseLeave
+    handleMouseLeave,
+    hoverImg
   } = useImageBox();
-  // console.log("props", props.title)
+  console.log("props", props)
   return (
     <StyledImageBox
       imageInx={props.index}
@@ -27,7 +28,17 @@ export default function ImageBox(props : ImageBoxProps) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <img src={props.url} />
+      
+      <img
+        src={props.url}
+      />
+      {hoverImg ? (
+        <StyledImgCover>
+        </StyledImgCover>
+      ) : (
+        <></>
+      )}
+
     </StyledImageBox>
   )
 }
@@ -60,4 +71,11 @@ const StyledImageBox = styled.div<any>`
     border-radius: 8px 8px;
 
   }
+`;
+
+const StyledImgCover = styled.div`
+  width: 100%;
+  height: 100%;
+  background: gray;
+  //opacity: 0.2;
 `;
