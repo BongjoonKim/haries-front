@@ -6,6 +6,7 @@ import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import {Dialog} from "@mui/material";
+import ImageDetail from "./ImageDetail";
 export interface ImageBoxProps extends DalleDTO {
   index ?: number;
   curInx ?: number;
@@ -19,7 +20,9 @@ export default function ImageBox(props : ImageBoxProps) {
     handleMouseEnter,
     handleMouseLeave,
     hoverImg,
-    handleImgContent
+    handleImgContent,
+    imgInfo,
+    handleModalClose
   } = useImageBox(props);
   console.log("props", props)
   return (
@@ -72,9 +75,12 @@ export default function ImageBox(props : ImageBoxProps) {
         <></>
       )}
       <Dialog
-        open={true}
+        open={!!imgInfo.isOpen}
+        onClose={handleModalClose}
       >
-        
+        <ImageDetail
+          {...props}
+        />
       </Dialog>
     </StyledImageBox>
   )

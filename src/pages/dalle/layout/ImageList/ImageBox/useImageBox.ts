@@ -1,5 +1,6 @@
 import {useCallback, useState} from "react";
 import {ImageBoxProps} from "./ImageBox";
+import {cloneDeep} from "lodash";
 
 interface ImgInfoProps {
   isOpen : boolean;
@@ -34,13 +35,22 @@ function useImageBox(props : ImageBoxProps) {
     })
   }, [props]);
   
+  const handleModalClose = useCallback(() => {
+    setImgInfo((prev : ImgInfoProps) => {
+      const data = cloneDeep(prev);
+      data.isOpen = false;
+      return data;
+    })
+  }, [imgInfo]);
+  
   return {
     imgInfo,
     
     handleMouseEnter,
     handleMouseLeave,
     hoverImg,
-    handleImgContent
+    handleImgContent,
+    handleModalClose
   }
 }
 

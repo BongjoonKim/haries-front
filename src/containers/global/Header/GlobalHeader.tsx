@@ -102,7 +102,7 @@ const StyledGlobalHeader = styled.div`
   background-color: #fff;
   box-shadow: 0 0 10px #0000000d;
   transition: all 0.2s ease-out;
-  z-index: 9999;
+  z-index: 999;
   background-color: rgba(255, 255, 255, 0);
   
 `;
