@@ -1,8 +1,12 @@
 import styled, {css} from "styled-components";
 import {DalleDTO} from "../../../../../types/dto/DalleDTO";
 import useImageBox from "./useImageBox";
-
-interface ImageBoxProps extends DalleDTO {
+import DownloadForOfflineOutlinedIcon from '@mui/icons-material/DownloadForOfflineOutlined';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import {Dialog} from "@mui/material";
+export interface ImageBoxProps extends DalleDTO {
   index ?: number;
   curInx ?: number;
   width ?: number;
@@ -14,8 +18,9 @@ export default function ImageBox(props : ImageBoxProps) {
   const {
     handleMouseEnter,
     handleMouseLeave,
-    hoverImg
-  } = useImageBox();
+    hoverImg,
+    handleImgContent
+  } = useImageBox(props);
   console.log("props", props)
   return (
     <StyledImageBox
@@ -28,17 +33,49 @@ export default function ImageBox(props : ImageBoxProps) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      
       <img
         src={props.url}
       />
+      {/*<StyledImgCover*/}
+      {/*  width={props.width}*/}
+      {/*  height={props.height}*/}
+      {/*>*/}
+      {/*  <div className="buttons">*/}
+      {/*    <DownloadForOfflineOutlinedIcon />*/}
+      {/*    <DescriptionOutlinedIcon />*/}
+      {/*    <ImageOutlinedIcon />*/}
+      {/*    <DeleteOutlineOutlinedIcon />*/}
+      {/*  </div>*/}
+      {/*</StyledImgCover>*/}
       {hoverImg ? (
-        <StyledImgCover>
-        </StyledImgCover>
+        <>
+          <StyledImgCover
+            width={props.width}
+            height={props.height}
+          />
+          <StyledImgContent
+            width={props.width}
+            height={props.height}
+          >
+            <div className="buttons">
+              <DownloadForOfflineOutlinedIcon />
+              <DescriptionOutlinedIcon
+                onClick={handleImgContent}
+              />
+              <ImageOutlinedIcon />
+              <DeleteOutlineOutlinedIcon />
+            </div>
+          </StyledImgContent>
+        </>
+
       ) : (
         <></>
       )}
-
+      <Dialog
+        open={true}
+      >
+        
+      </Dialog>
     </StyledImageBox>
   )
 }
@@ -66,16 +103,40 @@ const StyledImageBox = styled.div<any>`
 
   }}
   img {
-    width: 100%;
+    width: ${(props : any) => `${props.width}px` || "512px"};
+    height: ${(props : any) => `${props.height}px` || "512px"};
     height: 100%;
     border-radius: 8px 8px;
-
+    position: absolute;
   }
 `;
 
-const StyledImgCover = styled.div`
-  width: 100%;
-  height: 100%;
+const StyledImgCover = styled.div<any>`
+  width: ${props => `${props.width}px` || "512px"};
+  height: ${props => `${props.height}px` || "512px"};
   background: gray;
-  //opacity: 0.2;
+  position: absolute;
+  opacity: 0.6;
+`;
+
+const StyledImgContent = styled.div<any>`
+  width: ${props => `${props.width}px` || "512px"};
+  height: ${props => `${props.height}px` || "512px"};
+  background: none;
+  position: absolute;
+  .buttons {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    gap : 0.5rem;
+    svg {
+      font-size: 60px;
+      opacity: 1 !important;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
 `;
