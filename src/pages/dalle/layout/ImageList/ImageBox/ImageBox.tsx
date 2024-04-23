@@ -22,7 +22,8 @@ export default function ImageBox(props : ImageBoxProps) {
     hoverImg,
     handleImgContent,
     imgInfo,
-    handleModalClose
+    handleModalClose,
+    handleImgDelete
   } = useImageBox(props);
   console.log("props", props)
   return (
@@ -66,7 +67,9 @@ export default function ImageBox(props : ImageBoxProps) {
                 onClick={handleImgContent}
               />
               <ImageOutlinedIcon />
-              <DeleteOutlineOutlinedIcon />
+              <DeleteOutlineOutlinedIcon
+                onClick={handleImgDelete}
+              />
             </div>
           </StyledImgContent>
         </>

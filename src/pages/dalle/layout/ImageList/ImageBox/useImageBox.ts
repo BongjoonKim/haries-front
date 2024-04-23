@@ -43,6 +43,10 @@ function useImageBox(props : ImageBoxProps) {
     })
   }, [imgInfo]);
   
+  const handleImgDelete = useCallback(async () => {
+  
+  }, []);
+  
   return {
     imgInfo,
     
@@ -50,7 +54,8 @@ function useImageBox(props : ImageBoxProps) {
     handleMouseLeave,
     hoverImg,
     handleImgContent,
-    handleModalClose
+    handleModalClose,
+    handleImgDelete
   }
 }
 
