@@ -16,3 +16,7 @@ export async function getDalleImages() {
 export async function getDalle(id : string) {
   return (await request.get(`/dalle/image?id=${id}`)) as AxiosResponse<any>
 }
+
+export async function deleteDalle(id : string) {
+  return (await request.delete(`/dalle/image?id=${id}`)) as AxiosResponse<any>
+}

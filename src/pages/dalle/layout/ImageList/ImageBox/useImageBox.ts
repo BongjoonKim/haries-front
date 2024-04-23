@@ -1,6 +1,7 @@
 import {useCallback, useState} from "react";
 import {ImageBoxProps} from "./ImageBox";
 import {cloneDeep} from "lodash";
+import {deleteDalle} from "../../../../../endpoints/dalle-endpoints";
 
 interface ImgInfoProps {
   isOpen : boolean;
@@ -44,8 +45,18 @@ function useImageBox(props : ImageBoxProps) {
   }, [imgInfo]);
   
   const handleImgDelete = useCallback(async () => {
-  
-  }, []);
+    if (props.id) {
+      try {
+        console.log("로그 확인", props.id)
+        const response = await deleteDalle(props.id);
+        
+      } catch (e) {
+      
+      }
+
+    }
+    
+  }, [props]);
   
   return {
     imgInfo,
