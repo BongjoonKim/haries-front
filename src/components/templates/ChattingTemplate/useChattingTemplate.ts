@@ -2,7 +2,7 @@ import {useCallback, useEffect, useRef, useState} from "react";
 import axios from "axios";
 import {
   createChannel,
-  createMessage,
+  createMessage, createUserMessage,
   deleteChannel,
   getChannels,
   getMessages
@@ -42,7 +42,7 @@ function useChattingTemplate() {
   // 새로운 채널 생성
   const createNewChannel = useCallback(async () => {
     try {
-      await createChannel({channelName : newChannelName});
+      await createChannel();
       setIsChannelModal(false);
       await retrieveChannels();
     } catch (e) {
@@ -128,11 +128,9 @@ function useChattingTemplate() {
           bot : "user"
         };
         setMessage("");
-        await createMessage(request);
-  
+        await createUserMessage(request);
         // 조회!
         await getMessageHistory(selectedChannel, -1);
-  
         await setMessageHistory((prev: any) => {
           return [{
             id : "loading",
@@ -143,6 +141,12 @@ function useChattingTemplate() {
             bot: true,
           }, ...prev]
         })
+        
+        await createMessage(request);
+  
+
+  
+
         // chatGPT에 문의
         const responseGPT = await askChatGPT({
           channelId : selectedChannel,
@@ -153,9 +157,12 @@ function useChattingTemplate() {
           content : responseGPT.data,
           bot : "ChatGPT"
         }
+        
+        await createUserMessage(gptRequest);
+        await getMessageHistory(selectedChannel, -1);
+  
         await createMessage(gptRequest);
   
-        await getMessageHistory(selectedChannel, -1);
         setGoLatest(true);
       }
     }

@@ -84,7 +84,8 @@ function ChattingTemplate() {
           </div>
           <div className="footer">
             <CustomButton
-              onClick={() => setIsChannelModal(true)}
+              // onClick={() => setIsChannelModal(true)}
+              onClick={createNewChannel}
             >
               New Channel
             </CustomButton>
@@ -251,6 +252,7 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
         margin-top: 2rem;
         height: inherit;
         overflow-y: auto;
+        overflow-x: hidden;
         margin-bottom: 2rem;
       }
 
@@ -357,6 +359,7 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
         height: 1rem;
         flex-grow: 1;
         overflow-y: auto;
+        overflow-x: hidden;
         margin-bottom: 2rem;
       }
 

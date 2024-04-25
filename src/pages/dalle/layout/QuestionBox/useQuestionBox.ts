@@ -27,7 +27,8 @@ function useQuestionBox(props ?: any) {
   return {
     writing,
     handleChange,
-    handleEnter
+    handleEnter,
+    isLoading
   };
 }
 
