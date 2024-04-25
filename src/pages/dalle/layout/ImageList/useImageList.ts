@@ -20,6 +20,7 @@ export default function useImageList() {
   }, [isLoading]);
   
   return {
-    images
+    images,
+    getDalleList
   }
 }

@@ -9,6 +9,7 @@ import {IconButton} from "@mui/material";
 
 export interface CarouselProps {
   data : any[];
+  retrieve ?: () => void;
 }
 export default function Carousel(props : CarouselProps) {
   console.log("props 확인", props)
@@ -54,6 +55,7 @@ export default function Carousel(props : CarouselProps) {
               url={el.url}
               width={imgWidth}
               height={imgHeight}
+              retrieve={props.retrieve}
               {...el}
             />
           )

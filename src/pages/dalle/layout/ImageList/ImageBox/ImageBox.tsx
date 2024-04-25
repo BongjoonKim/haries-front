@@ -12,6 +12,7 @@ export interface ImageBoxProps extends DalleDTO {
   curInx ?: number;
   width ?: number;
   height ?: number;
+  retrieve ?: () => void;
   [x : string] : any;
 }
 
@@ -40,17 +41,6 @@ export default function ImageBox(props : ImageBoxProps) {
       <img
         src={props.url}
       />
-      {/*<StyledImgCover*/}
-      {/*  width={props.width}*/}
-      {/*  height={props.height}*/}
-      {/*>*/}
-      {/*  <div className="buttons">*/}
-      {/*    <DownloadForOfflineOutlinedIcon />*/}
-      {/*    <DescriptionOutlinedIcon />*/}
-      {/*    <ImageOutlinedIcon />*/}
-      {/*    <DeleteOutlineOutlinedIcon />*/}
-      {/*  </div>*/}
-      {/*</StyledImgCover>*/}
       {hoverImg ? (
         <>
           <StyledImgCover
@@ -62,11 +52,14 @@ export default function ImageBox(props : ImageBoxProps) {
             height={props.height}
           >
             <div className="buttons">
-              <DownloadForOfflineOutlinedIcon />
+              <DownloadForOfflineOutlinedIcon
+                onClick={() => {
+                  window.location.href = props.url!
+                }}
+              />
               <DescriptionOutlinedIcon
                 onClick={handleImgContent}
               />
-              <ImageOutlinedIcon />
               <DeleteOutlineOutlinedIcon
                 onClick={handleImgDelete}
               />

@@ -49,7 +49,10 @@ function useImageBox(props : ImageBoxProps) {
       try {
         console.log("로그 확인", props.id)
         const response = await deleteDalle(props.id);
-        
+        console.log("response.=", response)
+        if (props.retrieve) {
+          await props.retrieve();
+        }
       } catch (e) {
       
       }

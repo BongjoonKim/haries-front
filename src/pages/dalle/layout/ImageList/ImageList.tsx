@@ -11,13 +11,15 @@ export interface ImageListProps {
 function ImageList(props : ImageListProps) {
   
   const {
-    images
+    images,
+    getDalleList
   } = useImageList();
   
   return (
 
     <StyledImageList>
       <Carousel
+        retrieve={getDalleList}
         data={images}
       />
     </StyledImageList>
