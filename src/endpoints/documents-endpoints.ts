@@ -10,12 +10,12 @@ export async function createDocuments(writing?: DocumentDTO) {
 // 모든 글 목록 조회
 export async function getAllDocuments(params: PaginationDTO) {
   console.log("폴더 아이디", params)
-  return (await request.get(`/documents/get-all?page=${params.page}&size=${params.size}&folderId=${params.folderId}`)) as AxiosResponse<DocumentsInfo>;
+  return (await request.get(`/documents/ps/get-all?page=${params.page}&size=${params.size}&folderId=${params.folderId}`)) as AxiosResponse<DocumentsInfo>;
 }
 
 // 글 조회
 export async function getDocument(params: {id : string}) {
-  return (await request.get(`/documents/get?id=${params.id}`)) as AxiosResponse<DocumentDTO>;
+  return (await request.get(`/documents/ps/get?id=${params.id}`)) as AxiosResponse<DocumentDTO>;
 }
 
 export async function getDocumentUnique(params: {unique : string}) {
@@ -35,5 +35,5 @@ export async function saveDocument(params: {id ?: string, request : DocumentDTO}
 
 // 폴더 글 조회
 export async function getFolderDocuments(params: {folderId : string}) {
-  return (await request.get(`/documents/filter?folderId=${params.folderId}`)) as AxiosResponse<DocumentDTO[]>;
+  return (await request.get(`/documents/ps/filter?folderId=${params.folderId}`)) as AxiosResponse<DocumentDTO[]>;
 }

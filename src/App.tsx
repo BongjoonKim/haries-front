@@ -9,6 +9,7 @@ import ExampleThree from "./pages/examples/ExampleThree";
 import ExampleOne from "./pages/examples/ExampleOne";
 import RedirectLogin from "./pages/Login/RedirectLogin";
 import ChatGPTRoutes from "./RoutesTree/ChatGPTRoutes";
+import {AuthProvider} from "./appConfig/AuthContext";
 
 function App() {
   // function setScreenSize() {
@@ -21,6 +22,7 @@ function App() {
   // 푸쉬 테스트
   // 푸쉬 테스트2
   return (
+    <AuthProvider>
     <UniversalContainer>
       <Routes>
         <Route path="/*" element={<IntroPage />} />
@@ -33,6 +35,7 @@ function App() {
         <Route path="/dalle/*" element={RoutesTree.DalleRoutes()} />
       </Routes>
     </UniversalContainer>
+    </AuthProvider>
   );
 }
 

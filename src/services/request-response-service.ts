@@ -6,9 +6,19 @@ const request = axios.create({
     headers: {
         // 'Access-Control-Allow-Origin': 'http://13.209.27.28:3001',
         'Access-Control-Allow-Origin': 'http://localhost:3001',
-        'Access-Control-Allow-Credentials' : false,
+        'Access-Control-Allow-Credentials' : true,
         "Content-Type": `application/json;charset=UTF-8`,
     },
 });
+
+// 로그인 전용 axios
+export const securityReq = axios.create({
+    baseURL:"/",
+    headers: {
+        'Access-Control-Allow-Origin': 'http://localhost:3001/',
+        'Access-Control-Allow-Credentials' : true,
+        'Content-Type': 'application/x-www-form-urlencoded'
+    }
+})
 
 export default request;

@@ -1,6 +1,5 @@
-export interface TokenDTO {
-  grantType : string;
-  accessToken : string;
-  refreshToken : string;
-  email : string;
+declare interface TokenDTO extends CommonDTO {
+  accessToken ?: string;
+  refreshToken ?: string;
+  grantType ?: string[];
 }

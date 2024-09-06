@@ -6,9 +6,17 @@ import {IconButton} from "@material-ui/core";
 import CustomButton from "../../components/elements/Button/BasicButton";
 import Button from "../../components/elements/Button";
 import useLoginPage from "./useLoginPage";
+import {ChangeEvent} from "react";
 
 function LoginPage() {
-  const {naverLogin} = useLoginPage();
+  const {
+    naverLogin,
+    userId,
+    setUserId,
+    userPassword,
+    setUserPassword,
+    handleClick,
+  } = useLoginPage();
   
   return (
     <MainContent>
@@ -17,8 +25,18 @@ function LoginPage() {
           <p>⭐️ Haries ⭐</p>
         </StyleTitle>
         <StyleInputs>
-          <TextInput name="email" placeholder="Email" />
-          <TextInput name="password" placeholder="Password" />
+          <TextInput
+            name="email"
+            placeholder="Email"
+            value={userId}
+            onChange={(event : ChangeEvent<HTMLInputElement>) => {setUserId(event.target.value)}}
+          />
+          <TextInput
+            name="password"
+            placeholder="Password"
+            value={userPassword}
+            onChange={(event : ChangeEvent<HTMLInputElement>) => {setUserPassword(event.target.value)}}
+          />
         </StyleInputs>
         {/*로그인 버튼*/}
         <Button
@@ -30,6 +48,7 @@ function LoginPage() {
           styles={{
             padding: "0.5rem 0 0.5rem 0",
           }}
+          onClick={handleClick}
         />
         <StyleLinks>
           <a className="change-password">비밀번호 재설정</a>

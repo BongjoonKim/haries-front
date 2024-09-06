@@ -1,7 +1,6 @@
 import {atom, selector} from "recoil";
 import {recoilPersist} from "recoil-persist";
 import {IS_LOGIN, MESSAGE_STATUS, USER_AUTH} from "./types.d";
-import {TokenDTO} from "../../../types/dto/TokenDTO";
 
 
 const {persistAtom} = recoilPersist({
@@ -33,7 +32,7 @@ export const recoilCommonState = {
     key : `${IS_LOGIN}`,
     get : ({get}) => {
       const userAuth : UserAuth = get(recoilCommonState.userAuth);
-      return !!userAuth.accessToken && !!userAuth.grantType.length;
+      return !!userAuth?.accessToken && !!userAuth?.grantType?.length;
     }
   }),
 }

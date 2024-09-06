@@ -4,7 +4,7 @@ import {AxiosResponse} from "axios";
 import {MenuType} from "../model/common/common-model";
 
 export async function retrieveMenus() {
-    return (await request.get("/common/menu")) as AxiosResponse<MenuType[]>;
+    return (await request.get("/ps/common/menu")) as AxiosResponse<MenuType[]>;
 }
 
 export async function getPropjectTreeStructureList(params: {searchPath:string}) {

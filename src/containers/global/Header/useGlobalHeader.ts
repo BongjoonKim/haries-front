@@ -4,13 +4,24 @@ import {retrieveMenus} from "../../../endpoints/common-endpoints";
 import {lowerCase} from "lodash";
 import {useRecoilState, useRecoilValue} from "recoil";
 import recoilCommonState from "../../../stores/recoil/recoilCommonState";
+import {endpointUtils} from "../../../utilities/endpointUtils";
+import {useAuth} from "../../../appConfig/AuthContext";
 
 function useGlobalHeader() {
   const [menuList, setMenuList] = useState<MenuType[]>([]);
   const isLogin = useRecoilValue(recoilCommonState.isLogin);
   const userAuth = useRecoilValue(recoilCommonState.userAuth);
+  const {accessToken, setAccessToken} = useAuth();
+  
   
   const getAllMenuList = useCallback(async () => {
+    // const res = await endpointUtils.authAxios({
+    //   func: retrieveMenus,
+    //   accessToken: accessToken,
+    //   setAccessToken: setAccessToken
+    // })
+    // console.log("res", res)
+    
     const response = await retrieveMenus();
     
     setMenuList(() => {
