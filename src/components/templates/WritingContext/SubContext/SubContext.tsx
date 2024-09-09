@@ -14,7 +14,6 @@ function SubContext(props: SubContextProps) {
   const { contentsOnClick, imgUrl, thumbnailColor } = useSubContext(writings);
   
   // imgUrl.find((el : any) => el.id === )?.key
-  console.log("imgUrl", imgUrl, writings);
   
   return (
     <StyledSubContext>
@@ -22,10 +21,8 @@ function SubContext(props: SubContextProps) {
         let parser = new DOMParser();
         let documents = parser.parseFromString(writing.contents!, "text/html");
         const imgKey = imgUrl.find((el : any) => el?.id === writing?.id)?.key;
-        console.log("imgKey", imgKey)
         return (
         <StyledContextBox key={index} id={writing.id} onClick={contentsOnClick}>
-          
           {imgKey && imgKey !== "none"
              ? (
               <img

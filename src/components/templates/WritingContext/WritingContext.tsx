@@ -16,8 +16,6 @@ export interface WritingContextProps {
 function WritingContext(props:WritingContextProps) {
   
   const {page, setPage, writings, totalContents, message, handleOnClose} = useWritingContext(props);
-  console.log("값 확인", totalContents)
-  
   return (
     <StyledWritingContext>
       <SubContext data={[...writings]}/>

@@ -16,7 +16,6 @@ function useSidebar(props : SidebarProps) {
   const getDepthOneFolder = useCallback(async() => {
     const rootFolder = await getRootFolder();
     setRootId(rootFolder.data.id);
-    console.log("루트 폴더", rootFolder.data)
     const mainFolderList = await getChildFolders({parentId : rootFolder.data.id!});
     setMainFolders([
       {

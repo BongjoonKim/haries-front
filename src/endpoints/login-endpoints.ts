@@ -11,7 +11,7 @@ export async function oAuth2Login() {
 
 export async function login(props: UsersDTO) {
   try {
-    return (await securityReq.post("ps/login",  {
+    return (await securityReq.post("/ps/login",  {
       username : props.userId,
       password : props.userPassword
     })) as AxiosResponse<TokenDTO>
@@ -23,7 +23,7 @@ export async function login(props: UsersDTO) {
 // accessToken이 만료되었을 때 작업
 export async function udtRefreshToken(refreshToken : string) {
   console.log("udtRefreshToken", refreshToken)
-  return (await request.post('ps/login/refresh', {
+  return (await request.post('/ps/login/refresh', {
     refreshToken : refreshToken
   })) as AxiosResponse<TokenDTO>
 }

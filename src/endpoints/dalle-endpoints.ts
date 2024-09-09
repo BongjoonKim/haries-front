@@ -5,7 +5,6 @@ export async function askDalle(props : {
   channelId ?: string;
   question ?: string;
 }) {
-  console.log("값 확인", props.question)
   return (await request.post("/dalle/image", props)) as AxiosResponse<any>;
 }
 

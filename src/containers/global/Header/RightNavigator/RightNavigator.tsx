@@ -22,6 +22,8 @@ import {useNavigate} from "react-router-dom";
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import {useRecoilState, useRecoilValue} from "recoil";
 import recoilCommonState from "../../../../stores/recoil/recoilCommonState";
+import useMode2 from "../../../../components/modules/Mode/useMode";
+// import useMode as useMode2 from ""
 
 function RightNavigator() {
   const [anchorSearch, setAnchorSearch] = useState<any>(null);
@@ -33,7 +35,6 @@ function RightNavigator() {
   
   // 글쓰기
   const navigate = useNavigate();
-  
   // 검색 Popper
   const openSearchPopper = useCallback((event:any) => {
     setAnchorSearch(event.currentTarget);
@@ -44,6 +45,8 @@ function RightNavigator() {
   const openLoginModal = useCallback((event: any) => {
     handleShowMode("login-modal");
   }, []);
+  
+  
   
   useEffect(() => {
     if(localStorage.getItem("authorization")) {
@@ -99,6 +102,13 @@ function RightNavigator() {
       <IconButton onClick={openLoginModal}>
         <VpnKeyRounded/>
       </IconButton>
+  
+      <IconButton onClick={()=> {
+        handleCloseMode("login-modal")
+      }
+      }>
+        <VpnKeyRounded/>
+      </IconButton>
 
       <Dialog
         type={ModeTypes.MODAL}
@@ -106,7 +116,9 @@ function RightNavigator() {
         children={LoginPage()}
         {...getLocalModeProps()}
         overlayClose={false}
-        onRemoveTaskItem={handleCloseMode}
+        // onVisibleStatus={() => {
+        //   return false;
+        // }}
       />
     </StyledRightHeader>
   )

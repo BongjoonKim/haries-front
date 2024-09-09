@@ -10,6 +10,8 @@ import recoilDocumentState from "../../../stores/recoil/recoilDocumentsState";
 import {random, startsWith} from "lodash";
 import awsS3 from "../../../appConfig/file/awsS3";
 import {s3Utils} from "../../../utilities/s3Utils";
+import {useAuth} from "../../../appConfig/AuthContext";
+import {endpointUtils} from "../../../utilities/endpointUtils";
 
 function useEditorWriting() {
   const editorRef = useRef<any>();
@@ -26,6 +28,8 @@ function useEditorWriting() {
   const navigate = useNavigate();
   const [uploadedList, setUploadedList] = useRecoilState(recoilDocumentState.uploadedList);
   const thumbnailColor = useRecoilValue(recoilDocumentState.thumbnailColor);
+  const {accessToken, setAccessToken} = useAuth();
+  
   
   // 수정 화면일 때 조회 로직
   const getDocumentData = useCallback(async (id ?: string) => {
@@ -121,7 +125,17 @@ function useEditorWriting() {
           folderId: selectedFolderId,
           color : color
         }
-        await saveDocument({id, request});
+        await endpointUtils.authAxios({
+          func: saveDocument,
+          accessToken: accessToken,
+          setAccessToken: setAccessToken,
+          params: {
+            id : id
+          },
+          reqBody: request
+        })
+        
+        // await saveDocument({id, request});
         setUploadedList([]);
         
         // 첨부한 파일 저장
@@ -137,7 +151,13 @@ function useEditorWriting() {
           folderId: "",
           color : color
         }
-        const response = await createDocuments(request);
+        const response = await endpointUtils.authAxios({
+          func: createDocuments,
+          accessToken: accessToken,
+          setAccessToken: setAccessToken,
+          reqBody: request
+        })
+        // const response = await createDocuments(request);
         
         for (const uploaded of uploadedList) {
           if (uploaded.blob?.name) {
@@ -167,7 +187,16 @@ function useEditorWriting() {
           color: color
         }
         const newId = response.data.id;
-        await saveDocument({id : newId, request : newRequest});
+        await endpointUtils.authAxios({
+          func: saveDocument,
+          accessToken: accessToken,
+          setAccessToken: setAccessToken,
+          params: {
+            id : newId
+          },
+          reqBody: request
+        })
+        // await saveDocument({id : newId, request : newRequest});
         // 화면 이동
         navigate(`/blog/${response.data.id}`);
       }

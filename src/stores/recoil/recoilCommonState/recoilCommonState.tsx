@@ -1,6 +1,7 @@
 import {atom, selector} from "recoil";
 import {recoilPersist} from "recoil-persist";
-import {IS_LOGIN, MESSAGE_STATUS, USER_AUTH} from "./types.d";
+import {IS_LOGIN, MESSAGE_STATUS, MODAL_STATE, USER_AUTH} from "./types.d";
+import {ModeComponent} from "../../../types/mode";
 
 
 const {persistAtom} = recoilPersist({
@@ -35,4 +36,8 @@ export const recoilCommonState = {
       return !!userAuth?.accessToken && !!userAuth?.grantType?.length;
     }
   }),
+  modalState: atom<ModeComponent.ModeStatus<any>>({
+    key : `${MODAL_STATE}`,
+    default : {},
+  })
 }

@@ -45,77 +45,138 @@ function ModalBox<T, N>({
         visibleStatus,
         showTimeCount,
         size,
-
     });
-    
-    return transitions(
-        ({ opacity }, item) =>
-            item && (
-                <animated.div
-                    style={{
-                        ...size,
-                        opacity: opacity.to({ range: [0.0, 1.0], output: [0, 1]})
-                    }}
-                    tabIndex={0}
+    // 과거 애니메이션이 있었을 떄
+    // return transitions(
+    //     ({ opacity }, item) => {
+    //       return item && (
+    //         <animated.div
+    //           style={{
+    //             ...size,
+    //             opacity: opacity.to({range: [0.0, 1.0], output: [0, 1]})
+    //           }}
+    //           tabIndex={0}
+    //         >
+    //           <StyledModeBox
+    //             ref={boxRef}
+    //             maximize={maximize}
+    //             minimize={taskItems && String(uniqueKey) in taskItems}
+    //             size={{width: boxSize.width, height: boxSize.height}}
+    //             position={{x: boxPosition.x, y: boxPosition.y}}
+    //             isActive={isActive}
+    //             isModeless={isModeless}
+    //             type={String(type)}
+    //             resized={resized}
+    //             isVisible={visibleStatus}
+    //             className={converter.classNames([
+    //               "mode-box",
+    //               String(type)?.includes(ModeTypes.MODELESS) ? "modeless" : "modal",
+    //             ])}
+    //           >
+    //             {String(type)?.includes(ModeTypes.MODAL) && !dependent && (
+    //               <StyledCloseButton
+    //                 className="clear"
+    //                 onClick={onCloseMode}
+    //                 children={<CloseRounded/>}
+    //               />
+    //             )}
+    //             {String(type)?.includes(ModeTypes.MODELESS) && (
+    //               <ModeBoxHeader<N>
+    //                 dragControlRef={dragControlRef}
+    //                 setMinimize={setMinimize}
+    //                 onCloseMode={onCloseMode}
+    //                 onAddTaskItem={onAddTaskItem}
+    //                 maximize={maximize}
+    //                 onMaximize={onMaximize}
+    //                 title={title}
+    //                 uniqueKey={uniqueKey}
+    //                 isActive={isActive}
+    //               />
+    //             )}
+    //             <StyledModeBoxBody
+    //               className="mode-box-body"
+    //               minimize={minimize}
+    //               maximize={maximize}
+    //               isModeless={isModeless}
+    //               resized={{
+    //                 height: String(type)?.includes(ModeTypes.MODELESS)
+    //                   ? boxSize.height - boxSize.diff.height
+    //                   : undefined
+    //               }}
+    //             >
+    //               {children}
+    //             </StyledModeBoxBody>
+    //             <StyledModeBoxFooter>
+    //               {String(type)?.includes(ModeTypes.MODELESS) && !maximize && (
+    //                 <ModeResizer size={boxSize} setSize={setBoxSize} resized={resized} setResized={setResized}/>
+    //               )}
+    //             </StyledModeBoxFooter>
+    //           </StyledModeBox>
+    //         </animated.div>
+    //       )
+    //     }
+    // )
+  
+  return (
+    <>
+    {visibleStatus && (<StyledModeBox
+                ref={boxRef}
+                maximize={maximize}
+                minimize={taskItems && String(uniqueKey) in taskItems}
+                size={{width: boxSize.width, height: boxSize.height}}
+                position={{x: boxPosition.x, y: boxPosition.y}}
+                isActive={isActive}
+                isModeless={isModeless}
+                type={String(type)}
+                resized={resized}
+                isVisible={visibleStatus}
+                className={converter.classNames([
+                  "mode-box",
+                  String(type)?.includes(ModeTypes.MODELESS) ? "modeless" : "modal",
+                ])}
+              >
+                {String(type)?.includes(ModeTypes.MODAL) && !dependent && (
+                  <StyledCloseButton
+                    className="clear"
+                    onClick={onCloseMode}
+                    children={<CloseRounded/>}
+                  />
+                )}
+                {String(type)?.includes(ModeTypes.MODELESS) && (
+                  <ModeBoxHeader<N>
+                    dragControlRef={dragControlRef}
+                    setMinimize={setMinimize}
+                    onCloseMode={onCloseMode}
+                    onAddTaskItem={onAddTaskItem}
+                    maximize={maximize}
+                    onMaximize={onMaximize}
+                    title={title}
+                    uniqueKey={uniqueKey}
+                    isActive={isActive}
+                  />
+                )}
+                <StyledModeBoxBody
+                  className="mode-box-body"
+                  minimize={minimize}
+                  maximize={maximize}
+                  isModeless={isModeless}
+                  resized={{
+                    height: String(type)?.includes(ModeTypes.MODELESS)
+                      ? boxSize.height - boxSize.diff.height
+                      : undefined
+                  }}
                 >
-                    <StyledModeBox
-                        ref={boxRef}
-                        maximize={maximize}
-                        minimize={taskItems && String(uniqueKey) in taskItems}
-                        size={{width: boxSize.width, height: boxSize.height}}
-                        position={{x: boxPosition.x, y: boxPosition.y}}
-                        isActive={isActive}
-                        isModeless={isModeless}
-                        type={String(type)}
-                        resized={resized}
-                        isVisible={visibleStatus}
-                        className={converter.classNames([
-                            "mode-box",
-                            String(type)?.includes(ModeTypes.MODELESS) ? "modeless" : "modal",
-                        ])}
-                    >
-                        {String(type)?.includes(ModeTypes.MODAL) && !dependent && (
-                            <StyledCloseButton
-                                className="clear"
-                                onClick={onCloseMode}
-                                children={<CloseRounded/>}
-                            />
-                        )}
-                        {String(type)?.includes(ModeTypes.MODELESS) && (
-                            <ModeBoxHeader<N>
-                                dragControlRef={dragControlRef}
-                                setMinimize={setMinimize}
-                                onCloseMode={onCloseMode}
-                                onAddTaskItem={onAddTaskItem}
-                                maximize={maximize}
-                                onMaximize={onMaximize}
-                                title={title}
-                                uniqueKey={uniqueKey}
-                                isActive={isActive}
-                            />
-                        )}
-                        <StyledModeBoxBody
-                            className="mode-box-body"
-                            minimize={minimize}
-                            maximize={maximize}
-                            isModeless={isModeless}
-                            resized={{
-                                height: String(type)?.includes(ModeTypes.MODELESS)
-                                    ? boxSize.height - boxSize.diff.height
-                                    : undefined
-                            }}
-                        >
-                            {children}
-                        </StyledModeBoxBody>
-                      <StyledModeBoxFooter>
-                        {String(type)?.includes(ModeTypes.MODELESS) && !maximize && (
-                          <ModeResizer size={boxSize} setSize={setBoxSize} resized={resized} setResized={setResized} />
-                        )}
-                      </StyledModeBoxFooter>
-                    </StyledModeBox>
-                </animated.div>
-            )
-    )
+                  {children}
+                </StyledModeBoxBody>
+                <StyledModeBoxFooter>
+                  {String(type)?.includes(ModeTypes.MODELESS) && !maximize && (
+                    <ModeResizer size={boxSize} setSize={setBoxSize} resized={resized} setResized={setResized}/>
+                  )}
+                </StyledModeBoxFooter>
+              </StyledModeBox>
+  )}
+      </>
+  )
 }
 
 export default MemoGeneralize(ModalBox);

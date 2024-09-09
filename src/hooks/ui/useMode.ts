@@ -5,9 +5,13 @@ import converter from "../../utilities/converter";
 import {dependentOptionsPath} from "../../components/modules/Mode";
 import GlobalModeNames from "../../constants/modes/global-mode.const";
 import generatorUtil from "../../utilities/generatorUtil";
+import {useRecoilState} from "recoil";
+import recoilCommonState from "../../stores/recoil/recoilCommonState";
 
 function useMode<T = string>() {
-    const [status, setStatus] = useState<ModeComponent.ModeStatus<T>>({});
+    const [status, setStatus] = useRecoilState(recoilCommonState.modalState);
+    // const [status, setStatus] = useState<ModeComponent.ModeStatus<T>>({})
+    
     const {
         taskItems,
         activeSequence,
@@ -110,6 +114,8 @@ function useMode<T = string>() {
                 }
             })
         } else {
+            console.log("status", status)
+    
             const nextState = converter.objectRemoveKey(status, name as keyof T);
             setStatus(nextState);
         }
@@ -124,6 +130,7 @@ function useMode<T = string>() {
                 if (typeof item === "string") setCloseMode(item);
                 else setCloseMode(item.name, item.id);
             }
+    
             if (parameter instanceof Array) {
                 parameter.forEach(item => helperCloseMode(item));
             } else {

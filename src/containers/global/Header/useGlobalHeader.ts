@@ -25,7 +25,6 @@ function useGlobalHeader() {
     const response = await retrieveMenus();
     
     setMenuList(() => {
-      console.log("로그인 여부 확인", isLogin)
       if (isLogin) {
         if (userAuth?.roles?.includes("ADMIN")) {
           return response.data.filter(el => ['chatgpt', 'blog', 'dalle', 'admin'].includes(lowerCase(el.menuName)))

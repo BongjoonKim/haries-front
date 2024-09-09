@@ -19,7 +19,6 @@ function useWritingContext(props : WritingContextProps) {
   }, [writings, page,totalContents, props.folderId, perPage]);
   
   useEffect(() => {
-    console.log("최초 조회", props.folderId)
     getPaginationData({page : page, size : 6, folderId : props.folderId || "all"})
   }, [page, message, props.folderId]);
   

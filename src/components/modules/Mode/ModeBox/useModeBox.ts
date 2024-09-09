@@ -94,7 +94,7 @@ function useModeBox({
 
     const transitions = useTransition(visibleStatus, {
         from: {opacity: 0},
-        enter: {opacity: 1},
+        enter: {opacity: 2},
         leave: {opacity: 0}
     });
     
@@ -109,7 +109,7 @@ function useModeBox({
     return {
         boxRef, dragControlRef, minimize, setMinimize,
         boxSize, setBoxSize, boxPosition, transitions,
-        resized, setResized, maximize, onMaximize
+        resized, setResized, maximize, onMaximize, visibleStatus
     }
 
 }
