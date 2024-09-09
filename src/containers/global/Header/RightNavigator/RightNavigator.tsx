@@ -102,13 +102,6 @@ function RightNavigator() {
       <IconButton onClick={openLoginModal}>
         <VpnKeyRounded/>
       </IconButton>
-  
-      <IconButton onClick={()=> {
-        handleCloseMode("login-modal")
-      }
-      }>
-        <VpnKeyRounded/>
-      </IconButton>
 
       <Dialog
         type={ModeTypes.MODAL}

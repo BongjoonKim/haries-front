@@ -1,5 +1,6 @@
 import request, {securityReq} from "../services/request-response-service";
 import {AxiosResponse} from "axios";
+import {FuncProps} from "../utilities/endpointUtils";
 
 export async function doLogin(params : {code : string, state : string}) {
   return (await request.get(`/login/naver?code=${params.code}&state=${params.state}`)) as AxiosResponse<any>
@@ -23,16 +24,16 @@ export async function login(props: UsersDTO) {
 // accessToken이 만료되었을 때 작업
 export async function udtRefreshToken(refreshToken : string) {
   console.log("udtRefreshToken", refreshToken)
-  return (await request.post('/ps/login/refresh', {
+  return (await request.post('/login/ps/refresh', {
     refreshToken : refreshToken
   })) as AxiosResponse<TokenDTO>
 }
 
-export async function getLoginUser(accessToken : any) {
+export async function getLoginUser(props : FuncProps) {
   try {
-    return (await request.get(`ps/login/user`, {
+    return (await request.get(`/login/user`, {
       headers: {
-        Authorization : `Bearer ${accessToken}`
+        Authorization : `Bearer ${props?.accessToken}`
       }
     })) as AxiosResponse<UsersDTO>;
   } catch (e) {
@@ -42,7 +43,7 @@ export async function getLoginUser(accessToken : any) {
 
 export async function logout() {
   try {
-    return (await request.get(`ps/login/logout`)) as AxiosResponse<any>;
+    return (await request.get(`/login/logout`)) as AxiosResponse<any>;
   } catch (e) {
     throw e;
   }

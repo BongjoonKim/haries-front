@@ -1,18 +1,22 @@
 import {useCallback, useState} from "react";
-import {doLogin, login, oAuth2Login} from "../../endpoints/login-endpoints";
+import {doLogin, getLoginUser, login, oAuth2Login} from "../../endpoints/login-endpoints";
 import request from "../../services/request-response-service";
 import {useAuth} from "../../appConfig/AuthContext";
 import {setCookie} from "../../utilities/cookieUtils";
 import {useLocation, useNavigate} from "react-router-dom";
 import useMode from "../../hooks/ui/useMode";
+import {useRecoilState} from "recoil";
+import recoilCommonState from "../../stores/recoil/recoilCommonState";
+import {endpointUtils} from "../../utilities/endpointUtils";
 
 function useLoginPage() {
   const [userId, setUserId] = useState<string>("");
   const [userPassword, setUserPassword] = useState<string>("");
-  const {setAccessToken} = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const {getModeProps : getLocalModeProps, handleShowMode, handleCloseMode, handleCloseAllMode} = useMode();
+  const [userAuth, setUserAuth] = useRecoilState(recoilCommonState.userAuth);
+  const {accessToken, setAccessToken} = useAuth();
   
   
   const naverLogin = useCallback( async () => {
@@ -26,7 +30,6 @@ function useLoginPage() {
     console.log("userId", userId)
     console.log("userPassword", userPassword);
     try {
-      handleCloseMode({name : "login-modal"})
       const resToken = await login({
         userId : userId,
         userPassword: userPassword
@@ -36,8 +39,18 @@ function useLoginPage() {
         setCookie("accessToken", resToken.data.accessToken!)
         setCookie("refreshToken", resToken.data.refreshToken!);
         navigate(location.pathname);
-        console.log("여기 오나")
-        // handleCloseMode({name : "login-modal"})
+        console.log("여기 오나");
+        
+        const resUserInfo = await endpointUtils.authAxios({
+          func:getLoginUser,
+          accessToken: accessToken,
+          setAccessToken: setAccessToken
+        });
+        
+        console.log("resUserInfo", resUserInfo)
+        
+        
+        handleCloseMode({name : "login-modal"})
       }
     } catch (e) {
       console.log("login failed")

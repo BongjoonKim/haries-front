@@ -12,6 +12,10 @@ function RedirectLogin() {
   
   const getUserInfo = useCallback(async (code : string, state : string) => {
     try {
+      
+      
+      
+      
       const response = await doLogin({code : code, state : state});
       sessionStorage.setItem("authorization", response.headers.authorization);
       sessionStorage.setItem("refreshtoken", response.headers.refreshtoken);
