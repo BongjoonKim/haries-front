@@ -41,6 +41,11 @@ export async function getLoginUser(props : FuncProps) {
   }
 }
 
+// 로그인을 했는지 안 했는지 알려줌
+export async function isLogined() {
+  return (await request.get('/login/ps/is/logined')) as AxiosResponse<TokenDTO>
+}
+
 export async function logout() {
   try {
     return (await request.get(`/login/logout`)) as AxiosResponse<any>;

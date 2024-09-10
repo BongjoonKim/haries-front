@@ -47,9 +47,15 @@ function useLoginPage() {
           setAccessToken: setAccessToken
         });
         
-        console.log("resUserInfo", resUserInfo)
-        
-        
+        console.log("resUserInfo", resUserInfo);
+        if (resUserInfo.status === 200) {
+          setUserAuth(
+            {...resUserInfo.data},
+            {...resToken.data}
+          );
+        } else {
+          throw resUserInfo.statusText;
+        }
         handleCloseMode({name : "login-modal"})
       }
     } catch (e) {

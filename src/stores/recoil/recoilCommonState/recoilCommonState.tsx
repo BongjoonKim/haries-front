@@ -1,7 +1,10 @@
 import {atom, selector} from "recoil";
 import {recoilPersist} from "recoil-persist";
-import {IS_LOGIN, MESSAGE_STATUS, MODAL_STATE, USER_AUTH} from "./types.d";
+import {ACCESS_TOKEN, IS_LOGIN, LOGIN_USER_DATA, MESSAGE_STATUS, MODAL_STATE} from "./types.d";
 import {ModeComponent} from "../../../types/mode";
+import {useAuth} from "../../../appConfig/AuthContext";
+import {getCookie} from "../../../utilities/cookieUtils";
+import {isLogined, udtRefreshToken} from "../../../endpoints/login-endpoints";
 
 
 const {persistAtom} = recoilPersist({
@@ -23,17 +26,32 @@ export const recoilCommonState = {
     // effects_UNSTABLE: [persistAtom]
   }),
   
-  userAuth : atom<any>({
-    key : `${USER_AUTH}`,
-    default : {},
-    effects_UNSTABLE: [persistAtom]
+  accessToken : atom<TokenDTO>({
+    key : `${ACCESS_TOKEN}`,
+    default : {
+    
+    }
   }),
   
-  isLogin : selector<boolean>({
+  // 로그인한 사용자 정보
+  loginUserData : selector<UsersDTO>({
+    key : `${LOGIN_USER_DATA}`,
+    get: async ({get}) => {
+    
+    }
+  }),
+  
+  isLogin : selector<any>({
     key : `${IS_LOGIN}`,
-    get : ({get}) => {
-      const userAuth : UserAuth = get(recoilCommonState.userAuth);
-      return !!userAuth?.accessToken && !!userAuth?.grantType?.length;
+    get : async ({get}) => {
+      // const accessToken = getCookie("accessToken");
+      // const refreshToken = getCookie("refreshToken");
+      try {
+        const res = await isLogined();
+        return res.data;
+      } catch (e) {
+        console.log("isLogin fail", e);
+      }
     }
   }),
   modalState: atom<ModeComponent.ModeStatus<any>>({
