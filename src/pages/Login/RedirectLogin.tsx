@@ -2,12 +2,12 @@ import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {useCallback, useEffect} from "react";
 import {CircularProgress} from "@mui/material";
 import {doLogin, oAuth2Login} from "../../endpoints/login-endpoints";
-import {useRecoilState} from "recoil";
+import {useRecoilState, useRecoilValue} from "recoil";
 import recoilCommonState from "../../stores/recoil/recoilCommonState";
 
 
 function RedirectLogin() {
-  const [userAuth, setUserAuth] = useRecoilState(recoilCommonState.userAuth);
+  const userAuth = useRecoilValue(recoilCommonState.loginUserData);
   const navigate = useNavigate();
   
   const getUserInfo = useCallback(async (code : string, state : string) => {
@@ -19,11 +19,6 @@ function RedirectLogin() {
       const response = await doLogin({code : code, state : state});
       sessionStorage.setItem("authorization", response.headers.authorization);
       sessionStorage.setItem("refreshtoken", response.headers.refreshtoken);
-      setUserAuth(
-        {
-          roles : response.data.roles,
-          ...response.data.tokenDTO
-        });
       
       
     } catch (error) {

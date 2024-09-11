@@ -26,18 +26,16 @@ export const recoilCommonState = {
     // effects_UNSTABLE: [persistAtom]
   }),
   
-  accessToken : atom<TokenDTO>({
+  accessToken : atom<string | null | undefined>({
     key : `${ACCESS_TOKEN}`,
-    default : {
-    
-    }
+    default : null
   }),
   
   // 로그인한 사용자 정보
-  loginUserData : selector<UsersDTO>({
+  loginUserData : selector<any>({
     key : `${LOGIN_USER_DATA}`,
-    get: async ({get}) => {
-    
+    get: ({get}) => {
+      return {};
     }
   }),
   

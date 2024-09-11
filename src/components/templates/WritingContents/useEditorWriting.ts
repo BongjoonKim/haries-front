@@ -11,7 +11,7 @@ import {random, startsWith} from "lodash";
 import awsS3 from "../../../appConfig/file/awsS3";
 import {s3Utils} from "../../../utilities/s3Utils";
 import {useAuth} from "../../../appConfig/AuthContext";
-import {endpointUtils} from "../../../utilities/endpointUtils";
+import {axiosUtils} from "../../../utilities/AxiosUtils";
 
 function useEditorWriting() {
   const editorRef = useRef<any>();
@@ -125,7 +125,7 @@ function useEditorWriting() {
           folderId: selectedFolderId,
           color : color
         }
-        await endpointUtils.authAxios({
+        await axiosUtils.authAxios({
           func: saveDocument,
           accessToken: accessToken,
           setAccessToken: setAccessToken,
@@ -151,7 +151,7 @@ function useEditorWriting() {
           folderId: "",
           color : color
         }
-        const response = await endpointUtils.authAxios({
+        const response = await axiosUtils.authAxios({
           func: createDocuments,
           accessToken: accessToken,
           setAccessToken: setAccessToken,
@@ -187,7 +187,7 @@ function useEditorWriting() {
           color: color
         }
         const newId = response.data.id;
-        await endpointUtils.authAxios({
+        await axiosUtils.authAxios({
           func: saveDocument,
           accessToken: accessToken,
           setAccessToken: setAccessToken,

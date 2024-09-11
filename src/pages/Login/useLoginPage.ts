@@ -5,9 +5,9 @@ import {useAuth} from "../../appConfig/AuthContext";
 import {setCookie} from "../../utilities/cookieUtils";
 import {useLocation, useNavigate} from "react-router-dom";
 import useMode from "../../hooks/ui/useMode";
-import {useRecoilState} from "recoil";
+import {useRecoilState, useRecoilValue} from "recoil";
 import recoilCommonState from "../../stores/recoil/recoilCommonState";
-import {endpointUtils} from "../../utilities/endpointUtils";
+import {axiosUtils} from "../../utilities/AxiosUtils";
 
 function useLoginPage() {
   const [userId, setUserId] = useState<string>("");
@@ -15,7 +15,7 @@ function useLoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const {getModeProps : getLocalModeProps, handleShowMode, handleCloseMode, handleCloseAllMode} = useMode();
-  const [userAuth, setUserAuth] = useRecoilState(recoilCommonState.userAuth);
+  const userAuth = useRecoilValue(recoilCommonState.loginUserData);
   const {accessToken, setAccessToken} = useAuth();
   
   
@@ -41,7 +41,7 @@ function useLoginPage() {
         navigate(location.pathname);
         console.log("여기 오나");
         
-        const resUserInfo = await endpointUtils.authAxios({
+        const resUserInfo = await axiosUtils.authAxios({
           func:getLoginUser,
           accessToken: accessToken,
           setAccessToken: setAccessToken
@@ -49,10 +49,9 @@ function useLoginPage() {
         
         console.log("resUserInfo", resUserInfo);
         if (resUserInfo.status === 200) {
-          setUserAuth(
-            {...resUserInfo.data},
-            {...resToken.data}
-          );
+          // setUserAuth(
+          //   {...resUserInfo.data},
+          // );
         } else {
           throw resUserInfo.statusText;
         }

@@ -1,7 +1,7 @@
 import request from "../services/request-response-service";
 import {AxiosResponse} from "axios";
 import {DocumentDTO, DocumentsInfo, PaginationDTO} from "../types/dto/documentsInfo.d";
-import {FuncProps} from "../utilities/endpointUtils";
+import {FuncProps} from "../utilities/AxiosUtils";
 
 
 // export async function createDocuments(writing?: DocumentDTO) {
