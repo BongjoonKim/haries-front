@@ -1,13 +1,13 @@
 import {useCallback, useState} from "react";
 import {doLogin, getLoginUser, login, oAuth2Login} from "../../endpoints/login-endpoints";
 import request from "../../services/request-response-service";
-import {useAuth} from "../../appConfig/AuthContext";
 import {setCookie} from "../../utilities/cookieUtils";
 import {useLocation, useNavigate} from "react-router-dom";
 import useMode from "../../hooks/ui/useMode";
 import {useRecoilState, useRecoilValue} from "recoil";
 import recoilCommonState from "../../stores/recoil/recoilCommonState";
-import {axiosUtils} from "../../utilities/AxiosUtils";
+import {useAuth} from "../../appConfig/authContext";
+import {axiosUtils} from "../../utilities/useAxios";
 
 function useLoginPage() {
   const [userId, setUserId] = useState<string>("");

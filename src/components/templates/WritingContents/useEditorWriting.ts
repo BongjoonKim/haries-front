@@ -10,8 +10,8 @@ import recoilDocumentState from "../../../stores/recoil/recoilDocumentsState";
 import {random, startsWith} from "lodash";
 import awsS3 from "../../../appConfig/file/awsS3";
 import {s3Utils} from "../../../utilities/s3Utils";
-import {useAuth} from "../../../appConfig/AuthContext";
-import {axiosUtils} from "../../../utilities/AxiosUtils";
+import {useAuth} from "../../../appConfig/authContext";
+import {axiosUtils} from "../../../utilities/useAxios";
 
 function useEditorWriting() {
   const editorRef = useRef<any>();
@@ -157,6 +157,7 @@ function useEditorWriting() {
           setAccessToken: setAccessToken,
           reqBody: request
         })
+        console.log("response", response)
         // const response = await createDocuments(request);
         
         for (const uploaded of uploadedList) {
@@ -194,7 +195,7 @@ function useEditorWriting() {
           params: {
             id : newId
           },
-          reqBody: request
+          reqBody: newRequest
         })
         // await saveDocument({id : newId, request : newRequest});
         // 화면 이동

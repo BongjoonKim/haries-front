@@ -7,12 +7,14 @@ import recoilDocumentsState from "../../../stores/recoil/recoilDocumentsState";
 import recoilCommonState from "../../../stores/recoil/recoilCommonState";
 import {DocumentDTO} from "../../../types/dto/documentsInfo.d";
 import {s3Utils} from "../../../utilities/s3Utils";
+import useAxios from "../../../utilities/useAxios";
 
 function useWritingViewer() {
   const viewerRef = useRef<any>();
   const [writing, setWriting] = useState<DocumentDTO>();
   const [message, setMessage]  = useRecoilState<{isOpen : boolean, contents : string}>(recoilCommonState.messageOpener);
   const {id} = useParams();
+  const {authEP} = useAxios();
   
   const navigate = useNavigate();
 
@@ -45,7 +47,13 @@ function useWritingViewer() {
   // 글 삭제
   const handleDelete = useCallback(async (event : MouseEvent<HTMLButtonElement>) => {
     try {
-      await deleteDocument({"id": id!});
+      await authEP({
+        func : deleteDocument,
+        params : {
+          id : id
+        }
+      })
+      // await deleteDocument({"id": id!});
       setMessage({
         contents : "삭제 성공",
         isOpen : true

@@ -1,7 +1,7 @@
 import request from "../services/request-response-service";
 import {AxiosResponse} from "axios";
 import {DocumentDTO, DocumentsInfo, PaginationDTO} from "../types/dto/documentsInfo.d";
-import {FuncProps} from "../utilities/AxiosUtils";
+import {FuncProps} from "../utilities/useAxios";
 
 
 // export async function createDocuments(writing?: DocumentDTO) {
@@ -32,8 +32,12 @@ export async function getDocumentUnique(params: {unique : string}) {
 }
 
 // 글 삭제
-export async function deleteDocument(params: {id: string}) {
-  return (await request.delete(`/documents/delete?id=${params.id}`)) as AxiosResponse<any>;
+export async function deleteDocument(props : FuncProps) {
+  return (await request.delete(`/documents/delete?id=${props.params.id}`, {
+    headers: {
+      Authorization: `Bearer ${props.accessToken}`
+    }
+  })) as AxiosResponse<any>;
 }
 
 // 글 수정

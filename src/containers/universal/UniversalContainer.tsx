@@ -11,6 +11,7 @@ import ExtractorUtil from "../../utilities/extractorUtil";
 import GlobalContainer from "../global/Global/GlobalContainer";
 import messengerUtil from "../../utilities/messengerUtil";
 import ModeContainer from "../mode/ModeContainer";
+import useUserLogin from "../../utilities/useUserLogin";
 
 function UniversalBranch(props: {children: ReactNode}) {
     return (() => {
@@ -26,6 +27,11 @@ function UniversalBranch(props: {children: ReactNode}) {
 function UniversalContainer(props : {children : ReactNode}) {
     const navigate = useNavigate();
     const location = useLocation();
+    const {getLoginedUser} = useUserLogin();
+    
+    useEffect(() => {
+        getLoginedUser()
+    }, []);
 
     // 사용자 정보 hook
     const {isLogin, isLoginExcludePath} = useUser();

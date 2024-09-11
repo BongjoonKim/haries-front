@@ -1,13 +1,13 @@
 import {getCookie, setCookie} from "./cookieUtils";
 import {udtRefreshToken} from "../endpoints/login-endpoints";
 import {ACCESSTOKEN_NULL, REFESHTOKEN_EXPIRED} from "../constants/ErrorCode";
-import {useAuth} from "../appConfig/AuthContext";
 import {useRecoilState} from "recoil";
 import recoilCommonState from "../stores/recoil/recoilCommonState";
+import {useAuth} from "../appConfig/authContext";
 
 interface AxiosProps  {
   func ?: any;
-  accessToken ?: any;
+  accessToken ?: string;
   setAccessToken ?: any;
   params ?: any;
   reqBody ?: any;
@@ -22,6 +22,7 @@ export interface FuncProps {
 
 export const axiosUtils = {
   async authAxios(props : AxiosProps) {
+    console.log("props확인", props)
     try {
       if (props.accessToken) {
         return (await props.func({
@@ -34,10 +35,10 @@ export const axiosUtils = {
       }
     } catch (e) {
       const refreshToken = getCookie("refreshToken");
-      console.log("refreshToken", refreshToken)
+      // console.log("refreshToken", refreshToken)
       if (refreshToken && refreshToken !== "undefined") {
         const res = await udtRefreshToken(getCookie("refreshToken").replace(/^"(.*)"$/, '$1'));
-        console.log("리프레시 토큰", refreshToken, getCookie("refreshToken"), res)
+        // console.log("리프레시 토큰", refreshToken, getCookie("refreshToken"), res, props)
         if (res.data) {
           setCookie("refreshToken", res.data.refreshToken!);
           props.setAccessToken(res.data.accessToken);
@@ -56,42 +57,23 @@ export const axiosUtils = {
   }
 }
 
-export default function AxiosUtils(props : AxiosProps) {
-  const [accessToken, setAccessToken] = useRecoilState(recoilCommonState.accessToken);
-  const authAxios = async (props : FuncProps) => {
+// authEndPoint의 약자
+export default function useAxios() {
+  const {accessToken, setAccessToken} = useAuth();
+  const authEP = async (props : AxiosProps) => {
     try {
-      if (accessToken) {
-        return (await props.func({
-          accessToken : accessToken,
-          params : props?.params,
-          reqBody : props?.reqBody
-        }));
-      } else {
-        throw ACCESSTOKEN_NULL;
-      }
+      return await axiosUtils.authAxios({
+        ...props,
+        accessToken : accessToken,
+        setAccessToken : setAccessToken
+      });
     } catch (e) {
-      const refreshToken = getCookie("refreshToken");
-      if (refreshToken && refreshToken !== "undefined") {
-        const res = await udtRefreshToken(getCookie("refreshToken").replace(/^"(.*)"$/, '$1'));
-        if (res.data) {
-          setCookie("refreshToken", res.data.refreshToken!);
-          setAccessToken(res.data.accessToken);
-          return (await props.func({
-            accessToken: res.data.accessToken,
-            params : props?.params,
-            reqBody : props?.reqBody
-          }))
-        } else {
-          throw REFESHTOKEN_EXPIRED;
-        }
-      } else {
-        throw REFESHTOKEN_EXPIRED;
-      }
+      console.log("authEndpoint", e)
     }
   }
   
   return {
-    authAxios
+    authEP
   }
   
 }
