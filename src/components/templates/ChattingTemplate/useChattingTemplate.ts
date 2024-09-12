@@ -13,6 +13,7 @@ import {ChannelDTO} from "../../../types/dto/ChannelDTO";
 import useInfiniteScroll from "../../../hooks/sensor/useInfiniteScroll";
 import {useRecoilState} from "recoil";
 import recoilCommonState from "../../../stores/recoil/recoilCommonState";
+import {axiosUtils} from "../../../utilities/useAxios";
 
 function useChattingTemplate() {
   const [isChannelModal, setIsChannelModal] = useState<boolean>(false);
@@ -42,7 +43,12 @@ function useChattingTemplate() {
   // 새로운 채널 생성
   const createNewChannel = useCallback(async () => {
     try {
-      await createChannel();
+      await axiosUtils.authAxios({
+        func : createChannel,
+        params : {
+          channelName : newChannelName || ""
+        }
+      })
       setIsChannelModal(false);
       await retrieveChannels();
     } catch (e) {
@@ -53,8 +59,13 @@ function useChattingTemplate() {
   // 생성된 채널 조회
   const retrieveChannels = useCallback(async (channelName ?: string) => {
     try {
-      
-      const response = await getChannels({channelName : channelName || ""});
+      const response = await axiosUtils.authAxios({
+        func : getChannels,
+        params : {
+          channelName : channelName || ""
+        }
+      });
+      // const response = await getChannels({channelName : channelName || ""});
       setChannelList(response.data ? response.data : []);
     } catch (e) {
       console.log('retrieveChannels', e);
@@ -102,7 +113,13 @@ function useChattingTemplate() {
   // 채널 삭제
   const handleDelete = useCallback(async (event: any) => {
     try {
-      await deleteChannel({channelId : selectedChannel});
+      await axiosUtils.authAxios({
+        func : deleteChannel,
+        params : {
+          channelId : selectedChannel
+        }
+      })
+      // await deleteChannel({channelId : selectedChannel});
   
       setIsChannelModal(false);
       setSelectedChannel("");
