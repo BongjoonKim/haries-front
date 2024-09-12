@@ -13,7 +13,7 @@ import {ChannelDTO} from "../../../types/dto/ChannelDTO";
 import useInfiniteScroll from "../../../hooks/sensor/useInfiniteScroll";
 import {useRecoilState} from "recoil";
 import recoilCommonState from "../../../stores/recoil/recoilCommonState";
-import {axiosUtils} from "../../../utilities/useAxios";
+import useAxios, {axiosUtils} from "../../../utilities/useAxios";
 
 function useChattingTemplate() {
   const [isChannelModal, setIsChannelModal] = useState<boolean>(false);
@@ -38,12 +38,13 @@ function useChattingTemplate() {
   
   const [highEnd, setHighEnd] = useState<any>(null);
   const [goLatest, setGoLatest] = useState<boolean>(true);
+  const {authEP} = useAxios();
   
   
   // 새로운 채널 생성
   const createNewChannel = useCallback(async () => {
     try {
-      await axiosUtils.authAxios({
+      await authEP({
         func : createChannel,
         params : {
           channelName : newChannelName || ""
@@ -59,12 +60,13 @@ function useChattingTemplate() {
   // 생성된 채널 조회
   const retrieveChannels = useCallback(async (channelName ?: string) => {
     try {
-      const response = await axiosUtils.authAxios({
+      const response = await authEP({
         func : getChannels,
         params : {
           channelName : channelName || ""
         }
       });
+      console.log("채널 다 가져오기", response)
       // const response = await getChannels({channelName : channelName || ""});
       setChannelList(response.data ? response.data : []);
     } catch (e) {
@@ -113,7 +115,7 @@ function useChattingTemplate() {
   // 채널 삭제
   const handleDelete = useCallback(async (event: any) => {
     try {
-      await axiosUtils.authAxios({
+      await authEP({
         func : deleteChannel,
         params : {
           channelId : selectedChannel
@@ -145,9 +147,16 @@ function useChattingTemplate() {
           bot : "user"
         };
         setMessage("");
-        await createUserMessage(request);
+        await authEP({
+          func : createUserMessage,
+          reqBody : request
+        })
+        // await createUserMessage(request);
         // 조회!
+        
         await getMessageHistory(selectedChannel, -1);
+        
+        
         await setMessageHistory((prev: any) => {
           return [{
             id : "loading",
@@ -159,26 +168,45 @@ function useChattingTemplate() {
           }, ...prev]
         })
         
-        await createMessage(request);
+        await authEP({
+          func : createMessage,
+          reqBody : request
+        })
+        // await createMessage(request);
   
 
   
 
         // chatGPT에 문의
-        const responseGPT = await askChatGPT({
-          channelId : selectedChannel,
-          question : message
-        });
+        const responseGPT = await authEP({
+          func : askChatGPT,
+          reqBody : {
+              channelId : selectedChannel,
+              question : message
+          }
+        })
+        // const responseGPT = await askChatGPT({
+        //   channelId : selectedChannel,
+        //   question : message
+        // });
         const gptRequest : MessageHistoryDTO = {
           channelId : selectedChannel,
           content : responseGPT.data,
           bot : "ChatGPT"
         }
         
-        await createUserMessage(gptRequest);
+        await authEP({
+          func : createUserMessage,
+          reqBody : gptRequest,
+        })
+        // await createUserMessage(gptRequest);
         await getMessageHistory(selectedChannel, -1);
-  
-        await createMessage(gptRequest);
+        
+        await authEP({
+          func : createMessage,
+          reqBody : gptRequest,
+        })
+        // await createMessage(gptRequest);
   
         setGoLatest(true);
       }
@@ -188,12 +216,26 @@ function useChattingTemplate() {
   // 메세지 조회
   const getMessageHistory = useCallback(async (channelId : string, page ?: number) => {
     if (page !== undefined) {
-      const response = await getMessages({channelId : channelId, page: page});
+      const response = await authEP({
+        func : getMessages,
+        params : {
+          channelId : channelId,
+          page : page
+        }
+      })
+      // const response = await getMessages({channelId : channelId, page: page});
       await setMessageHistory(response.data.messagesHistory.reverse());
       await setInfPageNum(response.data.nextPage);
     } else {
       if (infPageNum >= 0) {
-        const response = await getMessages({channelId : channelId, page: infPageNum});
+        const response = await authEP({
+          func : getMessages,
+          params : {
+            channelId : channelId,
+            page : infPageNum
+          }
+        })
+        // const response = await getMessages({channelId : channelId, page: infPageNum});
         setMessageHistory((prev:any) => {
           if (prev.length > 0){
             return response.data.messagesHistory.concat(prev.reverse()).reverse();
@@ -205,7 +247,14 @@ function useChattingTemplate() {
         setNewList(response.data.messagesHistory)
         setInfPageNum(response.data.nextPage);
       } else {
-        const response = await getMessages({channelId : channelId, page: -1});
+        const response = await authEP({
+          func : getMessages,
+          params : {
+            channelId : channelId,
+            page : -1
+          }
+        })
+        // const response = await getMessages({channelId : channelId, page: -1});
         setMessageHistory(response.data.messagesHistory?.reverse());
         setInfPageNum(response.data.nextPage);
       }

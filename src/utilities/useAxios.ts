@@ -37,9 +37,11 @@ export const axiosUtils = {
       const refreshToken = getCookie("refreshToken");
       // console.log("refreshToken", refreshToken)
       if (refreshToken && refreshToken !== "undefined") {
-        const res = await udtRefreshToken(getCookie("refreshToken").replace(/^"(.*)"$/, '$1'));
-        // console.log("리프레시 토큰", refreshToken, getCookie("refreshToken"), res, props)
+        console.log("refreshToken cookie", getCookie("refreshToken"))
+        const res = await udtRefreshToken(getCookie("refreshToken")?.replace(/^"(.*)"$/, '$1'));
+        console.log("리프레시 토큰", refreshToken, getCookie("refreshToken"), res, props)
         if (res.data) {
+          console.log("token info", res.data)
           setCookie("refreshToken", res.data.refreshToken!);
           props.setAccessToken(res.data.accessToken);
           return (await props.func({

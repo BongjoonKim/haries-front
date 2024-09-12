@@ -133,6 +133,7 @@ function ChattingTemplate() {
               height: "100%"
             }} />
             {selectedChannel ? messageHistory?.map((el, inx) => {
+              console.log("el", el)
               return (
                 <>
                   {el.userId === "ChatGPT" ? (
