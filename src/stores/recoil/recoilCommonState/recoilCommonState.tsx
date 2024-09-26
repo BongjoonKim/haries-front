@@ -1,6 +1,14 @@
 import {atom, selector} from "recoil";
 import {recoilPersist} from "recoil-persist";
-import {ACCESS_TOKEN, IS_LOGIN, LOGIN_ROLES, LOGIN_USER_DATA, MESSAGE_STATUS, MODAL_STATE} from "./types.d";
+import {
+  ACCESS_TOKEN, ERROR_INFO,
+  ERROR_INFO_TYPE,
+  IS_LOGIN,
+  LOGIN_ROLES,
+  LOGIN_USER_DATA,
+  MESSAGE_STATUS,
+  MODAL_STATE
+} from "./types.d";
 import {ModeComponent} from "../../../types/mode";
 import {getCookie} from "../../../utilities/cookieUtils";
 import {getLoginUser, isLogined, udtRefreshToken} from "../../../endpoints/login-endpoints";
@@ -51,5 +59,15 @@ export const recoilCommonState = {
   modalState: atom<ModeComponent.ModeStatus<any>>({
     key : `${MODAL_STATE}`,
     default : {},
+  }),
+  
+  errInfo: atom<ERROR_INFO_TYPE>({
+    key : `${ERROR_INFO}`,
+    default : {
+      isOpen : false,
+      statusText : "",
+      status : 200,
+      data : {},
+    }
   })
 }

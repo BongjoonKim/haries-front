@@ -22,8 +22,8 @@ import {useNavigate} from "react-router-dom";
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import {useRecoilState, useRecoilValue} from "recoil";
 import recoilCommonState from "../../../../stores/recoil/recoilCommonState";
-import useMode2 from "../../../../components/modules/Mode/useMode";
-// import useMode as useMode2 from ""
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import CustomButton from "../../../../components/elements/Button";
 
 function RightNavigator() {
   const [anchorSearch, setAnchorSearch] = useState<any>(null);
@@ -68,9 +68,9 @@ function RightNavigator() {
   return (
     <StyledRightHeader>
       {isShow && (
-        <IconButton onClick={() => navigate(`/blog/writing`)}>
-          <BorderColorIcon />
-        </IconButton>
+        <CustomButton onClick={() => navigate(`/blog/writing`)}>
+          Create
+        </CustomButton>
       )}
       
       {/*검색 창*/}
@@ -99,8 +99,8 @@ function RightNavigator() {
       {/*/>*/}
       
       {/*로그인*/}
-      <IconButton onClick={openLoginModal}>
-        <VpnKeyRounded/>
+      <IconButton disableRipple onClick={openLoginModal}>
+        <AccountCircleOutlinedIcon/>
       </IconButton>
 
       <Dialog
@@ -126,7 +126,7 @@ const StyledRightHeader = styled.div`
   letter-spacing: -0.05rem;
   display: flex;
   align-items: center;
-  padding-right: 50px;
+  padding-right: 2rem;
   background-color: white;
 `;
 

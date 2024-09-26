@@ -50,6 +50,7 @@ function ChattingTemplate() {
           <></>
         )
       }
+      titleOnClick={() => {setChannelBoxOpener(prev => !prev)}}
     >
       <StyledChattingTemplate channelBoxOpener={channelBoxOpener}>
         <div className="channel-view">
@@ -238,7 +239,7 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
           opacity: 1;
           pointer-events: visible;
       `}
-      z-index: 10000;
+      z-index: 9000;
       height: -webkit-fill-available;
       background-color: #f2f2ef;
       padding: 1rem 0.5rem;

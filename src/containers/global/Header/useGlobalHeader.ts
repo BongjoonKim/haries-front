@@ -35,7 +35,7 @@ function useGlobalHeader() {
         return response.data.filter(el => ['blog'].includes(lowerCase(el.menuName)))
       }
     });
-  }, [menuList, isLogin]);
+  }, [menuList, isLogin, userAuth]);
   
   useEffect(() => {
     getAllMenuList();

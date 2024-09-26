@@ -7,6 +7,7 @@ import CustomButton from "../../components/elements/Button/BasicButton";
 import Button from "../../components/elements/Button";
 import useLoginPage from "./useLoginPage";
 import {ChangeEvent} from "react";
+import {Alert, Snackbar} from "@mui/material";
 
 function LoginPage() {
   const {
@@ -16,10 +17,12 @@ function LoginPage() {
     userPassword,
     setUserPassword,
     handleClick,
+    errInfo,
   } = useLoginPage();
   
   return (
     <MainContent>
+
       <Wrapper>
         <StyleTitle>
           <p>⭐️ Haries ⭐</p>

@@ -4,7 +4,7 @@ import request from "../../services/request-response-service";
 import {setCookie} from "../../utilities/cookieUtils";
 import {useLocation, useNavigate} from "react-router-dom";
 import useMode from "../../hooks/ui/useMode";
-import {useRecoilState, useRecoilValue} from "recoil";
+import {useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState} from "recoil";
 import recoilCommonState from "../../stores/recoil/recoilCommonState";
 import {useAuth} from "../../appConfig/authContext";
 import {axiosUtils} from "../../utilities/useAxios";
@@ -17,7 +17,9 @@ function useLoginPage() {
   const {getModeProps : getLocalModeProps, handleShowMode, handleCloseMode, handleCloseAllMode} = useMode();
   const userAuth = useRecoilValue(recoilCommonState.loginUserData);
   const {accessToken, setAccessToken} = useAuth();
-  
+  const [errInfo, setErrInfo] = useRecoilState(recoilCommonState.errInfo);
+  const setLoginUserData = useSetRecoilState(recoilCommonState.loginUserData);
+  const resetErrInfo = useResetRecoilState(recoilCommonState.errInfo);
   
   const naverLogin = useCallback( async () => {
     const clientId = `${process.env.REACT_APP_NAVER_CLIENT_ID}`;
@@ -39,7 +41,6 @@ function useLoginPage() {
         setCookie("accessToken", resToken.data.accessToken!)
         setCookie("refreshToken", resToken.data.refreshToken!);
         navigate(location.pathname);
-        console.log("여기 오나");
         
         const resUserInfo = await axiosUtils.authAxios({
           func:getLoginUser,
@@ -47,18 +48,23 @@ function useLoginPage() {
           setAccessToken: setAccessToken
         });
         
-        console.log("resUserInfo", resUserInfo);
         if (resUserInfo.status === 200) {
-          // setUserAuth(
-          //   {...resUserInfo.data},
-          // );
+          setLoginUserData(
+            {...resUserInfo.data},
+          );
         } else {
           throw resUserInfo.statusText;
         }
         handleCloseMode({name : "login-modal"})
       }
     } catch (e) {
-      console.log("login failed")
+      setErrInfo({
+        isOpen : true,
+        statusText : e?.toString()
+      });
+      // setTimeout(() => {
+      //   resetErrInfo();
+      // }, 2000)
     }
   
   }
@@ -70,6 +76,7 @@ function useLoginPage() {
     userPassword,
     setUserPassword,
     handleClick,
+    errInfo,
   }
 }
 

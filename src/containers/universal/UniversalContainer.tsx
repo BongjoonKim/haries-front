@@ -12,6 +12,9 @@ import GlobalContainer from "../global/Global/GlobalContainer";
 import messengerUtil from "../../utilities/messengerUtil";
 import ModeContainer from "../mode/ModeContainer";
 import useUserLogin from "../../utilities/useUserLogin";
+import {Alert, AlertTitle, Snackbar, SnackbarCloseReason} from "@mui/material";
+import {useRecoilState} from "recoil";
+import recoilCommonState from "../../stores/recoil/recoilCommonState";
 
 function UniversalBranch(props: {children: ReactNode}) {
     return (() => {
@@ -28,6 +31,7 @@ function UniversalContainer(props : {children : ReactNode}) {
     const navigate = useNavigate();
     const location = useLocation();
     const {getLoginedUser} = useUserLogin();
+    const [errInfo, setErrInfo] = useRecoilState(recoilCommonState.errInfo);
     
     useEffect(() => {
         getLoginedUser()
@@ -64,11 +68,40 @@ function UniversalContainer(props : {children : ReactNode}) {
     }, [location.search]);
 
     useLayoutEffect(() => handleGetConnectExplorerID(), [handleGetConnectExplorerID, location]);
-
-
+    
+    const handleClose = (
+      event?: React.SyntheticEvent | Event,
+      reason?: SnackbarCloseReason,
+    ) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        
+        setErrInfo((prev : any) => {
+            return {
+                ...prev,
+                isOpen: false
+            }
+        });
+    };
 
     return (
         <Universal>
+            {/*{errInfo?.isOpen && (*/}
+            {/*  <Alert*/}
+            {/*    severity={errInfo.severity}*/}
+            {/*    sx={{*/}
+            {/*        position: "absolute",*/}
+            {/*        opacity: 1,*/}
+            {/*        width: "50%"*/}
+            {/*    }}*/}
+            {/*    variant="filled"*/}
+            {/*  >*/}
+            {/*      <AlertTitle>{errInfo.severity}</AlertTitle>*/}
+            {/*      {errInfo?.statusText}*/}
+            {/*  </Alert>*/}
+            {/*)}*/}
+
             <ModeProvider value={{...getGlobalModeProps()}}>
 
                 <UniversalBranch children={props.children} />
@@ -76,7 +109,15 @@ function UniversalContainer(props : {children : ReactNode}) {
             </ModeProvider>
             {/*  오류 발견  */}
             {/*<ModeContainer />*/}
-
+            <Snackbar open={errInfo.isOpen} autoHideDuration={6000} onClose={handleClose} >
+                <Alert
+                  severity={errInfo.severity}
+                  variant={"filled"}
+                  sx={{width : "100%"}}
+                >
+                    {errInfo.statusText}
+                </Alert>
+            </Snackbar>
         </Universal>
     )
 

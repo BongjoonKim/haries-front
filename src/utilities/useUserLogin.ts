@@ -1,5 +1,5 @@
 
-import {useRecoilState, useSetRecoilState} from "recoil";
+import {useRecoilState, useResetRecoilState, useSetRecoilState} from "recoil";
 import recoilCommonState from "../stores/recoil/recoilCommonState";
 import {getLoginUser} from "../endpoints/login-endpoints";
 import {useAuth} from "../appConfig/authContext";
@@ -8,6 +8,8 @@ import useAxios, {axiosUtils} from "./useAxios";
 export default function useUserLogin() {
   const {accessToken, setAccessToken} = useAuth();
   const setLoginUserData = useSetRecoilState(recoilCommonState.loginUserData);
+  const setErrInfo = useSetRecoilState(recoilCommonState.errInfo);
+  const resetErrInfo = useResetRecoilState(recoilCommonState.errInfo)
   
   // 로그인한 사용자 정보 가져오기
   const getLoginedUser = async () => {
@@ -24,6 +26,13 @@ export default function useUserLogin() {
       }
     } catch (e) {
       console.log("getLoginedUser", e)
+      setErrInfo({
+        isOpen : true,
+        statusText : e?.toString()
+      });
+      // setTimeout(() => {
+      //   resetErrInfo()
+      // }, 2000)
     }
 
   }

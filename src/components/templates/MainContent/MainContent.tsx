@@ -18,6 +18,7 @@ interface MainProps extends Content.CommonProps, Content.BodyProps, Content.Head
     noGrow?: boolean
     header?: any;
     style ?: any;
+    titleOnClick ?: (props ?: any) => void;
 }
 
 function MainContent(props: MainProps) {
@@ -55,6 +56,7 @@ function MainContent(props: MainProps) {
                     onClose={props?.onClose}
                     onUpdate={props?.onUpdate}
                     link={props?.link}
+                    titleOnClick={props?.titleOnClick}
                 />
                 <StyledContentBody mainContentTheme={props.mainContentTheme} noGrow={props.noGrow}>
                     {props.children}

@@ -9,13 +9,14 @@ interface ContentHeaderProps extends Content.HandlerProps {
     title?: string;
     contentHeaderTheme?: string;
     header ?: any;
+    titleOnClick ?: (props ?: any) => void;
 }
 
 export default function ContentHeader(props: ContentHeaderProps) {
     return (
-        <StyledContentHeader className="content-header" contentHeaderTheme={props.contentHeaderTheme}>
+        <StyledContentHeader className="content-header" contentHeaderTheme={props.contentHeaderTheme} titleOnClick={props.titleOnClick}>
             <Column flexdirection="row" alignitems="center" justifycontent="space-between" flex={1}>
-                <h3 className="content-header-title">{props.title}</h3>
+                <h3 className="content-header-title" onClick={props.titleOnClick}>{props.title}</h3>
                 <div className="content-header-buttons">{props.header}</div>
             </Column>
             <ContentHeaderHandlers
@@ -30,7 +31,7 @@ export default function ContentHeader(props: ContentHeaderProps) {
     )
 }
 
-const StyledContentHeader = styled.header<{contentHeaderTheme?: string}>`
+const StyledContentHeader = styled.header<{contentHeaderTheme?: string, titleOnClick ?: (props?:any) => void}>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -39,6 +40,7 @@ const StyledContentHeader = styled.header<{contentHeaderTheme?: string}>`
 
       //justify-content: space-between;
       &-title {
+        cursor: ${props => props.titleOnClick && "pointer"};
         position: relative;
         padding-left: 24px;
         margin: 0;
