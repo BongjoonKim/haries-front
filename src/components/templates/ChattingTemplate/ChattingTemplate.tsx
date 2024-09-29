@@ -134,7 +134,6 @@ function ChattingTemplate() {
               height: "100%"
             }} />
             {selectedChannel ? messageHistory?.map((el, inx) => {
-              console.log("el", el)
               return (
                 <>
                   {el.userId === "ChatGPT" ? (
@@ -210,9 +209,7 @@ function ChattingTemplate() {
 export default ChattingTemplate;
 
 const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
-  
   display: flex;
-  width: 100%;
   gap: 1rem;
   height: 100%;
   textarea {
@@ -240,10 +237,13 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
           pointer-events: visible;
       `}
       z-index: 9000;
-      height: -webkit-fill-available;
-      background-color: #f2f2ef;
+      height: calc(100% - 3rem - 4px);
+      
+      background-color: white;
+      border: 2px solid gray;
+      //box-shadow: 1px 1px 1px gray;
       padding: 1rem 0.5rem;
-      border-radius: 1rem 1rem;
+      border-radius: 1rem 1rem 1rem 1rem;
       overflow-y: hidden;
       overflow-x: hidden;
       .channel-list {
@@ -271,7 +271,8 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
       padding: 0.5rem 0.5rem;
       border-radius: 1rem 1rem;
       align-items: center;
-
+      border: 2px solid gray;
+      //box-shadow: 1px 1px 1px gray;
       span {
         &:first-child {
           justify-content: center;
@@ -296,7 +297,7 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
         padding-bottom: 1rem;
         height: 20px;
         flex-grow: 1;
-
+        border: 1px gray;
         span {
           &:first-child {
             margin-bottom: -1rem;
@@ -349,9 +350,11 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
       height: -webkit-fill-available;
       background-color: white;
       padding: 1rem 0.5rem;
-      border-radius: 1rem 1rem;
+      border-radius: 1rem 1rem 1rem 1rem;
       overflow-y: hidden;
       overflow-x: hidden;
+      border: 2px solid gray;
+      //box-shadow: 1px 1px 1px gray;
       .channel-list {
         border: 1px solid gray;
         width: 100%;
@@ -377,9 +380,10 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
       flex-direction: column;
       background-color: white;
       padding: 0.5rem 0.5rem;
-      border-radius: 1rem 1rem;
+      border-radius: 1rem 1rem 1rem 1rem;
       align-items: center;
-
+      border: 2px solid gray;
+      //box-shadow: 1px 1px 1px gray;
       span {
         &:first-child {
           justify-content: center;

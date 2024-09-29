@@ -91,9 +91,9 @@ const StyledContentBody = styled.div<{mainContentTheme?: string; noGrow?: boolea
   position: relative;
   display: flex;
   flex-direction: column;
-  row-gap: 8px;
   //height: 300px;
   flex-shrink: 1;
+  padding: 0rem 1rem 1rem 1rem;
 `;
 
 const StyledFooterBody = styled.div<any>`

@@ -26,7 +26,8 @@ export default ChannelBox;
 
 const StyledChannelBox = styled.div<{active : string}>`
   display: flex;
-  height: 3.5rem;
+  height: 3rem;
+  min-height: 3rem;
   align-items: center;
   padding: 0.5rem 0.5rem;
   border-bottom: 1px solid gray;

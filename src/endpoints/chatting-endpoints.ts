@@ -12,7 +12,7 @@ export async function createChannel(props : FuncProps) {
 }
 
 export async function getChannels(props : FuncProps) {
-  return (await request.get(`/chatting/channels?channelName=${props?.params?.channelName || ""}`, {
+  return (await request.get(`/chatting/channels?channelName=${props?.params?.channelName}&message=${props?.params?.message}`, {
     headers : {
       Authorization : `Bearer ${props.accessToken}`
     }

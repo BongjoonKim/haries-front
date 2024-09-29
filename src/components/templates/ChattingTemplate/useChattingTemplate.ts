@@ -58,13 +58,14 @@ function useChattingTemplate() {
   }, [newChannelName, isChannelModal]);
   
   // 생성된 채널 조회
-  const retrieveChannels = useCallback(async (channelName ?: string) => {
+  const retrieveChannels = useCallback(async (inputData ?: string) => {
     try {
       const response = await authEP({
         func : getChannels,
         params : {
-          channelName : channelName || ""
-        }
+          channelName : inputData || "",
+          message : inputData || ""
+        },
       });
       console.log("채널 다 가져오기", response)
       // const response = await getChannels({channelName : channelName || ""});
@@ -222,7 +223,8 @@ function useChattingTemplate() {
           channelId : channelId,
           page : page
         }
-      })
+      });
+      
       // const response = await getMessages({channelId : channelId, page: page});
       await setMessageHistory(response.data.messagesHistory.reverse());
       await setInfPageNum(response.data.nextPage);
@@ -247,6 +249,8 @@ function useChattingTemplate() {
         setNewList(response.data.messagesHistory)
         setInfPageNum(response.data.nextPage);
       } else {
+        
+  
         const response = await authEP({
           func : getMessages,
           params : {
@@ -254,6 +258,7 @@ function useChattingTemplate() {
             page : -1
           }
         })
+        console.log("response", response.data)
         // const response = await getMessages({channelId : channelId, page: -1});
         setMessageHistory(response.data.messagesHistory?.reverse());
         setInfPageNum(response.data.nextPage);
