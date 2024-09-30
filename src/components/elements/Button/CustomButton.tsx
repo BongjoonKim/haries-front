@@ -25,6 +25,7 @@ function CustomButton(props : ButtonProps) {
   return (
     <StyleCustomButton {...props.styles} className={props.className}>
       <form
+        style={{...props.styles}}
         onSubmit={props.onSubmit}
       >
       <MUIButton
@@ -35,6 +36,7 @@ function CustomButton(props : ButtonProps) {
         fullWidth={props.fullWidth}
         disabled={props.disabled}
         type={props.type}
+        style={{...props.styles}}
       />
       </form>
     </StyleCustomButton>

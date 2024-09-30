@@ -8,7 +8,7 @@ import ChatMessage from "./ChatMessage";
 import ChannelBox from "./ChannelBox";
 import InputBase from '@mui/material/InputBase';
 import Paper from '@mui/material/Paper';
-import {Box, CircularProgress, Divider, IconButton, Modal, TextareaAutosize} from "@mui/material";
+import {Box, CircularProgress, Divider, IconButton, Modal, TextareaAutosize, TextField} from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import useChattingTemplate from "./useChattingTemplate";
 import SimpleSave from "../SimpleSave";
@@ -28,7 +28,7 @@ function ChattingTemplate() {
     handleSendMessage, messageHistory,
     scrollRef, channelBoxOpener, setChannelBoxOpener,retrieveChannels,
     innerWidth, messageHistoryRef, highEnd, messageHistorysRef,
-    show, newList, update, isLoading
+    show, newList, update, isLoading, handleFocus
   } = useChattingTemplate();
   
   return (
@@ -91,7 +91,7 @@ function ChattingTemplate() {
               New Channel
             </CustomButton>
             <CustomButton
-              onClick={() => {setIsDeleteChannelModal(true)}}
+              onClick={handleDelete}
             >
               Delete
             </CustomButton>
@@ -127,7 +127,7 @@ function ChattingTemplate() {
           </div>
           
         </div>
-        <div className="chat-view">
+        <div className="chat-view" onClick={() => {setChannelBoxOpener(false)}}>
           <div className="message-history" ref={scrollRef}>
             <div style={{
               width: "100%",
@@ -164,7 +164,7 @@ function ChattingTemplate() {
                 <span className="start-message"
                       onClick={() => {setChannelBoxOpener(prev => !prev)}}
                 >
-                  {channelList.filter(el => el.id === selectedChannel)[0].name}
+                  {channelList.filter(el => el.id === selectedChannel)?.[0]?.name}
                 </span>
                 
               </>
@@ -183,21 +183,35 @@ function ChattingTemplate() {
             {/*  }}*/}
             {/*  onKeyPress={handleSendMessage}*/}
             {/*/>*/}
-            <TextareaAutosize
+            <TextField
               value={message}
+              multiline
               onChange={(event : any) => {
                 event.preventDefault();
                 setMessage(event.target.value);
               }}
               onKeyPress={handleSendMessage}
               disabled={!selectedChannel}
+              onFocus={handleFocus}
+              fullWidth
+              maxRows={8}
+              InputProps={{
+                sx: {
+                  padding: '10px',  // 원하는 padding 값으로 조절
+                },
+              }}
             />
-            <CustomButton
-              onClick={handleSendMessage}
-              disabled={!selectedChannel}
-            >
-              전송
-            </CustomButton>
+            <div className="wrapper-send-button">
+              <CustomButton
+                onClick={handleSendMessage}
+                disabled={!selectedChannel}
+                styles={{
+                  height: "100%",
+                }}
+              >
+                전송
+              </CustomButton>
+            </div>
           </div>
         </div>
       </StyledChattingTemplate>
@@ -215,7 +229,9 @@ const StyledChattingTemplate = styled.div<{channelBoxOpener : boolean}>`
   textarea {
     width: 100%;
     min-height: 1rem;
-    padding: 0.5rem;
+  }
+  .wrapper-send-button {
+    height: 100%;
   }
 
   @media only screen and (min-width: 0px) and (max-width: 1199px) {

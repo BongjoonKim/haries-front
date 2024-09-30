@@ -40,23 +40,6 @@ function useChattingTemplate() {
   const [goLatest, setGoLatest] = useState<boolean>(true);
   const {authEP} = useAxios();
   
-  
-  // 새로운 채널 생성
-  const createNewChannel = useCallback(async () => {
-    try {
-      await authEP({
-        func : createChannel,
-        params : {
-          channelName : newChannelName || ""
-        }
-      })
-      setIsChannelModal(false);
-      await retrieveChannels();
-    } catch (e) {
-      console.log("createNewChannel", e);
-    }
-  }, [newChannelName, isChannelModal]);
-  
   // 생성된 채널 조회
   const retrieveChannels = useCallback(async (inputData ?: string) => {
     try {
@@ -67,19 +50,18 @@ function useChattingTemplate() {
           message : inputData || ""
         },
       });
-      console.log("채널 다 가져오기", response)
       // const response = await getChannels({channelName : channelName || ""});
       setChannelList(response.data ? response.data : []);
+      return response.data ? response.data : []
     } catch (e) {
       console.log('retrieveChannels', e);
     }
   }, [channelList, goLatest]);
   
-  // 채널 하나 클릭
-  const handleClickChannel = useCallback( async (event : any) => {
-    const clickedId = event.currentTarget.children[1].children[0].value;
+  //
+  const handleSelectChannel = useCallback(async (clickedId : string) => {
     let selectOrNot : boolean;
-    
+  
     if (selectedChannel) {
       if (clickedId === selectedChannel) {
         selectOrNot = false;
@@ -89,8 +71,7 @@ function useChattingTemplate() {
     } else {
       selectOrNot = true;
     }
-    
-    console.log("selectOrNot", selectOrNot)
+  
     setSelectedChannel((prev:any) => {
       return selectOrNot
         ? clickedId
@@ -113,8 +94,36 @@ function useChattingTemplate() {
     }
   }, [selectedChannel, channelBoxOpener, infPageNum]);
   
+  // 새로운 채널 생성
+  const createNewChannel = useCallback(async () => {
+    try {
+      const resNewChannel = await authEP({
+        func : createChannel,
+        params : {
+          channelName : newChannelName || ""
+        }
+      })
+      setIsChannelModal(false);
+      await retrieveChannels();
+      console.log("resNewChannel", resNewChannel);
+      if (resNewChannel.status === 200) {
+        handleSelectChannel(resNewChannel.data?.id)
+      } else {
+        throw resNewChannel.statusText;
+      }
+    } catch (e) {
+      console.log("createNewChannel", e);
+    }
+  }, [newChannelName, isChannelModal, handleSelectChannel]);
+  
+  // 채널 하나 클릭
+  const handleClickChannel = useCallback( async (event : any) => {
+    const clickedId = event.currentTarget.children[1].children[0].value;
+    await handleSelectChannel(clickedId);
+  }, [handleSelectChannel]);
+  
   // 채널 삭제
-  const handleDelete = useCallback(async (event: any) => {
+  const handleDelete = useCallback(async () => {
     try {
       await authEP({
         func : deleteChannel,
@@ -122,25 +131,36 @@ function useChattingTemplate() {
           channelId : selectedChannel
         }
       })
-      // await deleteChannel({channelId : selectedChannel});
   
       setIsChannelModal(false);
-      setSelectedChannel("");
       setIsDeleteChannelModal(false);
-      await retrieveChannels();
       
+      const channels = await retrieveChannels();
+      const deletedChannelInx = channelList.map((el:ChannelDTO) => el.id).indexOf(selectedChannel);
+      console.log("channel", selectedChannel, channelList, deletedChannelInx)
+      let nextChannelId = ""
+      if (channels.length - 1 < deletedChannelInx) {
+        if (channels && channels?.length) {
+          nextChannelId = channels[channels.length - 1]?.id || "";
+        }
+      } else {
+        nextChannelId = channels[deletedChannelInx]?.id || "";
+      }
+      console.log("nextChannelId", nextChannelId)
+      setSelectedChannel(nextChannelId);
+  
     } catch (e) {
       console.log("handleDelete", e)
     }
-  }, [selectedChannel, isChannelModal]);
+  }, [selectedChannel, isChannelModal, retrieveChannels, channelList]);
   
   // 메세지 입력
   const handleSendMessage = useCallback(async (event: any) => {
-    console.log("메세지 입력")
     if (event.key === "Enter" || event.type === "click") {
       event.preventDefault();
-      if (event.shiftKey) { // shift + enter를 쳤을 떄 줄바꿈 가능하게
-        return;
+      console.log("값 확인", event.key, event.shiftKey)
+      if (event.key === 'Enter' && event.shiftKey) {
+        setMessage((prevText) => prevText + '\n');
       } else {
         const request : MessageHistoryDTO = {
           channelId : selectedChannel,
@@ -266,6 +286,12 @@ function useChattingTemplate() {
     }
   }, [messageHistory, infPageNum, selectedChannel, newList, isLoading]);
   
+  const handleFocus = () => {
+    setChannelBoxOpener(prev => {
+      return false
+    });
+  }
+  
   useEffect(() => {
     if (selectedChannel) {
       getMessageHistory(selectedChannel);
@@ -357,7 +383,8 @@ function useChattingTemplate() {
     highEnd,
     messageHistorysRef,
     show, newList,
-    update, isLoading
+    update, isLoading,
+    handleFocus,
   }
 }
 
