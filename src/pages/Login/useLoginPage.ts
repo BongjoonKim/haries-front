@@ -18,8 +18,9 @@ function useLoginPage() {
   const userAuth = useRecoilValue(recoilCommonState.loginUserData);
   const {accessToken, setAccessToken} = useAuth();
   const [errInfo, setErrInfo] = useRecoilState(recoilCommonState.errInfo);
-  const setLoginUserData = useSetRecoilState(recoilCommonState.loginUserData);
+  const [loginUser, setLoginUserData] = useRecoilState(recoilCommonState.loginUserData);
   const resetErrInfo = useResetRecoilState(recoilCommonState.errInfo);
+  const [showPassword, setShowPassword] = useState<boolean>(true);
   
   const naverLogin = useCallback( async () => {
     const clientId = `${process.env.REACT_APP_NAVER_CLIENT_ID}`;
@@ -75,8 +76,11 @@ function useLoginPage() {
     setUserId,
     userPassword,
     setUserPassword,
+    loginUser,
     handleClick,
     errInfo,
+    showPassword,
+    setShowPassword,
   }
 }
 

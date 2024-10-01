@@ -48,7 +48,7 @@ export async function isLogined() {
 
 export async function logout() {
   try {
-    return (await request.get(`/login/logout`)) as AxiosResponse<any>;
+    return (await request.get(`/login/ps/logout`)) as AxiosResponse<any>;
   } catch (e) {
     throw e;
   }

@@ -4,7 +4,6 @@ import {VpnKeyRounded} from "@material-ui/icons";
 import styled from "styled-components";
 import {Box, colors, IconButton} from "@material-ui/core";
 import {MouseEventHandler, useCallback, useEffect, useRef, useState} from "react";
-import Popper from "../../../../components/widgets/Popper";
 import TextInput from "../../../../components/elements/TextInput";
 import useClickOutside from "../../../../hooks/sensor/useClickOutside";
 import useMode from "../../../../hooks/ui/useMode";
@@ -17,13 +16,14 @@ import useModal from "../../../../hooks/ui/useModal";
 import LoginPage from "../../../../pages/Login";
 import exampleTwo from "../../../../pages/examples/ExampleTwo";
 import SearchIcon from '@mui/icons-material/Search';
-import {InputBase} from "@mui/material";
+import {ClickAwayListener, Grow, InputBase, MenuItem, MenuList, Paper, Popper} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import {useRecoilState, useRecoilValue} from "recoil";
 import recoilCommonState from "../../../../stores/recoil/recoilCommonState";
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import CustomButton from "../../../../components/elements/Button";
+import useRightNavigator from "./useRightNavigator";
 
 function RightNavigator() {
   const [anchorSearch, setAnchorSearch] = useState<any>(null);
@@ -32,6 +32,15 @@ function RightNavigator() {
   const {getModeProps : getLocalModeProps, handleShowMode, handleCloseMode} = useMode();
   const isLogin = useRecoilValue<boolean>(recoilCommonState.isLogin);
   const [isShow, setShow] = useState(false);
+  const {
+    menuRef,
+    menuOpen,
+    setMenuOpen,
+    loginUser,
+    handleClose,
+    handleListKeyDown,
+    doLogout,
+  } = useRightNavigator();
   
   // 글쓰기
   const navigate = useNavigate();
@@ -99,7 +108,7 @@ function RightNavigator() {
       {/*/>*/}
       
       {/*로그인*/}
-      <IconButton disableRipple onClick={openLoginModal}>
+      <IconButton disableRipple ref={menuRef} onClick={() => {setMenuOpen(prev => !prev)}}>
         <AccountCircleOutlinedIcon/>
       </IconButton>
 
@@ -113,6 +122,41 @@ function RightNavigator() {
         //   return false;
         // }}
       />
+      <Popper
+        open={menuOpen}
+        anchorEl={menuRef.current}
+        role={undefined}
+        placement="bottom-start"
+        transition
+        disablePortal
+      >
+        {({ TransitionProps, placement }) => (
+          <Grow
+            {...TransitionProps}
+            style={{
+              transformOrigin:
+                placement === 'bottom-start' ? 'left top' : 'left bottom',
+            }}
+          >
+            <Paper>
+              <ClickAwayListener onClickAway={handleClose}>
+                <MenuList
+                  autoFocusItem={menuOpen}
+                  id="composition-menu"
+                  aria-labelledby="composition-button"
+                  onKeyDown={handleListKeyDown}
+                >
+                  {loginUser?.userId ? (
+                    <MenuItem onClick={doLogout}>Logout</MenuItem>
+                  ) : (
+                    <MenuItem onClick={openLoginModal}>Login</MenuItem>
+                  )}
+                </MenuList>
+              </ClickAwayListener>
+            </Paper>
+          </Grow>
+        )}
+      </Popper>
     </StyledRightHeader>
   )
 }

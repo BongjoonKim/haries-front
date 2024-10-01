@@ -6,8 +6,9 @@ import {IconButton} from "@material-ui/core";
 import CustomButton from "../../components/elements/Button/BasicButton";
 import Button from "../../components/elements/Button";
 import useLoginPage from "./useLoginPage";
-import {ChangeEvent} from "react";
-import {Alert, Snackbar} from "@mui/material";
+import {ChangeEvent, MouseEventHandler} from "react";
+import {Alert, FormControl, Input, InputAdornment, InputLabel, Snackbar, TextField} from "@mui/material";
+import {Visibility, VisibilityOff} from "@material-ui/icons";
 
 function LoginPage() {
   const {
@@ -16,10 +17,12 @@ function LoginPage() {
     setUserId,
     userPassword,
     setUserPassword,
+    loginUser,
     handleClick,
     errInfo,
+    showPassword,
+    setShowPassword,
   } = useLoginPage();
-  
   return (
     <MainContent>
 
@@ -28,18 +31,40 @@ function LoginPage() {
           <p>⭐️ Haries ⭐</p>
         </StyleTitle>
         <StyleInputs>
-          <TextInput
-            name="email"
-            placeholder="Email"
-            value={userId}
-            onChange={(event : ChangeEvent<HTMLInputElement>) => {setUserId(event.target.value)}}
-          />
-          <TextInput
-            name="password"
-            placeholder="Password"
-            value={userPassword}
-            onChange={(event : ChangeEvent<HTMLInputElement>) => {setUserPassword(event.target.value)}}
-          />
+          <FormControl sx={{ m: 1, width: '100%' }} variant="standard">
+            <TextField
+              id="standard-multiline-static"
+              label="ID"
+              rows={1}
+              value={userId}
+              defaultValue="Default Value"
+              variant="standard"
+              onChange={(event : ChangeEvent<HTMLInputElement>) => {setUserId(event.target.value)}}
+            />
+          </FormControl>
+          <FormControl sx={{ m: 1, width: '100%' }} variant="standard">
+            <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+              <Input
+                id="standard-adornment-password"
+                type={showPassword ? 'text' : 'password'}
+                value={userPassword}
+                onChange={(event : ChangeEvent<HTMLInputElement>) => {setUserPassword(event.target.value)}}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={() => setShowPassword(prev => !prev)}
+                      // onMouseDown={(event : MouseEventHandler<HTMLButtonElement>) => {
+                      // }}
+                      // onMouseUp={(event : MouseEventHandler) => {
+                      // }}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+          </FormControl>
         </StyleInputs>
         {/*로그인 버튼*/}
         <Button
@@ -94,6 +119,8 @@ const StyleTitle = styled.div`
 
 const StyleInputs = styled.div`
   width : 100%;
+  display: flex;
+  flex-direction: column;
 `;
 
 const StyleButtons = styled.div`
