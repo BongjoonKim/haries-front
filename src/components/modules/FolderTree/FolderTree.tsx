@@ -17,6 +17,7 @@ import CustomPopover from "../../elements/CustomPopover";
 import EditNamePopover from "../EditNamePopover";
 import {deleteFolder, postFolders, putFolders} from "../../../endpoints/folders-endpotins";
 import generatorUtil from "../../../utilities/generatorUtil";
+import useAxios, {axiosUtils} from "../../../utilities/useAxios";
 
 export interface IsVisibleProps {
   id : string;
@@ -56,20 +57,32 @@ interface FolderTreeProps {
 
 function FolderAddEditDelete(props : FolderAddEditDeleteProps) {
   const [newFolderName, setNewFolderName] = useState<string>(props.label);
+  const {authEP} = useAxios();
   
   // 폴더명 수정
   const addEditFolderName = useCallback(async () => {
     if (props.addEditDelete === "add") {
       console.log("부모 아이디", props.id)
-      const response = await postFolders({
-        parentId : props.id,
-        label : newFolderName,
-        uniqueKey : generatorUtil.uuid()
+      const resFolder = await authEP({
+        func : postFolders,
+        reqBody: {
+          parentId : props.id,
+          label : newFolderName,
+          uniqueKey : generatorUtil.uuid()
+        }
       })
+      // const response = await postFolders({
+      //   parentId : props.id,
+      //   label : newFolderName,
+      //   uniqueKey : generatorUtil.uuid()
+      // })
     } else if (props.addEditDelete === "edit") {
-      const response = await putFolders({
-        id : props.id,
-        label : newFolderName
+      const response = await authEP({
+        func: putFolders,
+        reqBody : {
+          id : props.id,
+          label : newFolderName
+        }
       });
     }
     props.setAnchorEl(null);
