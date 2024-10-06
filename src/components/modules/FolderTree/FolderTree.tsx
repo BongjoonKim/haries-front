@@ -10,12 +10,26 @@ import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOu
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import CustomButton from "../../elements/Button";
-import {Button} from "@mui/material";
+import {Button, Popover} from "@mui/material";
 import CustomIconButton from "../../elements/Button/CustomIconButton";
-import React, {ChangeEvent, Dispatch, MouseEventHandler, SetStateAction, useCallback, useState} from "react";
+import React, {
+  ChangeEvent,
+  Dispatch,
+  forwardRef,
+  MouseEventHandler,
+  SetStateAction,
+  useCallback,
+  useState
+} from "react";
 import CustomPopover from "../../elements/CustomPopover";
 import EditNamePopover from "../EditNamePopover";
-import {deleteFolder, postFolders, putFolders} from "../../../endpoints/folders-endpotins";
+import {
+  deleteFolder,
+  getChildFolders,
+  getRootFolder,
+  postFolders,
+  putFolders
+} from "../../../endpoints/folders-endpotins";
 import generatorUtil from "../../../utilities/generatorUtil";
 import useAxios, {axiosUtils} from "../../../utilities/useAxios";
 
@@ -31,9 +45,11 @@ interface FolderAddEditDeleteProps extends FolderTreeProps{
   isVisible : IsVisibleProps;
   onPopoverOpener : (event: any, id: string, type : "add" | "edit" | "delete") => void;
   addEditDelete : any;
-  anchorEl : any;
-  setAnchorEl : Dispatch<SetStateAction<HTMLButtonElement | null>>;
-  open : any;
+  setAddEditDelete: any;
+  anchorEl ?: any;
+  setAnchorEl ?: Dispatch<SetStateAction<HTMLButtonElement | null>> | any;
+  open ?: any;
+  setUpdateAlert : any;
 }
 
 interface TreeConstructureProps extends FolderTreeProps {
@@ -41,10 +57,11 @@ interface TreeConstructureProps extends FolderTreeProps {
   isVisible: IsVisibleProps;
   setIsVisible : Dispatch<SetStateAction<IsVisibleProps>>;
   onPopoverOpener : (event : any, id : string, type : "add" | "edit" | "delete") => void;
-  addEditDelete : any;
-  anchorEl : any;
-  setAnchorEl : Dispatch<SetStateAction<HTMLButtonElement | null>>;
-  open : any;
+  // addEditDelete : any;
+  anchorEl ?: any;
+  setAnchorEl ?: Dispatch<SetStateAction<HTMLButtonElement | null>> | any;
+  open ?: any;
+  setUpdateAlert ?: any;
 }
 
 interface FolderTreeProps {
@@ -59,6 +76,7 @@ function FolderAddEditDelete(props : FolderAddEditDeleteProps) {
   const [newFolderName, setNewFolderName] = useState<string>(props.label);
   const {authEP} = useAxios();
   
+  
   // 폴더명 수정
   const addEditFolderName = useCallback(async () => {
     if (props.addEditDelete === "add") {
@@ -71,11 +89,8 @@ function FolderAddEditDelete(props : FolderAddEditDeleteProps) {
           uniqueKey : generatorUtil.uuid()
         }
       })
-      // const response = await postFolders({
-      //   parentId : props.id,
-      //   label : newFolderName,
-      //   uniqueKey : generatorUtil.uuid()
-      // })
+      props.setAnchorEl(null);
+      props.setUpdateAlert((prev:boolean) => !prev)
     } else if (props.addEditDelete === "edit") {
       const response = await authEP({
         func: putFolders,
@@ -84,22 +99,31 @@ function FolderAddEditDelete(props : FolderAddEditDeleteProps) {
           label : newFolderName
         }
       });
+      props.setAnchorEl(null);
+      props.setUpdateAlert((prev:boolean) => !prev)
     }
-    props.setAnchorEl(null);
     setNewFolderName("");
   }, [newFolderName, props.addEditDelete, props.anchorEl, props.id]);
   
   // 폴더 삭제
   const removeFolder = useCallback(async () => {
+    console.log("여기 왔나", props.id)
     try {
-      const response = await deleteFolder(props.id);
+      const response = await authEP({
+        func : deleteFolder,
+        params : {
+          id : props.id
+        }
+      });
       props.setAnchorEl(null);
+      props.setUpdateAlert((prev:boolean) => !prev)
     } catch (e) {
       console.log("deleteFolder", e)
     }
   }, [props.id, props.anchorEl]);
   
   // 폴더 추가
+  console.log("props.id", props?.id, props.anchorEl?.id, props.anchorEl?.event)
   
   return (
     <>
@@ -107,23 +131,34 @@ function FolderAddEditDelete(props : FolderAddEditDeleteProps) {
       <StyledEditDelete>
       {(props.isVisible.id === props.id) && props.isVisible.value && (
         <>
-          <CustomIconButton key={props.id + "add"} size="small" onClick={(event : any) => props.onPopoverOpener(event, props.id, "add")}>
+          {/*<CustomIconButton key={props.id + "add"} size="small" onClick={(event : any) => props.onPopoverOpener(event, props.id, "add")}>*/}
+          <CustomIconButton key={props.id + "add"} size="small" onClick={(event : any) => {
+            props.setAddEditDelete("add");
+            props.setAnchorEl!({id : props.id, event:event.currentTarget})
+          }}>
             <AddCircleOutlineOutlinedIcon fontSize={"small"} />
           </CustomIconButton>
-          <CustomIconButton key={props.id + "edit"} size="small" onClick={(event : any) => props.onPopoverOpener(event, props.id, "edit")}>
+          <CustomIconButton key={props.id + "edit"} size="small" onClick={(event : any) => {
+            props.setAddEditDelete("edit");
+            props.setAnchorEl!({id : props.id, event:event.currentTarget})
+          }}>
             <ModeEditOutlineOutlinedIcon fontSize={"small"} />
           </CustomIconButton>
-          <CustomIconButton key={props.id + "delete"} size="small" onClick={(event : any) => props.onPopoverOpener(event, props.id, "delete")}>
+          {/*<CustomIconButton key={props.id + "delete"} size="small" onClick={(event : any) => props.onPopoverOpener(event, props.id, "delete")}>*/}
+          <CustomIconButton key={props.id + "delete"} size="small" onClick={(event : any) => {
+            props.setAddEditDelete("delete");
+            props.setAnchorEl!({id : props.id, event:event.currentTarget})
+          }}>
             <DeleteForeverOutlinedIcon fontSize={"small"} />
           </CustomIconButton>
-          <CustomPopover
-            open={!!props.anchorEl}
-            anchorEl={props.anchorEl}
-            onClose={() => props.setAnchorEl(null)}
+          <Popover
+            open={!!(props.anchorEl?.id === props.id && !!props.anchorEl.event)}
+            anchorEl={props.anchorEl?.event}
             anchorOrigin={{
               vertical: 'bottom',
               horizontal: 'left',
             }}
+            onClose={() => {props.setAnchorEl!(null)}}
           >
             <EditNamePopover
               folderName={newFolderName}
@@ -132,10 +167,9 @@ function FolderAddEditDelete(props : FolderAddEditDeleteProps) {
               }}
               onOk={addEditFolderName}
               onDelete={removeFolder}
-              onCancel={() => props.setAnchorEl(null)}
               type={props.addEditDelete}
             />
-          </CustomPopover>
+          </Popover>
         </>
       )}
     </StyledEditDelete>) : (
@@ -146,9 +180,11 @@ function FolderAddEditDelete(props : FolderAddEditDeleteProps) {
 }
 
 // 폴더의 트리 구조를 만드는 컴포넌트
-function makeTreeConstructure(props : TreeConstructureProps) {
+const MakeTreeConstructure = forwardRef((props : TreeConstructureProps, ref : any) => {
+  const [anchorEl, setAnchorEl] = useState<any>(null);
+  const [addEditDelete, setAddEditDelete] = useState(null);
   return props.foldersDTO.length
-    && (
+    ? (
       <>
         {props.foldersDTO.map((el: FoldersDTO, inx: number) => {
             return (
@@ -160,25 +196,27 @@ function makeTreeConstructure(props : TreeConstructureProps) {
                       onMouseEnter={(event: any) => {
                         console.log("Root hover Event", el.id)
                         props.setIsVisible({id : el.id!, value : true});
+                        setAnchorEl(null);
                       }}
-                      onMouseLeave={() => {props.setIsVisible({id : el.id!, value : false})}}
+                      onMouseLeave={() => {
+                        props.setIsVisible({id : el.id!, value : false})
+                        setAnchorEl(null);
+                      }}
                     >
                       <TreeItem
                         key={el.id}
                         nodeId={el.id!}
                         label={el.label}
                       >
-                        {makeTreeConstructure({
-                          show : props.show || false,
-                          foldersDTO : el.children!,
-                          isVisible: props.isVisible,
-                          setIsVisible : props.setIsVisible,
-                          onPopoverOpener : props.onPopoverOpener,
-                          anchorEl: props.anchorEl,
-                          setAnchorEl: props.setAnchorEl,
-                          open : props.open,
-                          addEditDelete: props.addEditDelete
-                        })}
+                        <MakeTreeConstructure
+                          foldersDTO={el.children!}
+                          isVisible={props.isVisible}
+                          setIsVisible={props.setIsVisible}
+                          onPopoverOpener={props.onPopoverOpener}
+                          show={props.show || false}
+                          ref={ref}
+                          setUpdateAlert={props.setUpdateAlert}
+                        />
                       </TreeItem>
                       <FolderAddEditDelete
                         show={props.show || false}
@@ -187,20 +225,25 @@ function makeTreeConstructure(props : TreeConstructureProps) {
                         parentId={el.parentId!}
                         isVisible={props.isVisible}
                         onPopoverOpener={props.onPopoverOpener}
-                        anchorEl={props.anchorEl}
-                        setAnchorEl={props.setAnchorEl}
+                        anchorEl={anchorEl}
+                        setAnchorEl={setAnchorEl}
                         open={props.open}
-                        addEditDelete={props.addEditDelete}
+                        addEditDelete={addEditDelete}
+                        setAddEditDelete={setAddEditDelete}
+                        setUpdateAlert={props.setUpdateAlert}
                       />
                     </StyledTreeItem>
                   ) : (
                     <StyledTreeItem
                       key={el.id}
                       onMouseEnter={(event: any) => {
-                        console.log("Sub hover Event", el.id)
                         props.setIsVisible({id : el.id!, value : true});
+                        setAnchorEl(null);
                       }}
-                      onMouseLeave={() => {props.setIsVisible({id : el.id!, value : false})}}
+                      onMouseLeave={() => {
+                        props.setIsVisible({id : el.id!, value : false})
+                        setAnchorEl(null);
+                      }}
                     >
                       <TreeItem
                         key={inx}
@@ -214,10 +257,12 @@ function makeTreeConstructure(props : TreeConstructureProps) {
                         isVisible={props.isVisible}
                         parentId={el.parentId!}
                         onPopoverOpener={props.onPopoverOpener}
-                        anchorEl={props.anchorEl}
-                        setAnchorEl={props.setAnchorEl}
+                        anchorEl={anchorEl}
+                        setAnchorEl={setAnchorEl}
                         open={props.open}
-                        addEditDelete={props.addEditDelete}
+                        addEditDelete={addEditDelete}
+                        setAddEditDelete={setAddEditDelete}
+                        setUpdateAlert={props.setUpdateAlert}
                       />
                     </StyledTreeItem>
                   )
@@ -227,19 +272,22 @@ function makeTreeConstructure(props : TreeConstructureProps) {
           })
         }
       </>
+    ) : (
+      <div ref={ref}></div>
     )
-}
+});
 
 // 폴더 트리구조의 시작
 function FolderTree(props : FolderTreeProps) {
   const {
     folderList, isVisible,
     setIsVisible, editAndDeleteFolder,
-    anchorEl, setAnchorEl, open, addEditDelete
+    addEditDelete, popoverRef,
+    anchorEl, setAnchorEl,
+    setUpdateAlert,
   } = useFolderTree({
     update : props.update,
   });
-  console.log("anchorEl", anchorEl)
   return (
     <TreeView
       aria-label="customized"
@@ -249,17 +297,30 @@ function FolderTree(props : FolderTreeProps) {
       onNodeSelect={props.selectFolder}
       sx={{height: "264px", flexGrow: 1}}
     >
-      {folderList.length && makeTreeConstructure({
-        show : props.show || false,
-        foldersDTO : folderList,
-        isVisible: isVisible,
-        setIsVisible : setIsVisible,
-        onPopoverOpener : editAndDeleteFolder,
-        anchorEl : anchorEl,
-        setAnchorEl : setAnchorEl,
-        open: open,
-        addEditDelete : addEditDelete
-      })}
+      {/*{folderList.length ? makeTreeConstructure({*/}
+      {/*  show : props.show || false,*/}
+      {/*  foldersDTO : folderList,*/}
+      {/*  isVisible: isVisible,*/}
+      {/*  setIsVisible : setIsVisible,*/}
+      {/*  onPopoverOpener : editAndDeleteFolder,*/}
+      {/*  addEditDelete : addEditDelete,*/}
+      {/*  ref : popoverRef*/}
+      {/*}) : (<></>)}*/}
+      {folderList.length ? (
+        <MakeTreeConstructure
+          foldersDTO={folderList}
+          isVisible={isVisible}
+          setIsVisible={setIsVisible}
+          onPopoverOpener={editAndDeleteFolder}
+          show={props.show || false}
+          ref={popoverRef}
+          anchorEl={anchorEl}
+          setAnchorEl={setAnchorEl}
+          setUpdateAlert={setUpdateAlert}
+        />
+      ) : (
+        <></>
+      )}
     </TreeView>
   )
 };

@@ -29,6 +29,10 @@ export async function putFolders(props: FuncProps) {
   })) as AxiosResponse<any>;
 }
 
-export async function deleteFolder(id : string) {
-  return (await request.delete(`/admin/folders?id=${id}`)) as AxiosResponse<any>;
+export async function deleteFolder(props : FuncProps) {
+  return (await request.delete(`/admin/folders?id=${props.params?.id}`, {
+    headers: {
+      Authorization: `Bearer ${props.accessToken}`
+    }
+  })) as AxiosResponse<any>;
 }
