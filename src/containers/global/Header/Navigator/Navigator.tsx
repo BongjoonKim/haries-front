@@ -13,7 +13,7 @@ function Navigator(props: NavigatorProps) {
     const {clickRef, getNavigatorProps} = useNavigator();
 
     return (
-        <StyledNavigator ref={clickRef}>
+        <StyledNavigator ref={clickRef} className="pc">
             {NavigatorList({
                 items: props.items,
                 ...getNavigatorProps()
@@ -28,4 +28,12 @@ export default  Navigator;
 const StyledNavigator = styled.nav`
   width: 0rem;
   height: 100%;
+  &.pc {
+    display: block !important;
+  }
+  @media screen and (max-width: 500px) {
+    &.pc {
+        display: none !important;
+    }
+  }
 `;

@@ -20,7 +20,7 @@ function useLoginPage() {
   const [errInfo, setErrInfo] = useRecoilState(recoilCommonState.errInfo);
   const [loginUser, setLoginUserData] = useRecoilState(recoilCommonState.loginUserData);
   const resetErrInfo = useResetRecoilState(recoilCommonState.errInfo);
-  const [showPassword, setShowPassword] = useState<boolean>(true);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   
   const naverLogin = useCallback( async () => {
     const clientId = `${process.env.REACT_APP_NAVER_CLIENT_ID}`;

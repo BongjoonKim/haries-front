@@ -40,6 +40,8 @@ function RightNavigator() {
     handleClose,
     handleListKeyDown,
     doLogout,
+    goBlog,
+    goChatGPT,
   } = useRightNavigator();
   
   // 글쓰기
@@ -77,7 +79,7 @@ function RightNavigator() {
   return (
     <StyledRightHeader>
       {isShow && (
-        <CustomButton onClick={() => navigate(`/blog/writing`)}>
+        <CustomButton className={"pc"} onClick={() => navigate(`/blog/writing`)}>
           Create
         </CustomButton>
       )}
@@ -147,9 +149,23 @@ function RightNavigator() {
                   onKeyDown={handleListKeyDown}
                 >
                   {loginUser?.userId ? (
-                    <MenuItem onClick={doLogout}>Logout</MenuItem>
+                    <div className="menu-list">
+                      <div className={"mobile"}>
+                        <MenuItem onClick={goBlog}>Blog</MenuItem>
+                        <MenuItem onClick={() => navigate(`/blog/writing`)}>Create</MenuItem>
+                        <MenuItem onClick={goChatGPT}>ChatGPT</MenuItem>
+                      </div>
+                      <MenuItem onClick={doLogout}>Logout</MenuItem>
+                    </div>
+
                   ) : (
-                    <MenuItem onClick={openLoginModal}>Login</MenuItem>
+                    <div className="menu-list">
+                      <div className={"mobile"}>
+                        <MenuItem onClick={goBlog}>Blog</MenuItem>
+                        <MenuItem onClick={() => navigate(`/blog/writing`)}>Create</MenuItem>
+                      </div>
+                      <MenuItem onClick={openLoginModal}>Login</MenuItem>
+                    </div>
                   )}
                 </MenuList>
               </ClickAwayListener>
@@ -170,8 +186,22 @@ const StyledRightHeader = styled.div`
   letter-spacing: -0.05rem;
   display: flex;
   align-items: center;
-  padding-right: 2rem;
+  padding-right: 1rem;
   background-color: white;
+  .mobile {
+    display: none;
+  }
+  .pc {
+    display: block;
+  }
+  @media screen and (max-width: 500px) {
+    .mobile {
+      display: block;
+    }
+    .pc {
+      display: none;
+    }
+  }
 `;
 
 const StyledSearch = styled.div`

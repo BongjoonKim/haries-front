@@ -2,6 +2,7 @@ import {SyntheticEvent, useRef, useState} from "react";
 import {useRecoilState, useRecoilValue, useResetRecoilState} from "recoil";
 import recoilCommonState from "../../../../stores/recoil/recoilCommonState";
 import {logout} from "../../../../endpoints/login-endpoints";
+import {useNavigate} from "react-router-dom";
 
 export default function useRightNavigator() {
   const menuRef = useRef<any>(null);
@@ -9,6 +10,8 @@ export default function useRightNavigator() {
   const loginUser = useRecoilValue(recoilCommonState.loginUserData);
   const resetLoginUser = useResetRecoilState(recoilCommonState.loginUserData)
   const [errInfo, setErrInfo] = useRecoilState(recoilCommonState.errInfo);
+  
+  const navigate = useNavigate();
   
   
   const handleListKeyDown = (event: any) => {
@@ -41,6 +44,14 @@ export default function useRightNavigator() {
     }
   }
   
+  const goBlog = () => {
+    navigate('/blog')
+  }
+  
+  const goChatGPT = () => {
+    navigate('/chatgpt')
+  }
+  
   return {
     menuRef,
     menuOpen,
@@ -49,5 +60,7 @@ export default function useRightNavigator() {
     handleClose,
     handleListKeyDown,
     doLogout,
+    goBlog,
+    goChatGPT,
   }
 }

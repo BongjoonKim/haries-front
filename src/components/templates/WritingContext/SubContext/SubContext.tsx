@@ -55,9 +55,12 @@ function SubContext(props: SubContextProps) {
               </span>
             </div>
             <div className="info-bottom">
-              <h6>
+              <span className="date">
+                {writing.modifiedUser}
+              </span>
+              <span className="date">
                 {moment(writing.created).format("YYYY-MM-DD")}
-              </h6>
+              </span>
             </div>
           </div>
         </StyledContextBox>
@@ -81,7 +84,7 @@ const StyledSubContext = styled.div`
   //height: auto;
   padding: 0rem 2rem;
   flex: 1;
-  margin : 0 10%;
+  margin : 0 0;
   
   @media screen and (min-width: 768px) {
     grid-template-columns: repeat(2, 2fr);
@@ -100,7 +103,6 @@ const StyledSubContext = styled.div`
 const StyledContextBox = styled.div`
   //border: 1px solid black;
   width : 100%;
-  height : 40vh;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 16px 0px;
   overflow: hidden;
   display: flex;
@@ -134,6 +136,15 @@ const StyledContextBox = styled.div`
       -webkit-box-orient: vertical;
       text-overflow: ellipsis;
       overflow: hidden;
+    }
+    .info-bottom {
+      display: flex;
+      justify-content: space-between;
+      span {
+        margin-top: 1rem;
+        color: black;
+        font-size: 14px;
+      }
     }
   }
 `;

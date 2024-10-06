@@ -127,7 +127,7 @@ const StyledLogoContainer = styled.div<{isCollapsed: boolean}>`
   // width: ${props => (props.isCollapsed ? "100px" : "200px")};
   min-width: ${props => (props.isCollapsed ? "0" : "10rem")};
   transition: all 0.2s ease-out;
-  padding-left: 2rem;
+  padding-left: 1rem;
   //overflow: hidden;
   display: flex;
   text-align: center;

@@ -21,7 +21,7 @@ function Sidebar(props : SidebarProps) {
   const {rootId, mainFolders, expanded, handleSelectTree} = useSidebar(props);
   
   return (
-    <StyledSidebar isCollapsed={props.isCollapsed}>
+    <StyledSidebar isCollapsed={props.isCollapsed} className="pc">
       <TreeView
         aria-label="customized"
         defaultExpanded={["0"]}
@@ -73,6 +73,12 @@ const StyledSidebar = styled.div<{isCollapsed: boolean}>`
   //overflow-x: hidden;
   //overflow-y: auto;
   z-index: 9998;
+  display: block;
+  @media screen and (max-width: 500px) {
+    &.pc {
+      display: none !important;
+    }
+  }
 `;
 
 const StyledTreeItem = styled(TreeItem)`
