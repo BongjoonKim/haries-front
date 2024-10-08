@@ -2,19 +2,21 @@ import styled from "styled-components";
 
 export const StyledEditor = styled.div`
   height: 100%;
-  width: 80%;
+  width: 100%;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   .wrapper-react-toast-area {
+    //height: 100%;
     display: flex;
     flex: 1;
     .react-toast-area {
       display: flex;
       flex: 1;
-      & > div {
-        height: 100% !important;
-        width: 100%;
-      }
+      //& > div {
+      //  height: 100% !important;
+      //  width: 100%;
+      //}
     }
   }
 

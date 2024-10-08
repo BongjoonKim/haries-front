@@ -128,6 +128,9 @@ export default UniversalContainer;
 const Universal = styled.div<{independent?: boolean}>`
   //height: 100%;
   //width: 100%;
-    height: calc(var(--vh, 1vh) * 100);
+  //  height: calc(var(--vh, 1vh) * 100);
+    height: 100vh;
+    background: white;
+    
 `;
 

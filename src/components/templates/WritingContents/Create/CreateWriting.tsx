@@ -22,7 +22,7 @@ function CreateWriting() {
   
   return (
     <>
-      {!writing.id && (
+      {!writing?.id && (
         <WritingContentsLayout
           ref={titleRef}
           write={writing}
