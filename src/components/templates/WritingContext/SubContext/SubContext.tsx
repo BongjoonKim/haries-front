@@ -117,10 +117,10 @@ const StyledContextBox = styled.div`
   }
   .thumbnail {
     width : 100%;
-    height : 12rem;
+    height : 50%;
     .none {
       width: 100%;
-      height: inherit;
+      height: 100%;
     }
   }
   .info {
